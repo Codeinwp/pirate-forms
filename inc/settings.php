@@ -11,28 +11,28 @@
 5 = options
 */
 
-function proper_contact_plugin_options() {
+function pirate_forms_plugin_options() {
 	return array(
 		'head1'                          => array(
-			'Fields to show',
+			__( 'Fields','pirate-forms' ),
 			'',
 			'title',
 			'',
 		),
 		'propercfp_name_field'           => array(
-			'Name',
-			'Should a name field be displayed?',
+			__( 'Name','pirate-forms' ),
+			__( 'Do you want the name field to be displayed?','pirate-forms' ),
 			'select',
 			'yes',
 			array(
-				''    => 'None',
-				'yes' => 'Yes but not required',
-				'req' => 'Required'
+				''    => __( 'None','pirate-forms' ),
+				'yes' => __( 'Yes but not required','pirate-forms' ),
+				'req' => __( 'Required','pirate-forms' ),
 			),
 		),
 		'propercfp_email_field'          => array(
-			'Email address',
-			'Should an email address field be displayed?',
+			__( 'Email address','pirate-forms' ),
+			__( 'Do you want the email address field be displayed?','pirate-forms' ),
 			'select',
 			'yes',
 			array(
@@ -42,8 +42,8 @@ function proper_contact_plugin_options() {
 			),
 		),
 		'propercfp_phone_field'          => array(
-			'Phone number',
-			'Should a phone number field be displayed?',
+			__( 'Subject','pirate-forms' ),
+			__( 'Do you want the subject field be displayed?','pirate-forms' ),
 			'select',
 			'yes',
 			array(
@@ -53,14 +53,14 @@ function proper_contact_plugin_options() {
 			),
 		),
 		'propercfp_reason'               => array(
-			'"Reason for contacting" options',
-			'You can have people choose the reason for their contact from a drop-down list. If you would like this option to appear, enter the different reasons into the text box below, each one on its own line.',
+			'Message',
+			'',
 			'textarea',
 			'',
 		),
 		'propercfp_captcha_field'        => array(
-			'Add a math CAPTCHA',
-			'Checking this box will add a math CAPTCHA to the form to discourage spam',
+			__( 'Add a reCAPTCHA','pirate-forms' ),
+			__( 'Checking this box will add a reCAPTCHA to the form to discourage spam','pirate-forms' ),
 			'checkbox',
 			'',
 		),
@@ -233,12 +233,12 @@ function cfp_add_admin() {
 	get_currentuserinfo();
 
 	$propercfp_options = get_option( 'propercfp_settings_array' );
-	$plugin_options    = proper_contact_plugin_options();
+	$plugin_options    = pirate_forms_plugin_options();
 
 	if (
 		// On the right page
 		array_key_exists( 'page', $_GET ) &&
-		$_GET['page'] === 'pcfp-admin' &&
+		$_GET['page'] === 'pirate-forms-admin' &&
 		// We're saving options
 		array_key_exists( 'action', $_REQUEST ) &&
 		$_REQUEST['action'] == 'save' &&
@@ -258,103 +258,76 @@ function cfp_add_admin() {
 		endforeach;
 
 		update_option( 'propercfp_settings_array', $propercfp_options );
-		header( "Location: admin.php?page=pcfp-admin&saved=true" );
+		header( "Location: admin.php?page=pirate-forms-admin&saved=true" );
 		die;
 	}
 
 	add_submenu_page(
 		'options-general.php',
-		__( 'PROPER Contact settings', 'proper-contact' ),
-		__( 'PROPER Contact', 'proper-contact' ),
+		__( 'Pirate Forms settings', 'proper-contact' ),
+		__( 'Pirate Forms', 'proper-contact' ),
 		'manage_options',
-		'pcfp-admin',
-		'proper_contact_admin' );
+		'pirate-forms-admin',
+		'pirate_forms_admin' );
 
 }
 
 add_action( 'admin_menu', 'cfp_add_admin' );
 
-
-function proper_contact_admin() {
+/*
+ *  Admin area setting page for the plugin
+ * @since 1.0.0
+ *
+ */
+function pirate_forms_admin() {
 
 	global $current_user;
 	get_currentuserinfo();
 
 	$propercfp_options = get_option( 'propercfp_settings_array' );
-	$plugin_options    = proper_contact_plugin_options();
+	$plugin_options    = pirate_forms_plugin_options();
 	?>
 
 	<div class="wrap" id="proper-contact-options">
 
-	<h2><?php
-		_e( 'PROPER Contact Form', 'proper-contact' );
-		echo ' ';
-		_e( 'Settings', 'proper-contact' );
-		?></h2>
+		<h2><?php esc_html_e( 'Pirate Forms Settings','pirate-forms' ); ?></h2>
 
-	<div class="postbox" style="margin-top: 20px; padding: 0 20px">
 
-		<p>Simply configure the form below, save your changes, then add
-			<code>[proper_contact_form]</code> to any page or post. You can also add a
-			<a href="<?php echo admin_url( 'widgets.php' ); ?>">widget</a>.<br>
-			If you're adding this to a theme file, add
-			<code>&lt;?php echo do_shortcode( '[proper_contact_form]' ) ?&gt;</code>
-		</p>
+		<div class="postbox" style="margin-top: 20px; padding: 0 20px">
 
-	</div>
+			<p>Simply configure the form below, save your changes, then add
+				<code>[pirate_forms]</code> to any page or post. You can also add a
+				<a href="<?php echo admin_url( 'widgets.php' ); ?>">widget</a>.<br>
+				If you're adding this to a theme file, add
+				<code>&lt;?php echo do_shortcode( '[pirate_forms]' ) ?&gt;</code>
+			</p>
+
+		</div>
 
 	<?php if ( ! empty( $_REQUEST['saved'] ) ) : ?>
 		<div id="setting-error-settings_updated" class="updated settings-error">
 			<p><strong>
-					<?php _e( 'PROPER Contact Form', 'proper-contact' ) ?>
-					<?php _e( 'settings saved.', 'proper-contact' ) ?></strong></p>
+					<?php esc_html_e( 'Pirate Forms', 'pirate-forms' ); ?>
+					<?php esc_html_e( 'settings saved.', 'pirate-forms' ); ?></strong></p>
 		</div>
 	<?php endif ?>
 
 	<div class="proper_contact_promo_sidebar">
-		<p>I hope you are using and loving the PROPER Contact Form! This plugin was brought to you by:</p>
+
 		<p>
-			<a href="http://theproperweb.com/?ref=pcf-settings" target="_blank">
-				<img src="<?php echo PROPER_CONTACT_URL . 'images/proper-logo.png' ?>" class="aligncenter">
+			<a href="http://themeisle.com/" target="_blank">
+				<img src="<?php echo PIRATE_FORMS_URL . 'images/logo.png' ?>" alt="Themeisle logo" class="aligncenter">
 			</a>
 		</p>
-		<p>If you use and enjoy the plugin, you can show support by
-			<a href="http://theproperweb.com/product/proper-contact-form/" target="_blank">donating</a> or
-			<a href="https://wordpress.org/support/view/plugin-reviews/proper-contact-form?filter=5#postform" target="_blank">giving it a positive review</a> on WordPress.org. If you're having any trouble,
-			<a href="https://wordpress.org/support/plugin/proper-contact-form" target="_blank">post a support request here</a>.
-		</p>
-		<hr>
-		<p>Like what you see and want more?</p>
-
-		<p><strong>Premium Themes and Plugins:</strong></p>
-		<ul>
-			<li><a href="http://wpdrudge.com/?ref=pcf-settings" target="_blank">WP-Drudge curation theme</a></li>
-			<li><a href="http://www.wpwritersblock.com/?ref=pcf-settings" target="_blank">WP Writer's Block writer's theme</a></li>
-			<li><a href="http://theproperweb.com/product/google-news-wordpress/?ref=pcf-settings" target="_blank">Google News for WordPress</a></li>
-		</ul>
-		<p><strong>Free Plugins:</strong></p>
-		<ul>
-			<li><a href="https://wordpress.org/plugins/proper-widgets/" target="_blank">PROPER Widgets</a></li>
-			<li><a href="https://wordpress.org/plugins/proper-shortcodes/" target="_blank">PROPER Shortcodes</a></li>
-		</ul>
-		<hr>
-		<p>
-			By the way, I'm Josh, the developer of this plugin. Nice to meet you!</p>
-		<p>
-			<a href="https://twitter.com/joshcanhelp" class="twitter-follow-button" data-show-count="false" data-dnt="true">Follow @joshcanhelp</a>
-			<script>!function (d, s, id) {
-					var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
-					if (!d.getElementById(id)) {
-						js = d.createElement(s);
-						js.id = id;
-						js.src = p + '://platform.twitter.com/widgets.js';
-						fjs.parentNode.insertBefore(js, fjs);
-					}
-				}(document, 'script', 'twitter-wjs');</script></p>
 
 	</div>
 
-	<form method="post" class="proper_contact_settings_form">
+	<form role="form" method="POST" action="" onSubmit="this.scrollPosition.value=(document.body.scrollTop || document.documentElement.scrollTop)" class="contact-form">
+
+			<input type="hidden" name="scrollPosition">
+
+			<input type="hidden" name="submitted" id="submitted" value="true" />
+
 	<table class="form-table">
 	<tr>
 		<td>
@@ -493,7 +466,7 @@ function proper_contact_admin() {
 
 			<tr>
 				<th scope="row">
-					<span><?php _e( $opt_name, 'proper-contact' ) ?>:</span>
+					<span><?php _e( $opt_name, 'pirate-forms' ) ?>:</span>
 				</th>
 				<td>
 					<?php
@@ -524,7 +497,7 @@ function proper_contact_admin() {
 						<label for="<?php echo $opt_id ?>">Yes</label>
 
 					<?php endif; ?>
-					<p class="description"><?php _e( $opt_desc, 'proper-contact' ) ?></p>
+					<p class="description"><?php _e( $opt_desc, 'pirate-forms' ) ?></p>
 				</td>
 			</tr>
 
@@ -535,12 +508,12 @@ function proper_contact_admin() {
 			?>
 			<tr>
 				<th scope="row">
-					<label for="<?php echo $opt_id ?>"><?php _e( $opt_name, 'proper-contact' ) ?>:</label>
+					<label for="<?php echo $opt_id ?>"><?php _e( $opt_name, 'pirate-forms' ) ?>:</label>
 				</th>
 				<td>
 					<textarea rows="6" cols="60" name="<?php echo $opt_id ?>" id="<?php echo $opt_id ?>" class="large-text"><?php echo stripslashes( $opt_val ) ?></textarea>
 
-					<p class="description"><?php _e( $opt_desc, 'proper-contact' ) ?></p>
+					<p class="description"><?php _e( $opt_desc, 'pirate-forms' ) ?></p>
 				</td>
 			</tr>
 
@@ -552,7 +525,7 @@ function proper_contact_admin() {
 	<tr>
 		<td colspan="2">
 			<p>
-				<input name="save" type="submit" value="<?php _e( 'Save changes', 'proper-contact' ) ?>" class="button-primary">
+				<input name="save" type="submit" value="<?php _e( 'Save changes', 'pirate-forms' ) ?>" class="button-primary">
 				<input type="hidden" name="action" value="save">
 				<input type="hidden" name="proper_nonce" value="<?php echo wp_create_nonce( $current_user->user_email ) ?>">
 			</p>
@@ -576,7 +549,7 @@ function proper_contact_form_settings_init() {
 
 		$new_opt = array();
 
-		foreach ( proper_contact_plugin_options() as $key => $opt ) {
+		foreach ( pirate_forms_plugin_options() as $key => $opt ) {
 			$new_opt[$key] = $opt[3];
 		}
 
@@ -593,8 +566,8 @@ add_action( 'admin_head', 'proper_contact_form_settings_init' );
  */
 function proper_contact_form_plugin_links( $links ) {
 
-	$settings_link = '<a href="' . admin_url( 'options-general.php?page=pcfp-admin' ) . '">' .
-		__( 'Settings', 'proper-contact' ) . '</a>';
+	$settings_link = '<a href="' . admin_url( 'options-general.php?page=pirate-forms-admin' ) . '">' .
+		__( 'Settings', 'pirate-forms' ) . '</a>';
 	array_unshift( $links, $settings_link );
 
 	return $links;
@@ -611,9 +584,9 @@ function proper_contact_admin_css_js() {
 
 	if (
 		( $pagenow == 'options-general.php' || $pagenow == 'admin.php' )
-		&& isset( $_GET['page'] ) && $_GET['page'] == 'pcfp-admin'
+		&& isset( $_GET['page'] ) && $_GET['page'] == 'pirate-forms-admin'
 	) {
-		wp_enqueue_style( 'proper-contact', PROPER_CONTACT_URL . 'css/wp-admin.css' );
+		wp_enqueue_style( 'proper-contact', PIRATE_FORMS_URL . 'css/wp-admin.css' );
 	}
 }
 

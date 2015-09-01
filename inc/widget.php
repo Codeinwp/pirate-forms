@@ -25,7 +25,7 @@ class proper_contact_widget extends WP_Widget {
 												 'description' => 'Outputs a contact form' );
 
 		/* Create the widget. */
-		$this->WP_Widget( 'proper_contact_widget', 'PROPER Contact Form', $widget_ops );
+		$this->WP_Widget( 'proper_contact_widget', 'Pirate Forms', $widget_ops );
 
 		$this->widget_fields = array(
 			array(
@@ -67,7 +67,7 @@ class proper_contact_widget extends WP_Widget {
 		if ( ! empty( $pcf_widget_subtext ) )
 			echo wpautop( stripslashes( $pcf_widget_subtext ) );
 
-		echo do_shortcode('[proper_contact_form]');
+		echo do_shortcode('[pirate_forms]');
 
 		echo '
 		</div>

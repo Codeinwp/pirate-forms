@@ -3,24 +3,22 @@
 /*
 Plugin Name: Pirate Forms
 Plugin URI: http://themeisle.com/plugins/pirate-forms/
-Description: A better contact form processor
+Description: A simple, nice looking contact form
 Version: 1.0.0
 Author: Themeisle
 Author URI: http://themeisle.com
 License: GPL2
 */
 
-// Make sure we don't expose any info if called directly
-// Thanks Akismet!
 if ( ! function_exists( 'add_action' ) ) {
 	die( 'Nothing to do...' );
 }
 
-// Important constants
-define( 'PROPER_CONTACT_VERSION', '0.9.8.6' );
-define( 'PROPER_CONTACT_URL', plugin_dir_url( __FILE__ ) );
+/* Important constants */
+define( 'PIRATE_FORMS_VERSION', '1.0.0' );
+define( 'PIRATE_FORMS_URL', plugin_dir_url( __FILE__ ) );
 
-// Required helper functions
+/* Required helper functions */
 include_once( dirname( __FILE__ ) . '/inc/helpers.php' );
 include_once( dirname( __FILE__ ) . '/inc/settings.php' );
 include_once( dirname( __FILE__ ) . '/inc/widget.php' );
@@ -34,8 +32,8 @@ include_once( dirname( __FILE__ ) . '/inc/widget.php' );
  * @return string
  */
 
-add_shortcode( 'proper_contact_form', 'proper_contact_form' );
-function proper_contact_form( $atts, $content = NULL ) {
+add_shortcode( 'pirate_forms', 'pirate_forms' );
+function pirate_forms( $atts, $content = NULL ) {
 
 	// Looking for a submitted form if not redirect
 	if ( isset( $_GET['pcf'] ) && $_GET['pcf'] == 1 ) {
@@ -494,10 +492,9 @@ function proper_contact_get_key( $id ) {
 // If styles should be added, do that
 if ( proper_contact_get_key( 'propercfp_css' ) === 'yes' ) {
 
-	add_action( 'wp_enqueue_scripts', 'proper_contact_styles' );
-	function proper_contact_styles() {
-		wp_register_style( 'proper_contact_styles', plugins_url( 'css/front.css', __FILE__ ) );
-		wp_enqueue_style( 'proper_contact_styles' );
+	add_action( 'wp_enqueue_scripts', 'pirate_forms_styles' );
+	function pirate_forms_styles() {
+		wp_enqueue_style( 'pirate_forms_styles', plugins_url( 'css/front.css', __FILE__ ) );
 	}
 
 }
@@ -508,22 +505,16 @@ if ( proper_contact_get_key( 'propercfp_store' ) === 'yes' ) {
 	add_action( 'init', 'proper_contact_content_type' );
 	function proper_contact_content_type() {
 
-		// Adding a lighter icon for 3.8 and higher
-		if ( version_compare( $GLOBALS['wp_version'], '3.8', '>=' ) )
-			$icon_file = 'person-3point8.png';
-		else
-			$icon_file = 'person.png';
-
 		$labels = array(
-			'name'               => __( 'Contacts', 'proper-contact' ), 'post type general name',
-			'singular_name'      => __( 'Contact', 'proper-contact' ), 'post type singular name',
-			'add_new'            => __( 'Add Contact', 'proper-contact' ), 'proper_contact',
-			'add_new_item'       => __( 'Add New Contact', 'proper-contact' ),
-			'edit_item'          => __( 'Edit Contact', 'proper-contact' ),
-			'new_item'           => __( 'New Contact', 'proper-contact' ),
-			'all_items'          => __( 'All Contacts', 'proper-contact' ),
-			'view_item'          => __( 'View Contact', 'proper-contact' ),
-			'not_found'          => __( 'No Contacts found', 'proper-contact' ),
+			'name'               => __( 'Contacts', 'pirate-forms' ), 'post type general name',
+			'singular_name'      => __( 'Contact', 'pirate-forms' ), 'post type singular name',
+			'add_new'            => __( 'Add Contact', 'pirate-forms' ), 'proper_contact',
+			'add_new_item'       => __( 'Add New Contact', 'pirate-forms' ),
+			'edit_item'          => __( 'Edit Contact', 'pirate-forms' ),
+			'new_item'           => __( 'New Contact', 'pirate-forms' ),
+			'all_items'          => __( 'All Contacts', 'pirate-forms' ),
+			'view_item'          => __( 'View Contact', 'pirate-forms' ),
+			'not_found'          => __( 'No Contacts found', 'pirate-forms' ),
 			'not_found_in_trash' => __( 'No Contacts found in Trash', 'proper-contact' ),
 			'menu_name'          => __( 'Contacts', 'proper-contact' )
 		);
@@ -534,7 +525,6 @@ if ( proper_contact_get_key( 'propercfp_store' ) === 'yes' ) {
 			'show_in_menu'       => TRUE,
 			'hierarchical'       => FALSE,
 			'menu_position'      => 27,
-			'menu_icon'          => PROPER_CONTACT_URL . '/images/' . $icon_file,
 			'supports'           => array( 'title', 'editor', 'custom-fields' )
 		);
 		register_post_type( 'proper_contact', $args );
