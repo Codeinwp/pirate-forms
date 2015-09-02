@@ -1,25 +1,77 @@
-.proper_contact_promo_sidebar {
-	width: 20%;
-	float: right;
-	background: #e1e1e1;
-	padding: 4px 10px;
-	border-radius: 2px;
-	box-shadow: 0 1px 2px #bbb;
+.pirate-forms-postbox {
+	margin-top: 20px;
+	padding: 10px 20px;
+	background: #fff;
 }
-
-.proper_contact_promo_sidebar hr {
-	border: none;
-	border-bottom: 1px solid #ccc;
-	margin: 16px 0
+.pirate-forms-nav-tabs {
+	margin-bottom: 0;
 }
-
-img.aligncenter {
-	display: block;
-	margin: 6px auto;
-	max-width: 100%;
+.pirate-forms-nav-tabs:after {
+	clear: both;
+	display: table;
+	content: " ";
 }
-
-.proper_contact_settings_form {
-	width: 70%;
+.pirate-forms-nav-tabs > li {
 	float: left;
+	margin-bottom: -1px;
+	display: block;
+}
+.pirate-forms-nav-tabs > li > a {
+	border: 1px solid transparent;
+	border-radius: 4px 4px 0 0;
+	display: block;
+	padding: 10px 15px;
+	text-decoration: none;
+}
+.pirate-forms-nav-tabs > li.active > a, .pirate-forms-nav-tabs > li.active > a:focus, .pirate-forms-nav-tabs > li.active > a:hover {
+	color: #555;
+	background-color: #fff;
+	border: 1px solid #ddd;
+	border-bottom-color: transparent;
+}
+.pirate-forms-nav-tabs > li.zerif-lite-w-red-tab > a {
+	color: red;
+	font-weight: bold;
+}
+.pirate-forms-tab-content {
+	background-color: #fff;
+	border-bottom: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	border-left: 1px solid #ddd;
+	width: 960px;
+	float: left;
+}
+.pirate-forms-tab-content > .tab-pane {
+	display: none;
+}
+.pirate-forms-tab-content > .active {
+	display: block;
+}
+
+.pirate-forms-tab-pane {
+	padding: 30px;
+}
+.pirate-forms-tab-pane {
+	display: none;
+}
+.pirate-forms-tab-pane.active {
+	display: block;
+}
+.pirate-forms-grouped {
+	margin-bottom: .5em;
+}
+.pirate-forms-grouped label {
+	text-align: right;
+	display: inline-block;
+	width: 260px;
+	margin: 0 1em 0 0;
+	font-size: 15px;
+	font-weight: bold;
+}
+.pirate-forms-grouped label span {
+	font-size: 11px;
+	font-weight: normal;
+}
+.pirate-forms-grouped select {
+	display: inline-block;
 }
