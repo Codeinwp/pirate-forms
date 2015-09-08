@@ -6,6 +6,8 @@ Tested up to: 4.3
 
 Creates a nice, simple contact form on your WP site
 
+This plugin is a fork of https://wordpress.org/plugins/proper-contact-form/ and uses the library https://github.com/joshcanhelp/php-form-builder.
+
 == Description ==
 
 A well-coded, secure, and flexible WordPress plugin that makes creating a contact form very simple. This is meant to be a simple tool for both both savvy and novice WordPress users alike.

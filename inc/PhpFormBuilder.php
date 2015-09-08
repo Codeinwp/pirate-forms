@@ -293,7 +293,7 @@ class PhpFormBuilder {
 
 				case 'textarea':
 					$element = 'textarea';
-					$end     = '>' . $val['value'] . '</textarea>';
+					$end     = ' class="form-control" placeholder="'.$val['placeholder'].'">' . $val['value'] . '</textarea>';
 					break;
 
 				case 'select':
@@ -359,7 +359,7 @@ class PhpFormBuilder {
 				// Used for all text fields (text, email, url, etc), single radios, single checkboxes, and submit
 				default :
 					$element = 'input';
-					$end .= ' type="' . $val['type'] . '" value="' . $val['value'] . '"';
+					$end .= ' class="form-control" type="' . $val['type'] . '" value="' . $val['value'] . '" placeholder="'.$val['placeholder'].'"';
 					$end .= $val['checked'] ? ' checked' : '';
 					$end .= $this->field_close();
 					break;
@@ -393,9 +393,6 @@ class PhpFormBuilder {
 			if ( ! empty( $label_html ) ) {
 				$field .= $label_html;
 			} elseif ( $val['add_label'] && ! in_array( $val['type'], array( 'hidden', 'submit', 'title', 'html' ) ) ) {
-				if ( $val['required'] ) {
-					$val['label'] .= ' <strong>*</strong>';
-				}
 				$field .= '<label for="' . $val['id'] . '">' . $val['label'] . '</label>';
 			}
 
