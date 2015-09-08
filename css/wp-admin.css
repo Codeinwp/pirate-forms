@@ -1,3 +1,7 @@
+.pirate-forms-nav-tabs a {
+	box-shadow: none !important;
+	-webkit-box-shadow: none !important;
+}
 .pirate-forms-postbox {
 	margin-top: 20px;
 	padding: 10px 20px;
@@ -28,6 +32,7 @@
 	background-color: #fff;
 	border: 1px solid #ddd;
 	border-bottom-color: transparent;
+	font-weight: bold;
 }
 .pirate-forms-nav-tabs > li.zerif-lite-w-red-tab > a {
 	color: red;
@@ -72,6 +77,11 @@
 	font-size: 11px;
 	font-weight: normal;
 }
-.pirate-forms-grouped select {
+.pirate-forms-grouped select,.pirate-forms-grouped input[type="text"]  {
 	display: inline-block;
 }
+.pirate-forms-grouped input[type="text"] {
+	width: 30%;
+}
+
+.ajaxAnimation { background: url("../img/loader.gif") no-repeat center center, rgba(255,255,255,0.8); position: absolute;top: 0; left: 0; right: 0; bottom: 0; display: none;}
