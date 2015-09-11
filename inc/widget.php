@@ -1,44 +1,34 @@
 <?php
 /**
- * widget-recent-posts.php - A template for creating new WordPress widgets
- *
- * Make sure to remove all un-needed information
- *
- * @package WPStarterTemplate
- */
-
-
-/**
  * Template for new WordPress widget
  *
  * @see WP_Widget::widget()
  */
-class proper_contact_widget extends WP_Widget {
+class pirate_forms_contact_widget extends WP_Widget {
 
 	/**
 	 *  Widget constructor
 	 */
-	function proper_contact_widget() {
+	function pirate_forms_contact_widget() {
 
 		/* Widget settings. */
-		$widget_ops = array( 'classname'   => __FUNCTION__,
-												 'description' => 'Outputs a contact form' );
+		$widget_ops = array( 'classname'   => __FUNCTION__, 'description' => __( 'Pirate Forms','pirate-forms') );
 
 		/* Create the widget. */
-		$this->WP_Widget( 'proper_contact_widget', 'Pirate Forms', $widget_ops );
+		$this->WP_Widget( 'pirate_forms_contact_widget', __( 'Pirate Forms','pirate-forms' ), $widget_ops );
 
 		$this->widget_fields = array(
 			array(
-				'label'       => 'Title',
+				'label'       => __( 'Title','pirate-forms' ),
 				'type'        => 'text',
-				'id'          => 'pcf_widget_title',
+				'id'          => 'pirate_forms_widget_title',
 				'description' => '',
 				'default'     => ''
 			),
 			array(
-				'label'       => 'Text above form',
+				'label'       => __( 'Text above form','pirate-forms' ),
 				'type'        => 'textarea',
-				'id'          => 'pcf_widget_subtext',
+				'id'          => 'pirate_forms_widget_subtext',
 				'description' => '',
 				'default'     => ''
 			),
@@ -58,20 +48,17 @@ class proper_contact_widget extends WP_Widget {
 		extract( $instance );
 
 		// Output all wrappers
-		echo $before_widget . '
-		<div class="proper-contact-widget">';
+		echo $before_widget . '<div class="pirate-forms-contact-widget">';
 
-		if ( ! empty( $pcf_widget_title ) )
-			echo $before_title . $pcf_widget_title . $after_title;
+			if ( ! empty( $pirate_forms_widget_title ) )
+				echo $before_title . $pirate_forms_widget_title . $after_title;
 
-		if ( ! empty( $pcf_widget_subtext ) )
-			echo wpautop( stripslashes( $pcf_widget_subtext ) );
+			if ( ! empty( $pirate_forms_widget_subtext ) )
+				echo wpautop( stripslashes( $pirate_forms_widget_subtext ) );
 
-		echo do_shortcode('[pirate_forms]');
+			echo do_shortcode('[pirate_forms]');
 
-		echo '
-		</div>
-		' . $after_widget;
+		echo '</div>' . $after_widget;
 
 	}
 
@@ -87,9 +74,9 @@ class proper_contact_widget extends WP_Widget {
 		$instance = $old_instance;
 
 		// Storing widget title as inputted option or category name
-		$instance['pcf_widget_title'] = apply_filters( 'widget_title', sanitize_text_field( $new_instance['pcf_widget_title'] ) );
+		$instance['pirate_forms_widget_title'] = apply_filters( 'widget_title', sanitize_text_field( $new_instance['pirate_forms_widget_title'] ) );
 
-		$instance['pcf_widget_subtext'] = $new_instance['pcf_widget_subtext'];
+		$instance['pirate_forms_widget_subtext'] = $new_instance['pirate_forms_widget_subtext'];
 
 		return $instance;
 	}
@@ -109,12 +96,12 @@ class proper_contact_widget extends WP_Widget {
 			$this->widget_fields[$i]['field_name'] = $this->get_field_name( $field_id );
 		endfor;
 
-		proper_contact_output_widget_fields( $this->widget_fields, $instance );
+		pirate_forms_output_widget_fields( $this->widget_fields, $instance );
 
 	}
 }
 
-add_action( 'widgets_init', create_function( '', 'return register_widget("proper_contact_widget");' ) );
+add_action( 'widgets_init', create_function( '', 'return register_widget("pirate_forms_contact_widget");' ) );
 
 /**
  * Builds all widget admin forms
@@ -124,7 +111,7 @@ add_action( 'widgets_init', create_function( '', 'return register_widget("proper
  * @param array  $fields
  * @param object $instance
  */
-function proper_contact_output_widget_fields( $fields, $instance ) {
+function pirate_forms_output_widget_fields( $fields, $instance ) {
 
 	foreach ( $fields as $field ) :
 

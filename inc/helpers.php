@@ -1,77 +1,37 @@
 <?php
 
-if ( ! function_exists( 'proper_get_content_array' ) ) {
-	function proper_get_content_array( $type = 'page' ) {
+/**************************************************/
+/**************** Show errors *********************/
+/**************************************************/
 
-		$content = array(
-			'' => 'None'
-		);
+if ( ! function_exists( 'pirate_forms_display_errors' ) ) {
 
-		$items = get_posts( array(
-			'post_type'   => $type,
-			'numberposts' => - 1
-		) );
+	function pirate_forms_display_errors( $errs ) {
 
+		if( !empty($errs) ):
 
-		if ( ! empty( $items ) ) :
-			foreach ( $items as $item ) :
-				$content[$item->ID] = $item->post_title;
+			$output = '<div class="proper_error_box"><ul>';
+
+			foreach ( $errs as $err ) :
+				$output .= "<li>$err</li>";
 			endforeach;
+
+			$output .= '</ul></div>';
+
 		endif;
-
-		return $content;
-
-	}
-}
-
-if ( ! function_exists( 'proper_get_textarea_opts' ) ) {
-	function proper_get_textarea_opts( $txt ) {
-
-		$opts = array();
-
-		if ( empty( $txt ) ) return $opts;
-
-		$txt     = str_replace( "\r", "\n", $txt );
-		$txt_arr = explode( "\n", $txt );
-
-		foreach ( $txt_arr as $opt ) :
-
-			$opt = trim( $opt );
-			if ( empty( $opt ) ) continue;
-
-			$opts[stripslashes( $opt )] = stripslashes( $opt );
-
-		endforeach;
-
-		return $opts;
-
-	}
-}
-
-// Display formatted error listing
-if ( ! function_exists( 'proper_display_errors' ) ) {
-	function proper_display_errors( $errs ) {
-		$output = '
-	<div class="proper_error_box">
-		<h6>Please correct the following errors:</h6>
-		<ul>';
-
-		foreach ( $errs as $err ) :
-			$output .= "
-		<li>$err</li>";
-		endforeach;
-
-		$output .= '
-		</ul>
-	</div>';
 
 		return $output;
 	}
 }
 
-// Get blacklist IPs and emails from the Discussion settings
-if ( ! function_exists( 'proper_get_blacklist' ) ) {
-	function proper_get_blacklist() {
+/***************************************************************************/
+/******** Get blacklist IPs and emails from the Discussion settings ********/
+/***************************************************************************/
+
+if ( ! function_exists( 'pirate_forms_get_blacklist' ) ) {
+
+	function pirate_forms_get_blacklist() {
+
 		$final_blocked_arr = array();
 
 		$blocked = get_option( 'blacklist_keys' );
