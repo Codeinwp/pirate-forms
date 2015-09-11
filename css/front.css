@@ -1,50 +1,6 @@
-.pirate_forms {
-	padding-bottom: 95px;
-}
-.pirate_forms input, .pirate_forms textarea {
-	width: 100%;
-	margin: auto;
-	border-radius: 4px !important;
-}
-.pirate_forms input {
-	text-align: left;
-	text-transform: none;
-	padding: 9px;
-	min-height: 46px;
-	padding-left: 15px !important;
-	display: inline-block;
-	border-radius: 4px;
-	background: rgba(255,255,255, 0.95);
-}
-.pirate_forms textarea {
-	width: 100% !important;
-	text-align: left;
-	text-transform: none;
-	padding: 9px;
-	min-height: 250px;
-	padding-left: 15px;
-	display: inline-block;
-	border-radius: 4px;
-	background: rgba(255,255,255, 0.95);
-}
-.pirate_forms .custom-button {
-	float: right;
-	margin-right: 15px;
-}
-.zerif-g-recaptcha {
-	margin-left: 15px;
-	display: none;
-}
-.pirate_forms .notification p {
-	border-radius: 3px;
-	color: #FFF;
-	padding: 5px 10px;
-	display: inline-block;
+.pirate_forms_wrap .form_field_wrap {
 	margin-bottom: 10px;
 }
-.pirate_forms .error p {
-	background: #E96656;
-}
-.pirate_forms .success p {
-	background: #34d293;
+.pirate-forms-g-recaptcha {
+	display: none;
 }
