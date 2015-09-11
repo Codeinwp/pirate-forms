@@ -70,6 +70,21 @@ function pirate_forms_plugin_options() {
 				'checkbox',
 				'',
 			),
+			/* Site key */
+			'pirateformsopt_recaptcha_sitekey' => array(
+				__( 'Site key','pirate-forms' ),
+				'<a href="https://www.google.com/recaptcha/admin#list" target="_blank">'.__( 'Create an account here ','pirate-forms' ).'</a>'.__( 'to get the Site key and the Secret key for the reCaptcha.','pirate-forms' ),
+				'text',
+				'',
+			),
+			/* Secret key */
+			'pirateformsopt_recaptcha_secretkey' => array(
+				__( 'Secret key','pirate-forms' ),
+				'',
+				'text',
+				'',
+			),
+
 		),
 		'second_tab' => array(
 			'header_labels' => array(
@@ -158,6 +173,7 @@ function pirate_forms_plugin_options() {
 				__( 'Contact notification sender email','pirate-forms' ),
 				__( 'Email to use for the sender of the contact form emails both to the recipients below and the contact form submitter (if this is activated below). The domain for this email address should match your site\'s domain.',
 					'email','pirate-forms' ),
+				'text',
 				get_bloginfo( 'admin_email' )
 			),
 			'pirateformsopt_reply_to_admin' => array(
@@ -170,7 +186,7 @@ function pirate_forms_plugin_options() {
 				__( 'Contact submission recipients','pirate-forms' ),
 				__( 'Email address(es) to receive contact submission notifications. You can separate multiple emails with a comma.','pirate-forms' ),
 				'text',
-				proper_contact_get_key( 'pirateformsopt_email' ) ? proper_contact_get_key( 'pirateformsopt_email' ) : get_bloginfo( 'admin_email' )
+				pirate_forms_get_key( 'pirateformsopt_email' ) ? pirate_forms_get_key( 'pirateformsopt_email' ) : get_bloginfo( 'admin_email' )
 			),
 			'pirateformsopt_store' => array(
 				__( 'Store submissions in the database','pirate-forms' ),
@@ -225,7 +241,7 @@ function pirate_forms_save_callback() {
 
 	if( isset($_POST['dataSent']) ):
 		$dataSent = $_POST['dataSent'];
-		update_option( 'propercfp_settings_array', $dataSent );
+		update_option( 'pirate_forms_settings_array', $dataSent );
 	endif;
 	die();
 }
@@ -237,12 +253,12 @@ function pirate_forms_save_callback() {
  */
 function pirate_forms_admin() {
 
-	$propercfp_options = get_option( 'propercfp_settings_array' );
+	$propercfp_options = get_option( 'pirate_forms_settings_array' );
 
 	$pirate_forms_params = array();
 
 	if( !empty($propercfp_options) ):
-		parse_str($propercfp_options, $pirate_forms_params);
+		parse_str((string)$propercfp_options, $pirate_forms_params);
 	endif;
 
 	$plugin_options = pirate_forms_plugin_options();
@@ -304,16 +320,22 @@ function pirate_forms_admin() {
 						/* Description */
 						if( !empty($value[1]) ):
 							$opt_desc = $value[1];
+						else:
+							$opt_desc = '';
 						endif;
 
 						/* Input type */
 						if( !empty($value[2]) ):
 							$opt_type = $value[2];
+						else:
+							$opt_type = '';
 						endif;
 
 						/* Default value */
 						if( !empty($value[3]) ):
 							$opt_default = $value[3];
+						else:
+							$opt_default = '';
 						endif;
 
 						/* Value */
@@ -335,7 +357,7 @@ function pirate_forms_admin() {
 								?>
 
 								<div class="pirate-forms-grouped">
-									<label for="<?php echo $opt_id; ?>"><?php echo $opt_name; ?><span><?php echo $opt_desc; ?></span></label>
+									<label for="<?php echo $opt_id ?>"><?php echo $opt_name.'<br>'.'<span>'.$opt_desc.'</span>'; ?></label>
 									<input name="<?php echo $opt_id; ?>" id="<?php echo $opt_id ?>" type="<?php echo $opt_type; ?>" value="<?php echo stripslashes( $opt_val ); ?>" class="widefat">
 								</div>
 
@@ -379,7 +401,7 @@ function pirate_forms_admin() {
 										<input type="checkbox" value="yes" name="<?php echo $opt_id; ?>" id="<?php echo $opt_id; ?>" <?php echo $checked; ?>>Yes
 
 								</div>
-								<hr>
+
 
 							<?php
 								break;
@@ -410,7 +432,7 @@ function pirate_forms_admin() {
  */
 function proper_contact_form_settings_init() {
 
-	if ( ! get_option( 'propercfp_settings_array' ) ) {
+	if ( ! get_option( 'pirate_forms_settings_array' ) ) {
 
 		$new_opt = array();
 
@@ -418,7 +440,7 @@ function proper_contact_form_settings_init() {
 			$new_opt[$key] = $opt[3];
 		}
 
-		update_option( 'propercfp_settings_array', $new_opt );
+		update_option( 'pirate_forms_settings_array', $new_opt );
 
 	}
 

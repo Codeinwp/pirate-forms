@@ -62,11 +62,11 @@ jQuery(document).ready(function() {
     });
     if ( thisOpen == false && (typeof jQuery('.pirate_forms textarea').val() != 'undefined') && (jQuery('.pirate_forms textarea').val().length > 0) ) {
         thisOpen = true;
-        jQuery('.zerif-g-recaptcha').css('display','block').delay(1000).css('opacity','1');
+        jQuery('.pirate-forms-g-recaptcha').css('display','block').delay(1000).css('opacity','1');
     }
     jQuery('.pirate_forms input, .pirate_forms textarea').focus(function(){
-        if ( !jQuery('.zerif-g-recaptcha').hasClass('recaptcha-display') ) {
-            jQuery('.zerif-g-recaptcha').css('display','block').delay(1000).css('opacity','1');
+        if ( !jQuery('.pirate-forms-g-recaptcha').hasClass('recaptcha-display') ) {
+            jQuery('.pirate-forms-g-recaptcha').css('display','block').delay(1000).css('opacity','1');
         }
     });
 

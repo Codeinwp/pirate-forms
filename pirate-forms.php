@@ -42,7 +42,7 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 	if ( isset( $_GET['pcf'] ) && $_GET['pcf'] == 1 ) {
 		return '
 		<div class="proper_contact_thankyou_wrap">
-			<h2>' . sanitize_text_field( proper_contact_get_key( 'pirateformsopt_label_submit' ) ) . '</h2>
+			<h2>' . sanitize_text_field( pirate_forms_get_key( 'pirateformsopt_label_submit' ) ) . '</h2>
 		</div>';
 	}
 
@@ -60,13 +60,13 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 	$pirate_form->set_att( 'class', array( 'pirate_forms' ) );
 	$pirate_form->set_att( 'add_nonce', get_bloginfo( 'admin_email' ) );
 
-	$pirate_forms_options = get_option( 'propercfp_settings_array' );
+	$pirate_forms_options = get_option( 'pirate_forms_settings_array' );
 
 	if( !empty($pirate_forms_options) ):
 
 		$pirate_forms_params = array();
 
-		parse_str($pirate_forms_options, $pirate_forms_params);
+		parse_str((string)$pirate_forms_options, $pirate_forms_params);
 
 		if( !empty($pirate_forms_params) ):
 
@@ -85,7 +85,7 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 					$wrap_classes = array( 'form_field_wrap', 'contact_name_wrap col-lg-4 col-sm-4' );
 
 					// If this field was submitted with invalid data
-					if ( isset( $_SESSION['cfp_contact_errors']['contact-name'] ) ) {
+					if ( isset( $_SESSION['pirate_forms_contact_errors']['contact-name'] ) ) {
 						$wrap_classes[] = 'error';
 					}
 
@@ -117,7 +117,7 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 					$wrap_classes = array( 'form_field_wrap', 'contact_email_wrap col-lg-4 col-sm-4' );
 
 					// If this field was submitted with invalid data
-					if ( isset( $_SESSION['cfp_contact_errors']['contact-email'] ) ) {
+					if ( isset( $_SESSION['pirate_forms_contact_errors']['contact-email'] ) ) {
 						$wrap_classes[] = 'error';
 					}
 
@@ -150,7 +150,7 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 					$wrap_classes = array( 'form_field_wrap', 'contact_subject_wrap col-lg-4 col-sm-4' );
 
 					// If this field was submitted with invalid data
-					if ( isset( $_SESSION['cfp_contact_errors']['contact-subject'] ) ) {
+					if ( isset( $_SESSION['pirate_forms_contact_errors']['contact-subject'] ) ) {
 						$wrap_classes[] = 'error';
 					}
 
@@ -183,7 +183,7 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 					$wrap_classes = array( 'form_field_wrap', 'contact_message_wrap col-lg-12 col-sm-12' );
 
 					// If this field was submitted with invalid data
-					if ( isset( $_SESSION['cfp_contact_errors']['contact-message'] ) ) {
+					if ( isset( $_SESSION['pirate_forms_contact_errors']['contact-message'] ) ) {
 						$wrap_classes[] = 'error';
 					}
 
@@ -226,22 +226,28 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 				endif;
 			endif;
 
-			$zerif_contactus_sitekey = get_theme_mod('zerif_contactus_sitekey');
-			$zerif_contactus_secretkey = get_theme_mod('zerif_contactus_secretkey');
-			$zerif_contactus_recaptcha_show = get_theme_mod('zerif_contactus_recaptcha_show');
-			//if( isset($zerif_contactus_recaptcha_show) && $zerif_contactus_recaptcha_show != 1 && !empty($zerif_contactus_sitekey) && !empty($zerif_contactus_secretkey) ) :
-				echo '<div class="g-recaptcha zerif-g-recaptcha" data-sitekey="' . $zerif_contactus_sitekey . '"></div>';
-			//endif;
+			/******************************/
+			/********* ReCaptcha **********/
+			/******************************/
+
+			if( !empty($pirate_forms_params['pirateformsopt_recaptcha_secretkey']) && !empty($pirate_forms_params['pirateformsopt_recaptcha_sitekey']) && !empty($pirate_forms_params['pirateformsopt_recaptcha_field']) && ($pirate_forms_params['pirateformsopt_recaptcha_field'] == 'yes') ):
+
+				$pirateformsopt_recaptcha_sitekey = $pirate_forms_params['pirateformsopt_recaptcha_sitekey'];
+				$pirateformsopt_recaptcha_secretkey = $pirate_forms_params['pirateformsopt_recaptcha_secretkey'];
+
+				echo '<div class="g-recaptcha pirate-forms-g-recaptcha" data-sitekey="' . $pirateformsopt_recaptcha_sitekey . '"></div>';
+
+			endif;
 
 
 		endif;
 
 	endif;
 
-	// Referring site or page, if any
+	/* Referring site or page, if any */
 	if ( ! empty( $_SERVER['HTTP_REFERER'] ) ) {
 		$pirate_form->add_input(
-			'Contact Referrer',
+			__( 'Contact Referrer','pirate-forms' ),
 			array(
 				'type'  => 'hidden',
 				'value' => $_SERVER['HTTP_REFERER']
@@ -249,10 +255,11 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 		);
 	}
 
-	// Referring page, if sent via URL query
+	/* Referring page, if sent via URL query */
 	if ( ! empty( $_REQUEST['src'] ) || ! empty( $_REQUEST['ref'] ) ) {
 		$pirate_form->add_input(
-			'Referring page', array(
+			__( 'Referring page','pirate-forms' ),
+			array(
 				'type'  => 'hidden',
 				'value' => ! empty( $_REQUEST['src'] ) ? $_REQUEST['src'] : $_REQUEST['ref']
 			)
@@ -261,14 +268,14 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 
 	// Are there any submission errors?
 	$errors = '';
-	if ( ! empty( $_SESSION['cfp_contact_errors'] ) ) {
-		$errors = proper_display_errors( $_SESSION['cfp_contact_errors'] );
-		unset( $_SESSION['cfp_contact_errors'] );
+	if ( ! empty( $_SESSION['pirate_forms_contact_errors'] ) ) {
+		$errors = proper_display_errors( $_SESSION['pirate_forms_contact_errors'] );
+		unset( $_SESSION['pirate_forms_contact_errors'] );
 	}
 
 	// Display that beautiful form!
 	return '
-	<div class="proper_contact_form_wrap">
+	<div class="pirate_forms_wrap">
 	' . $errors . '
 	' . $pirate_form->build_form( FALSE ) . '
 	</div>';
@@ -278,131 +285,113 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 /**
  * Process the incoming contact form data, if any
  */
-add_action( 'template_redirect', 'cfp_process_contact' );
-function cfp_process_contact() {
+add_action( 'template_redirect', 'pirate_forms_process_contact' );
+function pirate_forms_process_contact() {
 
 	// If POST, nonce and honeypot are not set, beat it
-	if (
-			empty( $_POST ) ||
-			empty( $_POST['wordpress-nonce'] ) ||
-			! isset( $_POST['honeypot'] )
-	) {
+	if ( empty( $_POST ) || empty( $_POST['wordpress-nonce'] ) || !isset( $_POST['honeypot'] )) {
 		return false;
 	}
 
 	// Session variable for form errors
-	$_SESSION['cfp_contact_errors'] = array();
+	$_SESSION['pirate_forms_contact_errors'] = array();
 
 	// If nonce is not valid, beat it
 	if ( ! wp_verify_nonce( $_POST['wordpress-nonce'], get_bloginfo( 'admin_email' ) ) ) {
-		$_SESSION['cfp_contact_errors']['nonce'] = __( 'Nonce failed!', 'proper-contact' );
+		$_SESSION['pirate_forms_contact_errors']['nonce'] = __( 'Nonce failed!', 'pirate-forms' );
 		return false;
 	}
 
 	// If the honeypot caught a bear, beat it
 	if ( ! empty( $_POST['honeypot'] ) ) {
-		$_SESSION['cfp_contact_errors']['honeypot'] = __( 'Form submission failed!', 'proper-contact' );
+		$_SESSION['pirate_forms_contact_errors']['honeypot'] = __( 'Form submission failed!', 'pirate-forms' );
 		return false;
 	}
 
 	// Start the body of the contact email
-	$body = "
-*** " . __( 'Contact form submission on', 'proper-contact' ) . " " .
+	$body = "*** " . __( 'Contact form submission on', 'pirate-forms' ) . " " .
 		get_bloginfo( 'name' ) . " (" . site_url() . ") *** \n\n";
 
-	// Sanitize and validate name
-	$contact_name = isset( $_POST['contact-name'] ) ?
-			sanitize_text_field( trim( $_POST['contact-name'] ) ) :
-			'';
 
-	// Do we require an email address?
-	if ( proper_contact_get_key( 'pirateformsopt_name_field' ) === 'req' && empty( $contact_name ) ) {
-		$_SESSION['cfp_contact_errors']['contact-name'] = proper_contact_get_key( 'pirateformsopt_label_err_name' );
+	/***********************************************/
+	/*********   Sanitize and validate name *******/
+	/**********************************************/
+
+	$pirate_forms_contact_name = isset( $_POST['pirate-forms-contact-name'] ) ? sanitize_text_field( trim( $_POST['pirate-forms-contact-name'] ) ) : '';
+
+	// if name is required and is missing
+	if ( (pirate_forms_get_key( 'pirateformsopt_name_field' ) === 'req') && empty( $pirate_forms_contact_name ) ) {
+		$_SESSION['pirate_forms_contact_errors']['pirate-forms-contact-name'] = pirate_forms_get_key( 'pirateformsopt_label_err_name' );
 	}
 	// If not required and empty, leave it out
-	elseif ( ! empty( $contact_name ) ) {
-		$body .= stripslashes( proper_contact_get_key( 'pirateformsopt_label_name' ) ) . ": $contact_name \r";
+	elseif ( ! empty( $pirate_forms_contact_name ) ) {
+		$body .= stripslashes( pirate_forms_get_key( 'pirateformsopt_label_name' ) ) . ": $pirate_forms_contact_name \r";
 	}
 
-	// Sanitize and validate email
-	$contact_email = isset( $_POST['contact-email'] ) ?
-			sanitize_email( $_POST['contact-email'] ) : '';
+
+	/***********************************************/
+	/*******  Sanitize and validate email **********/
+	/***********************************************/
+	
+	$pirate_forms_contact_email = isset( $_POST['pirate-forms-contact-email'] ) ?
+			sanitize_email( $_POST['pirate-forms-contact-email'] ) : '';
 
 	// If required, is it valid?
-	if (
-			proper_contact_get_key( 'pirateformsopt_email_field' ) === 'req' &&
-			! filter_var( $contact_email, FILTER_VALIDATE_EMAIL )
-	) {
-		$_SESSION['cfp_contact_errors']['contact-email'] = proper_contact_get_key( 'pirateformsopt_label_err_email' );
+	if ( (pirate_forms_get_key( 'pirateformsopt_email_field' ) === 'req') && ! filter_var( $pirate_forms_contact_email, FILTER_VALIDATE_EMAIL )) {
+		$_SESSION['pirate_forms_contact_errors']['pirate-forms-contact-email'] = pirate_forms_get_key( 'pirateformsopt_label_err_email' );
 	}
 	// If not required and empty, leave it out
-	elseif ( ! empty( $contact_email ) ) {
-		$body .= stripslashes( proper_contact_get_key( 'pirateformsopt_label_email' ) )
-				. ": $contact_email \r"
+	elseif ( ! empty( $pirate_forms_contact_email ) ) {
+		$body .= stripslashes( pirate_forms_get_key( 'pirateformsopt_label_email' ) )
+				. ": $pirate_forms_contact_email \r"
 				. __( 'Google it', 'proper-contact' )
-				. ": https://www.google.com/#q=$contact_email \r";
+				. ": https://www.google.com/#q=$pirate_forms_contact_email \r";
 	}
 
-	// Sanitize phone number
-	$contact_phone = isset( $_POST['contact-phone'] ) ?
-			sanitize_text_field( $_POST['contact-phone'] ) :
-			'';
+	/***********************************************/
+	/*********   Sanitize and validate subject *****/
+	/**********************************************/
 
-	// Do we require a phone number?
-	if ( proper_contact_get_key( 'pirateformsopt_subject_field' ) === 'req' && empty( $contact_phone ) ) {
-		$_SESSION['cfp_contact_errors']['contact-phone'] = proper_contact_get_key( 'pirateformsopt_label_err_subject' );
-		// If not required and empty, leave it out
+	$pirate_forms_contact_subject = isset( $_POST['pirate-forms-contact-subject'] ) ? sanitize_text_field( trim( $_POST['pirate-forms-contact-subject'] ) ) : '';
+
+	// if subject is required and is missing
+	if ( (pirate_forms_get_key( 'pirateformsopt_subject_field' ) === 'req') && empty( $pirate_forms_contact_subject ) ) {
+		$_SESSION['pirate_forms_contact_errors']['pirate-forms-contact-subject'] = pirate_forms_get_key( 'pirateformsopt_label_err_subject' );
 	}
-	elseif ( ! empty( $contact_phone ) ) {
-		$body .= stripslashes( proper_contact_get_key( 'pirateformsopt_label_subject' ) )
-				. ": $contact_phone \r"
-				. __( 'Google it', 'proper-contact' )
-				. ": https://www.google.com/#q=$contact_phone\r";
+	// If not required and empty, leave it out
+	elseif ( ! empty( $pirate_forms_contact_subject ) ) {
+		$body .= stripslashes( pirate_forms_get_key( 'pirateformsopt_label_subject' ) ) . ": $pirate_forms_contact_subject \r";
 	}
 
-	// Sanitize contact reason
-	$contact_reason = isset( $_POST['contact-reasons'] ) ?
-			sanitize_text_field( $_POST['contact-reasons'] ) :
-			'';
+	/***********************************************/
+	/*********   Sanitize and validate message *****/
+	/**********************************************/
 
-	// If empty, leave it out
-	if ( ! empty( $contact_reason ) ) {
-		$contact_reason = stripslashes( $contact_reason );
-		$body .= stripslashes( proper_contact_get_key( 'pirateformsopt_label_reason' ) ) . ": $contact_reason \r";
+	$pirate_forms_contact_message = isset( $_POST['pirate-forms-contact-message'] ) ? sanitize_text_field( trim( $_POST['pirate-forms-contact-message'] ) ) : '';
+
+	// if message is required and is missing
+	if ( (pirate_forms_get_key( 'pirateformsopt_message_field' ) === 'req') && empty( $pirate_forms_contact_message ) ) {
+		$_SESSION['pirate_forms_contact_errors']['pirate-forms-contact-message'] = pirate_forms_get_key( 'pirateformsopt_label_err_message' );
+	}
+	// If not required and empty, leave it out
+	elseif ( ! empty( $pirate_forms_contact_message ) ) {
+		$body .= stripslashes( pirate_forms_get_key( 'pirateformsopt_label_message' ) ) . ": $pirate_forms_contact_message \r";
 	}
 
-	// Sanitize and validate comments
-	$contact_comment = sanitize_text_field( trim( $_POST['question-or-comment'] ) );
-	if ( empty( $contact_comment ) ) {
-		$_SESSION['cfp_contact_errors']['question-or-comment'] =
-				sanitize_text_field( proper_contact_get_key( 'pirateformsopt_label_err_no_content' ) );
-	}
-	else {
-		$body .= "\n\n" . stripslashes( proper_contact_get_key( 'pirateformsopt_label_comment' ) )
-				. ": " . stripslashes( $contact_comment ) . " \n\n";
-	}
+	/**********************************************/
+	/********   Sanitize and validate IP  *********/
+	/**********************************************/
 
-	// Check the math CAPTCHA, if present
-	if ( proper_contact_get_key( 'pirateformsopt_recaptcha_field' ) ) {
-		$captcha_sum = isset( $_POST['math-captcha'] ) ? intval( $_POST['math-captcha'] ) : 0;
-		if ( $captcha_sum != (int) $_POST['math-captcha-sum'] ) {
-			$_SESSION['cfp_contact_errors']['math-captcha'] =
-					sanitize_text_field( proper_contact_get_key( 'pirateformsopt_label_err_captcha' ) );
-		}
-	}
-
-	// Sanitize and validate IP
 	$contact_ip = filter_var( $_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP );
 
 	// If valid and present, create a link to an IP search
 	if ( ! empty( $contact_ip ) ) {
-		$body .= "IP address: $contact_ip \r
-IP search: http://whatismyipaddress.com/ip/$contact_ip \n\n";
+		$body .= "IP address: $contact_ip \r IP search: http://whatismyipaddress.com/ip/$contact_ip \n\n";
 	}
 
 	// Sanitize and prepare referrer;
 	if ( ! empty( $_POST['contact-referrer'] ) ) {
-		$body .= "Came from: " . sanitize_text_field( $_POST['contact-referrer'] ) . " \r";
+		$body .= "Came from: " . sanitize_text_field( $_POST['pirate-forms-contact-referrer'] ) . " \r";
 	}
 
 	// Show the page this contact form was submitted on
@@ -412,39 +401,39 @@ IP search: http://whatismyipaddress.com/ip/$contact_ip \n\n";
 	$blocked = proper_get_blacklist();
 	if ( ! empty( $blocked ) ) {
 		if (
-				in_array( $contact_email, $blocked ) ||
+				in_array( $pirate_forms_contact_email, $blocked ) ||
 				in_array( $contact_ip, $blocked )
 		) {
-			$_SESSION['cfp_contact_errors']['blacklist-blocked'] = 'Form submission blocked!';
+			$_SESSION['pirate_forms_contact_errors']['blacklist-blocked'] = __( 'Form submission blocked!','pirate-forms' );
 			return false;
 		}
 	}
 
 	// No errors? Go ahead and process the contact
-	if ( empty( $_SESSION['cfp_contact_errors'] ) ) {
+	if ( empty( $_SESSION['pirate_forms_contact_errors'] ) ) {
 
-		$site_email = sanitize_email( proper_contact_get_key( 'pirateformsopt_email' ) );
+		$site_email = sanitize_email( pirate_forms_get_key( 'pirateformsopt_email' ) );
 		$site_name  = htmlspecialchars_decode( get_bloginfo( 'name' ) );
 
 		// Notification recipients
-		$site_recipients = sanitize_text_field( proper_contact_get_key( 'pirateformsopt_email_recipients' ) );
+		$site_recipients = sanitize_text_field( pirate_forms_get_key( 'pirateformsopt_email_recipients' ) );
 		$site_recipients = explode(',', $site_recipients);
 		$site_recipients = array_map( 'trim', $site_recipients );
 		$site_recipients = array_map( 'sanitize_email', $site_recipients );
 		$site_recipients = implode( ',', $site_recipients );
 
 		// No name? Use the submitter email address, if one is present
-		if ( empty( $contact_name ) ) {
-			$contact_name = ! empty( $contact_email ) ? $contact_email : '[None given]';
+		if ( empty( $pirate_forms_contact_name ) ) {
+			$pirate_forms_contact_name = ! empty( $pirate_forms_contact_email ) ? $pirate_forms_contact_email : '[None given]';
 		}
 
 		// Need an email address for the email notification
-		if ( proper_contact_get_key( 'pirateformsopt_reply_to_admin' ) == 'yes' ) {
+		if ( pirate_forms_get_key( 'pirateformsopt_reply_to_admin' ) == 'yes' ) {
 			$send_from = $site_email;
 			$send_from_name = $site_name;
 		} else {
-			$send_from = ! empty( $contact_email ) ? $contact_email : $site_email;
-			$send_from_name = $contact_name;
+			$send_from = ! empty( $pirate_forms_contact_email ) ? $pirate_forms_contact_email : $site_email;
+			$send_from_name = $pirate_forms_contact_name;
 		}
 
 		// Sent an email notification to the correct address
@@ -453,8 +442,8 @@ IP search: http://whatismyipaddress.com/ip/$contact_ip \n\n";
 		wp_mail( $site_recipients, 'Contact on ' . $site_name, $body, $headers );
 
 		// Should a confirm email be sent?
-		$confirm_body = stripslashes( trim( proper_contact_get_key( 'pirateformsopt_confirm_email' ) ) );
-		if ( ! empty( $confirm_body ) && ! empty( $contact_email ) ) {
+		$confirm_body = stripslashes( trim( pirate_forms_get_key( 'pirateformsopt_confirm_email' ) ) );
+		if ( ! empty( $confirm_body ) && ! empty( $pirate_forms_contact_email ) ) {
 
 			// Removing entities
 			$confirm_body = htmlspecialchars_decode( $confirm_body );
@@ -464,33 +453,36 @@ IP search: http://whatismyipaddress.com/ip/$contact_ip \n\n";
 			$headers = "From: $site_name <$site_email>\r\nReply-To: $site_name <$site_email>";
 
 			wp_mail(
-				$contact_email,
-				proper_contact_get_key( 'pirateformsopt_label_submit' ) . ' - ' . $site_name,
+				$pirate_forms_contact_email,
+				pirate_forms_get_key( 'pirateformsopt_label_submit' ) . ' - ' . $site_name,
 				$confirm_body,
 				$headers
 			);
 		}
 
-		// Should the entry be stored in the DB?
-		if ( proper_contact_get_key( 'pirateformsopt_store' ) === 'yes' ) {
+		/************************************************************/
+		/*************   Store the entries in the DB ****************/
+		/************************************************************/
+
+		if ( pirate_forms_get_key( 'pirateformsopt_store' ) === 'yes' ) {
 			$new_post_id = wp_insert_post(
 				array(
-					'post_type'    => 'proper_contact',
-					'post_title'   => date( 'l, M j, Y', time() ) . ' by "' . $contact_name . '"',
+					'post_type'    => 'pirate_forms_contact_pt',
+					'post_title'   => date( 'l, M j, Y', time() ) . ' by "' . $pirate_forms_contact_name . '"',
 					'post_content' => $body,
 					'post_author'  => 1,
 					'post_status'  => 'private'
 				)
 			);
 
-			if ( isset( $contact_email ) && ! empty( $contact_email ) ) {
-				add_post_meta( $new_post_id, 'Contact email', $contact_email );
+			if ( isset( $pirate_forms_contact_email ) && ! empty( $pirate_forms_contact_email ) ) {
+				add_post_meta( $new_post_id, 'Contact email', $pirate_forms_contact_email );
 			}
 		}
 
 		// Should the user get redirected?
-		if ( proper_contact_get_key( 'pirateformsopt_result_url' ) ) {
-			$redirect_id = intval( proper_contact_get_key( 'pirateformsopt_result_url' ) );
+		if ( pirate_forms_get_key( 'pirateformsopt_result_url' ) ) {
+			$redirect_id = intval( pirate_forms_get_key( 'pirateformsopt_result_url' ) );
 			$redirect    = get_permalink( $redirect_id );
 		}
 		else {
@@ -504,36 +496,52 @@ IP search: http://whatismyipaddress.com/ip/$contact_ip \n\n";
 }
 
 // Get a settings value
-function proper_contact_get_key( $id ) {
-	$propercfp_options = get_option( 'propercfp_settings_array' );
-	return isset( $propercfp_options[$id] ) ? $propercfp_options[$id] : '';
+function pirate_forms_get_key( $id ) {
+	$propercfp_options = get_option( 'pirate_forms_settings_array' );
+	$pirate_forms_params = array();
+
+	if( !empty($propercfp_options) ):
+		parse_str((string)$propercfp_options, $pirate_forms_params);
+	endif;
+	return isset( $pirate_forms_params[$id] ) ? $pirate_forms_params[$id] : '';
 }
 
-// If styles should be added, do that
 
+add_action( 'wp_enqueue_scripts', 'pirate_forms_add_styles_and_scripts' );
 
-	add_action( 'wp_enqueue_scripts', 'pirate_forms_styles' );
-	function pirate_forms_styles() {
-		wp_enqueue_style( 'pirate_forms_styles', plugins_url( 'css/front.css', __FILE__ ) );
+function pirate_forms_add_styles_and_scripts() {
 
+	/* style for frontpage contact */
+	wp_enqueue_style( 'pirate_forms_front_styles', plugins_url( 'css/front.css', __FILE__ ) );
 
-		/*$zerif_contactus_sitekey = get_theme_mod('zerif_contactus_sitekey');
-		$zerif_contactus_secretkey = get_theme_mod('zerif_contactus_secretkey');
-		$zerif_contactus_recaptcha_show = get_theme_mod('zerif_contactus_recaptcha_show');
-		if( isset($zerif_contactus_recaptcha_show) && $zerif_contactus_recaptcha_show != 1 && !empty($zerif_contactus_sitekey) && !empty($zerif_contactus_secretkey) ) :*/
+	/* recaptcha js */
+	$pirate_forms_options = get_option( 'pirate_forms_settings_array' );
+
+	if( !empty($pirate_forms_options) ):
+
+		$pirate_forms_params = array();
+
+		parse_str((string)$pirate_forms_options, $pirate_forms_params);
+
+		if( !empty($pirate_forms_params) && !empty($pirate_forms_params['pirateformsopt_recaptcha_secretkey']) && !empty($pirate_forms_params['pirateformsopt_recaptcha_sitekey']) && !empty($pirate_forms_params['pirateformsopt_recaptcha_field']) && ($pirate_forms_params['pirateformsopt_recaptcha_field'] == 'yes') ):
+
 			wp_enqueue_script( 'recaptcha', 'https://www.google.com/recaptcha/api.js' );
-		//endif;
 
+		endif;
 
+	endif;
 
-	}
+}
 
+/**************************************************************************/
+/*** If submissions should be stored in the DB, create the Contacts CPT ***/
+/*************************************************************************/
 
-// If submissions should be stored in the DB, create the CPT
-if ( proper_contact_get_key( 'pirateformsopt_store' ) === 'yes' ) {
+if ( pirate_forms_get_key( 'pirateformsopt_store' ) === 'yes' ) {
 
-	add_action( 'init', 'proper_contact_content_type' );
-	function proper_contact_content_type() {
+	add_action( 'init', 'pirate_forms_register_content_type' );
+
+	function pirate_forms_register_content_type() {
 
 		$labels = array(
 			'name'               => __( 'Contacts', 'pirate-forms' ), 'post type general name',
@@ -545,8 +553,8 @@ if ( proper_contact_get_key( 'pirateformsopt_store' ) === 'yes' ) {
 			'all_items'          => __( 'All Contacts', 'pirate-forms' ),
 			'view_item'          => __( 'View Contact', 'pirate-forms' ),
 			'not_found'          => __( 'No Contacts found', 'pirate-forms' ),
-			'not_found_in_trash' => __( 'No Contacts found in Trash', 'proper-contact' ),
-			'menu_name'          => __( 'Contacts', 'proper-contact' )
+			'not_found_in_trash' => __( 'No Contacts found in Trash', 'pirate-forms' ),
+			'menu_name'          => __( 'Contacts', 'pirate-forms' )
 		);
 		$args   = array(
 			'labels'             => $labels,
@@ -557,7 +565,7 @@ if ( proper_contact_get_key( 'pirateformsopt_store' ) === 'yes' ) {
 			'menu_position'      => 27,
 			'supports'           => array( 'title', 'editor', 'custom-fields' )
 		);
-		register_post_type( 'proper_contact', $args );
+		register_post_type( 'pirate_forms_contact_pt', $args );
 	}
 
 }
