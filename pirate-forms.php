@@ -269,7 +269,7 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 	// Are there any submission errors?
 	$errors = '';
 	if ( ! empty( $_SESSION['pirate_forms_contact_errors'] ) ) {
-		$errors = proper_display_errors( $_SESSION['pirate_forms_contact_errors'] );
+		$errors = pirate_forms_display_errors( $_SESSION['pirate_forms_contact_errors'] );
 		unset( $_SESSION['pirate_forms_contact_errors'] );
 	}
 
@@ -398,7 +398,7 @@ function pirate_forms_process_contact() {
 	$body .= 'Sent from page: ' . get_permalink( get_the_id() );
 
 	// Check the blacklist
-	$blocked = proper_get_blacklist();
+	$blocked = pirate_forms_get_blacklist();
 	if ( ! empty( $blocked ) ) {
 		if (
 				in_array( $pirate_forms_contact_email, $blocked ) ||
