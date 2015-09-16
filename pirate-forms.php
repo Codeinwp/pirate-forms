@@ -3,7 +3,7 @@
 /*
 Plugin Name: Pirate Forms
 Plugin URI: http://themeisle.com/plugins/pirate-forms/
-Description: A simple, nice looking contact form
+Description: Easily creates a nice looking, simple contact form on your WP site.
 Version: 1.0.0
 Author: Themeisle
 Author URI: http://themeisle.com
@@ -27,21 +27,21 @@ wp_enqueue_script( 'pirate_forms_scripts', plugins_url( 'js/scripts.js', __FILE_
 wp_localize_script( 'pirate_forms_scripts', 'cwp_top_ajaxload', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 
 /**
- * Display the contact form or a confirmation message is submitted
+ * Display the contact form or a confirmation message if submitted
  *
  * @param      $atts
  * @param null $content
  *
  * @return string
  */
-
 add_shortcode( 'pirate_forms', 'pirate_forms_display_form' );
+
 function pirate_forms_display_form( $atts, $content = NULL ) {
 
-	// Looking for a submitted form if not redirect
+	/* thank you message */
 	if ( isset( $_GET['pcf'] ) && $_GET['pcf'] == 1 ) {
 		return '
-		<div class="proper_contact_thankyou_wrap">
+		<div class="pirate_forms_thankyou_wrap">
 			<h2>' . sanitize_text_field( pirate_forms_get_key( 'pirateformsopt_label_submit' ) ) . '</h2>
 		</div>';
 	}
@@ -256,14 +256,14 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 		);
 	}
 
-	// Are there any submission errors?
+	/* Are there any submission errors? */
 	$errors = '';
 	if ( ! empty( $_SESSION['pirate_forms_contact_errors'] ) ) {
 		$errors = pirate_forms_display_errors( $_SESSION['pirate_forms_contact_errors'] );
 		unset( $_SESSION['pirate_forms_contact_errors'] );
 	}
 
-	// Display that beautiful form!
+	/* Display the form */
 	return '
 	<div class="pirate_forms_wrap">
 	' . $errors . '
@@ -323,8 +323,7 @@ function pirate_forms_process_contact() {
 	/*******  Sanitize and validate email **********/
 	/***********************************************/
 	
-	$pirate_forms_contact_email = isset( $_POST['pirate-forms-contact-email'] ) ?
-			sanitize_email( $_POST['pirate-forms-contact-email'] ) : '';
+	$pirate_forms_contact_email = isset( $_POST['pirate-forms-contact-email'] ) ? sanitize_email( $_POST['pirate-forms-contact-email'] ) : '';
 
 	// If required, is it valid?
 	if ( (pirate_forms_get_key( 'pirateformsopt_email_field' ) === 'req') && ! filter_var( $pirate_forms_contact_email, FILTER_VALIDATE_EMAIL )) {
@@ -333,9 +332,7 @@ function pirate_forms_process_contact() {
 	// If not required and empty, leave it out
 	elseif ( ! empty( $pirate_forms_contact_email ) ) {
 		$body .= stripslashes( pirate_forms_get_key( 'pirateformsopt_label_email' ) )
-				. ": $pirate_forms_contact_email \r"
-				. __( 'Google it', 'proper-contact' )
-				. ": https://www.google.com/#q=$pirate_forms_contact_email \r";
+				. ": $pirate_forms_contact_email \r";
 	}
 
 	/***********************************************/
@@ -367,6 +364,34 @@ function pirate_forms_process_contact() {
 	elseif ( ! empty( $pirate_forms_contact_message ) ) {
 		$body .= stripslashes( pirate_forms_get_key( 'pirateformsopt_label_message' ) ) . ": $pirate_forms_contact_message \r";
 	}
+
+	/*************************************************/
+	/************* Validate reCAPTCHA ****************/
+	/*************************************************/
+
+	$pirate_forms_options = get_option( 'pirate_forms_settings_array' );
+
+	if( !empty($pirate_forms_options) ):
+		$pirateformsopt_recaptcha_sitekey = $pirate_forms_options['pirateformsopt_recaptcha_sitekey'];
+		$pirateformsopt_recaptcha_secretkey = $pirate_forms_options['pirateformsopt_recaptcha_secretkey'];
+		$pirateformsopt_recaptcha_field = $pirate_forms_options['pirateformsopt_recaptcha_field'];
+
+		if( !empty($pirateformsopt_recaptcha_secretkey) && !empty($pirateformsopt_recaptcha_sitekey) && !empty($pirateformsopt_recaptcha_field) && ($pirateformsopt_recaptcha_field == 'yes') ):
+
+			if( isset($_POST['g-recaptcha-response']) ){
+				$captcha = $_POST['g-recaptcha-response'];
+			}
+			if( !$captcha ){
+				$_SESSION['pirate_forms_contact_errors']['pirate-forms-captcha'] = 'Wrong reCAPTCHA1';
+			}
+			$response = wp_remote_get( "https://www.google.com/recaptcha/api/siteverify?secret=".$pirateformsopt_recaptcha_secretkey."&response=".$captcha."&remoteip=".$_SERVER['REMOTE_ADDR'] );
+			if($response['body'].success==false) {
+				$_SESSION['pirate_forms_contact_errors']['pirate-forms-captcha'] = 'Wrong reCAPTCHA2';
+			}
+		endif;
+
+	endif;
+
 
 	/**********************************************/
 	/********   Sanitize and validate IP  *********/
@@ -457,7 +482,7 @@ function pirate_forms_process_contact() {
 		if ( pirate_forms_get_key( 'pirateformsopt_store' ) === 'yes' ) {
 			$new_post_id = wp_insert_post(
 				array(
-					'post_type'    => 'pirate_forms_contact_pt',
+					'post_type'    => 'pf_contact',
 					'post_title'   => date( 'l, M j, Y', time() ) . ' by "' . $pirate_forms_contact_name . '"',
 					'post_content' => $body,
 					'post_author'  => 1,
@@ -470,14 +495,9 @@ function pirate_forms_process_contact() {
 			}
 		}
 
-		// Should the user get redirected?
-		if ( pirate_forms_get_key( 'pirateformsopt_result_url' ) ) {
-			$redirect_id = intval( pirate_forms_get_key( 'pirateformsopt_result_url' ) );
-			$redirect    = get_permalink( $redirect_id );
-		}
-		else {
-			$redirect = $_SERVER["HTTP_REFERER"] . ( strpos( $_SERVER["HTTP_REFERER"], '?' ) === FALSE ? '?' : '&' ) . 'pcf=1';
-		}
+
+		$redirect = $_SERVER["HTTP_REFERER"] . ( strpos( $_SERVER["HTTP_REFERER"], '?' ) === FALSE ? '?' : '&' ) . 'pcf=1';
+
 
 		wp_safe_redirect( $redirect );
 
@@ -485,12 +505,16 @@ function pirate_forms_process_contact() {
 
 }
 
-// Get a settings value
+/* Get a settings value */
 function pirate_forms_get_key( $id ) {
-	$propercfp_options = get_option( 'pirate_forms_settings_array' );
+	$pirate_forms_options = get_option( 'pirate_forms_settings_array' );
 
-	return isset( $propercfp_options[$id] ) ? $propercfp_options[$id] : '';
+	return isset( $pirate_forms_options[$id] ) ? $pirate_forms_options[$id] : '';
 }
+
+/*************************************************************************/
+/**************************** Scripts and Styles *************************/
+/*************************************************************************/
 
 
 add_action( 'wp_enqueue_scripts', 'pirate_forms_add_styles_and_scripts' );
@@ -498,7 +522,7 @@ add_action( 'wp_enqueue_scripts', 'pirate_forms_add_styles_and_scripts' );
 function pirate_forms_add_styles_and_scripts() {
 
 	/* style for frontpage contact */
-	wp_enqueue_style( 'pirate_forms_front_styles', plugins_url( 'css/front.css', __FILE__ ) );
+	wp_enqueue_style( 'pirate_forms_front_styles', PIRATE_FORMS_URL . 'css/front.css' );
 
 	/* recaptcha js */
 	$pirate_forms_options = get_option( 'pirate_forms_settings_array' );
@@ -515,6 +539,20 @@ function pirate_forms_add_styles_and_scripts() {
 
 }
 
+add_action( 'admin_enqueue_scripts', 'pirate_forms_admin_css' );
+
+function pirate_forms_admin_css() {
+
+	global $pagenow;
+
+	if ( !empty($pagenow) && ( $pagenow == 'options-general.php' || $pagenow == 'admin.php' )
+		&& isset( $_GET['page'] ) && $_GET['page'] == 'pirate-forms-admin' ) {
+
+		wp_enqueue_style( 'pirate_forms_admin_styles', PIRATE_FORMS_URL . 'css/wp-admin.css' );
+	}
+
+}
+
 /**************************************************************************/
 /*** If submissions should be stored in the DB, create the Contacts CPT ***/
 /*************************************************************************/
@@ -526,28 +564,38 @@ if ( pirate_forms_get_key( 'pirateformsopt_store' ) === 'yes' ) {
 	function pirate_forms_register_content_type() {
 
 		$labels = array(
-			'name'               => __( 'Contacts', 'pirate-forms' ), 'post type general name',
-			'singular_name'      => __( 'Contact', 'pirate-forms' ), 'post type singular name',
-			'add_new'            => __( 'Add Contact', 'pirate-forms' ), 'proper_contact',
+			'name'               => _x( 'Contacts', 'post type general name', 'pirate-forms' ),
+			'singular_name'      => _x( 'Contact', 'post type singular name', 'pirate-forms' ),
+			'menu_name'          => _x( 'Contacts', 'admin menu', 'pirate-forms' ),
+			'name_admin_bar'     => _x( 'Contact', 'add new on admin bar', 'pirate-forms' ),
+			'add_new'            => _x( 'Add New', 'contact', 'pirate-forms' ),
 			'add_new_item'       => __( 'Add New Contact', 'pirate-forms' ),
-			'edit_item'          => __( 'Edit Contact', 'pirate-forms' ),
 			'new_item'           => __( 'New Contact', 'pirate-forms' ),
-			'all_items'          => __( 'All Contacts', 'pirate-forms' ),
+			'edit_item'          => __( 'Edit Contact', 'pirate-forms' ),
 			'view_item'          => __( 'View Contact', 'pirate-forms' ),
-			'not_found'          => __( 'No Contacts found', 'pirate-forms' ),
-			'not_found_in_trash' => __( 'No Contacts found in Trash', 'pirate-forms' ),
-			'menu_name'          => __( 'Contacts', 'pirate-forms' )
+			'all_items'          => __( 'All Contacts', 'pirate-forms' ),
+			'search_items'       => __( 'Search Contacts', 'pirate-forms' ),
+			'parent_item_colon'  => __( 'Parent Contacts:', 'pirate-forms' ),
+			'not_found'          => __( 'No contacts found.', 'pirate-forms' ),
+			'not_found_in_trash' => __( 'No contacts found in Trash.', 'pirate-forms' )
 		);
-		$args   = array(
+		$args = array(
 			'labels'             => $labels,
-			'public'             => FALSE,
-			'show_ui'            => TRUE,
-			'show_in_menu'       => TRUE,
-			'hierarchical'       => FALSE,
-			'menu_position'      => 27,
+			'description'        => __( 'Contacts from Pirate Forms', 'pirate-forms' ),
+			'public'             => true,
+			'publicly_queryable' => true,
+			'show_ui'            => true,
+			'show_in_menu'       => true,
+			'query_var'          => true,
+			'capability_type'    => 'post',
+			'has_archive'        => true,
+			'hierarchical'       => false,
+			'menu_position'      => null,
 			'supports'           => array( 'title', 'editor', 'custom-fields' )
 		);
-		register_post_type( 'pirate_forms_contact_pt', $args );
+
+		register_post_type( 'pf_contact', $args );
 	}
 
 }
+

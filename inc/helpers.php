@@ -8,9 +8,11 @@ if ( ! function_exists( 'pirate_forms_display_errors' ) ) {
 
 	function pirate_forms_display_errors( $errs ) {
 
+		$output = '';
+
 		if( !empty($errs) ):
 
-			$output = '<div class="proper_error_box"><ul>';
+			$output = '<div class="pirate_forms_error_box"><ul>';
 
 			foreach ( $errs as $err ) :
 				$output .= "<li>$err</li>";

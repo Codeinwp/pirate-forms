@@ -203,9 +203,15 @@ function pirate_forms_plugin_options() {
 			'pirateformsopt_confirm_email' => array(
 				__( 'Send email confirmation to form submitter','pirate-forms' ),
 				__( 'Adding text here will send an email to the form submitter. The email uses the "Text to show when form is submitted..." field below as the subject line. Plain text only here, no HTML.','pirate-forms' ),
-				'textarea',
+				'text',
 				'',
 			),
+			'pirateformsopt_use_smtp' => array(
+				__( 'Use SMTP to send emails?','pirate-forms' ),
+				__( 'Instad of PHP mail function','pirate-forms' ),
+				'checkbox',
+				'',
+			)
 		)
 	);
 }
@@ -263,7 +269,7 @@ function pirate_forms_save_callback() {
  */
 function pirate_forms_admin() {
 
-	$propercfp_options = get_option( 'pirate_forms_settings_array' );
+	$pirate_forms_options = get_option( 'pirate_forms_settings_array' );
 
 	$plugin_options = pirate_forms_plugin_options();
 	?>
@@ -343,7 +349,7 @@ function pirate_forms_admin() {
 						endif;
 
 						/* Value */
-						$opt_val = isset( $propercfp_options[$opt_id] ) ? $propercfp_options[$opt_id] : $opt_default;
+						$opt_val = isset( $pirate_forms_options[$opt_id] ) ? $pirate_forms_options[$opt_id] : $opt_default;
 
 						/* Options if checkbox, select, or radio */
 						$opt_options = empty( $value[4] ) ? array() : $value[4];
@@ -435,7 +441,7 @@ function pirate_forms_admin() {
 /*********** Save default options if none exist ***********/
 /**********************************************************/
 
-function proper_contact_form_settings_init() {
+function pirate_forms_settings_init() {
 
 	if ( ! get_option( 'pirate_forms_settings_array' ) ) {
 
@@ -451,35 +457,4 @@ function proper_contact_form_settings_init() {
 	}
 }
 
-add_action( 'admin_head', 'proper_contact_form_settings_init' );
-
-/**
- * Add a settings link to the plugin listing
- */
-function proper_contact_form_plugin_links( $links ) {
-
-	$settings_link = '<a href="' . admin_url( 'options-general.php?page=pirate-forms-admin' ) . '">' .
-		__( 'Settings', 'pirate-forms' ) . '</a>';
-	array_unshift( $links, $settings_link );
-
-	return $links;
-}
-
-add_filter( 'plugin_action_links_proper-contact-form/proper-contact-form.php',
-	'proper_contact_form_plugin_links', 10, 2 );
-
-/**
- * Enqueue CSS and JS needed in the admin
- */
-function proper_contact_admin_css_js() {
-	global $pagenow;
-
-	if (
-		( $pagenow == 'options-general.php' || $pagenow == 'admin.php' )
-		&& isset( $_GET['page'] ) && $_GET['page'] == 'pirate-forms-admin'
-	) {
-		wp_enqueue_style( 'proper-contact', PIRATE_FORMS_URL . 'css/wp-admin.css' );
-	}
-}
-
-add_action( 'admin_enqueue_scripts', 'proper_contact_admin_css_js' );
+add_action( 'admin_head', 'pirate_forms_settings_init' );
