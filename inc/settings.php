@@ -241,9 +241,19 @@ function pirate_forms_save_callback() {
 
 	if( isset($_POST['dataSent']) ):
 		$dataSent = $_POST['dataSent'];
-		update_option( 'pirate_forms_settings_array', $dataSent );
+
+		$params = array();
+
+		if( !empty($dataSent) ):
+			parse_str( $dataSent, $params );
+		endif;
+
+		if( !empty($params) ):
+			update_option( 'pirate_forms_settings_array', $params );
+		endif;
+
 	endif;
-	die();
+
 }
 
 /*
@@ -254,12 +264,6 @@ function pirate_forms_save_callback() {
 function pirate_forms_admin() {
 
 	$propercfp_options = get_option( 'pirate_forms_settings_array' );
-
-	$pirate_forms_params = array();
-
-	if( !empty($propercfp_options) ):
-		parse_str((string)$propercfp_options, $pirate_forms_params);
-	endif;
 
 	$plugin_options = pirate_forms_plugin_options();
 	?>
@@ -339,7 +343,7 @@ function pirate_forms_admin() {
 						endif;
 
 						/* Value */
-						$opt_val = isset( $pirate_forms_params[$opt_id] ) ? $pirate_forms_params[$opt_id] : $opt_default;
+						$opt_val = isset( $propercfp_options[$opt_id] ) ? $propercfp_options[$opt_id] : $opt_default;
 
 						/* Options if checkbox, select, or radio */
 						$opt_options = empty( $value[4] ) ? array() : $value[4];
@@ -427,23 +431,24 @@ function pirate_forms_admin() {
 	<?php
 }
 
-/**
- * Save default options if none exist
- */
+/***********************************************************/
+/*********** Save default options if none exist ***********/
+/**********************************************************/
+
 function proper_contact_form_settings_init() {
 
 	if ( ! get_option( 'pirate_forms_settings_array' ) ) {
 
 		$new_opt = array();
-
-		foreach ( pirate_forms_plugin_options() as $key => $opt ) {
-			$new_opt[$key] = $opt[3];
+		foreach ( pirate_forms_plugin_options() as $temparr ) {
+			foreach ($temparr as $key => $opt) {
+				$new_opt[$key] = $opt[3];
+			}
 		}
 
 		update_option( 'pirate_forms_settings_array', $new_opt );
 
 	}
-
 }
 
 add_action( 'admin_head', 'proper_contact_form_settings_init' );

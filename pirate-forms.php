@@ -64,20 +64,14 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 
 	if( !empty($pirate_forms_options) ):
 
-		$pirate_forms_params = array();
-
-		parse_str((string)$pirate_forms_options, $pirate_forms_params);
-
-		if( !empty($pirate_forms_params) ):
-
 			/******************************/
 			/********  Name field *********/
 			/******************************/
 
-			if( !empty($pirate_forms_params['pirateformsopt_name_field']) && !empty($pirate_forms_params['pirateformsopt_label_name']) ):
+			if( !empty($pirate_forms_options['pirateformsopt_name_field']) && !empty($pirate_forms_options['pirateformsopt_label_name']) ):
 
-				$pirateformsopt_name_field = $pirate_forms_params['pirateformsopt_name_field'];
-				$pirateformsopt_name_label = $pirate_forms_params['pirateformsopt_label_name'];
+				$pirateformsopt_name_field = $pirate_forms_options['pirateformsopt_name_field'];
+				$pirateformsopt_name_label = $pirate_forms_options['pirateformsopt_label_name'];
 
 				if ( !empty($pirateformsopt_name_field) && !empty($pirateformsopt_name_label) ):
 
@@ -106,10 +100,10 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 			/********  Email field **********/
 			/********************************/
 
-			if( !empty($pirate_forms_params['pirateformsopt_email_field']) && !empty($pirate_forms_params['pirateformsopt_label_email']) ):
+			if( !empty($pirate_forms_options['pirateformsopt_email_field']) && !empty($pirate_forms_options['pirateformsopt_label_email']) ):
 
-				$pirateformsopt_email_field = $pirate_forms_params['pirateformsopt_email_field'];
-				$pirateformsopt_email_label = $pirate_forms_params['pirateformsopt_label_email'];
+				$pirateformsopt_email_field = $pirate_forms_options['pirateformsopt_email_field'];
+				$pirateformsopt_email_label = $pirate_forms_options['pirateformsopt_label_email'];
 
 				if ( !empty($pirateformsopt_email_field) && !empty($pirateformsopt_email_label) ):
 
@@ -139,10 +133,10 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 			/********  Subject field ********/
 			/********************************/
 
-			if( !empty($pirate_forms_params['pirateformsopt_subject_field']) && !empty($pirate_forms_params['pirateformsopt_label_subject']) ):
+			if( !empty($pirate_forms_options['pirateformsopt_subject_field']) && !empty($pirate_forms_options['pirateformsopt_label_subject']) ):
 
-				$pirateformsopt_subject_field = $pirate_forms_params['pirateformsopt_subject_field'];
-				$pirateformsopt_subject_label = $pirate_forms_params['pirateformsopt_label_subject'];
+				$pirateformsopt_subject_field = $pirate_forms_options['pirateformsopt_subject_field'];
+				$pirateformsopt_subject_label = $pirate_forms_options['pirateformsopt_label_subject'];
 
 				if ( !empty($pirateformsopt_subject_field) && !empty($pirateformsopt_subject_label) ):
 
@@ -171,10 +165,10 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 			/********  Message field ********/
 			/********************************/
 
-			if( !empty($pirate_forms_params['pirateformsopt_message_field']) && !empty($pirate_forms_params['pirateformsopt_label_message']) ):
+			if( !empty($pirate_forms_options['pirateformsopt_message_field']) && !empty($pirate_forms_options['pirateformsopt_label_message']) ):
 
-				$pirateformsopt_message_field = $pirate_forms_params['pirateformsopt_message_field'];
-				$pirateformsopt_message_label = $pirate_forms_params['pirateformsopt_label_message'];
+				$pirateformsopt_message_field = $pirate_forms_options['pirateformsopt_message_field'];
+				$pirateformsopt_message_label = $pirate_forms_options['pirateformsopt_label_message'];
 
 				if ( !empty($pirateformsopt_message_field) && !empty($pirateformsopt_message_label) ):
 
@@ -205,9 +199,9 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 			/********  Submit button ********/
 			/********************************/
 
-			if( !empty($pirate_forms_params['pirateformsopt_label_submit_btn']) ):
+			if( !empty($pirate_forms_options['pirateformsopt_label_submit_btn']) ):
 
-				$pirateformsopt_label_submit_btn = $pirate_forms_params['pirateformsopt_label_submit_btn'];
+				$pirateformsopt_label_submit_btn = $pirate_forms_options['pirateformsopt_label_submit_btn'];
 
 				if ( !empty($pirateformsopt_label_submit_btn) ):
 
@@ -230,18 +224,14 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 			/********* ReCaptcha **********/
 			/******************************/
 
-			if( !empty($pirate_forms_params['pirateformsopt_recaptcha_secretkey']) && !empty($pirate_forms_params['pirateformsopt_recaptcha_sitekey']) && !empty($pirate_forms_params['pirateformsopt_recaptcha_field']) && ($pirate_forms_params['pirateformsopt_recaptcha_field'] == 'yes') ):
+			if( !empty($pirate_forms_options['pirateformsopt_recaptcha_secretkey']) && !empty($pirate_forms_options['pirateformsopt_recaptcha_sitekey']) && !empty($pirate_forms_options['pirateformsopt_recaptcha_field']) && ($pirate_forms_options['pirateformsopt_recaptcha_field'] == 'yes') ):
 
-				$pirateformsopt_recaptcha_sitekey = $pirate_forms_params['pirateformsopt_recaptcha_sitekey'];
-				$pirateformsopt_recaptcha_secretkey = $pirate_forms_params['pirateformsopt_recaptcha_secretkey'];
+				$pirateformsopt_recaptcha_sitekey = $pirate_forms_options['pirateformsopt_recaptcha_sitekey'];
+				$pirateformsopt_recaptcha_secretkey = $pirate_forms_options['pirateformsopt_recaptcha_secretkey'];
 
 				echo '<div class="g-recaptcha pirate-forms-g-recaptcha" data-sitekey="' . $pirateformsopt_recaptcha_sitekey . '"></div>';
 
 			endif;
-
-
-		endif;
-
 	endif;
 
 	/* Referring site or page, if any */
@@ -498,12 +488,8 @@ function pirate_forms_process_contact() {
 // Get a settings value
 function pirate_forms_get_key( $id ) {
 	$propercfp_options = get_option( 'pirate_forms_settings_array' );
-	$pirate_forms_params = array();
 
-	if( !empty($propercfp_options) ):
-		parse_str((string)$propercfp_options, $pirate_forms_params);
-	endif;
-	return isset( $pirate_forms_params[$id] ) ? $pirate_forms_params[$id] : '';
+	return isset( $propercfp_options[$id] ) ? $propercfp_options[$id] : '';
 }
 
 
@@ -519,11 +505,7 @@ function pirate_forms_add_styles_and_scripts() {
 
 	if( !empty($pirate_forms_options) ):
 
-		$pirate_forms_params = array();
-
-		parse_str((string)$pirate_forms_options, $pirate_forms_params);
-
-		if( !empty($pirate_forms_params) && !empty($pirate_forms_params['pirateformsopt_recaptcha_secretkey']) && !empty($pirate_forms_params['pirateformsopt_recaptcha_sitekey']) && !empty($pirate_forms_params['pirateformsopt_recaptcha_field']) && ($pirate_forms_params['pirateformsopt_recaptcha_field'] == 'yes') ):
+		if( !empty($pirate_forms_options['pirateformsopt_recaptcha_secretkey']) && !empty($pirate_forms_options['pirateformsopt_recaptcha_sitekey']) && !empty($pirate_forms_options['pirateformsopt_recaptcha_field']) && ($pirate_forms_options['pirateformsopt_recaptcha_field'] == 'yes') ):
 
 			wp_enqueue_script( 'recaptcha', 'https://www.google.com/recaptcha/api.js' );
 
