@@ -321,7 +321,10 @@ class PhpFormBuilder {
 					}
 					$end .= '</select>';
 					break;
-
+				case 'captcha':
+					$element = 'div';
+					$end     = ' class="g-recaptcha pirate-forms-g-recaptcha" data-sitekey="' .$val['value'] . '"></div>';
+					break;
 				case 'radio':
 				case 'checkbox':
 
