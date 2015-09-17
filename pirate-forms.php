@@ -229,7 +229,16 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 				$pirateformsopt_recaptcha_sitekey = $pirate_forms_options['pirateformsopt_recaptcha_sitekey'];
 				$pirateformsopt_recaptcha_secretkey = $pirate_forms_options['pirateformsopt_recaptcha_secretkey'];
 
-				echo '<div class="g-recaptcha pirate-forms-g-recaptcha" data-sitekey="' . $pirateformsopt_recaptcha_sitekey . '"></div>';
+				$pirate_form->add_input(
+					'',
+					array(
+						'value' => $pirateformsopt_recaptcha_sitekey,
+						'type' => 'captcha'
+					),
+					'pirate-forms-captcha'
+				);
+
+				//echo '<div class="g-recaptcha pirate-forms-g-recaptcha" data-sitekey="' . $pirateformsopt_recaptcha_sitekey . '"></div>';
 
 			endif;
 	endif;
@@ -277,7 +286,7 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
  */
 add_action( 'template_redirect', 'pirate_forms_process_contact' );
 function pirate_forms_process_contact() {
-
+	print_r($_POST);
 	// If POST, nonce and honeypot are not set, beat it
 	if ( empty( $_POST ) || empty( $_POST['wordpress-nonce'] ) || !isset( $_POST['honeypot'] )) {
 		return false;
@@ -369,27 +378,23 @@ function pirate_forms_process_contact() {
 	/************* Validate reCAPTCHA ****************/
 	/*************************************************/
 
-	$pirate_forms_options = get_option( 'pirate_forms_settings_array' );
 
-	if( !empty($pirate_forms_options) ):
-		$pirateformsopt_recaptcha_sitekey = $pirate_forms_options['pirateformsopt_recaptcha_sitekey'];
-		$pirateformsopt_recaptcha_secretkey = $pirate_forms_options['pirateformsopt_recaptcha_secretkey'];
-		$pirateformsopt_recaptcha_field = $pirate_forms_options['pirateformsopt_recaptcha_field'];
+	$pirateformsopt_recaptcha_sitekey = pirate_forms_get_key('pirateformsopt_recaptcha_sitekey');
+	$pirateformsopt_recaptcha_secretkey = pirate_forms_get_key('pirateformsopt_recaptcha_secretkey');
+	$pirateformsopt_recaptcha_field = pirate_forms_get_key('pirateformsopt_recaptcha_field');
 
-		if( !empty($pirateformsopt_recaptcha_secretkey) && !empty($pirateformsopt_recaptcha_sitekey) && !empty($pirateformsopt_recaptcha_field) && ($pirateformsopt_recaptcha_field == 'yes') ):
+	if( !empty($pirateformsopt_recaptcha_secretkey) && !empty($pirateformsopt_recaptcha_sitekey) && !empty($pirateformsopt_recaptcha_field) && ($pirateformsopt_recaptcha_field == 'yes') ):
 
-			if( isset($_POST['g-recaptcha-response']) ){
-				$captcha = $_POST['g-recaptcha-response'];
-			}
-			if( !$captcha ){
-				$_SESSION['pirate_forms_contact_errors']['pirate-forms-captcha'] = 'Wrong reCAPTCHA1';
-			}
-			$response = wp_remote_get( "https://www.google.com/recaptcha/api/siteverify?secret=".$pirateformsopt_recaptcha_secretkey."&response=".$captcha."&remoteip=".$_SERVER['REMOTE_ADDR'] );
-			if($response['body'].success==false) {
-				$_SESSION['pirate_forms_contact_errors']['pirate-forms-captcha'] = 'Wrong reCAPTCHA2';
-			}
-		endif;
-
+		if( isset($_POST['g-recaptcha-response']) ){
+			$captcha = $_POST['g-recaptcha-response'];
+		}
+		if( !$captcha ){
+			$_SESSION['pirate_forms_contact_errors']['pirate-forms-captcha'] = 'Wrong reCAPTCHA1';
+		}
+		$response = wp_remote_get( "https://www.google.com/recaptcha/api/siteverify?secret=".$pirateformsopt_recaptcha_secretkey."&response=".$captcha."&remoteip=".$_SERVER['REMOTE_ADDR'] );
+		if($response['body'].success==false) {
+			$_SESSION['pirate_forms_contact_errors']['pirate-forms-captcha'] = 'Wrong reCAPTCHA2';
+		}
 	endif;
 
 
@@ -453,6 +458,34 @@ function pirate_forms_process_contact() {
 
 		// Sent an email notification to the correct address
 		$headers   = "From: $send_from_name <$send_from>\r\nReply-To: $send_from_name <$send_from>";
+
+		add_action( 'phpmailer_init', 'pirate_forms_phpmailer' );
+
+		function pirate_forms_phpmailer( $phpmailer ) {
+
+			$pirateformsopt_use_smtp = pirate_forms_get_key( 'pirateformsopt_use_smtp' );
+			$pirateformsopt_smtp_host = pirate_forms_get_key( 'pirateformsopt_smtp_host' );
+			$pirateformsopt_smtp_port = pirate_forms_get_key( 'pirateformsopt_smtp_port' );
+			$pirateformsopt_smtp_username = pirate_forms_get_key( 'pirateformsopt_smtp_username' );
+			$pirateformsopt_smtp_password = pirate_forms_get_key( 'pirateformsopt_smtp_password' );
+			$pirateformsopt_use_smtp_authentication = pirate_forms_get_key('pirateformsopt_use_smtp_authentication');
+
+			if( !empty($pirateformsopt_use_smtp) && ($pirateformsopt_use_smtp == 'yes') && !empty($pirateformsopt_smtp_host) && !empty($pirateformsopt_smtp_port) ):
+
+				$phpmailer->isSMTP();
+				$phpmailer->Host = $pirateformsopt_smtp_host;
+
+				if( !empty($pirateformsopt_use_smtp_authentication) && ($pirateformsopt_use_smtp_authentication == 'yes') && !empty($pirateformsopt_smtp_username) && !empty($pirateformsopt_smtp_password) ):
+
+					$phpmailer->SMTPAuth = true; // Force it to use Username and Password to authenticate
+					$phpmailer->Port = $pirateformsopt_smtp_port;
+					$phpmailer->Username = $pirateformsopt_smtp_username;
+					$phpmailer->Password = $pirateformsopt_smtp_password;
+
+				endif;
+
+			endif;
+		}
 
 		wp_mail( $site_recipients, 'Contact on ' . $site_name, $body, $headers );
 

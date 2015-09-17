@@ -205,11 +205,43 @@ function pirate_forms_plugin_options() {
 				__( 'Adding text here will send an email to the form submitter. The email uses the "Text to show when form is submitted..." field below as the subject line. Plain text only here, no HTML.','pirate-forms' ),
 				'text',
 				'',
-			),
+			)
+		),
+		'fifth_tab' => array(
 			'pirateformsopt_use_smtp' => array(
 				__( 'Use SMTP to send emails?','pirate-forms' ),
 				__( 'Instad of PHP mail function','pirate-forms' ),
 				'checkbox',
+				'',
+			),
+			'pirateformsopt_smtp_host' => array(
+				__( 'SMTP Host','pirate-forms' ),
+				'',
+				'text',
+				'',
+			),
+			'pirateformsopt_smtp_port' => array(
+				__( 'SMTP Port','pirate-forms' ),
+				'',
+				'text',
+				'',
+			),
+			'pirateformsopt_use_smtp_authentication' => array(
+				__( 'Use SMTP Authentication?','pirate-forms' ),
+				__( 'If you check this box, make sure the SMTP Username and SMTP Password are completed.','pirate-forms' ),
+				'checkbox',
+				'yes',
+			),
+			'pirateformsopt_smtp_username' => array(
+				__( 'SMTP Username','pirate-forms' ),
+				'',
+				'text',
+				'',
+			),
+			'pirateformsopt_smtp_password' => array(
+				__( 'SMTP Password','pirate-forms' ),
+				'',
+				'text',
 				'',
 			)
 		)
@@ -286,6 +318,7 @@ function pirate_forms_admin() {
 			<li role="presentation"><a href="#2" aria-controls="labels" role="tab" data-toggle="tab"><?php esc_html_e( 'Labels','pirate-forms'); ?></a></li>
 			<li role="presentation"><a href="#3" aria-controls="messages" role="tab" data-toggle="tab"><?php esc_html_e( 'Messages','pirate-forms'); ?></a></li>
 			<li role="presentation"><a href="#4" aria-controls="options" role="tab" data-toggle="tab"><?php esc_html_e( 'Options','pirate-forms'); ?></a></li>
+			<li role="presentation"><a href="#5" aria-controls="smtp" role="tab" data-toggle="tab"><?php esc_html_e( 'SMTP','pirate-forms'); ?></a></li>
 		</ul>
 
 		<div class="pirate-forms-tab-content">
