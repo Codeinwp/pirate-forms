@@ -301,6 +301,8 @@ function pirate_forms_save_callback() {
  */
 function pirate_forms_admin() {
 
+	global $current_user;
+
 	$pirate_forms_options = get_option( 'pirate_forms_settings_array' );
 
 	$plugin_options = pirate_forms_plugin_options();
