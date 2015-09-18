@@ -202,7 +202,7 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 
 				if ( !empty($pirateformsopt_label_submit_btn) ):
 
-					//$wrap_classes = array( 'form_field_wrap', 'contact_submit_wrap' );
+					$wrap_classes = array();
 
 					$pirate_form->add_input(
 						'',
