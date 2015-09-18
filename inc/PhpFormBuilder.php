@@ -397,7 +397,7 @@ class PhpFormBuilder {
 			// Build the label
 			if ( ! empty( $label_html ) ) {
 				$field .= $label_html;
-			} elseif ( $val['add_label'] && ! in_array( $val['type'], array( 'hidden', 'submit', 'title', 'html' ) ) ) {
+			} elseif ( $val['add_label'] && ! in_array( $val['type'], array( 'hidden', 'submit', 'title', 'html', 'textarea', 'captcha' ) ) ) {
 				$field .= '<label for="' . $val['id'] . '">' . $val['label'] . '</label>';
 			}
 
