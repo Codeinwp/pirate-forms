@@ -7,7 +7,10 @@ Description: Easily creates a nice looking, simple contact form on your WP site.
 Version: 1.0.0
 Author: Themeisle
 Author URI: http://themeisle.com
-License: GPL2
+Text Domain: pirate-forms
+Domain Path: /languages
+License: GPLv2
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
 
 if ( ! function_exists( 'add_action' ) ) {
@@ -22,6 +25,16 @@ define( 'PIRATE_FORMS_URL', plugin_dir_url( __FILE__ ) );
 include_once( dirname( __FILE__ ) . '/inc/helpers.php' );
 include_once( dirname( __FILE__ ) . '/inc/settings.php' );
 include_once( dirname( __FILE__ ) . '/inc/widget.php' );
+
+add_action( 'plugins_loaded', 'pirate_forms_load_textdomain' );
+/**
+ * Load plugin textdomain.
+ *
+ * @since 1.0.0
+ */
+function pirate_forms_load_textdomain() {
+	load_plugin_textdomain( 'pirate-forms', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+}
 
 /**
  * Display the contact form or a confirmation message if submitted
@@ -388,7 +401,7 @@ function pirate_forms_process_contact() {
 			$captcha = $_POST['g-recaptcha-response'];
 		}
 		if( !$captcha ){
-			$_SESSION['pirate_forms_contact_errors']['pirate-forms-captcha'] = 'Wrong reCAPTCHA';
+			$_SESSION['pirate_forms_contact_errors']['pirate-forms-captcha'] = __( 'Wrong reCAPTCHA','pirate-forms' );
 		}
 		$response = wp_remote_get( "https://www.google.com/recaptcha/api/siteverify?secret=".$pirateformsopt_recaptcha_secretkey."&response=".$captcha."&remoteip=".$_SERVER['REMOTE_ADDR'] );
 
@@ -401,7 +414,7 @@ function pirate_forms_process_contact() {
 		endif;
 
 		if( isset($result['success']) && ($result['success'] == false) ) {
-			$_SESSION['pirate_forms_contact_errors']['pirate-forms-captcha'] = 'Wrong reCAPTCHA';
+			$_SESSION['pirate_forms_contact_errors']['pirate-forms-captcha'] = __( 'Wrong reCAPTCHA','pirate-forms' );
 		}
 	endif;
 
