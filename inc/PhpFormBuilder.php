@@ -358,8 +358,10 @@ class PhpFormBuilder {
 						$label_html = '<div class="checkbox_header">' . $val['label'] . '</div>';
 						break;
 					endif;
-
-				// Used for all text fields (text, email, url, etc), single radios, single checkboxes, and submit
+				case 'submit':
+					$element = 'button';
+					$end .= ' class="" type="' . $val['type'] . '">' . $val['value'] . '</button>';
+					break;
 				default :
 					$element = 'input';
 					$end .= ' class="form-control" type="' . $val['type'] . '" value="' . $val['value'] . '" placeholder="'.$val['placeholder'].'"';
