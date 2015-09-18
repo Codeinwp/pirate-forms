@@ -36,10 +36,12 @@ add_shortcode( 'pirate_forms', 'pirate_forms_display_form' );
 function pirate_forms_display_form( $atts, $content = NULL ) {
 
 	/* thank you message */
+	$pirate_forms_thankyou_message = '';
+
 	if ( isset( $_GET['pcf'] ) && $_GET['pcf'] == 1 ) {
-		return '
+		$pirate_forms_thankyou_message .= '
 		<div class="pirate_forms_thankyou_wrap">
-			<h2>' . sanitize_text_field( pirate_forms_get_key( 'pirateformsopt_label_submit' ) ) . '</h2>
+			<p>' . sanitize_text_field( pirate_forms_get_key( 'pirateformsopt_label_submit' ) ) . '</p>
 		</div>';
 	}
 
@@ -237,8 +239,6 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 					'pirate-forms-captcha'
 				);
 
-				//echo '<div class="g-recaptcha pirate-forms-g-recaptcha" data-sitekey="' . $pirateformsopt_recaptcha_sitekey . '"></div>';
-
 			endif;
 	endif;
 
@@ -272,7 +272,7 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 	}
 
 	/* Display the form */
-	return '
+	return $pirate_forms_thankyou_message.'
 	<div class="pirate_forms_wrap">
 	' . $errors . '
 	' . $pirate_form->build_form( FALSE ) . '
@@ -285,7 +285,7 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
  */
 add_action( 'template_redirect', 'pirate_forms_process_contact' );
 function pirate_forms_process_contact() {
-	print_r($_POST);
+
 	// If POST, nonce and honeypot are not set, beat it
 	if ( empty( $_POST ) || empty( $_POST['wordpress-nonce'] ) || !isset( $_POST['honeypot'] )) {
 		return false;

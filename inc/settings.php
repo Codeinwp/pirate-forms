@@ -7,6 +7,52 @@
  *
  */
 function pirate_forms_plugin_options() {
+
+	/*********************************************************/
+	/************  Default values from Zerif Lite ************/
+	/*********************************************************/
+
+	$zerif_contactus_sitekey = get_theme_mod('zerif_contactus_sitekey');
+
+	if( !empty($zerif_contactus_sitekey) ):
+		$pirate_forms_contactus_sitekey = $zerif_contactus_sitekey;
+	else:
+		$pirate_forms_contactus_sitekey = '';
+	endif;
+
+	$zerif_contactus_secretkey = get_theme_mod('zerif_contactus_secretkey');
+	if( !empty($zerif_contactus_secretkey) ):
+		$pirate_forms_contactus_secretkey = $zerif_contactus_secretkey;
+	else:
+		$pirate_forms_contactus_secretkey = '';
+	endif;
+
+	$zerif_contactus_recaptcha_show = get_theme_mod('zerif_contactus_recaptcha_show');
+
+	if( isset($zerif_contactus_recaptcha_show) && $zerif_contactus_recaptcha_show != 1 ):
+		$pirate_forms_contactus_recaptcha_show = 'yes';
+	else:
+		$pirate_forms_contactus_recaptcha_show = '';
+	endif;
+
+	$zerif_contactus_button_label = get_theme_mod('zerif_contactus_button_label',__('Send Message','zerif-lite'));
+	if( !empty($zerif_contactus_button_label) ):
+		$pirate_forms_contactus_button_label = $zerif_contactus_button_label;
+	else:
+		$pirate_forms_contactus_button_label = __( 'Send Message','pirate-forms' );
+	endif;
+
+	$zerif_contactus_email = get_theme_mod('zerif_contactus_email');
+	$zerif_email = get_theme_mod('zerif_email');
+
+	if( !empty($zerif_contactus_email) ):
+		$pirate_forms_contactus_email = $zerif_contactus_email;
+	elseif( !empty($zerif_email) ):
+		$pirate_forms_contactus_email = $zerif_email;
+	else:
+		$pirate_forms_contactus_email = get_bloginfo( 'admin_email' );
+	endif;
+
 	return array(
 		'first_tab' => array(
 			'header_fields' => array(
@@ -68,21 +114,21 @@ function pirate_forms_plugin_options() {
 				__( 'Add a reCAPTCHA','pirate-forms' ),
 				'',
 				'checkbox',
-				'',
+				$pirate_forms_contactus_recaptcha_show,
 			),
 			/* Site key */
 			'pirateformsopt_recaptcha_sitekey' => array(
 				__( 'Site key','pirate-forms' ),
 				'<a href="https://www.google.com/recaptcha/admin#list" target="_blank">'.__( 'Create an account here ','pirate-forms' ).'</a>'.__( 'to get the Site key and the Secret key for the reCaptcha.','pirate-forms' ),
 				'text',
-				'',
+				$pirate_forms_contactus_sitekey,
 			),
 			/* Secret key */
 			'pirateformsopt_recaptcha_secretkey' => array(
 				__( 'Secret key','pirate-forms' ),
 				'',
 				'text',
-				'',
+				$pirate_forms_contactus_secretkey,
 			),
 
 		),
@@ -121,7 +167,7 @@ function pirate_forms_plugin_options() {
 				__( 'Submit button','pirate-forms' ),
 				'',
 				'text',
-				__( 'Send Message','pirate-forms' )
+				$pirate_forms_contactus_button_label
 			)
 		),
 		'third_tab' => array(
@@ -159,7 +205,7 @@ function pirate_forms_plugin_options() {
 				__( 'Successful form submission text','pirate-forms' ),
 				__( 'This text is used on the page if no "Thank You" URL is set above. This is also used as the confirmation email title, if one is set to send out.','pirate-forms' ),
 				'text',
-				__( 'Thank you for your contact!','pirate-forms' )
+				__( 'Thanks, your email was sent successfully!','pirate-forms' )
 			)
 		),
 		'fourth_tab' => array(
@@ -174,7 +220,7 @@ function pirate_forms_plugin_options() {
 				__( 'Email to use for the sender of the contact form emails both to the recipients below and the contact form submitter (if this is activated below). The domain for this email address should match your site\'s domain.',
 					'email','pirate-forms' ),
 				'text',
-				get_bloginfo( 'admin_email' )
+				$pirate_forms_contactus_email
 			),
 			'pirateformsopt_reply_to_admin' => array(
 				__( 'Use the email address above as notification sender','pirate-forms' ),
@@ -186,7 +232,7 @@ function pirate_forms_plugin_options() {
 				__( 'Contact submission recipients','pirate-forms' ),
 				__( 'Email address(es) to receive contact submission notifications. You can separate multiple emails with a comma.','pirate-forms' ),
 				'text',
-				pirate_forms_get_key( 'pirateformsopt_email' ) ? pirate_forms_get_key( 'pirateformsopt_email' ) : get_bloginfo( 'admin_email' )
+				pirate_forms_get_key( 'pirateformsopt_email' ) ? pirate_forms_get_key( 'pirateformsopt_email' ) : $pirate_forms_contactus_email
 			),
 			'pirateformsopt_store' => array(
 				__( 'Store submissions in the database','pirate-forms' ),
