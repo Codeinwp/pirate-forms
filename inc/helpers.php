@@ -12,13 +12,13 @@ if ( ! function_exists( 'pirate_forms_display_errors' ) ) {
 
 		if( !empty($errs) ):
 
-			$output = '<div class="pirate_forms_error_box"><ul>';
-
+			$output = '<div class="pirate_forms_error_box">';
+			$output .= '<p>'.__( 'Sorry, an error occured.','pirate-forms' ).'</p>';
 			foreach ( $errs as $err ) :
-				$output .= "<li>$err</li>";
+				$output .= "<p>$err</p>";
 			endforeach;
 
-			$output .= '</ul></div>';
+			$output .= '</div>';
 
 		endif;
 
