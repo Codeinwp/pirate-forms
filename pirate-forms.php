@@ -388,11 +388,20 @@ function pirate_forms_process_contact() {
 			$captcha = $_POST['g-recaptcha-response'];
 		}
 		if( !$captcha ){
-			$_SESSION['pirate_forms_contact_errors']['pirate-forms-captcha'] = 'Wrong reCAPTCHA1';
+			$_SESSION['pirate_forms_contact_errors']['pirate-forms-captcha'] = 'Wrong reCAPTCHA';
 		}
 		$response = wp_remote_get( "https://www.google.com/recaptcha/api/siteverify?secret=".$pirateformsopt_recaptcha_secretkey."&response=".$captcha."&remoteip=".$_SERVER['REMOTE_ADDR'] );
-		if($response['body'].success==false) {
-			$_SESSION['pirate_forms_contact_errors']['pirate-forms-captcha'] = 'Wrong reCAPTCHA2';
+
+		if( !empty($response) ):
+			$response_body = wp_remote_retrieve_body( $response );
+		endif;
+
+		if( !empty($response_body) ):
+			$result = json_decode( $response_body, true );
+		endif;
+
+		if( isset($result['success']) && ($result['success'] == false) ) {
+			$_SESSION['pirate_forms_contact_errors']['pirate-forms-captcha'] = 'Wrong reCAPTCHA';
 		}
 	endif;
 
