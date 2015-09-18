@@ -9,29 +9,11 @@ class pirate_forms_contact_widget extends WP_Widget {
 	/**
 	 *  Widget constructor
 	 */
-	function pirate_forms_contact_widget() {
-
-		/* Widget settings. */
-		$widget_ops = array( 'classname'   => __FUNCTION__, 'description' => __( 'Pirate Forms','pirate-forms') );
-
-		/* Create the widget. */
-		$this->WP_Widget( 'pirate_forms_contact_widget', __( 'Pirate Forms','pirate-forms' ), $widget_ops );
-
-		$this->widget_fields = array(
-			array(
-				'label'       => __( 'Title','pirate-forms' ),
-				'type'        => 'text',
-				'id'          => 'pirate_forms_widget_title',
-				'description' => '',
-				'default'     => ''
-			),
-			array(
-				'label'       => __( 'Text above form','pirate-forms' ),
-				'type'        => 'textarea',
-				'id'          => 'pirate_forms_widget_subtext',
-				'description' => '',
-				'default'     => ''
-			),
+	public function __construct() {
+		parent::__construct(
+			'pirate_forms_contact_widget',
+			__( 'Pirate Forms', 'pirate-forms' ),
+			array( 'classname'   => __FUNCTION__, 'description' => __( 'Pirate Forms','pirate-forms') )
 		);
 	}
 
@@ -90,91 +72,20 @@ class pirate_forms_contact_widget extends WP_Widget {
 	 */
 	function form( $instance ) {
 
-		for ( $i = 0; $i < count( $this->widget_fields ); $i ++ ) :
-			$field_id                              = $this->widget_fields[$i]['id'];
-			$this->widget_fields[$i]['field_id']   = $this->get_field_id( $field_id );
-			$this->widget_fields[$i]['field_name'] = $this->get_field_name( $field_id );
-		endfor;
-
-		pirate_forms_output_widget_fields( $this->widget_fields, $instance );
+		$pirate_forms_widget_title = ! empty( $instance['pirate_forms_widget_title'] ) ? $instance['pirate_forms_widget_title'] : __( 'Title','pirate-forms' );
+		$pirate_forms_widget_subtext = ! empty( $instance['pirate_forms_widget_subtext'] ) ? $instance['pirate_forms_widget_subtext'] : __( 'Text above form','pirate-forms' );
+		?>
+		<p>
+			<label for="<?php echo $this->get_field_id( 'pirate_forms_widget_title' ); ?>"><?php _e( 'Title:' ); ?></label>
+			<input class="widefat" id="<?php echo $this->get_field_id( 'pirate_forms_widget_title' ); ?>" name="<?php echo $this->get_field_name( 'pirate_forms_widget_title' ); ?>" type="text" value="<?php echo esc_attr( $pirate_forms_widget_title ); ?>">
+		</p>
+		<p>
+			<label for="<?php echo $this->get_field_id( 'pirate_forms_widget_subtext' ); ?>"><?php _e( 'Subtext:' ); ?></label>
+			<textarea class="widefat" id="<?php echo $this->get_field_id( 'pirate_forms_widget_subtext' ); ?>" name="<?php echo $this->get_field_name( 'pirate_forms_widget_subtext' ); ?>"><?php echo esc_attr( $pirate_forms_widget_subtext ); ?></textarea>
+		</p>
+		<?php
 
 	}
 }
 
 add_action( 'widgets_init', create_function( '', 'return register_widget("pirate_forms_contact_widget");' ) );
-
-/**
- * Builds all widget admin forms
- *
- * @see WP_Widget::widget()
- *
- * @param array  $fields
- * @param object $instance
- */
-function pirate_forms_output_widget_fields( $fields, $instance ) {
-
-	foreach ( $fields as $field ) :
-
-		echo '<p>';
-
-		switch ( $field['type'] ) :
-
-			case 'text':
-			case 'email':
-			case 'url':
-			case 'number':
-				?>
-
-				<label for="<?php echo $field['field_id'] ?>"><?php echo $field['label'] ?></label>
-				<input type="<?php echo $field['type'] ?>" id="<?php echo $field['field_id'] ?>" name="<?php echo $field['field_name'] ?>" value="<?php echo isset( $instance[$field['id']] ) ? $instance[$field['id']] : $field['default'] ?>" class="widefat"/>
-				<?php echo ! empty( $field['description'] ) ? '<span class="description">' . $field['description'] . '</span>' : '' ?>
-
-				<?php
-				break;
-
-			case 'textarea':
-				?>
-
-				<label for="<?php echo $field['field_id'] ?>"><?php echo $field['label'] ?></label>
-				<textarea id="<?php echo $field['field_id'] ?>" name="<?php echo $field['field_name'] ?>" style="display: block; width: 100%"><?php echo isset( $instance[$field['id']] ) ? $instance[$field['id']] : $field['default'] ?></textarea>
-				<?php echo ! empty( $field['description'] ) ? '<span class="description">' .  $field['description'] . '</span>' : '' ?>
-
-				<?php
-				break;
-
-			case 'checkbox':
-				?>
-
-				<input type="checkbox" id="<?php echo $field['field_id'] ?>" name="<?php echo $field['field_name'] ?>" value="1" <?php if ( isset( $instance[$field['id']] ) && $instance[$field['id']] == 1 ) echo 'checked' ?>/>
-				<label for="<?php echo $field['field_id'] ?>" style="font-weight: bold"><?php echo $field['label'] ?></label>
-				<?php echo ! empty( $field['description'] ) ? '<span class="description">' . $field['description'] . '</span>' : '' ?>
-
-				<?php
-				break;
-
-			case 'select':
-				if ( is_array( $field['options'] ) ) :
-					?>
-					<label for="<?php echo $field['field_id'] ?>"><?php echo $field['label'] ?></label>
-					<select id="<?php echo $field['field_id'] ?>" name="<?php echo $field['field_name'] ?>" style="display: block; width: 100%">
-						<?php
-						foreach ( $field['options'] as $key => $val ) :
-							// Selecting the current set option
-							$checked = isset( $instance[$field['id']] ) && $instance[$field['id']] == $key ? ' selected' : '';
-							?>
-							<option value="<?php echo $key ?>"<?php echo $checked ?>><?php echo $val ?></option>
-						<?php
-						endforeach;
-						?>
-					</select>
-				<?php
-				endif;
-				break;
-
-		endswitch;
-
-		echo '</p>';
-
-	endforeach;
-
-}

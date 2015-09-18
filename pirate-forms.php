@@ -23,9 +23,6 @@ include_once( dirname( __FILE__ ) . '/inc/helpers.php' );
 include_once( dirname( __FILE__ ) . '/inc/settings.php' );
 include_once( dirname( __FILE__ ) . '/inc/widget.php' );
 
-wp_enqueue_script( 'pirate_forms_scripts', plugins_url( 'js/scripts.js', __FILE__ ), array('jquery') );
-wp_localize_script( 'pirate_forms_scripts', 'cwp_top_ajaxload', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
-
 /**
  * Display the contact form or a confirmation message if submitted
  *
@@ -553,6 +550,9 @@ function pirate_forms_get_key( $id ) {
 add_action( 'wp_enqueue_scripts', 'pirate_forms_add_styles_and_scripts' );
 
 function pirate_forms_add_styles_and_scripts() {
+
+	wp_enqueue_script( 'pirate_forms_scripts', plugins_url( 'js/scripts.js', __FILE__ ), array('jquery') );
+	wp_localize_script( 'pirate_forms_scripts', 'cwp_top_ajaxload', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 
 	/* style for frontpage contact */
 	wp_enqueue_style( 'pirate_forms_front_styles', PIRATE_FORMS_URL . 'css/front.css' );
