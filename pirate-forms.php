@@ -553,9 +553,6 @@ add_action( 'wp_enqueue_scripts', 'pirate_forms_add_styles_and_scripts' );
 
 function pirate_forms_add_styles_and_scripts() {
 
-	wp_enqueue_script( 'pirate_forms_scripts', plugins_url( 'js/scripts.js', __FILE__ ), array('jquery') );
-	wp_localize_script( 'pirate_forms_scripts', 'cwp_top_ajaxload', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
-
 	/* style for frontpage contact */
 	wp_enqueue_style( 'pirate_forms_front_styles', PIRATE_FORMS_URL . 'css/front.css' );
 
@@ -572,6 +569,8 @@ function pirate_forms_add_styles_and_scripts() {
 
 	endif;
 
+	wp_enqueue_script( 'pirate_forms_scripts', plugins_url( 'js/scripts.js', __FILE__ ), array('jquery','recaptcha') );
+
 }
 
 add_action( 'admin_enqueue_scripts', 'pirate_forms_admin_css' );
@@ -584,8 +583,10 @@ function pirate_forms_admin_css() {
 		&& isset( $_GET['page'] ) && $_GET['page'] == 'pirate-forms-admin' ) {
 
 		wp_enqueue_style( 'pirate_forms_admin_styles', PIRATE_FORMS_URL . 'css/wp-admin.css' );
-	}
 
+		wp_enqueue_script( 'pirate_forms_scripts_admin', plugins_url( 'js/scripts-admin.js', __FILE__ ), array('jquery') );
+		wp_localize_script( 'pirate_forms_scripts_admin', 'cwp_top_ajaxload', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
+	}
 }
 
 /**************************************************************************/
