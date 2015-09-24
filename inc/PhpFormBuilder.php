@@ -206,7 +206,7 @@ class PhpFormBuilder {
 		$output = '';
 
 		if ( $this->form['form_element'] ) {
-			$output .= '<form method="' . $this->form['method'] . '" onSubmit="this.scrollPosition.value=(document.body.scrollTop || document.documentElement.scrollTop)"';
+			$output .= '<form method="' . $this->form['method'] . '" ';
 
 			if ( ! empty( $this->form['enctype'] ) ) {
 				$output .= ' enctype="' . $this->form['enctype'] . '"';
