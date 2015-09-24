@@ -256,7 +256,7 @@ function pirate_forms_plugin_options() {
 		'fifth_tab' => array(
 			'pirateformsopt_use_smtp' => array(
 				__( 'Use SMTP to send emails?','pirate-forms' ),
-				__( 'Instad of PHP mail function','pirate-forms' ),
+				__( 'Instead of PHP mail function','pirate-forms' ),
 				'checkbox',
 				'',
 			),
