@@ -550,7 +550,7 @@ function pirate_forms_process_contact() {
 		}
 
 
-		$redirect = $_SERVER["HTTP_REFERER"] . ( strpos( $_SERVER["HTTP_REFERER"], '?' ) === FALSE ? '?' : '&' ) . 'pcf=1';
+		$redirect = $_SERVER["HTTP_REFERER"] . ( strpos( $_SERVER["HTTP_REFERER"], '?' ) === FALSE ? '?' : '&' ) . 'pcf=1#contact';
 
 
 		wp_safe_redirect( $redirect );
