@@ -57,3 +57,10 @@ Activating the Pirate Forms plugin is just like any other plugin. If you've uplo
 5. Now, you're able to add contact forms but, first, we could configure a few settings. These can be found at **Settings > Pirate Forms**
 6. Make the changes desired, then click the **Save changes** button at the bottom
 7. To add this form to any page or post, just copy/paste or type "[pirate_forms]" into the page or post content and save. The form should appear on that page
+
+== Screenshots ==
+
+1. Screenshot 1. How to use in posts/pages
+2. Screenshot 2. How to customize labels
+3. Screenshot 3. How to use reCaptcha
+4. Screenshot 4. Enabling SMTP
