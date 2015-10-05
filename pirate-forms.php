@@ -417,6 +417,15 @@ function pirate_forms_process_contact() {
 		}
 	endif;
 
+	/************************************************/
+	/********** Validate recipients email ***********/
+	/************************************************/
+	$site_recipients = sanitize_text_field( pirate_forms_get_key( 'pirateformsopt_email_recipients' ) );
+
+
+	if ( empty($site_recipients) ) {
+		$_SESSION['pirate_forms_contact_errors']['pirate-forms-recipients-email'] = __( 'Please enter one or more Contact submission recipients','pirate-forms' );
+	}
 
 	/**********************************************/
 	/********   Sanitize and validate IP  *********/
@@ -586,12 +595,23 @@ function pirate_forms_add_styles_and_scripts() {
 
 			wp_enqueue_script( 'recaptcha', 'https://www.google.com/recaptcha/api.js' );
 
+			wp_enqueue_script( 'pirate_forms_scripts', plugins_url( 'js/scripts.js', __FILE__ ), array('jquery','recaptcha') );
+
 		endif;
 
 	endif;
 
-	wp_enqueue_script( 'pirate_forms_scripts', plugins_url( 'js/scripts.js', __FILE__ ), array('jquery','recaptcha') );
+	wp_enqueue_script( 'pirate_forms_scripts_general', plugins_url( 'js/scripts-general.js', __FILE__ ), array('jquery') );
 
+	$pirate_forms_errors = '';
+
+	if( !empty($_SESSION['pirate_forms_contact_errors'])):
+		$pirate_forms_errors = $_SESSION['pirate_forms_contact_errors'];
+	endif;
+
+	wp_localize_script( 'pirate_forms_scripts_general', 'pirateFormsObject', array(
+		'errors' => $pirate_forms_errors
+	) );
 }
 
 add_action( 'admin_enqueue_scripts', 'pirate_forms_admin_css' );

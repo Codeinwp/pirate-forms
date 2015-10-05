@@ -45,12 +45,11 @@ function pirate_forms_plugin_options() {
 	$zerif_contactus_email = get_theme_mod('zerif_contactus_email');
 	$zerif_email = get_theme_mod('zerif_email');
 
+	$pirate_forms_contactus_email = '';
 	if( !empty($zerif_contactus_email) ):
 		$pirate_forms_contactus_email = $zerif_contactus_email;
 	elseif( !empty($zerif_email) ):
 		$pirate_forms_contactus_email = $zerif_email;
-	else:
-		$pirate_forms_contactus_email = get_bloginfo( 'admin_email' );
 	endif;
 
 	return array(
