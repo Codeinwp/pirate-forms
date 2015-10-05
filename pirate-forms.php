@@ -676,3 +676,13 @@ if ( pirate_forms_get_key( 'pirateformsopt_store' ) === 'yes' ) {
 
 }
 
+/**
+ * Add a Settings link in the plugins list for the Pirate Forms
+ */
+function pirate_forms_add_settings_link( $links ) {
+	$settings_link = '<a href="options-general.php?page=pirate-forms-admin">' . __( 'Settings','pirate-forms' ) . '</a>';
+	array_push( $links, $settings_link );
+	return $links;
+}
+$plugin = plugin_basename( __FILE__ );
+add_filter( "plugin_action_links_$plugin", 'pirate_forms_add_settings_link' );
