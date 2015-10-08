@@ -332,10 +332,48 @@ function pirate_forms_save_callback() {
 		endif;
 
 		if( !empty($params) ):
+		
 			update_option( 'pirate_forms_settings_array', $params );
+			
+			$pirate_forms_zerif_lite_mods = get_option('theme_mods_zerif-lite');
+			
+			if( !empty($pirate_forms_zerif_lite_mods) ):
+			
+				if( isset($params['pirateformsopt_label_submit_btn']) ):
+					$pirate_forms_zerif_lite_mods['zerif_contactus_button_label'] = $params['pirateformsopt_label_submit_btn'];
+				endif;	
+				
+				if( isset($params['pirateformsopt_email']) ):
+					$pirate_forms_zerif_lite_mods['zerif_contactus_email'] = $params['pirateformsopt_email'];
+				endif;
+				
+				if( isset($params['pirateformsopt_email_recipients']) ):
+					$pirate_forms_zerif_lite_mods['zerif_contactus_email'] = $params['pirateformsopt_email_recipients'];
+				endif;	
+				
+				if( isset($params['pirateformsopt_recaptcha_field']) && ($params['pirateformsopt_recaptcha_field'] == 'yes') ):
+					$pirate_forms_zerif_lite_mods['zerif_contactus_recaptcha_show'] = '0';
+				else:
+					$pirate_forms_zerif_lite_mods['zerif_contactus_recaptcha_show'] = '1';
+				endif;
+				
+				if( isset($params['pirateformsopt_recaptcha_sitekey']) ):
+					$pirate_forms_zerif_lite_mods['zerif_contactus_sitekey'] = $params['pirateformsopt_recaptcha_sitekey'];
+				endif;	
+				
+				if( isset($params['pirateformsopt_recaptcha_secretkey']) ):
+					$pirate_forms_zerif_lite_mods['zerif_contactus_secretkey'] = $params['pirateformsopt_recaptcha_secretkey'];
+				endif;	
+				
+				update_option('theme_mods_zerif-lite', $pirate_forms_zerif_lite_mods);
+				
+			endif;
+			
 		endif;
 
 	endif;
+	
+	die();
 
 }
 
