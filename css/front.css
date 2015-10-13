@@ -18,6 +18,6 @@
 	margin-left: 15px;
     width: 90%;
 }
-.sidebar label, .sidebar-wrap label, #sidebar-secondary label {
+.sidebar .pirate_forms_wrap label, .sidebar-wrap .pirate_forms_wrap label, #sidebar-secondary .pirate_forms_wrap label {
 	display: none;
 }
