@@ -4,3 +4,20 @@
 .pirate-forms-g-recaptcha {
 	display: none;
 }
+.pirate_forms_wrap {
+	float:left;
+}
+.sidebar .pirate_forms_wrap, .sidebar-wrap .pirate_forms_wrap, #sidebar-secondary .pirate_forms_wrap {
+	margin-bottom: 20px;
+}
+.sidebar .form_field_wrap, .sidebar-wrap .form_field_wrap, #sidebar-secondary .form_field_wrap {
+	width: 100%;
+}
+.sidebar .pirate-forms-submit-button, .sidebar-wrap .pirate-forms-submit-button, #sidebar-secondary .pirate-forms-submit-button {
+	float:left !important;
+	margin-left: 15px;
+    width: 90%;
+}
+.sidebar label, .sidebar-wrap label, #sidebar-secondary label {
+	display: none;
+}
