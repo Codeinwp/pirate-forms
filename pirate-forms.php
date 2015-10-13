@@ -439,7 +439,7 @@ function pirate_forms_process_contact() {
 	}
 
 	// Sanitize and prepare referrer;
-	if ( ! empty( $_POST['contact-referrer'] ) ) {
+	if ( ! empty( $_POST['pirate-forms-contact-referrer'] ) ) {
 		$body .= "Came from: " . sanitize_text_field( $_POST['pirate-forms-contact-referrer'] ) . " \r";
 	}
 
