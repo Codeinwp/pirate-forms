@@ -690,3 +690,17 @@ function pirate_forms_add_settings_link( $links ) {
 }
 $plugin = plugin_basename( __FILE__ );
 add_filter( "plugin_action_links_$plugin", 'pirate_forms_add_settings_link' );
+
+/**
+ * Allow [pirate_forms] shortcode in text widget
+ */
+add_filter( 'widget_text', 'pirate_forms_widget_text_filter', 9 );
+
+function pirate_forms_widget_text_filter( $content ) {
+	if ( ! preg_match( '[pirate_forms]', $content ) )
+		return $content;
+
+	$content = do_shortcode( $content );
+
+	return $content;
+}
