@@ -681,7 +681,11 @@ if ( pirate_forms_get_key( 'pirateformsopt_store' ) === 'yes' ) {
  */
 function pirate_forms_add_settings_link( $links ) {
 	$settings_link = '<a href="options-general.php?page=pirate-forms-admin">' . __( 'Settings','pirate-forms' ) . '</a>';
-	array_push( $links, $settings_link );
+	if (function_exists('array_unshift')):
+		array_unshift( $links, $settings_link );
+	else:
+		array_push( $links, $settings_link ); 
+	endif;
 	return $links;
 }
 $plugin = plugin_basename( __FILE__ );
