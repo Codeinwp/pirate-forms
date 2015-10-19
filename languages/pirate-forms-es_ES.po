@@ -2,346 +2,316 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pirate Forms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-18 18:41+0200\n"
-"PO-Revision-Date: 2015-09-25 14:24+0200\n"
-"Last-Translator: \n"
+"POT-Creation-Date: 2015-10-15 12:30-0300\n"
+"PO-Revision-Date: 2015-10-15 12:30-0300\n"
+"Last-Translator: Caribdis Web Design <caribdisweb@gmail.com>\n"
 "Language-Team: \n"
+"Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e\n"
-"X-Poedit-Basepath: ../\n"
+"X-Poedit-Basepath: ..\n"
+"X-Generator: Poedit 1.8.5\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPath-1: inc\n"
 
-#: pirate-forms.php:261
-msgid "Contact Referrer"
-msgstr "Contacto Referente"
-
-#: pirate-forms.php:272
-msgid "Referring page"
-msgstr "Página de referencia"
-
-#: pirate-forms.php:312
-msgid "Nonce failed!"
-msgstr "Nonce failed!"
-
-#: pirate-forms.php:318
-msgid "Form submission failed!"
-msgstr "Envío del formulario fracasado!"
-
-#: pirate-forms.php:323
-msgid "Contact form submission on"
-msgstr "Formulario de contacto en la presentación"
-
-#: pirate-forms.php:404
-#: pirate-forms.php:417
-msgid "Wrong reCAPTCHA"
-msgstr "Equivocado reCAPTCHA"
-
-#: pirate-forms.php:448
-msgid "Form submission blocked!"
-msgstr "Envío del formulario bloqueado!"
-
-#: pirate-forms.php:630
-msgid "Add New Contact"
-msgstr "Añadir nuevo contacto"
-
-#: pirate-forms.php:631
-msgid "New Contact"
-msgstr "Nuevo contacto"
-
-#: pirate-forms.php:632
-msgid "Edit Contact"
-msgstr "Editar contacto"
-
-#: pirate-forms.php:633
-msgid "View Contact"
-msgstr "Ver contacto"
-
-#: pirate-forms.php:634
-msgid "All Contacts"
-msgstr "Todos los contactos"
-
-#: pirate-forms.php:635
-msgid "Search Contacts"
-msgstr "Búsqueda Contactos"
-
-#: pirate-forms.php:636
-msgid "Parent Contacts:"
-msgstr "Padres de contacto:"
-
-#: pirate-forms.php:637
-msgid "No contacts found."
-msgstr "No hay contactos encontrados."
-
-#: pirate-forms.php:638
-msgid "No contacts found in Trash."
-msgstr "No hay contactos encontrados en la basura."
-
-#: pirate-forms.php:642
-msgid "Contacts from Pirate Forms"
-msgstr "Contactos de las formas de pirata"
-
 #: inc/helpers.php:16
 msgid "Sorry, an error occured."
-msgstr "Lo sentimos, ha ocurrido un error."
+msgstr "Disculpe, ha ocurrido un error."
 
-#: inc/settings.php:38
-#: inc/settings.php:42
+#: inc/settings.php:38 inc/settings.php:42
 msgid "Send Message"
 msgstr "Enviar mensaje"
 
-#: inc/settings.php:59
+#: inc/settings.php:58
 msgid "Fields"
 msgstr "Campos"
 
-#: inc/settings.php:66
-#: inc/settings.php:143
+#: inc/settings.php:65 inc/settings.php:142
 msgid "Name"
 msgstr "Nombre"
 
-#: inc/settings.php:67
+#: inc/settings.php:66
 msgid "Do you want the name field to be displayed?"
-msgstr "Quieres el campo del nombre que se mostrará?"
+msgstr "¿Desea mostrar el campo \"Nombre\"?"
 
-#: inc/settings.php:71
-#: inc/settings.php:83
-#: inc/settings.php:95
-#: inc/settings.php:107
+#: inc/settings.php:70 inc/settings.php:82 inc/settings.php:94
+#: inc/settings.php:106
 msgid "None"
-msgstr "Nada"
+msgstr "No"
 
-#: inc/settings.php:72
-#: inc/settings.php:84
-#: inc/settings.php:96
-#: inc/settings.php:108
+#: inc/settings.php:71 inc/settings.php:83 inc/settings.php:95
+#: inc/settings.php:107
 msgid "Yes but not required"
-msgstr "Sí, pero no es obligatorio"
+msgstr "Sí, pero no obligatorio"
 
-#: inc/settings.php:73
-#: inc/settings.php:85
-#: inc/settings.php:97
-#: inc/settings.php:109
+#: inc/settings.php:72 inc/settings.php:84 inc/settings.php:96
+#: inc/settings.php:108
 msgid "Required"
-msgstr "Requerido"
+msgstr "Obligatorio"
+
+#: inc/settings.php:77
+msgid "Email address"
+msgstr "Dirección de correo electrónico"
 
 #: inc/settings.php:78
-msgid "Email address"
-msgstr "Correo electrónico"
-
-#: inc/settings.php:79
 msgid "Do you want the email address field be displayed?"
-msgstr "Quieres mostrará el campo de dirección de correo electrónico ?"
+msgstr "¿Desea mostrar el campo \"Dirección de correo electrónico\"?"
+
+#: inc/settings.php:89 inc/settings.php:154 inc/settings.php:157
+msgid "Subject"
+msgstr "Asunto"
 
 #: inc/settings.php:90
-#: inc/settings.php:155
-#: inc/settings.php:158
-msgid "Subject"
-msgstr "Sujeto"
-
-#: inc/settings.php:91
 msgid "Do you want the subject field be displayed?"
-msgstr "Quieres que se mostrará el campo del asunto ?"
+msgstr "¿Desea mostrar el campo \"Asunto\"?"
 
-#: inc/settings.php:102
-#: inc/settings.php:161
+#: inc/settings.php:101 inc/settings.php:160
 msgid "Message"
 msgstr "Mensaje"
 
-#: inc/settings.php:114
+#: inc/settings.php:113
 msgid "Add a reCAPTCHA"
 msgstr "Añadir un reCAPTCHA"
 
-#: inc/settings.php:121
+#: inc/settings.php:120
 msgid "Site key"
-msgstr "Clave del Sitio"
+msgstr "Clave del sitio"
 
-#: inc/settings.php:122
+#: inc/settings.php:121
 msgid "Create an account here "
-msgstr "Crear una cuenta aquí"
+msgstr "Crear una cuenta aquí "
 
-#: inc/settings.php:122
+#: inc/settings.php:121
 msgid "to get the Site key and the Secret key for the reCaptcha."
-msgstr "para conseguir la llave del sitio y la clave secreta para el reCaptcha."
+msgstr "para obtener la clave del sitio y la clave secreta para el reCaptcha."
 
-#: inc/settings.php:128
+#: inc/settings.php:127
 msgid "Secret key"
-msgstr "Llave secreta"
+msgstr "Clave secreta"
 
-#: inc/settings.php:137
+#: inc/settings.php:136
 msgid "Labels"
 msgstr "Etiquetas"
 
-#: inc/settings.php:146
+#: inc/settings.php:145
 msgid "Your Name"
-msgstr "Tu nombre"
+msgstr "Nombre"
 
-#: inc/settings.php:149
+#: inc/settings.php:148
 msgid "Email"
 msgstr "Correo electrónico"
 
-#: inc/settings.php:152
+#: inc/settings.php:151
 msgid "Your Email"
-msgstr "Tu correo electrónico"
+msgstr "Correo electrónico"
 
-#: inc/settings.php:164
+#: inc/settings.php:163
 msgid "Your message"
-msgstr "Tu mensaje"
+msgstr "Mensaje"
 
-#: inc/settings.php:167
+#: inc/settings.php:166
 msgid "Submit button"
-msgstr "Botón Enviar"
+msgstr "Botón \"Enviar\""
 
-#: inc/settings.php:175
+#: inc/settings.php:174
 msgid "Messages"
 msgstr "Mensajes"
 
-#: inc/settings.php:181
+#: inc/settings.php:180
 msgid "Name required and missing"
-msgstr "Nombre obligatorio y desaparecidos"
+msgstr "Falta el nombre y es obligatorio"
 
-#: inc/settings.php:184
+#: inc/settings.php:183
 msgid "Enter your name"
-msgstr "Introduzca su nombre"
+msgstr "Escriba su nombre"
 
-#: inc/settings.php:187
+#: inc/settings.php:186
 msgid "E-mail required and missing"
-msgstr "E-mail requerida y desaparecidos"
+msgstr "Falta el correo electrónico y es obligatorio"
 
-#: inc/settings.php:190
+#: inc/settings.php:189
 msgid "Enter a valid email"
-msgstr "Ingrese un correo electrónico válido"
+msgstr "Escriba un correo electrónico válido"
 
-#: inc/settings.php:193
+#: inc/settings.php:192
 msgid "Subject required and missing"
-msgstr "Asunto requerida y desaparecidos"
+msgstr "Falta el asunto y es obligatorio"
 
-#: inc/settings.php:196
+#: inc/settings.php:195
 msgid "Please enter a subject"
-msgstr "Por favor, introduzca un asunto"
+msgstr "Por favor, escriba un asunto"
 
-#: inc/settings.php:199
+#: inc/settings.php:198
 msgid "Question/comment is missing"
-msgstr "Pregunta/comentario que falta"
+msgstr "Falta la pregunta/comentario"
 
-#: inc/settings.php:202
+#: inc/settings.php:201
 msgid "Enter your question or comment"
 msgstr "Escriba su pregunta o comentario"
 
-#: inc/settings.php:205
+#: inc/settings.php:204
 msgid "Successful form submission text"
-msgstr "Exitosa texto envío del formulario"
+msgstr "Envío del formulario con éxito"
 
-#: inc/settings.php:206
-msgid "This text is used on the page if no \"Thank You\" URL is set above. This is also used as the confirmation email title, if one is set to send out."
-msgstr "Este texto se utiliza en la página si hay \" Gracias \" URL se establece anteriormente. Esto también se utiliza como el título de correo electrónico de confirmación, si se ha establecido que envíe."
+#: inc/settings.php:205
+msgid ""
+"This text is used on the page if no \"Thank You\" URL is set above. This is "
+"also used as the confirmation email title, if one is set to send out."
+msgstr ""
+"Este texto se usa en la página cuando no se asigna una URL distinta para el "
+"mensaje de agradecimiento. También se utiliza como título del mensaje de "
+"confirmación, si ha establecido que se envíe."
 
-#: inc/settings.php:208
+#: inc/settings.php:207
 msgid "Thanks, your email was sent successfully!"
-msgstr "Gracias, su correo electrónico fue enviado con éxito!"
+msgstr "¡Gracias, su mensaje fue enviado con éxito!"
 
-#: inc/settings.php:213
+#: inc/settings.php:212
 msgid "Form processing options"
-msgstr "Opciones de procesamiento de formularios"
+msgstr "Opciones de procesamiento del formulario"
+
+#: inc/settings.php:218
+msgid "Contact notification sender email"
+msgstr "Correo electrónico del remitente para notificaciones"
 
 #: inc/settings.php:219
-msgid "Contact notification sender email"
-msgstr "Contacto remitente notificación por correo electrónico"
+msgid ""
+"Email to use for the sender of the contact form emails both to the "
+"recipients below and the contact form submitter (if this is activated "
+"below). The domain for this email address should match your site's domain."
+msgstr ""
+"El correo electrónico para usar como remitente de los mensajes, tanto para "
+"los siguientes destinatarios como para quien envía el mensaje desde el "
+"formulario (si se activa a continuación). El dominio de esta dirección de "
+"correo electrónico debe coincidir con el dominio de su sitio."
 
-#: inc/settings.php:220
-msgid "Email to use for the sender of the contact form emails both to the recipients below and the contact form submitter (if this is activated below). The domain for this email address should match your site's domain."
-msgstr "Correo electrónico a usar para el remitente de los mensajes de correo electrónico de contacto de forma tanto a los destinatarios a continuación y el formulario de contacto remitente (si se activa a continuación). El dominio de esta dirección de correo electrónico debe coincidir con el dominio de su sitio."
+#: inc/settings.php:225
+msgid "Use the email address above as notification sender"
+msgstr ""
+"Usar la dirección de correo electrónico anterior como remitente de la "
+"notificación"
 
 #: inc/settings.php:226
-msgid "Use the email address above as notification sender"
-msgstr "Utilice la dirección de correo electrónico anterior como remitente notificación"
+msgid ""
+"When this is on, the notification emails sent from your site will come from "
+"the email address above. When this is off, the emails will come from the "
+"form submitter, making it easy to reply. If you are not receiving "
+"notifications from the site, then turn this option off as your email server "
+"might be marking them as spam."
+msgstr ""
+"Cuando esto está activado, los mensajes de notificación enviados desde su "
+"sitio provendrán de la dirección de correo electrónico anterior. Cuando esto "
+"está desactivado, los mensajes provendrán del remitente del formulario, para "
+"que sea más fácil responderlos. Si no está recibiendo notificaciones desde "
+"el sitio, desactive esta opción, ya que su servidor de correo puede estar "
+"marcándolos como spam."
 
-#: inc/settings.php:227
-msgid "When this is on, the notification emails sent from your site will come from the email address above. When this is off, the emails will come from the form submitter, making it easy to reply. If you are not receiving notifications from the site, then turn this option off as your email server might be marking them as spam."
-msgstr "Cuando está activado, los mensajes de notificación enviados desde su sitio vendrá de la dirección de correo electrónico anterior. Cuando esto está apagado, los mensajes de correo electrónico se vienen de la forma remitente , por lo que es fácil de responder. Si usted no está recibiendo notificaciones desde el sitio , a continuación, desactivar esta opción como su servidor de email puede estar marcado como spam."
+#: inc/settings.php:231
+msgid "Contact submission recipients"
+msgstr "Destinatarios del envío"
 
 #: inc/settings.php:232
-msgid "Contact submission recipients"
-msgstr "Contacto destinatarios de presentación"
+msgid ""
+"Email address(es) to receive contact submission notifications. You can "
+"separate multiple emails with a comma."
+msgstr ""
+"La o las direcciones de correo electrónico para recibir notificaciones de "
+"envío. Puede separar múltiples direcciones con una coma."
 
-#: inc/settings.php:233
-msgid "Email address(es) to receive contact submission notifications. You can separate multiple emails with a comma."
-msgstr "Dirección de correo electrónico para recibir notificaciones de presentación de contacto. Usted puede separar múltiples mensajes de correo electrónico con una coma."
+#: inc/settings.php:237
+msgid "Store submissions in the database"
+msgstr "Guardar los envíos en la base de datos"
 
 #: inc/settings.php:238
-msgid "Store submissions in the database"
-msgstr "Presentaciones de las tiendas en la base de datos"
+msgid ""
+"Should the submissions be stored in the admin area? If chosen, contact form "
+"submissions will be saved in Contacts on the left (appears after this option "
+"is activated)."
+msgstr ""
+"¿Los envíos deben guardarse en el área de administración? Si se selecciona, "
+"los envíos desde el formulario de contacto serán guardados en \"Contactos\", "
+"en la parte la izquierda (aparecerá una vez activada esta opción)."
 
-#: inc/settings.php:239
-msgid "Should the submissions be stored in the admin area? If chosen, contact form submissions will be saved in Contacts on the left (appears after this option is activated)."
-msgstr "Deberían las presentaciones pueden almacenar en el área de administración ? Si es elegido , la forma de contacto presentaciones serán guardados en Contactos a la izquierda (aparece después de activar esta opción )."
+#: inc/settings.php:243
+msgid "Use the comments blacklist to restrict submissions"
+msgstr "Usar lista negra de comentarios para restringir envíos"
 
 #: inc/settings.php:244
-msgid "Use the comments blacklist to restrict submissions"
-msgstr "Utilice la lista negra de comentarios para restringir presentaciones"
+msgid ""
+"Should form submission IP and email addresses be compared against the "
+"Comment Blacklist, found in"
+msgstr ""
+"¿Las IP y direcciones de los envíos desde el formulario deben compararse con "
+"la lista negra de comentarios que se encuentra en"
 
-#: inc/settings.php:245
-msgid "Should form submission IP and email addresses be compared against the Comment Blacklist, found in"
-msgstr "Debería formar IP sumisión y direcciones de correo electrónico pueden comparar con el comentario a la lista negra , que se encuentra en"
-
-#: inc/settings.php:245
+#: inc/settings.php:244
 msgid "wp-admin > Settings > Discussion > Comment Blacklist?"
-msgstr "wp-admin > Configuración> Discusión > Opina lista negra?"
+msgstr "WordPress > Ajustes > Comentarios > Lista negra de comentarios?"
+
+#: inc/settings.php:249
+msgid "Send email confirmation to form submitter"
+msgstr "Enviar un mensaje de confirmación al remitente del formulario"
 
 #: inc/settings.php:250
-msgid "Send email confirmation to form submitter"
-msgstr "Enviar correo electrónico de confirmación para formar remitente"
+msgid ""
+"Adding text here will send an email to the form submitter. The email uses "
+"the \"Text to show when form is submitted...\" field below as the subject "
+"line. Plain text only here, no HTML."
+msgstr ""
+"Si añade un texto aquí se le enviará un mensaje al remitente del formulario. "
+"Este mensaje usa el siguiente campo \"Texto para mostrar cuando se envía el "
+"formulario...\" como línea del asunto. Solo se admite texto sin formato, no "
+"HTML."
 
-#: inc/settings.php:251
-msgid "Adding text here will send an email to the form submitter. The email uses the \"Text to show when form is submitted...\" field below as the subject line. Plain text only here, no HTML."
-msgstr "Agregar texto aquí envía un correo electrónico a la forma remitente . El correo electrónico utiliza el \"Texto para mostrar cuando formulario se envía ... \" campo de abajo como la línea de asunto . Texto sin formato sólo aquí , sin HTML."
+#: inc/settings.php:257
+msgid "Use SMTP to send emails?"
+msgstr "¿Usar SMTP para enviar los mensajes?"
 
 #: inc/settings.php:258
-msgid "Use SMTP to send emails?"
-msgstr "Use SMTP para enviar mensajes de correo electrónico ?"
-
-#: inc/settings.php:259
 msgid "Instead of PHP mail function"
 msgstr "En lugar de la función PHP mail"
 
-#: inc/settings.php:264
+#: inc/settings.php:263
 msgid "SMTP Host"
-msgstr "SMTP Host"
+msgstr "Servidor de SMTP"
 
-#: inc/settings.php:270
+#: inc/settings.php:269
 msgid "SMTP Port"
 msgstr "Puerto SMTP"
 
-#: inc/settings.php:276
+#: inc/settings.php:275
 msgid "Use SMTP Authentication?"
-msgstr "Usar autenticación SMTP?"
+msgstr "¿Usar autenticación SMTP?"
 
-#: inc/settings.php:277
-msgid "If you check this box, make sure the SMTP Username and SMTP Password are completed."
-msgstr "Si marca esta casilla , asegúrese de que el nombre de usuario SMTP y Contraseña SMTP se completan."
+#: inc/settings.php:276
+msgid ""
+"If you check this box, make sure the SMTP Username and SMTP Password are "
+"completed."
+msgstr ""
+"Si selecciona esta casilla, asegúrese de completar el nombre de usuario SMTP "
+"y la contraseña SMTP."
 
-#: inc/settings.php:282
+#: inc/settings.php:281
 msgid "SMTP Username"
-msgstr "SMTP Nombre de usuario"
+msgstr "Nombre de usuario SMTP"
 
-#: inc/settings.php:288
+#: inc/settings.php:287
 msgid "SMTP Password"
 msgstr "Contraseña SMTP"
 
-#: inc/settings.php:306
+#: inc/settings.php:305
 msgid "Pirate Forms settings"
-msgstr "Formas de pirata ajustes"
+msgstr "Ajustes de Pirate Forms"
 
-#: inc/settings.php:307
-#: inc/widget.php:15
-#: inc/widget.php:16
+#: inc/settings.php:306 inc/widget.php:15 inc/widget.php:16
 msgid "Pirate Forms"
-msgstr "Formas de pirata"
+msgstr "Pirate Forms"
 
-#: inc/settings.php:503
+#: inc/settings.php:542
 msgid "Save changes"
-msgstr "Guardar Cambios"
+msgstr "Guardar cambios"
 
 #: inc/widget.php:75
 msgid "Title"
@@ -349,7 +319,7 @@ msgstr "Título"
 
 #: inc/widget.php:76
 msgid "Text above form"
-msgstr "Texto anterior forma"
+msgstr "Texto arriba del formulario"
 
 #: inc/widget.php:79
 msgid "Title:"
@@ -357,5 +327,80 @@ msgstr "Título:"
 
 #: inc/widget.php:83
 msgid "Subtext:"
-msgstr "Subtexto:"
+msgstr "Subtítulo:"
 
+#: pirate-forms.php:294
+msgid "Contact Referrer"
+msgstr "Contacto referente"
+
+#: pirate-forms.php:305
+msgid "Referring page"
+msgstr "Página de referencia"
+
+#: pirate-forms.php:345
+msgid "Nonce failed!"
+msgstr "¡Falló nonce!"
+
+#: pirate-forms.php:351
+msgid "Form submission failed!"
+msgstr "¡Falló el envío del formulario!"
+
+#: pirate-forms.php:356
+msgid "Contact form submission on"
+msgstr "Envío del formulario de contacto en"
+
+#: pirate-forms.php:437 pirate-forms.php:450
+msgid "Wrong reCAPTCHA"
+msgstr "reCAPTCHA incorrecto"
+
+#: pirate-forms.php:461
+msgid "Please enter one or more Contact submission recipients"
+msgstr "Por favor, introduzca uno o más destinatarios del envío"
+
+#: pirate-forms.php:490
+msgid "Form submission blocked!"
+msgstr "¡Envío de formulario bloqueado!"
+
+#: pirate-forms.php:683
+msgid "Add New Contact"
+msgstr "Añadir nuevo contacto"
+
+#: pirate-forms.php:684
+msgid "New Contact"
+msgstr "Nuevo contacto"
+
+#: pirate-forms.php:685
+msgid "Edit Contact"
+msgstr "Editar contacto"
+
+#: pirate-forms.php:686
+msgid "View Contact"
+msgstr "Ver contacto"
+
+#: pirate-forms.php:687
+msgid "All Contacts"
+msgstr "Todos los contactos"
+
+#: pirate-forms.php:688
+msgid "Search Contacts"
+msgstr "Buscar contactos"
+
+#: pirate-forms.php:689
+msgid "Parent Contacts:"
+msgstr "Contactos superiores:"
+
+#: pirate-forms.php:690
+msgid "No contacts found."
+msgstr "No se han encontrado contactos."
+
+#: pirate-forms.php:691
+msgid "No contacts found in Trash."
+msgstr "No se han encontrado contactos en la papelera."
+
+#: pirate-forms.php:695
+msgid "Contacts from Pirate Forms"
+msgstr "Contactos de Pirate Forms"
+
+#: pirate-forms.php:717
+msgid "Settings"
+msgstr "Ajustes"
