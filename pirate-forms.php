@@ -519,8 +519,33 @@ function pirate_forms_process_contact() {
 			$send_from_name = $pirate_forms_contact_name;
 		}
 
+		function wpcf7_is_localhost() {
+			$server_name = strtolower( $_SERVER['SERVER_NAME'] );
+			return in_array( $server_name, array( 'localhost', '127.0.0.1' ) );
+		}
+		function from_email() {
+			$admin_email = get_option( 'admin_email' );
+			$sitename = strtolower( $_SERVER['SERVER_NAME'] );
+
+			if ( wpcf7_is_localhost() ) {
+				return $admin_email;
+			}
+
+			if ( substr( $sitename, 0, 4 ) == 'www.' ) {
+				$sitename = substr( $sitename, 4 );
+			}
+
+			if ( strpbrk( $admin_email, '@' ) == '@' . $sitename ) {
+				return $admin_email;
+			}
+
+			return 'wordpress@' . $sitename;
+		}
+		
+		$a = from_email();
+		
 		// Sent an email notification to the correct address
-		$headers   = "From: $send_from_name <$send_from>\r\nReply-To: $send_from_name <$send_from>";
+		$headers   = "From: $send_from_name <$a>\r\nReply-To: $send_from_name <$send_from>";
 
 		add_action( 'phpmailer_init', 'pirate_forms_phpmailer' );
 

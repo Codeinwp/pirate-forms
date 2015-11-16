@@ -1,4 +1,28 @@
 <?php
+function pirate_forms_is_localhost() {
+	$server_name = strtolower( $_SERVER['SERVER_NAME'] );
+	return in_array( $server_name, array( 'localhost', '127.0.0.1' ) );
+}
+function pirate_forms_from_email() {
+		
+	$admin_email = get_option( 'admin_email' );
+	$sitename = strtolower( $_SERVER['SERVER_NAME'] );
+
+	if ( pirate_forms_is_localhost() ) {
+		return $admin_email;
+	}
+
+	if ( substr( $sitename, 0, 4 ) == 'www.' ) {
+		$sitename = substr( $sitename, 4 );
+	}
+
+	if ( strpbrk( $admin_email, '@' ) == '@' . $sitename ) {
+		return $admin_email;
+	}
+
+	return 'wordpress@' . $sitename;
+}
+	
 /*
  *
  * OPTIONS
@@ -50,9 +74,56 @@ function pirate_forms_plugin_options() {
 		$pirate_forms_contactus_email = $zerif_contactus_email;
 	elseif( !empty($zerif_email) ):
 		$pirate_forms_contactus_email = $zerif_email;
+	else:
+		$pirate_forms_contactus_email = get_bloginfo( 'admin_email' );
 	endif;
-
+	
 	return array(
+		'fourth_tab' => array(
+			'header_options' => array(
+				__( 'Form processing options','pirate-forms' ),
+				'',
+				'title',
+				'',
+			),
+			'pirateformsopt_email' => array(
+				__( 'Contact notification sender email','pirate-forms' ),
+				__( 'Email to use for the sender of the contact form emails both to the recipients below and the contact form submitter (if this is activated below). The domain for this email address should match your site\'s domain.',
+					'email','pirate-forms' ),
+				'text',
+				pirate_forms_from_email()
+			),
+			'pirateformsopt_reply_to_admin' => array(
+				__( 'Use the email address above as notification sender','pirate-forms' ),
+				__( 'When this is on, the notification emails sent from your site will come from the email address above. When this is off, the emails will come from the form submitter, making it easy to reply. If you are not receiving notifications from the site, then turn this option off as your email server might be marking them as spam.','pirate-forms' ),
+				'checkbox',
+				'',
+			),
+			'pirateformsopt_email_recipients' => array(
+				__( 'Contact submission recipients','pirate-forms' ),
+				__( 'Email address(es) to receive contact submission notifications. You can separate multiple emails with a comma.','pirate-forms' ),
+				'text',
+				pirate_forms_get_key( 'pirateformsopt_email' ) ? pirate_forms_get_key( 'pirateformsopt_email' ) : $pirate_forms_contactus_email
+			),
+			'pirateformsopt_store' => array(
+				__( 'Store submissions in the database','pirate-forms' ),
+				__( 'Should the submissions be stored in the admin area? If chosen, contact form submissions will be saved in Contacts on the left (appears after this option is activated).','pirate-forms' ),
+				'checkbox',
+				'',
+			),
+			'pirateformsopt_blacklist' => array(
+				__( 'Use the comments blacklist to restrict submissions','pirate-forms' ),
+				__( 'Should form submission IP and email addresses be compared against the Comment Blacklist, found in','pirate-forms').'<strong>'.__('wp-admin > Settings > Discussion > Comment Blacklist?','pirate-forms').'</strong>',
+				'checkbox',
+				'yes',
+			),
+			'pirateformsopt_confirm_email' => array(
+				__( 'Send email confirmation to form submitter','pirate-forms' ),
+				__( 'Adding text here will send an email to the form submitter. The email uses the "Text to show when form is submitted..." field below as the subject line. Plain text only here, no HTML.','pirate-forms' ),
+				'text',
+				'',
+			)
+		),
 		'first_tab' => array(
 			'header_fields' => array(
 				__( 'Fields','pirate-forms' ),
@@ -207,51 +278,6 @@ function pirate_forms_plugin_options() {
 				__( 'Thanks, your email was sent successfully!','pirate-forms' )
 			)
 		),
-		'fourth_tab' => array(
-			'header_options' => array(
-				__( 'Form processing options','pirate-forms' ),
-				'',
-				'title',
-				'',
-			),
-			'pirateformsopt_email' => array(
-				__( 'Contact notification sender email','pirate-forms' ),
-				__( 'Email to use for the sender of the contact form emails both to the recipients below and the contact form submitter (if this is activated below). The domain for this email address should match your site\'s domain.',
-					'email','pirate-forms' ),
-				'text',
-				$pirate_forms_contactus_email
-			),
-			'pirateformsopt_reply_to_admin' => array(
-				__( 'Use the email address above as notification sender','pirate-forms' ),
-				__( 'When this is on, the notification emails sent from your site will come from the email address above. When this is off, the emails will come from the form submitter, making it easy to reply. If you are not receiving notifications from the site, then turn this option off as your email server might be marking them as spam.','pirate-forms' ),
-				'checkbox',
-				'',
-			),
-			'pirateformsopt_email_recipients' => array(
-				__( 'Contact submission recipients','pirate-forms' ),
-				__( 'Email address(es) to receive contact submission notifications. You can separate multiple emails with a comma.','pirate-forms' ),
-				'text',
-				pirate_forms_get_key( 'pirateformsopt_email' ) ? pirate_forms_get_key( 'pirateformsopt_email' ) : $pirate_forms_contactus_email
-			),
-			'pirateformsopt_store' => array(
-				__( 'Store submissions in the database','pirate-forms' ),
-				__( 'Should the submissions be stored in the admin area? If chosen, contact form submissions will be saved in Contacts on the left (appears after this option is activated).','pirate-forms' ),
-				'checkbox',
-				'',
-			),
-			'pirateformsopt_blacklist' => array(
-				__( 'Use the comments blacklist to restrict submissions','pirate-forms' ),
-				__( 'Should form submission IP and email addresses be compared against the Comment Blacklist, found in','pirate-forms').'<strong>'.__('wp-admin > Settings > Discussion > Comment Blacklist?','pirate-forms').'</strong>',
-				'checkbox',
-				'yes',
-			),
-			'pirateformsopt_confirm_email' => array(
-				__( 'Send email confirmation to form submitter','pirate-forms' ),
-				__( 'Adding text here will send an email to the form submitter. The email uses the "Text to show when form is submitted..." field below as the subject line. Plain text only here, no HTML.','pirate-forms' ),
-				'text',
-				'',
-			)
-		),
 		'fifth_tab' => array(
 			'pirateformsopt_use_smtp' => array(
 				__( 'Use SMTP to send emails?','pirate-forms' ),
@@ -401,10 +427,10 @@ function pirate_forms_admin() {
 
 		<ul class="pirate-forms-nav-tabs" role="tablist">
 			<li role="presentation" class="active"><a href="#0" aria-controls="how_to_use" role="tab" data-toggle="tab"><?php esc_html_e( 'How to use','pirate-forms'); ?></a></li>
-			<li role="presentation"><a href="#1" aria-controls="fields" role="tab" data-toggle="tab"><?php esc_html_e( 'Fields','pirate-forms'); ?></a></li>
-			<li role="presentation"><a href="#2" aria-controls="labels" role="tab" data-toggle="tab"><?php esc_html_e( 'Labels','pirate-forms'); ?></a></li>
-			<li role="presentation"><a href="#3" aria-controls="messages" role="tab" data-toggle="tab"><?php esc_html_e( 'Messages','pirate-forms'); ?></a></li>
-			<li role="presentation"><a href="#4" aria-controls="options" role="tab" data-toggle="tab"><?php esc_html_e( 'Options','pirate-forms'); ?></a></li>
+			<li role="presentation"><a href="#1" aria-controls="options" role="tab" data-toggle="tab"><?php esc_html_e( 'Options','pirate-forms'); ?></a></li>
+			<li role="presentation"><a href="#2" aria-controls="fields" role="tab" data-toggle="tab"><?php esc_html_e( 'Fields','pirate-forms'); ?></a></li>
+			<li role="presentation"><a href="#3" aria-controls="labels" role="tab" data-toggle="tab"><?php esc_html_e( 'Labels','pirate-forms'); ?></a></li>
+			<li role="presentation"><a href="#4" aria-controls="messages" role="tab" data-toggle="tab"><?php esc_html_e( 'Messages','pirate-forms'); ?></a></li>
 			<li role="presentation"><a href="#5" aria-controls="smtp" role="tab" data-toggle="tab"><?php esc_html_e( 'SMTP','pirate-forms'); ?></a></li>
 		</ul>
 
@@ -413,7 +439,7 @@ function pirate_forms_admin() {
 			<div id="0" class="pirate-forms-tab-pane active">
 
 				<p><?php esc_html_e( 'Welcome to Pirate Forms!','pirate-forms' ); ?><p>
-				<p><?php esc_html_e( 'To get started, just configure all the options you need, hit save and start using the created form.','pirate-forms' ); ?><p>
+				<p><?php esc_html_e( 'To get started, just ','pirate-forms'); ?><b><?php esc_html_e( 'configure all the options ','pirate-forms'); ?></b><?php  esc_html_e( 'you need, hit save and start using the created form.','pirate-forms' ); ?><p>
 
 				<hr>
 
