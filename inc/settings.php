@@ -93,12 +93,6 @@ function pirate_forms_plugin_options() {
 				'text',
 				pirate_forms_from_email()
 			),
-			'pirateformsopt_reply_to_admin' => array(
-				__( 'Use the email address above as notification sender','pirate-forms' ),
-				__( 'When this is on, the notification emails sent from your site will come from the email address above. When this is off, the emails will come from the form submitter, making it easy to reply. If you are not receiving notifications from the site, then turn this option off as your email server might be marking them as spam.','pirate-forms' ),
-				'checkbox',
-				'yes',
-			),
 			'pirateformsopt_email_recipients' => array(
 				__( 'Contact submission recipients','pirate-forms' ),
 				__( 'Email address(es) to receive contact submission notifications. You can separate multiple emails with a comma.','pirate-forms' ),

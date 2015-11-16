@@ -511,13 +511,13 @@ function pirate_forms_process_contact() {
 		}
 
 		// Need an email address for the email notification
-		if ( pirate_forms_get_key( 'pirateformsopt_reply_to_admin' ) == 'yes' ) {
+		if( !empty($site_email) ):
 			$send_from = $site_email;
-			$send_from_name = $site_name;
-		} else {
-			$send_from = ! empty( $pirate_forms_contact_email ) ? $pirate_forms_contact_email : $site_email;
-			$send_from_name = $pirate_forms_contact_name;
-		}
+		else:
+			$send_from = pirate_forms_from_email();
+		endif;
+		$send_from_name = $site_name;
+		
 
 		// Sent an email notification to the correct address
 		$headers   = "From: $send_from_name <$send_from>\r\nReply-To: $send_from_name <$send_from>";
