@@ -1,16 +1,16 @@
-=== Pirate Forms ===
+=== Pirate Contact Forms ===
 Contributors: themeisle, codeinwp
-Tags: contact, contact form, contact form widget
+Tags: Attachment, cnotact, conact, contact, contact button, contact form, contact form plugin, contact me, contacts, contacts form plugin, contatc, copy, email submit form, email subscription, feedback, feedback form, form, insert the shortcode, message form, post feedback, request, send, send copy, send messages, shortcode, text, web-page feedback,smtp,recaptcha
 Requires at least: 3.0
 Tested up to: 4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Makes your contact page more engaging by creating a good-looking contact form on your website. The interaction with your visitors was never easier.
+Makes your contact form page more engaging by creating a good-looking contact form on your website. The interaction with your visitors was never easier.
 
 == Description ==
 
-Stay in touch with your visitors very easily. Pirate Forms offers you a great and friendly contact form for your website. 
+Stay in touch with your visitors very easily. Pirate Contact Forms offers you a great and friendly contact form for your website. 
 This is an easy-to-use WordPress contact form plugin. To create a contact form you just need to use the [pirate_forms] shortcode or the 'Pirate Forms' widget.
 This plugin is a fork of https://wordpress.org/plugins/proper-contact-form/
 
