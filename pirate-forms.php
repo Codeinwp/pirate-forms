@@ -646,6 +646,7 @@ function pirate_forms_add_styles_and_scripts() {
 	wp_localize_script( 'pirate_forms_scripts_general', 'pirateFormsObject', array(
 		'errors' => $pirate_forms_errors
 	) );
+
 }
 
 add_action( 'admin_enqueue_scripts', 'pirate_forms_admin_css' );
