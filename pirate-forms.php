@@ -3,7 +3,7 @@
 Plugin Name: Pirate Forms - Contact form and SMTP Plugin
 Plugin URI: http://themeisle.com/plugins/pirate-forms/
 Description: Easily creates a nice looking, simple contact form on your WP site.
-Version: 1.0.4
+Version: 1.0.5
 Author: Themeisle
 Author URI: http://themeisle.com
 Text Domain: pirate-forms
@@ -520,7 +520,7 @@ function pirate_forms_process_contact() {
 		
 
 		// Sent an email notification to the correct address
-		$headers   = "From: $send_from_name <$send_from>\r\nReply-To: $send_from_name <$send_from>";
+		$headers   = "From: $send_from_name <$send_from>\r\nReply-To: $pirate_forms_contact_name <$pirate_forms_contact_email>";
 
 		add_action( 'phpmailer_init', 'pirate_forms_phpmailer' );
 
@@ -646,6 +646,7 @@ function pirate_forms_add_styles_and_scripts() {
 	wp_localize_script( 'pirate_forms_scripts_general', 'pirateFormsObject', array(
 		'errors' => $pirate_forms_errors
 	) );
+
 }
 
 add_action( 'admin_enqueue_scripts', 'pirate_forms_admin_css' );
