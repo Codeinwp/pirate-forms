@@ -520,7 +520,7 @@ function pirate_forms_process_contact() {
 		
 
 		// Sent an email notification to the correct address
-		$headers   = "From: $send_from_name <$send_from>\r\nReply-To: $send_from_name <$send_from>";
+		$headers   = "From: $send_from_name <$send_from>\r\nReply-To: $pirate_forms_contact_name <$pirate_forms_contact_email>";
 
 		add_action( 'phpmailer_init', 'pirate_forms_phpmailer' );
 
