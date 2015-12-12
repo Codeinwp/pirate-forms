@@ -2,7 +2,7 @@
 Contributors: themeisle, codeinwp
 Tags: Attachment, cnotact, conact, contact, contact button, contact form, contact form plugin, contact me, contacts, contacts form plugin, contatc, copy, email submit form, email subscription, feedback, feedback form, form, insert the shortcode, message form, post feedback, request, send, send copy, send messages, shortcode, text, web-page feedback,smtp,recaptcha
 Requires at least: 3.0
-Tested up to: 4.3
+Tested up to: 4.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
