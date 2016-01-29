@@ -4,7 +4,7 @@ function pirate_forms_is_localhost() {
 	return in_array( $server_name, array( 'localhost', '127.0.0.1' ) );
 }
 function pirate_forms_from_email() {
-		
+
 	$admin_email = get_option( 'admin_email' );
 	$sitename = strtolower( $_SERVER['SERVER_NAME'] );
 
@@ -22,7 +22,7 @@ function pirate_forms_from_email() {
 
 	return 'wordpress@' . $sitename;
 }
-	
+
 /*
  *
  * OPTIONS
@@ -77,7 +77,7 @@ function pirate_forms_plugin_options() {
 	else:
 		$pirate_forms_contactus_email = get_bloginfo( 'admin_email' );
 	endif;
-	
+
 	return array(
 		'fourth_tab' => array(
 			'header_options' => array(
@@ -352,49 +352,49 @@ function pirate_forms_save_callback() {
 		endif;
 
 		if( !empty($params) ):
-		
+
 			update_option( 'pirate_forms_settings_array', $params );
-			
+
 			$pirate_forms_zerif_lite_mods = get_option('theme_mods_zerif-lite');
-			
+
 			if( empty($pirate_forms_zerif_lite_mods) ):
 				$pirate_forms_zerif_lite_mods = array();
 			endif;
-			
+
 				if( isset($params['pirateformsopt_label_submit_btn']) ):
 					$pirate_forms_zerif_lite_mods['zerif_contactus_button_label'] = $params['pirateformsopt_label_submit_btn'];
-				endif;	
-				
+				endif;
+
 				if( isset($params['pirateformsopt_email']) ):
 					$pirate_forms_zerif_lite_mods['zerif_contactus_email'] = $params['pirateformsopt_email'];
 				endif;
-				
+
 				if( isset($params['pirateformsopt_email_recipients']) ):
 					$pirate_forms_zerif_lite_mods['zerif_contactus_email'] = $params['pirateformsopt_email_recipients'];
-				endif;	
-				
+				endif;
+
 				if( isset($params['pirateformsopt_recaptcha_field']) && ($params['pirateformsopt_recaptcha_field'] == 'yes') ):
 					$pirate_forms_zerif_lite_mods['zerif_contactus_recaptcha_show'] = 0;
 				else:
 					$pirate_forms_zerif_lite_mods['zerif_contactus_recaptcha_show'] = 1;
 				endif;
-				
+
 				if( isset($params['pirateformsopt_recaptcha_sitekey']) ):
 					$pirate_forms_zerif_lite_mods['zerif_contactus_sitekey'] = $params['pirateformsopt_recaptcha_sitekey'];
-				endif;	
-				
+				endif;
+
 				if( isset($params['pirateformsopt_recaptcha_secretkey']) ):
 					$pirate_forms_zerif_lite_mods['zerif_contactus_secretkey'] = $params['pirateformsopt_recaptcha_secretkey'];
-				endif;	
-				
+				endif;
+
 				update_option('theme_mods_zerif-lite', $pirate_forms_zerif_lite_mods);
-				
-			
-			
+
+
+
 		endif;
 
 	endif;
-	
+
 	die();
 
 }
@@ -418,158 +418,188 @@ function pirate_forms_admin() {
 		<h1><?php esc_html_e( 'Pirate Forms','pirate-forms' ); ?></h1>
 
 
+		<div class="pirate-options">
+			<ul class="pirate-forms-nav-tabs" role="tablist">
+				<li role="presentation" class="active"><a href="#0" aria-controls="how_to_use" role="tab" data-toggle="tab"><?php esc_html_e( 'How to use','pirate-forms'); ?></a></li>
+				<li role="presentation"><a href="#1" aria-controls="options" role="tab" data-toggle="tab"><?php esc_html_e( 'Options','pirate-forms'); ?></a></li>
+				<li role="presentation"><a href="#2" aria-controls="fields" role="tab" data-toggle="tab"><?php esc_html_e( 'Fields','pirate-forms'); ?></a></li>
+				<li role="presentation"><a href="#3" aria-controls="labels" role="tab" data-toggle="tab"><?php esc_html_e( 'Labels','pirate-forms'); ?></a></li>
+				<li role="presentation"><a href="#4" aria-controls="messages" role="tab" data-toggle="tab"><?php esc_html_e( 'Messages','pirate-forms'); ?></a></li>
+				<li role="presentation"><a href="#5" aria-controls="smtp" role="tab" data-toggle="tab"><?php esc_html_e( 'SMTP','pirate-forms'); ?></a></li>
+			</ul>
 
-		<ul class="pirate-forms-nav-tabs" role="tablist">
-			<li role="presentation" class="active"><a href="#0" aria-controls="how_to_use" role="tab" data-toggle="tab"><?php esc_html_e( 'How to use','pirate-forms'); ?></a></li>
-			<li role="presentation"><a href="#1" aria-controls="options" role="tab" data-toggle="tab"><?php esc_html_e( 'Options','pirate-forms'); ?></a></li>
-			<li role="presentation"><a href="#2" aria-controls="fields" role="tab" data-toggle="tab"><?php esc_html_e( 'Fields','pirate-forms'); ?></a></li>
-			<li role="presentation"><a href="#3" aria-controls="labels" role="tab" data-toggle="tab"><?php esc_html_e( 'Labels','pirate-forms'); ?></a></li>
-			<li role="presentation"><a href="#4" aria-controls="messages" role="tab" data-toggle="tab"><?php esc_html_e( 'Messages','pirate-forms'); ?></a></li>
-			<li role="presentation"><a href="#5" aria-controls="smtp" role="tab" data-toggle="tab"><?php esc_html_e( 'SMTP','pirate-forms'); ?></a></li>
-		</ul>
+			<div class="pirate-forms-tab-content">
 
-		<div class="pirate-forms-tab-content">
+				<div id="0" class="pirate-forms-tab-pane active">
 
-			<div id="0" class="pirate-forms-tab-pane active">
+					<p><?php esc_html_e( 'Welcome to Pirate Forms!','pirate-forms' ); ?><p>
+					<p><?php esc_html_e( 'To get started, just ','pirate-forms'); ?><b><?php esc_html_e( 'configure all the options ','pirate-forms'); ?></b><?php  esc_html_e( 'you need, hit save and start using the created form.','pirate-forms' ); ?><p>
 
-				<p><?php esc_html_e( 'Welcome to Pirate Forms!','pirate-forms' ); ?><p>
-				<p><?php esc_html_e( 'To get started, just ','pirate-forms'); ?><b><?php esc_html_e( 'configure all the options ','pirate-forms'); ?></b><?php  esc_html_e( 'you need, hit save and start using the created form.','pirate-forms' ); ?><p>
+					<hr>
 
-				<hr>
+					<p><?php esc_html_e( 'There are 3 ways of using the newly created form:','pirate-forms' ); ?><p>
+					<p><?php esc_html_e( '1. Use the shortcode ','pirate-forms' ); ?><code>[pirate_forms] </code><?php esc_html_e( 'in any page or post.','pirate-forms' ); ?><p>
+					<p><?php esc_html_e( '2. Add a ','pirate-forms' ); ?><a href="<?php echo admin_url( 'widgets.php' ); ?>"><?php esc_html_e( 'widget','pirate-forms' ); ?></a><p>
+					<p><?php esc_html_e( '3. Use the shortcode ','pirate-forms' ); ?><code>&lt;?php echo do_shortcode( '[pirate_forms]' ) ?&gt;</code><?php esc_html_e( 'in the theme\'s files.','pirate-forms' ); ?><p>
 
-				<p><?php esc_html_e( 'There are 3 ways of using the newly created form:','pirate-forms' ); ?><p>
-				<p><?php esc_html_e( '1. Use the shortcode ','pirate-forms' ); ?><code>[pirate_forms] </code><?php esc_html_e( 'in any page or post.','pirate-forms' ); ?><p>
-				<p><?php esc_html_e( '2. Add a ','pirate-forms' ); ?><a href="<?php echo admin_url( 'widgets.php' ); ?>"><?php esc_html_e( 'widget','pirate-forms' ); ?></a><p>
-				<p><?php esc_html_e( '3. Use the shortcode ','pirate-forms' ); ?><code>&lt;?php echo do_shortcode( '[pirate_forms]' ) ?&gt;</code><?php esc_html_e( 'in the theme\'s files.','pirate-forms' ); ?><p>
+				</div>
 
-			</div>
+				<?php
 
-			<?php
+				$pirate_forms_nr_tabs = 1;
 
-			$pirate_forms_nr_tabs = 1;
+				foreach ( $plugin_options as $plugin_options_tab ) :
 
-			foreach ( $plugin_options as $plugin_options_tab ) :
+					echo '<div id="'.$pirate_forms_nr_tabs.'" class="pirate-forms-tab-pane">';
 
-				echo '<div id="'.$pirate_forms_nr_tabs.'" class="pirate-forms-tab-pane">';
+					?>
+					<form method="post" class="pirate_forms_contact_settings">
 
-				?>
-				<form method="post" class="pirate_forms_contact_settings">
+						<?php
+						$pirate_forms_nr_tabs++;
+						foreach ( $plugin_options_tab as $key => $value ) :
 
-					<?php
-					$pirate_forms_nr_tabs++;
-					foreach ( $plugin_options_tab as $key => $value ) :
+							/* Label */
+							if( !empty($value[0]) ):
+								$opt_name = $value[0];
+							endif;
 
-						/* Label */
-						if( !empty($value[0]) ):
-							$opt_name = $value[0];
-						endif;
+							/* ID */
+							$opt_id = $key;
 
-						/* ID */
-						$opt_id = $key;
+							/* Description */
+							if( !empty($value[1]) ):
+								$opt_desc = $value[1];
+							else:
+								$opt_desc = '';
+							endif;
 
-						/* Description */
-						if( !empty($value[1]) ):
-							$opt_desc = $value[1];
-						else:
-							$opt_desc = '';
-						endif;
+							/* Input type */
+							if( !empty($value[2]) ):
+								$opt_type = $value[2];
+							else:
+								$opt_type = '';
+							endif;
 
-						/* Input type */
-						if( !empty($value[2]) ):
-							$opt_type = $value[2];
-						else:
-							$opt_type = '';
-						endif;
+							/* Default value */
+							if( !empty($value[3]) ):
+								$opt_default = $value[3];
+							else:
+								$opt_default = '';
+							endif;
 
-						/* Default value */
-						if( !empty($value[3]) ):
-							$opt_default = $value[3];
-						else:
-							$opt_default = '';
-						endif;
+							/* Value */
+							$opt_val = isset( $pirate_forms_options[$opt_id] ) ? $pirate_forms_options[$opt_id] : $opt_default;
 
-						/* Value */
-						$opt_val = isset( $pirate_forms_options[$opt_id] ) ? $pirate_forms_options[$opt_id] : $opt_default;
+							/* Options if checkbox, select, or radio */
+							$opt_options = empty( $value[4] ) ? array() : $value[4];
 
-						/* Options if checkbox, select, or radio */
-						$opt_options = empty( $value[4] ) ? array() : $value[4];
+							switch ($opt_type) {
+								case "title":
 
-						switch ($opt_type) {
-							case "title":
+									if( !empty($opt_name) ):
+										echo '<h3 class="title">'.$opt_name.'</h3><hr />';
+									endif;
 
-								if( !empty($opt_name) ):
-									echo '<h3 class="title">'.$opt_name.'</h3><hr />';
-								endif;
+									break;
 
-								break;
+								case "text":
+									?>
 
-							case "text":
-								?>
-
-								<div class="pirate-forms-grouped">
-									<label for="<?php echo $opt_id ?>"><?php echo $opt_name.'<br>'.'<span>'.$opt_desc.'</span>'; ?></label>
-									<input name="<?php echo $opt_id; ?>" id="<?php echo $opt_id ?>" type="<?php echo $opt_type; ?>" value="<?php echo stripslashes( $opt_val ); ?>" class="widefat">
-								</div>
-
-								<?php
-								break;
-							case "select":
-								?>
-								<div class="pirate-forms-grouped">
-
-									<label for="<?php echo $opt_id ?>"><?php echo $opt_name.'<br>'.'<span>'.$opt_desc.'</span>'; ?></label>
-
-									<select name="<?php echo $opt_id ?>" id="<?php echo $opt_id; ?>">
-										<?php
-										foreach ( $opt_options as $key => $val ) :
-
-											$selected = '';
-											if ( $opt_val == $key )
-												$selected = 'selected';
-											?>
-											<option value="<?php echo $key ?>" <?php echo $selected; ?>><?php echo $val; ?></option>
-										<?php endforeach; ?>
-									</select>
-
-
-								</div>
-
-							<?php
-								break;
-							case "checkbox":
-								?>
-								<div class="pirate-forms-grouped">
-									<label for="<?php echo $opt_id; ?>"><?php echo $opt_name.'<br>'.'<span>'.$opt_desc.'</span>'; ?></label>
+									<div class="pirate-forms-grouped">
+										<label for="<?php echo $opt_id ?>"><?php echo $opt_name.'<br>'.'<span>'.$opt_desc.'</span>'; ?></label>
+										<input name="<?php echo $opt_id; ?>" id="<?php echo $opt_id ?>" type="<?php echo $opt_type; ?>" value="<?php echo stripslashes( $opt_val ); ?>" class="widefat">
+									</div>
 
 									<?php
+									break;
+								case "select":
+									?>
+									<div class="pirate-forms-grouped">
 
-										$checked = '';
-										if ( $opt_val == 'yes' )
-											$checked = 'checked';
-										?>
+										<label for="<?php echo $opt_id ?>"><?php echo $opt_name.'<br>'.'<span>'.$opt_desc.'</span>'; ?></label>
 
-										<input type="checkbox" value="yes" name="<?php echo $opt_id; ?>" id="<?php echo $opt_id; ?>" <?php echo $checked; ?>>Yes
+										<select name="<?php echo $opt_id ?>" id="<?php echo $opt_id; ?>">
+											<?php
+											foreach ( $opt_options as $key => $val ) :
 
-								</div>
+												$selected = '';
+												if ( $opt_val == $key )
+													$selected = 'selected';
+												?>
+												<option value="<?php echo $key ?>" <?php echo $selected; ?>><?php echo $val; ?></option>
+											<?php endforeach; ?>
+										</select>
 
 
-							<?php
-								break;
-						}
+									</div>
 
-					endforeach;
-					?>
-					<input name="save" type="submit" value="<?php _e( 'Save changes', 'pirate-forms' ) ?>" class="button-primary pirate-forms-save-button">
-					<input type="hidden" name="action" value="save">
-					<input type="hidden" name="proper_nonce" value="<?php echo wp_create_nonce( $current_user->user_email ) ?>">
+								<?php
+									break;
+								case "checkbox":
+									?>
+									<div class="pirate-forms-grouped">
+										<label for="<?php echo $opt_id; ?>"><?php echo $opt_name.'<br>'.'<span>'.$opt_desc.'</span>'; ?></label>
 
-				</form><!-- .pirate_forms_contact_settings -->
-				<div class="ajaxAnimation"></div>
-			</div><!-- .pirate-forms-tab-pane -->
+										<?php
 
-			<?php endforeach; ?>
+											$checked = '';
+											if ( $opt_val == 'yes' )
+												$checked = 'checked';
+											?>
 
-		</div><!-- .pirate-forms-tab-content -->
+											<input type="checkbox" value="yes" name="<?php echo $opt_id; ?>" id="<?php echo $opt_id; ?>" <?php echo $checked; ?>>Yes
+
+									</div>
+
+
+								<?php
+									break;
+							}
+
+						endforeach;
+						?>
+						<input name="save" type="submit" value="<?php _e( 'Save changes', 'pirate-forms' ) ?>" class="button-primary pirate-forms-save-button">
+						<input type="hidden" name="action" value="save">
+						<input type="hidden" name="proper_nonce" value="<?php echo wp_create_nonce( $current_user->user_email ) ?>">
+
+					</form><!-- .pirate_forms_contact_settings -->
+					<div class="ajaxAnimation"></div>
+				</div><!-- .pirate-forms-tab-pane -->
+
+				<?php endforeach; ?>
+
+			</div><!-- .pirate-forms-tab-content -->
+		</div><!-- .pirate-options -->
+
+		<div class="pirate-subscribe postbox card">
+			<h3 class="title"><?php esc_html_e( 'Get Our Free Email Course', 'islemag' )?></h3>
+			<div class="pirate-forms-subscribe-content">
+				<?php
+				      if(!empty($_POST["pirate_forms_mail"])){
+				        require( PIRATE_FORMS_PATH . 'mailin.php' );
+				        $user_info = get_userdata(1);
+				    		$mailin = new Mailin("https://api.sendinblue.com/v2.0","cHW5sxZnzE7mhaYb");
+				    		$data = array( "email" => $_POST["pirate_forms_mail"],
+				    			"attributes" => array("NAME"=>$user_info->first_name, "SURNAME"=>$user_info->last_name),
+				    			"blacklisted" => 0,
+				    			"listid" => array(51),
+				    			"blacklisted_sms" => 0
+				    		);
+				    		$status =  $mailin->create_update_user($data);
+				    		if($status['code'] == 'success'){
+				    				update_option( 'pirate_forms_subscribe', true);
+				        }
+				      }
+				      $was_submited = get_option( 'pirate_forms_subscribe', false);
+				      if( $was_submited == false ){
+				        echo sprintf( '<p> %s </p><form class="pirate-forms-submit-mail" method="post"><input name="pirate_forms_mail" type="email" value="'.get_option( 'admin_email' ) .'" /><input class="button" type="submit" value="Submit"></form>', esc_html__('Ready to learn how to reduce your website loading times by half? Come and join the 1st lesson here!', 'pirate-forms' ) );
+				      } else {
+				        echo sprintf( '<p> %s </p>', esc_html__( 'Thank you for subscribing! You have been added to the mailing list and will receive the next email information in the coming weeks. If you ever wish to unsubscribe, simply use the “Unsubscribe” link included in each newsletter.', 'pirate-forms' ) );
+				      } ?>
+			</div>
+		</div>
+
 
 
 	</div><!-- .wrap -->
