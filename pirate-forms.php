@@ -3,7 +3,7 @@
 Plugin Name: Pirate Forms - Contact form and SMTP Plugin
 Plugin URI: http://themeisle.com/plugins/pirate-forms/
 Description: Easily creates a nice looking, simple contact form on your WP site.
-Version: 1.0.5
+Version: 1.0.6
 Author: Themeisle
 Author URI: http://themeisle.com
 Text Domain: pirate-forms
@@ -19,6 +19,7 @@ if ( ! function_exists( 'add_action' ) ) {
 /* Important constants */
 define( 'PIRATE_FORMS_VERSION', '1.0.0' );
 define( 'PIRATE_FORMS_URL', plugin_dir_url( __FILE__ ) );
+define( 'PIRATE_FORMS_PATH', plugin_dir_path( __FILE__ ) );
 
 /* Required helper functions */
 include_once( dirname( __FILE__ ) . '/inc/helpers.php' );
@@ -74,45 +75,45 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 	$pirate_forms_options = get_option( 'pirate_forms_settings_array' );
 
 	if( !empty($pirate_forms_options) ):
-	
+
 		/* Count the number of requested fields from Name, Email and Subject to add a certain class col-12, col-6 or col-4 */
 		$pirate_forms_required_fields = 0;
-	
+
 		if( !empty($pirate_forms_options['pirateformsopt_name_field']) && !empty($pirate_forms_options['pirateformsopt_label_name']) ):
 
 				$pirateformsopt_name_field = $pirate_forms_options['pirateformsopt_name_field'];
 				$pirateformsopt_name_label = $pirate_forms_options['pirateformsopt_label_name'];
-				
+
 				if ( !empty($pirateformsopt_name_field) && !empty($pirateformsopt_name_label) && ($pirateformsopt_name_field != '') ):
 					$pirate_forms_required_fields++;
 				endif;
-				
-		endif;	
+
+		endif;
 
 		if( !empty($pirate_forms_options['pirateformsopt_email_field']) && !empty($pirate_forms_options['pirateformsopt_label_email']) ):
 
 				$pirateformsopt_email_field = $pirate_forms_options['pirateformsopt_email_field'];
 				$pirateformsopt_email_label = $pirate_forms_options['pirateformsopt_label_email'];
-				
+
 				if ( !empty($pirateformsopt_email_field) && !empty($pirateformsopt_email_label) && ($pirateformsopt_email_field != '') ):
 					$pirate_forms_required_fields++;
 				endif;
 
-		endif;		
+		endif;
 
 		if( !empty($pirate_forms_options['pirateformsopt_subject_field']) && !empty($pirate_forms_options['pirateformsopt_label_subject']) ):
 
 				$pirateformsopt_subject_field = $pirate_forms_options['pirateformsopt_subject_field'];
 				$pirateformsopt_subject_label = $pirate_forms_options['pirateformsopt_label_subject'];
-				
+
 				if ( !empty($pirateformsopt_subject_field) && !empty($pirateformsopt_subject_label) && ($pirateformsopt_subject_field != '') ):
 					$pirate_forms_required_fields++;
 				endif;
 
 		endif;
-		
+
 		$pirate_forms_layout_input = '';
-		
+
 		switch ($pirate_forms_required_fields) {
 			case 1:
 				$pirate_forms_layout_input = 'col-lg-12 col-sm-12';
@@ -203,7 +204,7 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 					),
 					'pirate-forms-contact-subject'
 				);
-				
+
 			endif;
 
 			/********************************/
@@ -376,7 +377,7 @@ function pirate_forms_process_contact() {
 	/***********************************************/
 	/*******  Sanitize and validate email **********/
 	/***********************************************/
-	
+
 	$pirate_forms_contact_email = isset( $_POST['pirate-forms-contact-email'] ) ? sanitize_email( $_POST['pirate-forms-contact-email'] ) : '';
 
 	// If required, is it valid?
@@ -517,7 +518,7 @@ function pirate_forms_process_contact() {
 			$send_from = pirate_forms_from_email();
 		endif;
 		$send_from_name = $site_name;
-		
+
 
 		// Sent an email notification to the correct address
 		$headers   = "From: $send_from_name <$send_from>\r\nReply-To: $pirate_forms_contact_name <$pirate_forms_contact_email>";
@@ -719,7 +720,7 @@ function pirate_forms_add_settings_link( $links ) {
 	if (function_exists('array_unshift')):
 		array_unshift( $links, $settings_link );
 	else:
-		array_push( $links, $settings_link ); 
+		array_push( $links, $settings_link );
 	endif;
 	return $links;
 }
