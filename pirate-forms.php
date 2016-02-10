@@ -496,7 +496,10 @@ function pirate_forms_process_contact() {
 	// No errors? Go ahead and process the contact
 	if ( empty( $_SESSION['pirate_forms_contact_errors'] ) ) {
 
-		$site_email = sanitize_email( pirate_forms_get_key( 'pirateformsopt_email' ) );
+		$pirate_forms_options_tmp = get_option( 'pirate_forms_settings_array' );
+		if( isset($pirate_forms_options_tmp['pirateformsopt_email']) )
+			$site_email = $pirate_forms_options_tmp['pirateformsopt_email'];
+		}
 		
 		if( !empty($pirate_forms_contact_name) ):
 			$site_name = $pirate_forms_contact_name;
