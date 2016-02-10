@@ -497,7 +497,7 @@ function pirate_forms_process_contact() {
 	if ( empty( $_SESSION['pirate_forms_contact_errors'] ) ) {
 
 		$pirate_forms_options_tmp = get_option( 'pirate_forms_settings_array' );
-		if( isset($pirate_forms_options_tmp['pirateformsopt_email']) )
+		if( isset($pirate_forms_options_tmp['pirateformsopt_email']) ) {
 			$site_email = $pirate_forms_options_tmp['pirateformsopt_email'];
 		}
 		
