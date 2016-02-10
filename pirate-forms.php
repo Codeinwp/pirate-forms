@@ -3,7 +3,7 @@
 Plugin Name: Pirate Forms - Contact form and SMTP Plugin
 Plugin URI: http://themeisle.com/plugins/pirate-forms/
 Description: Easily creates a nice looking, simple contact form on your WP site.
-Version: 1.0.6
+Version: 1.0.7
 Author: Themeisle
 Author URI: http://themeisle.com
 Text Domain: pirate-forms
@@ -496,8 +496,16 @@ function pirate_forms_process_contact() {
 	// No errors? Go ahead and process the contact
 	if ( empty( $_SESSION['pirate_forms_contact_errors'] ) ) {
 
-		$site_email = sanitize_email( pirate_forms_get_key( 'pirateformsopt_email' ) );
-		$site_name  = htmlspecialchars_decode( get_bloginfo( 'name' ) );
+		$pirate_forms_options_tmp = get_option( 'pirate_forms_settings_array' );
+		if( isset($pirate_forms_options_tmp['pirateformsopt_email']) ) {
+			$site_email = $pirate_forms_options_tmp['pirateformsopt_email'];
+		}
+		
+		if( !empty($pirate_forms_contact_name) ):
+			$site_name = $pirate_forms_contact_name;
+		else:
+			$site_name  = htmlspecialchars_decode( get_bloginfo( 'name' ) );
+		endif;
 
 		// Notification recipients
 		$site_recipients = sanitize_text_field( pirate_forms_get_key( 'pirateformsopt_email_recipients' ) );
@@ -511,12 +519,24 @@ function pirate_forms_process_contact() {
 			$pirate_forms_contact_name = ! empty( $pirate_forms_contact_email ) ? $pirate_forms_contact_email : '[None given]';
 		}
 
-		// Need an email address for the email notification
-		if( !empty($site_email) ):
-			$send_from = $site_email;
-		else:
+		// Need an email address for the email notification		
+		if( !empty($site_email) ) {
+			if( $site_email == '[email]' ) {
+				if( !empty($pirate_forms_contact_email) ) {
+					$send_from = $pirate_forms_contact_email;
+				}
+				else {
+					$send_from = pirate_forms_from_email();	
+				}
+			}
+			else {
+				$send_from = $site_email;
+			}
+		}
+		else {
 			$send_from = pirate_forms_from_email();
-		endif;
+		}
+		
 		$send_from_name = $site_name;
 
 
@@ -551,7 +571,7 @@ function pirate_forms_process_contact() {
 			endif;
 		}
 
-		wp_mail( $site_recipients, 'Contact on ' . $site_name, $body, $headers );
+		wp_mail( $site_recipients, 'Contact on ' . htmlspecialchars_decode( get_bloginfo( 'name' ) ), $body, $headers );
 
 		// Should a confirm email be sent?
 		$confirm_body = stripslashes( trim( pirate_forms_get_key( 'pirateformsopt_confirm_email' ) ) );

@@ -88,7 +88,7 @@ function pirate_forms_plugin_options() {
 			),
 			'pirateformsopt_email' => array(
 				__( 'Contact notification sender email','pirate-forms' ),
-				__( 'Email to use for the sender of the contact form emails both to the recipients below and the contact form submitter (if this is activated below). The domain for this email address should match your site\'s domain.',
+				__( '<strong>Insert [email] to use the contact form submitter\'s email.</strong><br> Email to use for the sender of the contact form emails both to the recipients below and the contact form submitter (if this is activated below). The domain for this email address should match your site\'s domain.',
 					'email','pirate-forms' ),
 				'text',
 				pirate_forms_from_email()
