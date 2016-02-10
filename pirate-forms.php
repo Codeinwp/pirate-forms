@@ -571,7 +571,7 @@ function pirate_forms_process_contact() {
 			endif;
 		}
 
-		wp_mail( $site_recipients, 'Contact on ' . $site_name, $body, $headers );
+		wp_mail( $site_recipients, 'Contact on ' . htmlspecialchars_decode( get_bloginfo( 'name' ) ), $body, $headers );
 
 		// Should a confirm email be sent?
 		$confirm_body = stripslashes( trim( pirate_forms_get_key( 'pirateformsopt_confirm_email' ) ) );
