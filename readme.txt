@@ -1,5 +1,5 @@
 === Pirate Forms - Contact Form and SMTP Plugin ===
-Contributors: themeisle, codeinwp
+Contributors: themeisle, codeinwp, rodicaelena
 Tags: Attachment, cnotact, conact, contact, contact button, contact form, contact form plugin, contact me, contacts, contacts form plugin, contatc, copy, email submit form, email subscription, feedback, feedback form, form, insert the shortcode, message form, post feedback, request, send, send copy, send messages, shortcode, text, web-page feedback,smtp,recaptcha
 Requires at least: 3.0
 Tested up to: 4.4
