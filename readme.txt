@@ -10,7 +10,7 @@ Makes your contact form page more engaging by creating a good-looking simple con
 
 == Description ==
 
-Stay in touch with your visitors very easily. Pirate Contact Forms offers you a great and friendly contact form for your website. 
+Stay in touch with your visitors very easily. <a href="http://themeisle.com/plugins/pirate-forms/" rel="friend">Pirate Contact Forms</a> offers you a great and friendly contact form for your website. 
 This is an easy-to-use WordPress contact form with captcha plugin. To create a contact form you just need to use the [pirate_forms] shortcode or the 'Pirate Forms' widget.
 
 Features:
@@ -44,6 +44,8 @@ Features:
 - Choosing error messages
 - reCAPTCHA
 - Store the contacts in the database
+
+If are you looking for other alternatives check-out our article on <a href="http://www.codeinwp.com/blog/best-contact-form-plugins-wordpress/" rel="friend">best contact form plugins</a>, also if this doesn't work on your host, take a look at our <a href="http://www.codeinwp.com/blog/best-wordpress-shared-hosting-providers/" rel="friend">WordPress hosting study.
 
 This plugin is a fork of https://wordpress.org/plugins/proper-contact-form/.
 
