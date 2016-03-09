@@ -1,24 +1,23 @@
-=== Pirate Forms - Contact Form and SMTP Plugin ===
-Contributors: themeisle, codeinwp
+=== Free & Simple Contact Form Plugin - PirateForms ===
+Contributors: themeisle, codeinwp, rodicaelena
 Tags: Attachment, cnotact, conact, contact, contact button, contact form, contact form plugin, contact me, contacts, contacts form plugin, contatc, copy, email submit form, email subscription, feedback, feedback form, form, insert the shortcode, message form, post feedback, request, send, send copy, send messages, shortcode, text, web-page feedback,smtp,recaptcha
 Requires at least: 3.0
 Tested up to: 4.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Makes your contact form page more engaging by creating a good-looking contact form on your website. The interaction with your visitors was never easier.
+Makes your contact form page more engaging by creating a good-looking simple contact form on your website. The interaction with your visitors was never easier.
 
 == Description ==
 
-Stay in touch with your visitors very easily. Pirate Contact Forms offers you a great and friendly contact form for your website. 
-This is an easy-to-use WordPress contact form plugin. To create a contact form you just need to use the [pirate_forms] shortcode or the 'Pirate Forms' widget.
-This plugin is a fork of https://wordpress.org/plugins/proper-contact-form/
+Stay in touch with your visitors very easily. <a href="http://themeisle.com/plugins/pirate-forms/" rel="friend">Pirate Contact Forms</a> offers you a great and friendly contact form for your website. 
+This is an easy-to-use WordPress contact form with captcha plugin. To create a contact form you just need to use the [pirate_forms] shortcode or the 'Pirate Forms' widget.
 
 Features:
 
 - It's easy to use
 
-Pirate Forms is very easy to set up. You can quickly create an engaging contact form by using a shortcode and copying it where you want it to appear.
+This Contact Form 7 alternative is very easy to set up. You can quickly create an engaging contact form by using a shortcode and copying it where you want it to appear.
 
 - It's fully customizable
 
@@ -36,7 +35,7 @@ With the SMTP option, you can be sure you won’t miss any e-mail from your visi
 
 You can keep all the contacts in an archive by saving their e-mail addresses. Pirate Contact Form allows you to do that by providing contact databases.
 
-A simple to use WordPress plugin for creating a contact form using the [pirate_forms] shortcode or the 'Pirate Forms' widget.
+A simple to use contact form plugin for creating a clean contact form using the [pirate_forms] shortcode or the 'Pirate Forms' widget.
 
 Features:
 
@@ -45,6 +44,11 @@ Features:
 - Choosing error messages
 - reCAPTCHA
 - Store the contacts in the database
+
+If are you looking for other alternatives check-out our article on <a href="http://www.codeinwp.com/blog/best-contact-form-plugins-wordpress/" rel="friend">best contact form plugins</a>, also if this doesn't work on your host, take a look at our <a href="http://www.codeinwp.com/blog/best-wordpress-shared-hosting-providers/" rel="friend">WordPress hosting study.
+
+This plugin is a fork of https://wordpress.org/plugins/proper-contact-form/.
+
 
 == Installation ==
 

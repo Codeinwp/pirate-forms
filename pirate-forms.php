@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: Pirate Forms - Contact form and SMTP Plugin
+Plugin Name: Free & Simple Contact Form Plugin - PirateForms
 Plugin URI: http://themeisle.com/plugins/pirate-forms/
 Description: Easily creates a nice looking, simple contact form on your WP site.
-Version: 1.0.7
+Version: 1.0.8
 Author: Themeisle
 Author URI: http://themeisle.com
 Text Domain: pirate-forms
@@ -470,16 +470,16 @@ function pirate_forms_process_contact() {
 
 	// If valid and present, create a link to an IP search
 	if ( ! empty( $contact_ip ) ) {
-		$body .= "IP address: $contact_ip \r IP search: http://whatismyipaddress.com/ip/$contact_ip \n\n";
+		$body .= __( 'IP address: ','pirate-forms' ). $contact_ip ."\r ".__( 'IP search:','pirate-forms' )." http://whatismyipaddress.com/ip/$contact_ip \n\n";
 	}
 
 	// Sanitize and prepare referrer;
 	if ( ! empty( $_POST['pirate-forms-contact-referrer'] ) ) {
-		$body .= "Came from: " . sanitize_text_field( $_POST['pirate-forms-contact-referrer'] ) . " \r";
+		$body .= __( 'Came from: ','pirate-forms' ) . sanitize_text_field( $_POST['pirate-forms-contact-referrer'] ) . " \r";
 	}
 
 	// Show the page this contact form was submitted on
-	$body .= 'Sent from page: ' . get_permalink( get_the_id() );
+	$body .= __( 'Sent from page: ','pirate-forms' ) . get_permalink( get_the_id() );
 
 	// Check the blacklist
 	$blocked = pirate_forms_get_blacklist();
