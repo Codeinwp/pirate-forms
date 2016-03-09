@@ -88,8 +88,7 @@ function pirate_forms_plugin_options() {
 			),
 			'pirateformsopt_email' => array(
 				__( 'Contact notification sender email','pirate-forms' ),
-				__( '<strong>Insert [email] to use the contact form submitter\'s email.</strong><br> Email to use for the sender of the contact form emails both to the recipients below and the contact form submitter (if this is activated below). The domain for this email address should match your site\'s domain.',
-					'email','pirate-forms' ),
+				'<strong>'.__( "Insert [email] to use the contact form submitter's email.","pirate-forms" ).'</strong><br>'.__( "Email to use for the sender of the contact form emails both to the recipients below and the contact form submitter (if this is activated below). The domain for this email address should match your site's domain.","pirate-forms" ),
 				'text',
 				pirate_forms_from_email()
 			),
@@ -595,7 +594,7 @@ function pirate_forms_admin() {
 				      if( $was_submited == false ){
 				        echo sprintf( '<p> %s </p><form class="pirate-forms-submit-mail" method="post"><input name="pirate_forms_mail" type="email" value="'.get_option( 'admin_email' ) .'" /><input class="button" type="submit" value="Submit"></form>', esc_html__('Ready to learn how to reduce your website loading times by half? Come and join the 1st lesson here!', 'pirate-forms' ) );
 				      } else {
-				        echo sprintf( '<p> %s </p>', esc_html__( 'Thank you for subscribing! You have been added to the mailing list and will receive the next email information in the coming weeks. If you ever wish to unsubscribe, simply use the “Unsubscribe” link included in each newsletter.', 'pirate-forms' ) );
+				        echo sprintf( '<p> %s </p>', esc_html__( 'Thank you for subscribing! You have been added to the mailing list and will receive the next email information in the coming weeks. If you ever wish to unsubscribe, simply use the "Unsubscribe" link included in each newsletter.', 'pirate-forms' ) );
 				      } ?>
 			</div>
 		</div>
