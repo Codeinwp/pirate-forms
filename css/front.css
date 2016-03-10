@@ -22,3 +22,6 @@
 .sidebar .pirate_forms_wrap label, .sidebar-wrap .pirate_forms_wrap label, #sidebar-secondary .pirate_forms_wrap label {
 	display: none;
 }
+.pirate_forms_clearfix {
+	clear: both;
+}
