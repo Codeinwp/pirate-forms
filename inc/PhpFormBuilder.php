@@ -359,7 +359,7 @@ class PhpFormBuilder {
 						break;
 					endif;
 				case 'submit':
-					$element = 'div class="col-sm-12 col-lg-12"><button';
+					$element = 'div class="col-sm-12 col-lg-12 contact_submit_wrap"><button';
 					$end .= ' class="" type="' . $val['type'] . '">' . $val['value'] . '</button></div>';
 					break;
 				default :

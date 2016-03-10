@@ -3,6 +3,7 @@ Contributors: themeisle, codeinwp, rodicaelena
 Tags: Attachment, cnotact, conact, contact, contact button, contact form, contact form plugin, contact me, contacts, contacts form plugin, contatc, copy, email submit form, email subscription, feedback, feedback form, form, insert the shortcode, message form, post feedback, request, send, send copy, send messages, shortcode, text, web-page feedback,smtp,recaptcha
 Requires at least: 3.0
 Tested up to: 4.4
+Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -68,3 +69,14 @@ Activating the Pirate Contact Form plugin is just like any other plugin. If you'
 2. Screenshot 2. How to customize contact form labels
 3. Screenshot 3. How to use reCaptcha
 4. Screenshot 4. Enabling SMTP
+
+== Changelog ==
+
+= 1.0.9 =
+* Fixed layout issues #52
+* Update readme.txt with == Changelog == section #51
+
+= 1.0.8 =
+* Update readme.txt
+* Update translations files
+* #42, translation issues fixed
