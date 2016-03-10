@@ -16,8 +16,8 @@
 }
 .sidebar .pirate-forms-submit-button, .sidebar-wrap .pirate-forms-submit-button, #sidebar-secondary .pirate-forms-submit-button {
 	float:left !important;
-	margin-left: 15px;
-    width: 90%;
+	margin-left: 0px;
+    width: 100%;
 }
 .sidebar .pirate_forms_wrap label, .sidebar-wrap .pirate_forms_wrap label, #sidebar-secondary .pirate_forms_wrap label {
 	display: none;
