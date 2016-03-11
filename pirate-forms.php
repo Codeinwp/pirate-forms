@@ -241,6 +241,27 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 				endif;
 			endif;
 
+			/******************************/
+			/********* ReCaptcha **********/
+			/******************************/
+
+			if( !empty($pirate_forms_options['pirateformsopt_recaptcha_secretkey']) && !empty($pirate_forms_options['pirateformsopt_recaptcha_sitekey']) && !empty($pirate_forms_options['pirateformsopt_recaptcha_field']) && ($pirate_forms_options['pirateformsopt_recaptcha_field'] == 'yes') ):
+
+				$pirateformsopt_recaptcha_sitekey = $pirate_forms_options['pirateformsopt_recaptcha_sitekey'];
+				$pirateformsopt_recaptcha_secretkey = $pirate_forms_options['pirateformsopt_recaptcha_secretkey'];
+
+				$pirate_form->add_input(
+					'',
+					array(
+						'value' => $pirateformsopt_recaptcha_sitekey,
+						'wrap_class' => 'col-xs-12 col-sm-6 col-lg-6 form_field_wrap form_captcha_wrap',
+						'type' => 'captcha',
+					),
+					'pirate-forms-captcha'
+				);
+
+			endif;
+
 			/********************************/
 			/********  Submit button ********/
 			/********************************/
@@ -268,25 +289,6 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 				endif;
 			endif;
 
-			/******************************/
-			/********* ReCaptcha **********/
-			/******************************/
-
-			if( !empty($pirate_forms_options['pirateformsopt_recaptcha_secretkey']) && !empty($pirate_forms_options['pirateformsopt_recaptcha_sitekey']) && !empty($pirate_forms_options['pirateformsopt_recaptcha_field']) && ($pirate_forms_options['pirateformsopt_recaptcha_field'] == 'yes') ):
-
-				$pirateformsopt_recaptcha_sitekey = $pirate_forms_options['pirateformsopt_recaptcha_sitekey'];
-				$pirateformsopt_recaptcha_secretkey = $pirate_forms_options['pirateformsopt_recaptcha_secretkey'];
-
-				$pirate_form->add_input(
-					'',
-					array(
-						'value' => $pirateformsopt_recaptcha_sitekey,
-						'type' => 'captcha'
-					),
-					'pirate-forms-captcha'
-				);
-
-			endif;
 	endif;
 
 	/* Referring site or page, if any */
