@@ -3,7 +3,7 @@
 Plugin Name: Free & Simple Contact Form Plugin - PirateForms
 Plugin URI: http://themeisle.com/plugins/pirate-forms/
 Description: Easily creates a nice looking, simple contact form on your WP site.
-Version: 1.0.10
+Version: 1.0.11
 Author: Themeisle
 Author URI: http://themeisle.com
 Text Domain: pirate-forms
@@ -135,7 +135,7 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 			if ( !empty($pirateformsopt_name_field) && !empty($pirateformsopt_name_label) ):
 
 				$required     = $pirateformsopt_name_field === 'req' ? TRUE : FALSE;
-				$wrap_classes = array( $pirate_forms_layout_input.' form_field_wrap', 'contact_name_wrap ' );
+				$wrap_classes = array( $pirate_forms_layout_input.' form_field_wrap', 'contact_name_wrap pirate_forms_three_inputs ' );
 
 				// If this field was submitted with invalid data
 				if ( isset( $_SESSION['pirate_forms_contact_errors']['contact-name'] ) ) {
@@ -161,7 +161,7 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 			if ( !empty($pirateformsopt_email_field) && !empty($pirateformsopt_email_label) ):
 
 				$required     = $pirateformsopt_email_field === 'req' ? TRUE : FALSE;
-				$wrap_classes = array( $pirate_forms_layout_input.' form_field_wrap', 'contact_email_wrap ' );
+				$wrap_classes = array( $pirate_forms_layout_input.' form_field_wrap', 'contact_email_wrap pirate_forms_three_inputs ' );
 
 				// If this field was submitted with invalid data
 				if ( isset( $_SESSION['pirate_forms_contact_errors']['contact-email'] ) ) {
@@ -188,7 +188,7 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 			if ( !empty($pirateformsopt_subject_field) && !empty($pirateformsopt_subject_label) ):
 
 				$required     = $pirateformsopt_subject_field === 'req' ? TRUE : FALSE;
-				$wrap_classes = array( $pirate_forms_layout_input.' form_field_wrap', 'contact_subject_wrap ' );
+				$wrap_classes = array( $pirate_forms_layout_input.' form_field_wrap', 'contact_subject_wrap pirate_forms_three_inputs ' );
 
 				// If this field was submitted with invalid data
 				if ( isset( $_SESSION['pirate_forms_contact_errors']['contact-subject'] ) ) {
@@ -241,6 +241,27 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 				endif;
 			endif;
 
+			/******************************/
+			/********* ReCaptcha **********/
+			/******************************/
+
+			if( !empty($pirate_forms_options['pirateformsopt_recaptcha_secretkey']) && !empty($pirate_forms_options['pirateformsopt_recaptcha_sitekey']) && !empty($pirate_forms_options['pirateformsopt_recaptcha_field']) && ($pirate_forms_options['pirateformsopt_recaptcha_field'] == 'yes') ):
+
+				$pirateformsopt_recaptcha_sitekey = $pirate_forms_options['pirateformsopt_recaptcha_sitekey'];
+				$pirateformsopt_recaptcha_secretkey = $pirate_forms_options['pirateformsopt_recaptcha_secretkey'];
+
+				$pirate_form->add_input(
+					'',
+					array(
+						'value' => $pirateformsopt_recaptcha_sitekey,
+						'wrap_class' => 'col-xs-12 col-sm-6 col-lg-6 form_field_wrap form_captcha_wrap',
+						'type' => 'captcha',
+					),
+					'pirate-forms-captcha'
+				);
+
+			endif;
+
 			/********************************/
 			/********  Submit button ********/
 			/********************************/
@@ -268,25 +289,6 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 				endif;
 			endif;
 
-			/******************************/
-			/********* ReCaptcha **********/
-			/******************************/
-
-			if( !empty($pirate_forms_options['pirateformsopt_recaptcha_secretkey']) && !empty($pirate_forms_options['pirateformsopt_recaptcha_sitekey']) && !empty($pirate_forms_options['pirateformsopt_recaptcha_field']) && ($pirate_forms_options['pirateformsopt_recaptcha_field'] == 'yes') ):
-
-				$pirateformsopt_recaptcha_sitekey = $pirate_forms_options['pirateformsopt_recaptcha_sitekey'];
-				$pirateformsopt_recaptcha_secretkey = $pirate_forms_options['pirateformsopt_recaptcha_secretkey'];
-
-				$pirate_form->add_input(
-					'',
-					array(
-						'value' => $pirateformsopt_recaptcha_sitekey,
-						'type' => 'captcha'
-					),
-					'pirate-forms-captcha'
-				);
-
-			endif;
 	endif;
 
 	/* Referring site or page, if any */
