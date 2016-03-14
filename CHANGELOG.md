@@ -1,5 +1,13 @@
 
 
+### 1.0.11 - 14/03/2016
+
+ Changes: 
+
+
+ * Fixed #55 Recaptcha too down
+
+
 ### 1.0.9 - 10/03/2016
 
  Changes: 
