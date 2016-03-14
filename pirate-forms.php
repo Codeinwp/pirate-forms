@@ -135,7 +135,7 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 			if ( !empty($pirateformsopt_name_field) && !empty($pirateformsopt_name_label) ):
 
 				$required     = $pirateformsopt_name_field === 'req' ? TRUE : FALSE;
-				$wrap_classes = array( $pirate_forms_layout_input.' form_field_wrap', 'contact_name_wrap ' );
+				$wrap_classes = array( $pirate_forms_layout_input.' form_field_wrap', 'contact_name_wrap pirate_forms_three_inputs ' );
 
 				// If this field was submitted with invalid data
 				if ( isset( $_SESSION['pirate_forms_contact_errors']['contact-name'] ) ) {
@@ -161,7 +161,7 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 			if ( !empty($pirateformsopt_email_field) && !empty($pirateformsopt_email_label) ):
 
 				$required     = $pirateformsopt_email_field === 'req' ? TRUE : FALSE;
-				$wrap_classes = array( $pirate_forms_layout_input.' form_field_wrap', 'contact_email_wrap ' );
+				$wrap_classes = array( $pirate_forms_layout_input.' form_field_wrap', 'contact_email_wrap pirate_forms_three_inputs ' );
 
 				// If this field was submitted with invalid data
 				if ( isset( $_SESSION['pirate_forms_contact_errors']['contact-email'] ) ) {
@@ -188,7 +188,7 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 			if ( !empty($pirateformsopt_subject_field) && !empty($pirateformsopt_subject_label) ):
 
 				$required     = $pirateformsopt_subject_field === 'req' ? TRUE : FALSE;
-				$wrap_classes = array( $pirate_forms_layout_input.' form_field_wrap', 'contact_subject_wrap ' );
+				$wrap_classes = array( $pirate_forms_layout_input.' form_field_wrap', 'contact_subject_wrap pirate_forms_three_inputs ' );
 
 				// If this field was submitted with invalid data
 				if ( isset( $_SESSION['pirate_forms_contact_errors']['contact-subject'] ) ) {
