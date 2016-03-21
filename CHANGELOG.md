@@ -1,5 +1,13 @@
 
 
+### 1.0.12 - 21/03/2016
+
+ Changes: 
+
+
+ * Option to change recaptcha language
+
+
 ### 1.0.11 - 14/03/2016
 
  Changes: 
