@@ -72,6 +72,13 @@ Activating the Pirate Contact Form plugin is just like any other plugin. If you'
 
 == Changelog ==
 
+= 1.0.12 =
+* Update contributors names
+* Option to change recaptcha language
+
+= 1.0.11 =
+* Fixed #55 Recaptcha too down
+
 = 1.0.9 =
 * Fixed layout issues #52
 * Update readme.txt with == Changelog == section #51
