@@ -357,7 +357,7 @@ function pirate_forms_process_contact() {
 	}
 
 	// Start the body of the contact email
-	$body = "*** " . __( 'Contact form submission on', 'pirate-forms' ) . " " .
+	$body = "*** " . __( 'Contact form submission from', 'pirate-forms' ) . " " .
 		get_bloginfo( 'name' ) . " (" . site_url() . ") *** \n\n";
 
 
