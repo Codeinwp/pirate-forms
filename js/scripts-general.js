@@ -10,6 +10,8 @@ jQuery(document).ready(function() {
     }
 	
 	if( typeof jQuery('.pirate_forms_three_inputs').val() != 'undefined' ) {
-		jQuery('.pirate_forms_three_inputs').wrapAll('<div class="pirate_forms_three_inputs_wrap">');
+		 jQuery('.pirate_forms ').each(function(){
+			  jQuery(this).find('.pirate_forms_three_inputs').wrapAll('<div class="pirate_forms_three_inputs_wrap">'); 
+		  })
 	}
 });
