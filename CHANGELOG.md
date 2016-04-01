@@ -1,5 +1,18 @@
 
 
+### 1.0.13 - 01/04/2016
+
+ Changes: 
+
+
+ * fix issue with multiple forms on same page 
+
+fix for https://github.com/Codeinwp/pirate-forms/issues/59
+ * Merge pull request #60 from selu91/development
+
+fix issue with multiple forms on same page
+
+
 ### 1.0.12 - 21/03/2016
 
  Changes: 
