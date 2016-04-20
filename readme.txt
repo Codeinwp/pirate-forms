@@ -31,6 +31,7 @@ Avoid spam messages and make sure the e-mails you receive are entirely addressed
 - Comes with SMTP
 
 With the SMTP option, you can be sure you won’t miss any e-mail from your visitors. The messages will be safely delivered from the source to your personal e-mail address.
+If you were using Mandrill's SMTP for transactional emails and contact forms, you should take a look at these <a href="http://www.codeinwp.com/blog/mandrill-alternatives/" rel="friend"> Mandrill Alternatives</a>.
 
 - Stores contacts in special databases
 
