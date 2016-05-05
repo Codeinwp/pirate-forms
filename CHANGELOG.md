@@ -1,5 +1,18 @@
 
 
+### 1.0.13 - 05/05/2016
+
+ Changes: 
+
+
+ * Update readme.txt
+ * Merge pull request #63 from mariusghitulescu/patch-1
+
+Update readme.txt
+ * Update readme.txt
+ * Update readme.txt
+
+
 ### 1.0.13 - 01/04/2016
 
  Changes: 
