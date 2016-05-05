@@ -1,6 +1,6 @@
 === Simple Contact Form Plugin - PirateForms ===
 Contributors: themeisle, codeinwp, rodicaelena, alexandrastan001, gouravwptech, hardeepasrani
-Tags: Attachment, cnotact, conact, contact, contact button, contact form, contact form plugin, contact me, contacts, contacts form plugin, contatc, copy, email submit form, email subscription, feedback, feedback form, form, insert the shortcode, message form, post feedback, request, send, send copy, send messages, shortcode, text, web-page feedback,smtp,recaptcha,admin, advanced form, best contact form plugin, contact, contact button, contact form, contact form builder, Contact Form Builder with recaptcha, contact form plugin, contact forms, contact forms plugin, contact manager, contact us, contact us form, contacts form plugin, custom form, feedback, feedback form, feedback forms, form, forms, forms plugin, post feedback, web form, web forms, wordpress contact form
+Tags:  contact form 7,Attachment, cnotact, conact, contact, contact button, contact form, contact form plugin, contact me, contacts, contacts form plugin, contatc, copy, email submit form, email subscription, feedback, feedback form, form, insert the shortcode, message form, post feedback, request, send, send copy, send messages, shortcode, text, web-page feedback,smtp,recaptcha,admin, advanced form, best contact form plugin, contact, contact button, contact form, contact form builder, Contact Form Builder with recaptcha, contact form plugin, contact forms, contact forms plugin, contact manager, contact us, contact us form, contacts form plugin, custom form, feedback, feedback form, feedback forms, form, forms, forms plugin, post feedback, web form, web forms, wordpress contact form
 Requires at least: 3.0
 Tested up to: 4.4
 Stable tag: trunk
@@ -14,7 +14,7 @@ Makes your contact form page more engaging by creating a good-looking simple Wor
 Stay in touch with your visitors very easily. <a href="http://themeisle.com/plugins/pirate-forms/" rel="friend">Pirate Contact Forms</a> offers you a great and friendly contact form for your website.
 This is an easy-to-use WordPress contact form with captcha plugin. To create a contact form you just need to use the [pirate_forms] shortcode or the 'Pirate Forms' widget.
 
-**Why use our WordPress Contact Form:**
+**Why use our responsive WordPress Contact Form:**
 
 - It's easy to use
 
