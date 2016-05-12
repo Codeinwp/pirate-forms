@@ -52,17 +52,7 @@ We've also built some fantastic <a href="http://themeisle.com/wordpress-themes/f
 
 If are you looking for other alternatives check-out our article on <a href="http://www.codeinwp.com/blog/best-contact-form-plugins-wordpress/" rel="friend" target="_blank">best contact form plugins</a>.
 
-**About us:**
 
-We are a young team of WordPress enthusiasts who enjoy developing <a href="http://themeisle.com/wordpress-plugins/" rel="friend" target="_blank">free WordPress plugins</a> and <a href="http://themeisle.com/wordpress-themes/" rel="friend" target="_blank">themes</a> for small businesses and startups. Check them out and let us know what you think, our goal is to build fully fledged products that can will solve your needs.
-
-We also love to blog at CodeinWP and help our users finding the <a href="http://www.codeinwp.com/blog/best-wordpress-shared-hosting-providers/" rel="friend">best hosting</a> or <a href="http://justfreethemes.com/" rel="friend">themes</a>.
-
-**More from us**
-
-- <a href="http://justfreethemes.com/" rel="friend" target="_blank">JustFreeThemes</a> - Find the best free WordPress Themes
-- <a href="http://www.codeinwp.com/" rel="friend" target="_blank">CodeinWP</a> - Turn your PSD file into a WordPress Theme
-- <a href="http://revive.social/" rel="friend" target="_blank">Revive.Social</a> - WordPress plugins for Social Media marketers
 
 This plugin started as a fork of https://wordpress.org/plugins/proper-contact-form/.
 
