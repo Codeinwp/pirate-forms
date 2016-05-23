@@ -626,8 +626,9 @@ function pirate_forms_admin() {
 										<?php
 
 											$checked = '';
-											if ( $opt_val == 'yes' )
+											if (  array_key_exists( $opt_id,$pirate_forms_options ) ) {
 												$checked = 'checked';
+											}
 											?>
 
 											<input type="checkbox" value="yes" name="<?php echo $opt_id; ?>" id="<?php echo $opt_id; ?>" <?php echo $checked; ?>>Yes
