@@ -152,7 +152,7 @@
 }
 
 .pirate-forms-tab-pane hr {
-	margin-bottom: 50px;
+	margin-bottom: 30px; 
 }
 
 .pirate-forms-tab-pane ol {
@@ -176,10 +176,15 @@
 	width: auto;
 }
 
+.pirate_forms_preview {
+	margin: 0 auto 10px;
+	display: inherit;
+}
+
 @media( max-width: 1360px){
 	.pirate-subscribe.postbox{
 		margin-left: 0;
-		margin-top: 20px;
+		margin-top: 40px;
 		display: block;
 	}
 }

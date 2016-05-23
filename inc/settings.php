@@ -442,6 +442,8 @@ function pirate_forms_admin() {
 
 					<hr>
 
+					<img class="pirate_forms_preview" src="<?php echo plugins_url( '../img/preview.png', __FILE__ ) ?>">
+
 					<p><?php esc_html_e( 'There are 3 ways of using the newly created form:','pirate-forms' ); ?></p>
 					<ol>
 						<li><?php esc_html_e( 'Add a ','pirate-forms' ); ?><strong><a href="<?php echo admin_url( 'widgets.php' ); ?>"><?php esc_html_e( 'widget','pirate-forms' ); ?></a></strong></li>
@@ -455,11 +457,13 @@ function pirate_forms_admin() {
 
 						<h4><?php esc_html_e( 'Are you enjoying Pirate Forms?', 'pirate-forms' ); ?></h4>
 
-						<p class="review-link"><?php echo sprintf( esc_html__( 'Rate our plugin on %sWordPress.org%s. We\'d really appreciate it!', 'pirate-forms' ), '<a href="https://wordpress.org/support/plugin/pirate-forms/" target="_blank" rel="nofollow"> ', '</a>' ); ?></p>
+						<p class="review-link"><?php echo sprintf( esc_html__( 'Rate our plugin on %sWordPress.org%s. We\'d really appreciate it!', 'pirate-forms' ), '<a href="https://wordpress.org/support/view/plugin-reviews/pirate-forms" target="_blank" rel="nofollow"> ', '</a>' ); ?></p>
 
 						<p><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span></p>
 
+						<p><small><?php echo sprintf( esc_html__( 'If you want a more complex Contact Form Plugin please check %sthis link%s.', 'pirate-forms' ),  '<a href="http://www.codeinwp.com/blog/best-contact-form-plugins-wordpress/" target="_blank" >', '</a>'); ?></small></p>
 					</div>
+
 
 				</div>
 
