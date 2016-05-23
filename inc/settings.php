@@ -119,7 +119,7 @@ function pirate_forms_plugin_options() {
 		),
 		'first_tab' => array(
 			'header_fields' => array(
-				__( 'Fields','pirate-forms' ),
+				__( 'Fields Settings','pirate-forms' ),
 				'',
 				'title',
 				'',
@@ -197,7 +197,7 @@ function pirate_forms_plugin_options() {
 		),
 		'second_tab' => array(
 			'header_labels' => array(
-				__( 'Labels','pirate-forms' ),
+				__( 'Fields Labels','pirate-forms' ),
 				'',
 				'title',
 				'',
@@ -235,7 +235,7 @@ function pirate_forms_plugin_options() {
 		),
 		'third_tab' => array(
 			'header_messages' => array(
-				__( 'Messages','pirate-forms' ),
+				__( 'Alert Messages','pirate-forms' ),
 				'',
 				'title',
 				'',
@@ -421,9 +421,9 @@ function pirate_forms_admin() {
 			<ul class="pirate-forms-nav-tabs" role="tablist">
 				<li role="presentation" class="active"><a href="#0" aria-controls="how_to_use" role="tab" data-toggle="tab"><?php esc_html_e( 'How to use','pirate-forms'); ?></a></li>
 				<li role="presentation"><a href="#1" aria-controls="options" role="tab" data-toggle="tab"><?php esc_html_e( 'Options','pirate-forms'); ?></a></li>
-				<li role="presentation"><a href="#2" aria-controls="fields" role="tab" data-toggle="tab"><?php esc_html_e( 'Fields','pirate-forms'); ?></a></li>
-				<li role="presentation"><a href="#3" aria-controls="labels" role="tab" data-toggle="tab"><?php esc_html_e( 'Labels','pirate-forms'); ?></a></li>
-				<li role="presentation"><a href="#4" aria-controls="messages" role="tab" data-toggle="tab"><?php esc_html_e( 'Messages','pirate-forms'); ?></a></li>
+				<li role="presentation"><a href="#2" aria-controls="fields" role="tab" data-toggle="tab"><?php esc_html_e( 'Fields Settings','pirate-forms'); ?></a></li>
+				<li role="presentation"><a href="#3" aria-controls="labels" role="tab" data-toggle="tab"><?php esc_html_e( 'Fields Labels','pirate-forms'); ?></a></li>
+				<li role="presentation"><a href="#4" aria-controls="messages" role="tab" data-toggle="tab"><?php esc_html_e( 'Alert Messages','pirate-forms'); ?></a></li>
 				<li role="presentation"><a href="#5" aria-controls="smtp" role="tab" data-toggle="tab"><?php esc_html_e( 'SMTP','pirate-forms'); ?></a></li>
 			</ul>
 
@@ -431,13 +431,13 @@ function pirate_forms_admin() {
 
 				<div id="0" class="pirate-forms-tab-pane active">
 
-					<p><?php esc_html_e( 'Welcome to Pirate Forms!','pirate-forms' ); ?><p>
+					<h2><?php esc_html_e( 'Welcome to Pirate Forms!','pirate-forms' ); ?></h2>
 					<p><?php esc_html_e( 'To get started, just ','pirate-forms'); ?><b><?php esc_html_e( 'configure all the options ','pirate-forms'); ?></b><?php  esc_html_e( 'you need, hit save and start using the created form.','pirate-forms' ); ?><p>
 
 					<hr>
 
 					<p><?php esc_html_e( 'There are 3 ways of using the newly created form:','pirate-forms' ); ?><p>
-					<p><?php esc_html_e( '1. Use the shortcode ','pirate-forms' ); ?><code>[pirate_forms] </code><?php esc_html_e( 'in any page or post.','pirate-forms' ); ?><p>
+					<p><?php esc_html_e( '1. Use the shortcode ','pirate-forms' ); ?><code>[pirate_forms]</code><?php esc_html_e( ' in any page or post.','pirate-forms' ); ?><p>
 					<p><?php esc_html_e( '2. Add a ','pirate-forms' ); ?><a href="<?php echo admin_url( 'widgets.php' ); ?>"><?php esc_html_e( 'widget','pirate-forms' ); ?></a><p>
 					<p><?php esc_html_e( '3. Use the shortcode ','pirate-forms' ); ?><code>&lt;?php echo do_shortcode( '[pirate_forms]' ) ?&gt;</code><?php esc_html_e( 'in the theme\'s files.','pirate-forms' ); ?><p>
 
