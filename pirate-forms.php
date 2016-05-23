@@ -3,7 +3,7 @@
 Plugin Name: Free & Simple Contact Form Plugin - PirateForms
 Plugin URI: http://themeisle.com/plugins/pirate-forms/
 Description: Easily creates a nice looking, simple contact form on your WP site.
-Version: 1.0.13
+Version: 1.0.14
 Author: Themeisle
 Author URI: http://themeisle.com
 Text Domain: pirate-forms

@@ -55,25 +55,26 @@
 
 .pirate-forms-tab-pane {
 	padding: 30px;
-}
-.pirate-forms-tab-pane {
 	display: none;
 }
+
 .pirate-forms-tab-pane.active {
 	display: block;
 }
 .pirate-forms-grouped {
-	margin-bottom: .5em;
+	display: flex;
+	align-items: center;
+	margin-bottom: 20px;
 }
 .pirate-forms-grouped label {
-	text-align: right;
 	display: inline-block;
 	width: 260px;
 	margin: 0 1em 0 0;
 	font-size: 15px;
+	color: #333;
 	font-weight: bold;
 }
-.pirate-forms-grouped label span {
+.pirate-forms-grouped label .pirate_forms_option_description {
 	font-size: 11px;
 	font-weight: normal;
 }
@@ -102,10 +103,88 @@
 	margin-right: 0;
 }
 
+#\31 > form > div > label > span.dashicons {
+    color: #888;
+    margin-left: 10px;
+}
+
+#\31 > form > div > label > span.dashicons:after {
+    display: none;
+    content: "";
+    position: absolute;
+    margin-left: 5px;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid black;
+}
+
+#\31 > form > div > label > .pirate_forms_option_description {
+	display: none;
+    background: rgba(0,0,0,.8);
+    border-radius: 5px;
+    color: #fff;
+    padding: 15px;
+    position: absolute;
+    font-size: 11px;
+    line-height: 16px;
+	margin-left: 190px;
+    margin-top: 4px;
+    z-index: 999;
+    width: 200px;
+    text-align: left;
+}
+
+#\31 > form > div > label > span.dashicons:hover + .pirate_forms_option_description, #\31 > form > div > label > span.dashicons:hover::after  {
+    display:block;
+
+}
+
+#\31 > form > div > label {
+	width: 400px;
+  font-weight: normal;
+}
+
+.pirate_forms_contact_settings h3.title, .pirate_forms_welcome_text {
+	text-align: center;
+    font-size: 23px;
+    color: #555;
+    margin: 10px 0 30px;
+}
+
+.pirate-forms-tab-pane hr {
+	margin-bottom: 30px; 
+}
+
+.pirate-forms-tab-pane ol {
+	margin: 20px 0 20px 50px;
+  list-style: inherit;
+}
+
+.pirate_forms_subheading {
+	text-align: center;
+	color: #333;
+	font-size: 14px;
+}
+
+.rate_plugin_invite {
+	text-align: center;
+}
+
+.rate_plugin_invite .dashicons {
+	color: #0073aa;
+	font-size: 12px;
+	width: auto;
+}
+
+.pirate_forms_preview {
+	margin: 0 auto 10px;
+	display: inherit;
+}
+
 @media( max-width: 1360px){
 	.pirate-subscribe.postbox{
 		margin-left: 0;
-		margin-top: 20px;
+		margin-top: 40px;
 		display: block;
 	}
 }

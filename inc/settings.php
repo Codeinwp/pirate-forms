@@ -113,13 +113,13 @@ function pirate_forms_plugin_options() {
 			'pirateformsopt_confirm_email' => array(
 				__( 'Send email confirmation to form submitter','pirate-forms' ),
 				__( 'Adding text here will send an email to the form submitter. The email uses the "Text to show when form is submitted..." field below as the subject line. Plain text only here, no HTML.','pirate-forms' ),
-				'text',
+				'textarea',
 				'',
 			)
 		),
 		'first_tab' => array(
 			'header_fields' => array(
-				__( 'Fields','pirate-forms' ),
+				__( 'Fields Settings','pirate-forms' ),
 				'',
 				'title',
 				'',
@@ -197,7 +197,7 @@ function pirate_forms_plugin_options() {
 		),
 		'second_tab' => array(
 			'header_labels' => array(
-				__( 'Labels','pirate-forms' ),
+				__( 'Fields Labels','pirate-forms' ),
 				'',
 				'title',
 				'',
@@ -235,7 +235,7 @@ function pirate_forms_plugin_options() {
 		),
 		'third_tab' => array(
 			'header_messages' => array(
-				__( 'Messages','pirate-forms' ),
+				__( 'Alert Messages','pirate-forms' ),
 				'',
 				'title',
 				'',
@@ -272,6 +272,12 @@ function pirate_forms_plugin_options() {
 			)
 		),
 		'fifth_tab' => array(
+			'header_smtp' => array(
+				__( 'SMTP Options','pirate-forms' ),
+				'',
+				'title',
+				'',
+			),
 			'pirateformsopt_use_smtp' => array(
 				__( 'Use SMTP to send emails?','pirate-forms' ),
 				__( 'Instead of PHP mail function','pirate-forms' ),
@@ -421,9 +427,9 @@ function pirate_forms_admin() {
 			<ul class="pirate-forms-nav-tabs" role="tablist">
 				<li role="presentation" class="active"><a href="#0" aria-controls="how_to_use" role="tab" data-toggle="tab"><?php esc_html_e( 'How to use','pirate-forms'); ?></a></li>
 				<li role="presentation"><a href="#1" aria-controls="options" role="tab" data-toggle="tab"><?php esc_html_e( 'Options','pirate-forms'); ?></a></li>
-				<li role="presentation"><a href="#2" aria-controls="fields" role="tab" data-toggle="tab"><?php esc_html_e( 'Fields','pirate-forms'); ?></a></li>
-				<li role="presentation"><a href="#3" aria-controls="labels" role="tab" data-toggle="tab"><?php esc_html_e( 'Labels','pirate-forms'); ?></a></li>
-				<li role="presentation"><a href="#4" aria-controls="messages" role="tab" data-toggle="tab"><?php esc_html_e( 'Messages','pirate-forms'); ?></a></li>
+				<li role="presentation"><a href="#2" aria-controls="fields" role="tab" data-toggle="tab"><?php esc_html_e( 'Fields Settings','pirate-forms'); ?></a></li>
+				<li role="presentation"><a href="#3" aria-controls="labels" role="tab" data-toggle="tab"><?php esc_html_e( 'Fields Labels','pirate-forms'); ?></a></li>
+				<li role="presentation"><a href="#4" aria-controls="messages" role="tab" data-toggle="tab"><?php esc_html_e( 'Alert Messages','pirate-forms'); ?></a></li>
 				<li role="presentation"><a href="#5" aria-controls="smtp" role="tab" data-toggle="tab"><?php esc_html_e( 'SMTP','pirate-forms'); ?></a></li>
 			</ul>
 
@@ -431,15 +437,33 @@ function pirate_forms_admin() {
 
 				<div id="0" class="pirate-forms-tab-pane active">
 
-					<p><?php esc_html_e( 'Welcome to Pirate Forms!','pirate-forms' ); ?><p>
-					<p><?php esc_html_e( 'To get started, just ','pirate-forms'); ?><b><?php esc_html_e( 'configure all the options ','pirate-forms'); ?></b><?php  esc_html_e( 'you need, hit save and start using the created form.','pirate-forms' ); ?><p>
+					<h2 class="pirate_forms_welcome_text"><?php esc_html_e( 'Welcome to Pirate Forms!','pirate-forms' ); ?></h2>
+					<p class= "pirate_forms_subheading"><?php esc_html_e( 'To get started, just ','pirate-forms'); ?><b><?php esc_html_e( 'configure all the options ','pirate-forms'); ?></b><?php  esc_html_e( 'you need, hit save and start using the created form.','pirate-forms' ); ?></p>
 
 					<hr>
 
-					<p><?php esc_html_e( 'There are 3 ways of using the newly created form:','pirate-forms' ); ?><p>
-					<p><?php esc_html_e( '1. Use the shortcode ','pirate-forms' ); ?><code>[pirate_forms] </code><?php esc_html_e( 'in any page or post.','pirate-forms' ); ?><p>
-					<p><?php esc_html_e( '2. Add a ','pirate-forms' ); ?><a href="<?php echo admin_url( 'widgets.php' ); ?>"><?php esc_html_e( 'widget','pirate-forms' ); ?></a><p>
-					<p><?php esc_html_e( '3. Use the shortcode ','pirate-forms' ); ?><code>&lt;?php echo do_shortcode( '[pirate_forms]' ) ?&gt;</code><?php esc_html_e( 'in the theme\'s files.','pirate-forms' ); ?><p>
+					<img class="pirate_forms_preview" src="<?php echo plugins_url( '../img/preview.png', __FILE__ ) ?>">
+
+					<p><?php esc_html_e( 'There are 3 ways of using the newly created form:','pirate-forms' ); ?></p>
+					<ol>
+						<li><?php esc_html_e( 'Add a ','pirate-forms' ); ?><strong><a href="<?php echo admin_url( 'widgets.php' ); ?>"><?php esc_html_e( 'widget','pirate-forms' ); ?></a></strong></li>
+						<li><?php esc_html_e( 'Use the shortcode ','pirate-forms' ); ?><strong><code>[pirate_forms]</code></strong><?php esc_html_e( ' in any page or post.','pirate-forms' ); ?></li>
+						<li><?php esc_html_e( 'Use the shortcode ','pirate-forms' ); ?><strong><code>&lt;?php echo do_shortcode( '[pirate_forms]' ) ?&gt;</code></strong><?php esc_html_e( ' in the theme\'s files.','pirate-forms' ); ?></li>
+					</ol>
+
+					<hr>
+
+					<div class="rate_plugin_invite">
+
+						<h4><?php esc_html_e( 'Are you enjoying Pirate Forms?', 'pirate-forms' ); ?></h4>
+
+						<p class="review-link"><?php echo sprintf( esc_html__( 'Rate our plugin on %sWordPress.org%s. We\'d really appreciate it!', 'pirate-forms' ), '<a href="https://wordpress.org/support/view/plugin-reviews/pirate-forms" target="_blank" rel="nofollow"> ', '</a>' ); ?></p>
+
+						<p><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span></p>
+
+						<p><small><?php echo sprintf( esc_html__( 'If you want a more complex Contact Form Plugin please check %sthis link%s.', 'pirate-forms' ),  '<a href="http://www.codeinwp.com/blog/best-contact-form-plugins-wordpress/" target="_blank" >', '</a>'); ?></small></p>
+					</div>
+
 
 				</div>
 
@@ -506,17 +530,63 @@ function pirate_forms_admin() {
 									?>
 
 									<div class="pirate-forms-grouped">
-										<label for="<?php echo $opt_id ?>"><?php echo $opt_name.'<br>'.'<span>'.$opt_desc.'</span>'; ?></label>
+
+										<label for="<?php echo $opt_id ?>"><?php echo $opt_name;
+
+											if(!empty($opt_desc)) {
+
+												if( ($opt_id == "pirateformsopt_email") || ($opt_id == "pirateformsopt_email_recipients") || ($opt_id == "pirateformsopt_confirm_email") ) {
+
+													echo '<span class="dashicons dashicons-editor-help"></span>';
+
+												}
+
+												echo '<div class="pirate_forms_option_description">'.$opt_desc.'</div>'; } ?>
+
+										</label>
+
 										<input name="<?php echo $opt_id; ?>" id="<?php echo $opt_id ?>" type="<?php echo $opt_type; ?>" value="<?php echo stripslashes( $opt_val ); ?>" class="widefat">
 									</div>
 
 									<?php
 									break;
+
+								case "textarea":
+									?>
+
+									<div class="pirate-forms-grouped">
+
+										<label for="<?php echo $opt_id ?>"><?php echo $opt_name;
+
+											if(!empty($opt_desc)) {
+
+												if( ($opt_id == "pirateformsopt_confirm_email") ) {
+
+													echo '<span class="dashicons dashicons-editor-help"></span>';
+
+												}
+
+												echo '<div class="pirate_forms_option_description">'.$opt_desc.'</div>'; } ?>
+
+										</label>
+
+										<textarea name="<?php echo $opt_id; ?>" id="<?php echo $opt_id ?>" type="<?php echo $opt_type; ?>" value="<?php echo stripslashes( $opt_val ); ?>" rows="5" cols="30"></textarea>
+									</div>
+
+									<?php
+									break;
+
 								case "select":
 									?>
 									<div class="pirate-forms-grouped">
 
-										<label for="<?php echo $opt_id ?>"><?php echo $opt_name.'<br>'.'<span>'.$opt_desc.'</span>'; ?></label>
+										<label for="<?php echo $opt_id ?>"><?php echo $opt_name;
+
+											if(!empty($opt_desc)) {
+
+												echo '<div class="pirate_forms_option_description">'.$opt_desc.'</div>'; } ?>
+
+										</label>
 
 										<select name="<?php echo $opt_id ?>" id="<?php echo $opt_id; ?>">
 											<?php
@@ -538,13 +608,27 @@ function pirate_forms_admin() {
 								case "checkbox":
 									?>
 									<div class="pirate-forms-grouped">
-										<label for="<?php echo $opt_id; ?>"><?php echo $opt_name.'<br>'.'<span>'.$opt_desc.'</span>'; ?></label>
+
+										<label for="<?php echo $opt_id ?>"><?php echo $opt_name;
+
+											if(!empty($opt_desc)) {
+
+												if( ($opt_id == "pirateformsopt_store") || ($opt_id == "pirateformsopt_blacklist") ) {
+
+													echo '<span class="dashicons dashicons-editor-help"></span>';
+
+												}
+
+												echo '<div class="pirate_forms_option_description">'.$opt_desc.'</div>'; } ?>
+
+										</label>
 
 										<?php
 
 											$checked = '';
-											if ( $opt_val == 'yes' )
+											if (  array_key_exists( $opt_id,$pirate_forms_options ) ) {
 												$checked = 'checked';
+											}
 											?>
 
 											<input type="checkbox" value="yes" name="<?php echo $opt_id; ?>" id="<?php echo $opt_id; ?>" <?php echo $checked; ?>>Yes
