@@ -442,8 +442,6 @@ function pirate_forms_admin() {
 
 					<hr>
 
-					<img class="pirate_forms_preview" src="<?php echo plugins_url( '../img/preview.png', __FILE__ ) ?>">
-
 					<p><?php esc_html_e( 'There are 3 ways of using the newly created form:','pirate-forms' ); ?></p>
 					<ol>
 						<li><?php esc_html_e( 'Add a ','pirate-forms' ); ?><strong><a href="<?php echo admin_url( 'widgets.php' ); ?>"><?php esc_html_e( 'widget','pirate-forms' ); ?></a></strong></li>
