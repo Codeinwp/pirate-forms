@@ -40,6 +40,8 @@ class pirate_forms_contact_widget extends WP_Widget {
 
 			echo do_shortcode('[pirate_forms]');
 
+			echo '<div class="pirate_forms_clearfix"></div>';
+
 		echo '</div>' . $after_widget;
 
 	}
