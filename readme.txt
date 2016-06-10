@@ -2,7 +2,7 @@
 Contributors: themeisle, codeinwp, rodicaelena, alexandrastan001, gouravwptech, hardeepasrani
 Tags:  contact form 7,Attachment, cnotact, conact, contact, contact button, contact form, contact form plugin, contact me, contacts, contacts form plugin, contatc, copy, email submit form, email subscription, feedback, feedback form, form, insert the shortcode, message form, post feedback, request, send, send copy, send messages, shortcode, text, web-page feedback,smtp,recaptcha,admin, advanced form, best contact form plugin, contact, contact button, contact form, contact form builder, Contact Form Builder with recaptcha, contact form plugin, contact forms, contact forms plugin, contact manager, contact us, contact us form, contacts form plugin, custom form, feedback, feedback form, feedback forms, form, forms, forms plugin, post feedback, web form, web forms, wordpress contact form
 Requires at least: 3.0
-Tested up to: 4.4
+Tested up to: 4.5.2
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
