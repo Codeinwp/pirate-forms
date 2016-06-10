@@ -1,4 +1,10 @@
 
+### 1.0.15 - 10/06/2016
+**Changes:** 
+- Update screenshots
+- Added a clearfix after the Pirate Forms widget to avoid messed layout
+- Update compatible WordPress version number
+
 ### 1.0.14 - 23/05/2016
 **Changes:** 
 - Reorganize backend content
