@@ -77,6 +77,11 @@ Activating the Pirate Contact Form plugin is just like any other plugin. If you'
 
 == Changelog ==
 
+= 1.0.15 =
+* Update screenshots
+* Added a clearfix after the Pirate Forms widget to avoid messed layout
+* Update compatible WordPress version number
+
 = 1.0.14 =
 * Fix issues with checkboxes not saving data
 * Redo the layout of the plugin's admin area
