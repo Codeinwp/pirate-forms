@@ -1,4 +1,8 @@
 
+### 1.0.16 - 20/06/2016
+**Changes:** 
+- #89 textarea field not saving
+
 ### 1.0.15 - 10/06/2016
 **Changes:** 
 - Update screenshots
