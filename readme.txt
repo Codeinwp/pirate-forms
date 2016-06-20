@@ -77,6 +77,9 @@ Activating the Pirate Contact Form plugin is just like any other plugin. If you'
 
 == Changelog ==
 
+= 1.0.16 =
+* textarea field not saving
+
 = 1.0.15 =
 * Update screenshots
 * Added a clearfix after the Pirate Forms widget to avoid messed layout
