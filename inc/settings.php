@@ -568,7 +568,7 @@ function pirate_forms_admin() {
 
 										</label>
 
-										<textarea name="<?php echo $opt_id; ?>" id="<?php echo $opt_id ?>" type="<?php echo $opt_type; ?>" value="<?php echo stripslashes( $opt_val ); ?>" rows="5" cols="30"></textarea>
+										<textarea name="<?php echo $opt_id; ?>" id="<?php echo $opt_id ?>" type="<?php echo $opt_type; ?>" rows="5" cols="30"><?php echo stripslashes( $opt_val ); ?></textarea>
 									</div>
 
 									<?php
