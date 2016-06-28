@@ -277,6 +277,14 @@ class PhpFormBuilder {
 			) {
 				$val['checked'] = isset( $_REQUEST[ $val['name'] ] ) ? true : $val['checked'];
 			}
+			
+			// Add loading animations if needed
+			
+			if ( function_exists( 'zerif_setup' ) ) {
+				$animations = 'data-scrollreveal="enter bottom after 0s over 1s"';
+			} else {
+				$animations = '';
+			}
 
 			switch ( $val['type'] ) {
 
@@ -293,7 +301,7 @@ class PhpFormBuilder {
 
 				case 'textarea':
 					$element = 'textarea';
-					$end     = ' class="form-control" placeholder="'.$val['placeholder'].'">' . $val['value'] . '</textarea>';
+					$end     = ' class="form-control" placeholder="'.$val['placeholder'].'" '.$animations.'>' . $val['value'] . '</textarea>';
 					break;
 
 				case 'select':
@@ -360,11 +368,11 @@ class PhpFormBuilder {
 					endif;
 				case 'submit':
 					$element = 'div class="col-xs-12 col-sm-6 col-lg-6 form_field_wrap contact_submit_wrap"><button';
-					$end .= ' class="" type="' . $val['type'] . '">' . $val['value'] . '</button></div>';
+					$end .= ' class="" type="' . $val['type'] . '" '.$animations.'>' . $val['value'] . '</button></div>';
 					break;
 				default :
 					$element = 'input';
-					$end .= ' class="form-control" type="' . $val['type'] . '" value="' . $val['value'] . '" placeholder="'.$val['placeholder'].'"';
+					$end .= ' class="form-control" type="' . $val['type'] . '" value="' . $val['value'] . '" placeholder="'.$val['placeholder'].'" '.$animations.'';
 					$end .= $val['checked'] ? ' checked' : '';
 					$end .= $this->field_close();
 					break;
