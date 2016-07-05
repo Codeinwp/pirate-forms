@@ -51,7 +51,7 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 	/* thank you message */
 	$pirate_forms_thankyou_message = '';
 
-	if ( isset( $_GET['pcf'] ) && $_GET['pcf'] == 1 ) {
+	if( ( isset( $_GET['pcf'] ) && $_GET['pcf'] == 1 ) || ( isset($_POST['pirate-forms-contact-submit']) ) ) {
 		$pirate_forms_thankyou_message .= '
 		<div class="col-sm-12 col-lg-12 pirate_forms_thankyou_wrap">
 			<p>' . sanitize_text_field( pirate_forms_get_key( 'pirateformsopt_label_submit' ) ) . '</p>
@@ -620,11 +620,12 @@ function pirate_forms_process_contact() {
 			}
 		}
 
-
-		$redirect = $_SERVER["HTTP_REFERER"] . ( strpos( $_SERVER["HTTP_REFERER"], '?' ) === FALSE ? '?' : '&' ) . 'pcf=1#contact';
-
-
-		wp_safe_redirect( $redirect );
+		/* Redirect to ?pcf=1#contact only if the theme is Zerif */
+		$pirate_forms_current_theme = wp_get_theme();
+		if( ( 'Zerif Lite' == $pirate_forms_current_theme->name ) || ('Zerif Lite' == $pirate_forms_current_theme->parent_theme ) || ( 'Zerif PRO' == $pirate_forms_current_theme->name ) || ('Zerif PRO' == $pirate_forms_current_theme->parent_theme ) ) {
+			$redirect = $_SERVER["HTTP_REFERER"] . ( strpos( $_SERVER["HTTP_REFERER"], '?' ) === FALSE ? '?' : '&' ) . 'pcf=1#contact';
+			wp_safe_redirect( $redirect );
+		}
 
 	}
 
