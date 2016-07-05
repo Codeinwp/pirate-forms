@@ -104,12 +104,6 @@ function pirate_forms_plugin_options() {
 				'checkbox',
 				'',
 			),
-			'pirateformsopt_blacklist' => array(
-				__( 'Use the comments blacklist to restrict submissions','pirate-forms' ),
-				__( 'Should form submission IP and email addresses be compared against the Comment Blacklist, found in','pirate-forms').'<strong>'.__('wp-admin > Settings > Discussion > Comment Blacklist?','pirate-forms').'</strong>',
-				'checkbox',
-				'yes',
-			),
 			'pirateformsopt_confirm_email' => array(
 				__( 'Send email confirmation to form submitter','pirate-forms' ),
 				__( 'Adding text here will send an email to the form submitter. The email uses the "Text to show when form is submitted..." field below as the subject line. Plain text only here, no HTML.','pirate-forms' ),
@@ -611,7 +605,7 @@ function pirate_forms_admin() {
 
 											if(!empty($opt_desc)) {
 
-												if( ($opt_id == "pirateformsopt_store") || ($opt_id == "pirateformsopt_blacklist") ) {
+												if( $opt_id == "pirateformsopt_store" ) {
 
 													echo '<span class="dashicons dashicons-editor-help"></span>';
 
