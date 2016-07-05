@@ -471,6 +471,11 @@ function pirate_forms_process_contact() {
 
 	$contact_ip = filter_var( $_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP );
 
+	/* for the case of a Web server behind a reverse proxy */
+	if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER)) {
+		$contact_ip = array_pop(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']));
+	}
+
 	// If valid and present, create a link to an IP search
 	if ( ! empty( $contact_ip ) ) {
 		$body .= __( 'IP address: ','pirate-forms' ). $contact_ip ."\r ".__( 'IP search:','pirate-forms' )." http://whatismyipaddress.com/ip/$contact_ip \n\n";
