@@ -519,28 +519,43 @@ function pirate_forms_admin() {
 									break;
 
 								case "text":
+
+									/* Display recaptcha secret key and site key only if the Add a reCAPTCHA option is checked */
+
+									$pirateformsopt_recaptcha_field = pirate_forms_get_key('pirateformsopt_recaptcha_field');
+
+									if( !empty( $opt_id ) && (( $opt_id != 'pirateformsopt_recaptcha_sitekey' ) && ( $opt_id != 'pirateformsopt_recaptcha_secretkey' )) || (!empty($pirateformsopt_recaptcha_field) && ($pirateformsopt_recaptcha_field == 'yes') && (( $opt_id == 'pirateformsopt_recaptcha_sitekey' ) || ( $opt_id == 'pirateformsopt_recaptcha_secretkey' )) ) ) {
+										$pirate_forms_is_hidden_class = '';
+									}	
+									else {
+										$pirate_forms_is_hidden_class = 'pirate-forms-hidden';
+									}
 									?>
 
-									<div class="pirate-forms-grouped">
+									<div class="pirate-forms-grouped <?php echo $pirate_forms_is_hidden_class; ?>">
 
 										<label for="<?php echo $opt_id ?>"><?php echo $opt_name;
 
-											if(!empty($opt_desc)) {
+											if ( ! empty( $opt_desc ) ) {
 
-												if( ($opt_id == "pirateformsopt_email") || ($opt_id == "pirateformsopt_email_recipients") || ($opt_id == "pirateformsopt_confirm_email") ) {
+												if ( ( $opt_id == "pirateformsopt_email" ) || ( $opt_id == "pirateformsopt_email_recipients" ) || ( $opt_id == "pirateformsopt_confirm_email" ) ) {
 
 													echo '<span class="dashicons dashicons-editor-help"></span>';
 
 												}
 
-												echo '<div class="pirate_forms_option_description">'.$opt_desc.'</div>'; } ?>
+												echo '<div class="pirate_forms_option_description">' . $opt_desc . '</div>';
+											} ?>
 
 										</label>
 
-										<input name="<?php echo $opt_id; ?>" id="<?php echo $opt_id ?>" type="<?php echo $opt_type; ?>" value="<?php echo stripslashes( $opt_val ); ?>" class="widefat">
+										<input name="<?php echo $opt_id; ?>" id="<?php echo $opt_id ?>"
+										       type="<?php echo $opt_type; ?>"
+										       value="<?php echo stripslashes( $opt_val ); ?>" class="widefat">
 									</div>
 
 									<?php
+									
 									break;
 
 								case "textarea":
