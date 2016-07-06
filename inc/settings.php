@@ -187,6 +187,13 @@ function pirate_forms_plugin_options() {
 				'text',
 				$pirate_forms_contactus_secretkey,
 			),
+			/* Attachment */
+			'pirateformsopt_attachment_field' => array(
+				__( 'Add an attachment field','pirate-forms' ),
+				'',
+				'checkbox',
+				$pirate_forms_contactus_attachment,
+			),
 
 		),
 		'second_tab' => array(

@@ -21,11 +21,21 @@ class PhpFormBuilder {
 	 */
 	function __construct( $action = '', $args = false ) {
 
+		/* if the form has an attachment option change the enctype to multipart/form-data */
+
+		$pirateformsopt_attachment_field = pirate_forms_get_key('pirateformsopt_attachment_field');
+		if( !empty($pirateformsopt_attachment_field) && ($pirateformsopt_attachment_field == 'yes') ) {
+			$pirate_forms_enctype = 'multipart/form-data';
+		}
+		else {
+			$pirate_forms_enctype = 'application/x-www-form-urlencoded';
+		}
+
 		// Default form attributes
 		$defaults = array(
 			'action'       => $action,
 			'method'       => 'post',
-			'enctype'      => 'application/x-www-form-urlencoded',
+			'enctype'      => $pirate_forms_enctype,
 			'class'        => array(),
 			'id'           => '',
 			'markup'       => 'html',
@@ -324,6 +334,10 @@ class PhpFormBuilder {
 				case 'captcha':
 					$element = 'div';
 					$end     = ' class="g-recaptcha pirate-forms-g-recaptcha" data-sitekey="' .$val['value'] . '"></div>';
+					break;
+				case 'file':
+					$element = 'input';
+					$end     = ' class="" type="' . $val['type'] . '">';
 					break;
 				case 'radio':
 				case 'checkbox':
