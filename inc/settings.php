@@ -106,7 +106,7 @@ function pirate_forms_plugin_options() {
 			),
 			'pirateformsopt_confirm_email' => array(
 				__( 'Send email confirmation to form submitter','pirate-forms' ),
-				__( 'Adding text here will send an email to the form submitter. The email uses the "Text to show when form is submitted..." field below as the subject line. Plain text only here, no HTML.','pirate-forms' ),
+				__( 'Adding text here will send an email to the form submitter. The email uses the "Successful form submission text" field from the "Alert Messages" tab as the subject line. Plain text only here, no HTML.','pirate-forms' ),
 				'textarea',
 				'',
 			)
