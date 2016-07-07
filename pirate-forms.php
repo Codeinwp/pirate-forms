@@ -348,6 +348,96 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 }
 
 /**
+ * Functions to Process uploaded files
+ */
+function pirate_forms_canonicalize( $text ) {
+	if ( function_exists( 'mb_convert_kana' )
+	     && 'UTF-8' == get_option( 'blog_charset' ) ) {
+		$text = mb_convert_kana( $text, 'asKV', 'UTF-8' );
+	}
+
+	$text = strtolower( $text );
+	$text = trim( $text );
+	return $text;
+}
+
+function pirate_forms_antiscript_file_name( $filename ) {
+	$filename = basename( $filename );
+	$parts = explode( '.', $filename );
+
+	if ( count( $parts ) < 2 )
+		return $filename;
+
+	$script_pattern = '/^(php|phtml|pl|py|rb|cgi|asp|aspx)\d?$/i';
+
+	$filename = array_shift( $parts );
+	$extension = array_pop( $parts );
+
+	foreach ( (array) $parts as $part ) {
+		if ( preg_match( $script_pattern, $part ) )
+			$filename .= '.' . $part . '_';
+		else
+			$filename .= '.' . $part;
+	}
+
+	if ( preg_match( $script_pattern, $extension ) )
+		$filename .= '.' . $extension . '_.txt';
+	else
+		$filename .= '.' . $extension;
+
+	return $filename;
+}
+
+function pirate_forms_upload_dir( $type = false ) {
+	$uploads = wp_upload_dir();
+
+	$uploads = apply_filters( 'pirate_forms_upload_dir', array(
+		'dir' => $uploads['basedir'],
+		'url' => $uploads['baseurl'] ) );
+
+	if ( 'dir' == $type )
+		return $uploads['dir'];
+	if ( 'url' == $type )
+		return $uploads['url'];
+
+	return $uploads;
+}
+
+function pirate_forms_upload_tmp_dir() {
+	return pirate_forms_upload_dir( 'dir' ) . '/pirate_forms_uploads';
+}
+
+function pirate_forms_init_uploads() {
+	$dir = pirate_forms_upload_tmp_dir();
+	wp_mkdir_p( $dir );
+
+	$htaccess_file = trailingslashit( $dir ) . '.htaccess';
+
+	if ( file_exists( $htaccess_file ) ) {
+		return;
+	}
+
+	if ( $handle = @fopen( $htaccess_file, 'w' ) ) {
+		fwrite( $handle, "Deny from all\n" );
+		fclose( $handle );
+	}
+}
+
+function pirate_forms_maybe_add_random_dir( $dir ) {
+	do {
+		$rand_max = mt_getrandmax();
+		$rand = zeroise( mt_rand( 0, $rand_max ), strlen( $rand_max ) );
+		$dir_new = path_join( $dir, $rand );
+	} while ( file_exists( $dir_new ) );
+
+	if ( wp_mkdir_p( $dir_new ) ) {
+		return $dir_new;
+	}
+
+	return $dir;
+}
+
+/**
  * Process the incoming contact form data, if any
  */
 add_action( 'template_redirect', 'pirate_forms_process_contact' );
@@ -597,47 +687,8 @@ function pirate_forms_process_contact() {
 		}
 
 		/*******************************************/
-		/**************** Attachment ***************/
+		/********* Validate Attachment *************/
 		/*******************************************/
-
-		function pirate_forms_canonicalize( $text ) {
-			if ( function_exists( 'mb_convert_kana' )
-			     && 'UTF-8' == get_option( 'blog_charset' ) ) {
-				$text = mb_convert_kana( $text, 'asKV', 'UTF-8' );
-			}
-
-			$text = strtolower( $text );
-			$text = trim( $text );
-			return $text;
-		}
-
-		function pirate_forms_antiscript_file_name( $filename ) {
-			$filename = basename( $filename );
-			$parts = explode( '.', $filename );
-
-			if ( count( $parts ) < 2 )
-				return $filename;
-
-			$script_pattern = '/^(php|phtml|pl|py|rb|cgi|asp|aspx)\d?$/i';
-
-			$filename = array_shift( $parts );
-			$extension = array_pop( $parts );
-
-			foreach ( (array) $parts as $part ) {
-				if ( preg_match( $script_pattern, $part ) )
-					$filename .= '.' . $part . '_';
-				else
-					$filename .= '.' . $part;
-			}
-
-			if ( preg_match( $script_pattern, $extension ) )
-				$filename .= '.' . $extension . '_.txt';
-			else
-				$filename .= '.' . $extension;
-
-			return $filename;
-		}
-
 
 		$attachments = '';
 
@@ -645,41 +696,27 @@ function pirate_forms_process_contact() {
 
 		if( !empty($pirate_forms_attach_file) && !empty($pirate_forms_attach_file['name']) ) {
 
-			function wpcf7_upload_dir( $type = false ) {
-				$uploads = wp_upload_dir();
+			/* Validate file type */
+			$pirate_forms_file_types_allowed = 'jpg|jpeg|png|gif|pdf|doc|docx|ppt|pptx|odt|avi|ogg|m4a|mov|mp3|mp4|mpg|wav|wmv';
 
-				$uploads = apply_filters( 'wpcf7_upload_dir', array(
-					'dir' => $uploads['basedir'],
-					'url' => $uploads['baseurl'] ) );
+			$pirate_forms_file_types_allowed = trim( $pirate_forms_file_types_allowed, '|' );
+			$pirate_forms_file_types_allowed = '(' . $pirate_forms_file_types_allowed . ')';
+			$pirate_forms_file_types_allowed = '/\.' . $pirate_forms_file_types_allowed . '$/i';
 
-				if ( 'dir' == $type )
-					return $uploads['dir'];
-				if ( 'url' == $type )
-					return $uploads['url'];
-
-				return $uploads;
+			if ( ! preg_match( $pirate_forms_file_types_allowed, $pirate_forms_attach_file['name'] ) ) {
+				$_SESSION['pirate_forms_contact_errors']['pirate-forms-upload-failed-type'] = __( 'Uploaded file is not allowed for file type', 'pirate-forms' );
 			}
 
-			function wpcf7_upload_tmp_dir() {
-				return wpcf7_upload_dir( 'dir' ) . '/wpcf7_uploads';
+			/* Validate file size */
+			$pirate_forms_file_size_allowed = 1048576; // default size 1 MB
+
+			if ( $pirate_forms_attach_file['size'] > $pirate_forms_file_size_allowed ) {
+				$_SESSION['pirate_forms_contact_errors']['pirate-forms-upload-failed-size'] = __( 'Uploaded file is too large', 'pirate-forms' );
 			}
 
-			function wpcf7_maybe_add_random_dir( $dir ) {
-				do {
-					$rand_max = mt_getrandmax();
-					$rand = zeroise( mt_rand( 0, $rand_max ), strlen( $rand_max ) );
-					$dir_new = path_join( $dir, $rand );
-				} while ( file_exists( $dir_new ) );
-
-				if ( wp_mkdir_p( $dir_new ) ) {
-					return $dir_new;
-				}
-
-				return $dir;
-			}
-
-			$uploads_dir = wpcf7_upload_tmp_dir();
-			$uploads_dir = wpcf7_maybe_add_random_dir( $uploads_dir );
+			pirate_forms_init_uploads();
+			$uploads_dir = pirate_forms_upload_tmp_dir();
+			$uploads_dir = pirate_forms_maybe_add_random_dir( $uploads_dir );
 
 			$filename = $pirate_forms_attach_file['name'];
 			$filename = pirate_forms_canonicalize( $filename );
@@ -689,7 +726,10 @@ function pirate_forms_process_contact() {
 
 			$new_file = trailingslashit( $uploads_dir ) . $filename;
 
-			@move_uploaded_file( $pirate_forms_attach_file['tmp_name'], $new_file );
+
+			if ( false === @move_uploaded_file( $pirate_forms_attach_file['tmp_name'], $new_file ) ) {
+				$_SESSION['pirate_forms_contact_errors']['pirate-forms-upload-failed-general'] = __( 'There was an unknown error uploading the file.', 'pirate-forms' );
+			}
 
 			// Make sure the uploaded file is only readable for the owner process
 			@chmod( $new_file, 0400 );
