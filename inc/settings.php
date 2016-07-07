@@ -23,6 +23,30 @@ function pirate_forms_from_email() {
 	return 'wordpress@' . $sitename;
 }
 
+if ( ! function_exists( 'pirate_forms_get_pages_array' ) ) {
+	function pirate_forms_get_pages_array( $type = 'page' ) {
+
+		$content = array(
+			'' => __( 'None', 'pirate_forms' )
+		);
+
+		$items = get_posts( array(
+			'post_type'   => $type,
+			'numberposts' => - 1
+		) );
+
+
+		if ( ! empty( $items ) ) :
+			foreach ( $items as $item ) :
+				$content[$item->ID] = $item->post_title;
+			endforeach;
+		endif;
+
+		return $content;
+
+	}
+}
+
 /*
  *
  * OPTIONS
@@ -109,6 +133,13 @@ function pirate_forms_plugin_options() {
 				__( 'Adding text here will send an email to the form submitter. The email uses the "Successful form submission text" field from the "Alert Messages" tab as the subject line. Plain text only here, no HTML.','pirate-forms' ),
 				'textarea',
 				'',
+			),
+			'pirateformsopt_thank_you_url' => array(
+				__( '"Thank You" URL','pirate-forms' ),
+				__( 'Select the post-submit page for all forms submitted','pirate-forms' ),
+				'select',
+				'',
+				pirate_forms_get_pages_array()
 			)
 		),
 		'first_tab' => array(
@@ -598,7 +629,15 @@ function pirate_forms_admin() {
 
 											if(!empty($opt_desc)) {
 
-												echo '<div class="pirate_forms_option_description">'.$opt_desc.'</div>'; } ?>
+												if ( ( $opt_id == "pirateformsopt_thank_you_url" ) ) {
+
+													echo '<span class="dashicons dashicons-editor-help"></span>';
+
+												}
+
+												echo '<div class="pirate_forms_option_description">'.$opt_desc.'</div>';
+
+											} ?>
 
 										</label>
 

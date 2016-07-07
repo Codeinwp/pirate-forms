@@ -781,9 +781,16 @@ function pirate_forms_process_contact() {
 			}
 		}
 
-		/* Redirect to ?pcf=1#contact only if the theme is Zerif */
 		$pirate_forms_current_theme = wp_get_theme();
-		if( ( 'Zerif Lite' == $pirate_forms_current_theme->name ) || ('Zerif Lite' == $pirate_forms_current_theme->parent_theme ) || ( 'Zerif PRO' == $pirate_forms_current_theme->name ) || ('Zerif PRO' == $pirate_forms_current_theme->parent_theme ) ) {
+
+		/* If a Thank you page is selected, redirect to that page */
+		if ( pirate_forms_get_key( 'pirateformsopt_thank_you_url' ) ) {
+			$redirect_id = intval( pirate_forms_get_key( 'pirateformsopt_thank_you_url' ) );
+			$redirect    = get_permalink( $redirect_id );
+			wp_safe_redirect( $redirect );
+		}
+		/* Redirect to ?pcf=1#contact only if the theme is Zerif */
+		elseif( ( 'Zerif Lite' == $pirate_forms_current_theme->name ) || ('Zerif Lite' == $pirate_forms_current_theme->parent_theme ) || ( 'Zerif PRO' == $pirate_forms_current_theme->name ) || ('Zerif PRO' == $pirate_forms_current_theme->parent_theme ) ) {
 			$redirect = $_SERVER["HTTP_REFERER"] . ( strpos( $_SERVER["HTTP_REFERER"], '?' ) === FALSE ? '?' : '&' ) . 'pcf=1#contact';
 			wp_safe_redirect( $redirect );
 		}
