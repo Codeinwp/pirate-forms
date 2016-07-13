@@ -446,7 +446,7 @@ function pirate_forms_maybe_add_random_dir( $dir ) {
 add_action( 'template_redirect', 'pirate_forms_process_contact' );
 function pirate_forms_process_contact() {
 
-	// If POST, nonce and honeypot are not set, beat it
+	// If POST and honeypot are not set, beat it
 	if ( empty( $_POST ) || !isset( $_POST['honeypot'] )) {
 		return false;
 	}
