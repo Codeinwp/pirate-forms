@@ -70,7 +70,10 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 
 	$pirate_form->set_att( 'id', 'pirate_forms_' . ( get_the_id() ? get_the_id() : 1 ) );
 	$pirate_form->set_att( 'class', array( 'pirate_forms' ) );
-	$pirate_form->set_att( 'add_nonce', get_bloginfo( 'admin_email' ) );
+
+	if ( 'yes' === pirate_forms_get_key( 'pirateformsopt_nonce' ) ) {
+		$pirate_form->set_att( 'add_nonce', get_bloginfo( 'admin_email' ) );
+	}
 
 	$pirate_forms_options = get_option( 'pirate_forms_settings_array' );
 
@@ -452,9 +455,12 @@ function pirate_forms_process_contact() {
 	$_SESSION['pirate_forms_contact_errors'] = array();
 
 	// If nonce is not valid, beat it
-	if ( ! wp_verify_nonce( $_POST['wordpress-nonce'], get_bloginfo( 'admin_email' ) ) ) {
-		$_SESSION['pirate_forms_contact_errors']['nonce'] = __( 'Nonce failed!', 'pirate-forms' );
-		return false;
+	if ( 'yes' === pirate_forms_get_key( 'pirateformsopt_nonce' ) ) {
+		if ( ! wp_verify_nonce( $_POST['wordpress-nonce'], get_bloginfo( 'admin_email' ) ) ) {
+			$_SESSION['pirate_forms_contact_errors']['nonce'] = __( 'Nonce failed!', 'pirate-forms' );
+
+			return false;
+		}
 	}
 
 	// If the honeypot caught a bear, beat it

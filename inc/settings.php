@@ -126,7 +126,13 @@ function pirate_forms_plugin_options() {
 				__( 'Store submissions in the database','pirate-forms' ),
 				__( 'Should the submissions be stored in the admin area? If chosen, contact form submissions will be saved in Contacts on the left (appears after this option is activated).','pirate-forms' ),
 				'checkbox',
-				'',
+				'yes',
+			),
+			'pirateformsopt_nonce' => array(
+				__( 'Add a nonce to the contact form:','pirate-forms' ),
+				__( 'Should the form use a WordPress nonce? This helps reduce spam by ensuring that the form submittor is on the site when submitting the form rather than submitting remotely. This could, however, cause problems with sites using a page caching plugin. Turn this off if you are getting complaints about forms not being able to be submitted with an error of "Nonce failed!"','pirate-forms' ),
+				'checkbox',
+				'yes',
 			),
 			'pirateformsopt_confirm_email' => array(
 				__( 'Send email confirmation to form submitter','pirate-forms' ),
@@ -223,7 +229,7 @@ function pirate_forms_plugin_options() {
 				__( 'Add an attachment field','pirate-forms' ),
 				'',
 				'checkbox',
-				$pirate_forms_contactus_attachment,
+				'',
 			),
 
 		),
@@ -389,6 +395,29 @@ function pirate_forms_save_callback() {
 		endif;
 
 		if( !empty($params) ):
+
+			/*****************************************************************/
+			/******** Important fix for saving inputs of type checkbox *******/
+			/*****************************************************************/
+
+			if( !isset($params['pirateformsopt_store']) ) {
+				$params['pirateformsopt_store'] = '';
+			}
+			if( !isset($params['pirateformsopt_recaptcha_field']) ) {
+				$params['pirateformsopt_recaptcha_field'] = '';
+			}
+			if( !isset($params['pirateformsopt_nonce']) ) {
+				$params['pirateformsopt_nonce'] = '';
+			}
+			if( !isset($params['pirateformsopt_attachment_field']) ) {
+				$params['pirateformsopt_attachment_field'] = '';
+			}
+			if( !isset($params['pirateformsopt_use_smtp']) ) {
+				$params['pirateformsopt_use_smtp'] = '';
+			}
+			if( !isset($params['pirateformsopt_use_smtp_authentication']) ) {
+				$params['pirateformsopt_use_smtp_authentication'] = '';
+			}
 
 			update_option( 'pirate_forms_settings_array', $params );
 
@@ -659,6 +688,7 @@ function pirate_forms_admin() {
 								<?php
 									break;
 								case "checkbox":
+
 									?>
 									<div class="pirate-forms-grouped">
 
@@ -666,7 +696,7 @@ function pirate_forms_admin() {
 
 											if(!empty($opt_desc)) {
 
-												if( $opt_id == "pirateformsopt_store" ) {
+												if( ($opt_id == "pirateformsopt_store") || ($opt_id == "pirateformsopt_nonce") ) {
 
 													echo '<span class="dashicons dashicons-editor-help"></span>';
 
@@ -679,7 +709,7 @@ function pirate_forms_admin() {
 										<?php
 
 											$checked = '';
-											if (  array_key_exists( $opt_id,$pirate_forms_options ) ) {
+											if( ($opt_val == 'yes') ) {
 												$checked = 'checked';
 											}
 											?>
