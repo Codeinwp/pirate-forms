@@ -48,4 +48,15 @@ jQuery(document).ready(function() {
     function endAjaxIntro() {
         jQuery(".ajaxAnimation").fadeOut();
     }
+
+    /* Recaptcha site key and secret key should appear only when Add a recaptcha is selected */
+    jQuery('input#pirateformsopt_recaptcha_field').change(function(){
+        jQuery('.pirate-forms-grouped #pirateformsopt_recaptcha_sitekey').parent().addClass('pirate-forms-hidden');
+        jQuery('.pirate-forms-grouped #pirateformsopt_recaptcha_secretkey').parent().addClass('pirate-forms-hidden');
+        if( jQuery(this).is(':checked') ) {
+            jQuery('.pirate-forms-grouped #pirateformsopt_recaptcha_sitekey').parent().removeClass('pirate-forms-hidden');
+            jQuery('.pirate-forms-grouped #pirateformsopt_recaptcha_secretkey').parent().removeClass('pirate-forms-hidden');
+        }
+    });
+
 });

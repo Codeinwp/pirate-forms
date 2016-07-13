@@ -21,11 +21,21 @@ class PhpFormBuilder {
 	 */
 	function __construct( $action = '', $args = false ) {
 
+		/* if the form has an attachment option change the enctype to multipart/form-data */
+
+		$pirateformsopt_attachment_field = pirate_forms_get_key('pirateformsopt_attachment_field');
+		if( !empty($pirateformsopt_attachment_field) && ($pirateformsopt_attachment_field == 'yes') ) {
+			$pirate_forms_enctype = 'multipart/form-data';
+		}
+		else {
+			$pirate_forms_enctype = 'application/x-www-form-urlencoded';
+		}
+
 		// Default form attributes
 		$defaults = array(
 			'action'       => $action,
 			'method'       => 'post',
-			'enctype'      => 'application/x-www-form-urlencoded',
+			'enctype'      => $pirate_forms_enctype,
 			'class'        => array(),
 			'id'           => '',
 			'markup'       => 'html',
@@ -325,6 +335,10 @@ class PhpFormBuilder {
 					$element = 'div';
 					$end     = ' class="g-recaptcha pirate-forms-g-recaptcha" data-sitekey="' .$val['value'] . '"></div>';
 					break;
+				case 'file':
+					$element = 'input';
+					$end     = ' class="" type="' . $val['type'] . '">';
+					break;
 				case 'radio':
 				case 'checkbox':
 
@@ -360,11 +374,18 @@ class PhpFormBuilder {
 					endif;
 				case 'submit':
 					$element = 'div class="col-xs-12 col-sm-6 col-lg-6 form_field_wrap contact_submit_wrap"><button';
-					$end .= ' class="" type="' . $val['type'] . '">' . $val['value'] . '</button></div>';
+					$end .= ' type="' . $val['type'] . '">' . $val['value'] . '</button></div>';
 					break;
 				default :
 					$element = 'input';
-					$end .= ' class="form-control" type="' . $val['type'] . '" value="' . $val['value'] . '" placeholder="'.$val['placeholder'].'"';
+
+					/* don't add a placeholder attribute for input type=hidden */
+					if( !empty($val['type']) && ($val['type'] == 'hidden' ) ) {
+						$end .= ' class="form-control" type="' . $val['type'] . '" value="' . $val['value'] . '"';
+					}
+					else {
+						$end .= ' class="form-control" type="' . $val['type'] . '" value="' . $val['value'] . '" placeholder="' . $val['placeholder'] . '"';
+					}
 					$end .= $val['checked'] ? ' checked' : '';
 					$end .= $this->field_close();
 					break;
@@ -407,7 +428,12 @@ class PhpFormBuilder {
 					$field = '
 					<' . $element . $id . ' name="' . $val['name'] . '"' . $min_max_range . $class . $attr . $end .
 					         $field;
-				} else {
+				}
+				elseif ( $val['type'] === 'captcha' ) { /* don't add name attribute to div's holding recaptcha keys */
+					$field .= '
+					<' . $element . $id . ' ' . $min_max_range . $class . $attr . $end;
+				}
+				else {
 					$field .= '
 					<' . $element . $id . ' name="' . $val['name'] . '"' . $min_max_range . $class . $attr . $end;
 				}

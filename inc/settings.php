@@ -23,6 +23,30 @@ function pirate_forms_from_email() {
 	return 'wordpress@' . $sitename;
 }
 
+if ( ! function_exists( 'pirate_forms_get_pages_array' ) ) {
+	function pirate_forms_get_pages_array( $type = 'page' ) {
+
+		$content = array(
+			'' => __( 'None', 'pirate_forms' )
+		);
+
+		$items = get_posts( array(
+			'post_type'   => $type,
+			'numberposts' => - 1
+		) );
+
+
+		if ( ! empty( $items ) ) :
+			foreach ( $items as $item ) :
+				$content[$item->ID] = $item->post_title;
+			endforeach;
+		endif;
+
+		return $content;
+
+	}
+}
+
 /*
  *
  * OPTIONS
@@ -102,19 +126,26 @@ function pirate_forms_plugin_options() {
 				__( 'Store submissions in the database','pirate-forms' ),
 				__( 'Should the submissions be stored in the admin area? If chosen, contact form submissions will be saved in Contacts on the left (appears after this option is activated).','pirate-forms' ),
 				'checkbox',
-				'',
+				'yes',
 			),
-			'pirateformsopt_blacklist' => array(
-				__( 'Use the comments blacklist to restrict submissions','pirate-forms' ),
-				__( 'Should form submission IP and email addresses be compared against the Comment Blacklist, found in','pirate-forms').'<strong>'.__('wp-admin > Settings > Discussion > Comment Blacklist?','pirate-forms').'</strong>',
+			'pirateformsopt_nonce' => array(
+				__( 'Add a nonce to the contact form:','pirate-forms' ),
+				__( 'Should the form use a WordPress nonce? This helps reduce spam by ensuring that the form submittor is on the site when submitting the form rather than submitting remotely. This could, however, cause problems with sites using a page caching plugin. Turn this off if you are getting complaints about forms not being able to be submitted with an error of "Nonce failed!"','pirate-forms' ),
 				'checkbox',
 				'yes',
 			),
 			'pirateformsopt_confirm_email' => array(
 				__( 'Send email confirmation to form submitter','pirate-forms' ),
-				__( 'Adding text here will send an email to the form submitter. The email uses the "Text to show when form is submitted..." field below as the subject line. Plain text only here, no HTML.','pirate-forms' ),
+				__( 'Adding text here will send an email to the form submitter. The email uses the "Successful form submission text" field from the "Alert Messages" tab as the subject line. Plain text only here, no HTML.','pirate-forms' ),
 				'textarea',
 				'',
+			),
+			'pirateformsopt_thank_you_url' => array(
+				__( '"Thank You" URL','pirate-forms' ),
+				__( 'Select the post-submit page for all forms submitted','pirate-forms' ),
+				'select',
+				'',
+				pirate_forms_get_pages_array()
 			)
 		),
 		'first_tab' => array(
@@ -192,6 +223,13 @@ function pirate_forms_plugin_options() {
 				'',
 				'text',
 				$pirate_forms_contactus_secretkey,
+			),
+			/* Attachment */
+			'pirateformsopt_attachment_field' => array(
+				__( 'Add an attachment field','pirate-forms' ),
+				'',
+				'checkbox',
+				'',
 			),
 
 		),
@@ -357,6 +395,29 @@ function pirate_forms_save_callback() {
 		endif;
 
 		if( !empty($params) ):
+
+			/*****************************************************************/
+			/******** Important fix for saving inputs of type checkbox *******/
+			/*****************************************************************/
+
+			if( !isset($params['pirateformsopt_store']) ) {
+				$params['pirateformsopt_store'] = '';
+			}
+			if( !isset($params['pirateformsopt_recaptcha_field']) ) {
+				$params['pirateformsopt_recaptcha_field'] = '';
+			}
+			if( !isset($params['pirateformsopt_nonce']) ) {
+				$params['pirateformsopt_nonce'] = '';
+			}
+			if( !isset($params['pirateformsopt_attachment_field']) ) {
+				$params['pirateformsopt_attachment_field'] = '';
+			}
+			if( !isset($params['pirateformsopt_use_smtp']) ) {
+				$params['pirateformsopt_use_smtp'] = '';
+			}
+			if( !isset($params['pirateformsopt_use_smtp_authentication']) ) {
+				$params['pirateformsopt_use_smtp_authentication'] = '';
+			}
 
 			update_option( 'pirate_forms_settings_array', $params );
 
@@ -525,28 +586,43 @@ function pirate_forms_admin() {
 									break;
 
 								case "text":
+
+									/* Display recaptcha secret key and site key only if the Add a reCAPTCHA option is checked */
+
+									$pirateformsopt_recaptcha_field = pirate_forms_get_key('pirateformsopt_recaptcha_field');
+
+									if( !empty( $opt_id ) && (( $opt_id != 'pirateformsopt_recaptcha_sitekey' ) && ( $opt_id != 'pirateformsopt_recaptcha_secretkey' )) || (!empty($pirateformsopt_recaptcha_field) && ($pirateformsopt_recaptcha_field == 'yes') && (( $opt_id == 'pirateformsopt_recaptcha_sitekey' ) || ( $opt_id == 'pirateformsopt_recaptcha_secretkey' )) ) ) {
+										$pirate_forms_is_hidden_class = '';
+									}	
+									else {
+										$pirate_forms_is_hidden_class = 'pirate-forms-hidden';
+									}
 									?>
 
-									<div class="pirate-forms-grouped">
+									<div class="pirate-forms-grouped <?php echo $pirate_forms_is_hidden_class; ?>">
 
 										<label for="<?php echo $opt_id ?>"><?php echo $opt_name;
 
-											if(!empty($opt_desc)) {
+											if ( ! empty( $opt_desc ) ) {
 
-												if( ($opt_id == "pirateformsopt_email") || ($opt_id == "pirateformsopt_email_recipients") || ($opt_id == "pirateformsopt_confirm_email") ) {
+												if ( ( $opt_id == "pirateformsopt_email" ) || ( $opt_id == "pirateformsopt_email_recipients" ) || ( $opt_id == "pirateformsopt_confirm_email" ) ) {
 
 													echo '<span class="dashicons dashicons-editor-help"></span>';
 
 												}
 
-												echo '<div class="pirate_forms_option_description">'.$opt_desc.'</div>'; } ?>
+												echo '<div class="pirate_forms_option_description">' . $opt_desc . '</div>';
+											} ?>
 
 										</label>
 
-										<input name="<?php echo $opt_id; ?>" id="<?php echo $opt_id ?>" type="<?php echo $opt_type; ?>" value="<?php echo stripslashes( $opt_val ); ?>" class="widefat">
+										<input name="<?php echo $opt_id; ?>" id="<?php echo $opt_id ?>"
+										       type="<?php echo $opt_type; ?>"
+										       value="<?php echo stripslashes( $opt_val ); ?>" class="widefat">
 									</div>
 
 									<?php
+									
 									break;
 
 								case "textarea":
@@ -582,7 +658,15 @@ function pirate_forms_admin() {
 
 											if(!empty($opt_desc)) {
 
-												echo '<div class="pirate_forms_option_description">'.$opt_desc.'</div>'; } ?>
+												if ( ( $opt_id == "pirateformsopt_thank_you_url" ) ) {
+
+													echo '<span class="dashicons dashicons-editor-help"></span>';
+
+												}
+
+												echo '<div class="pirate_forms_option_description">'.$opt_desc.'</div>';
+
+											} ?>
 
 										</label>
 
@@ -604,6 +688,7 @@ function pirate_forms_admin() {
 								<?php
 									break;
 								case "checkbox":
+
 									?>
 									<div class="pirate-forms-grouped">
 
@@ -611,7 +696,7 @@ function pirate_forms_admin() {
 
 											if(!empty($opt_desc)) {
 
-												if( ($opt_id == "pirateformsopt_store") || ($opt_id == "pirateformsopt_blacklist") ) {
+												if( ($opt_id == "pirateformsopt_store") || ($opt_id == "pirateformsopt_nonce") ) {
 
 													echo '<span class="dashicons dashicons-editor-help"></span>';
 
@@ -624,7 +709,7 @@ function pirate_forms_admin() {
 										<?php
 
 											$checked = '';
-											if (  array_key_exists( $opt_id,$pirate_forms_options ) ) {
+											if( ($opt_val == 'yes') ) {
 												$checked = 'checked';
 											}
 											?>

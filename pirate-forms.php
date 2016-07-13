@@ -51,7 +51,7 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 	/* thank you message */
 	$pirate_forms_thankyou_message = '';
 
-	if ( isset( $_GET['pcf'] ) && $_GET['pcf'] == 1 ) {
+	if( ( isset( $_GET['pcf'] ) && $_GET['pcf'] == 1 ) || ( isset($_POST['pirate-forms-contact-submit']) ) ) {
 		$pirate_forms_thankyou_message .= '
 		<div class="col-sm-12 col-lg-12 pirate_forms_thankyou_wrap">
 			<p>' . sanitize_text_field( pirate_forms_get_key( 'pirateformsopt_label_submit' ) ) . '</p>
@@ -70,7 +70,10 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 
 	$pirate_form->set_att( 'id', 'pirate_forms_' . ( get_the_id() ? get_the_id() : 1 ) );
 	$pirate_form->set_att( 'class', array( 'pirate_forms' ) );
-	$pirate_form->set_att( 'add_nonce', get_bloginfo( 'admin_email' ) );
+
+	if ( 'yes' === pirate_forms_get_key( 'pirateformsopt_nonce' ) ) {
+		$pirate_form->set_att( 'add_nonce', get_bloginfo( 'admin_email' ) );
+	}
 
 	$pirate_forms_options = get_option( 'pirate_forms_settings_array' );
 
@@ -262,6 +265,23 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 
 			endif;
 
+			/*********************************/
+			/********** Attachment ***********/
+			/*********************************/
+
+			if( !empty($pirate_forms_options['pirateformsopt_attachment_field']) && ($pirate_forms_options['pirateformsopt_attachment_field'] == 'yes') ) {
+
+				$pirate_form->add_input(
+					'',
+					array(
+						'wrap_class' => $wrap_classes,
+						'type' => 'file'
+					),
+					'pirate-forms-attachment'
+				);
+
+			}
+
 			/********************************/
 			/********  Submit button ********/
 			/********************************/
@@ -331,13 +351,103 @@ function pirate_forms_display_form( $atts, $content = NULL ) {
 }
 
 /**
+ * Functions to Process uploaded files
+ */
+function pirate_forms_canonicalize( $text ) {
+	if ( function_exists( 'mb_convert_kana' )
+	     && 'UTF-8' == get_option( 'blog_charset' ) ) {
+		$text = mb_convert_kana( $text, 'asKV', 'UTF-8' );
+	}
+
+	$text = strtolower( $text );
+	$text = trim( $text );
+	return $text;
+}
+
+function pirate_forms_antiscript_file_name( $filename ) {
+	$filename = basename( $filename );
+	$parts = explode( '.', $filename );
+
+	if ( count( $parts ) < 2 )
+		return $filename;
+
+	$script_pattern = '/^(php|phtml|pl|py|rb|cgi|asp|aspx)\d?$/i';
+
+	$filename = array_shift( $parts );
+	$extension = array_pop( $parts );
+
+	foreach ( (array) $parts as $part ) {
+		if ( preg_match( $script_pattern, $part ) )
+			$filename .= '.' . $part . '_';
+		else
+			$filename .= '.' . $part;
+	}
+
+	if ( preg_match( $script_pattern, $extension ) )
+		$filename .= '.' . $extension . '_.txt';
+	else
+		$filename .= '.' . $extension;
+
+	return $filename;
+}
+
+function pirate_forms_upload_dir( $type = false ) {
+	$uploads = wp_upload_dir();
+
+	$uploads = apply_filters( 'pirate_forms_upload_dir', array(
+		'dir' => $uploads['basedir'],
+		'url' => $uploads['baseurl'] ) );
+
+	if ( 'dir' == $type )
+		return $uploads['dir'];
+	if ( 'url' == $type )
+		return $uploads['url'];
+
+	return $uploads;
+}
+
+function pirate_forms_upload_tmp_dir() {
+	return pirate_forms_upload_dir( 'dir' ) . '/pirate_forms_uploads';
+}
+
+function pirate_forms_init_uploads() {
+	$dir = pirate_forms_upload_tmp_dir();
+	wp_mkdir_p( $dir );
+
+	$htaccess_file = trailingslashit( $dir ) . '.htaccess';
+
+	if ( file_exists( $htaccess_file ) ) {
+		return;
+	}
+
+	if ( $handle = @fopen( $htaccess_file, 'w' ) ) {
+		fwrite( $handle, "Deny from all\n" );
+		fclose( $handle );
+	}
+}
+
+function pirate_forms_maybe_add_random_dir( $dir ) {
+	do {
+		$rand_max = mt_getrandmax();
+		$rand = zeroise( mt_rand( 0, $rand_max ), strlen( $rand_max ) );
+		$dir_new = path_join( $dir, $rand );
+	} while ( file_exists( $dir_new ) );
+
+	if ( wp_mkdir_p( $dir_new ) ) {
+		return $dir_new;
+	}
+
+	return $dir;
+}
+
+/**
  * Process the incoming contact form data, if any
  */
 add_action( 'template_redirect', 'pirate_forms_process_contact' );
 function pirate_forms_process_contact() {
 
-	// If POST, nonce and honeypot are not set, beat it
-	if ( empty( $_POST ) || empty( $_POST['wordpress-nonce'] ) || !isset( $_POST['honeypot'] )) {
+	// If POST and honeypot are not set, beat it
+	if ( empty( $_POST ) || !isset( $_POST['honeypot'] )) {
 		return false;
 	}
 
@@ -345,9 +455,12 @@ function pirate_forms_process_contact() {
 	$_SESSION['pirate_forms_contact_errors'] = array();
 
 	// If nonce is not valid, beat it
-	if ( ! wp_verify_nonce( $_POST['wordpress-nonce'], get_bloginfo( 'admin_email' ) ) ) {
-		$_SESSION['pirate_forms_contact_errors']['nonce'] = __( 'Nonce failed!', 'pirate-forms' );
-		return false;
+	if ( 'yes' === pirate_forms_get_key( 'pirateformsopt_nonce' ) ) {
+		if ( ! wp_verify_nonce( $_POST['wordpress-nonce'], get_bloginfo( 'admin_email' ) ) ) {
+			$_SESSION['pirate_forms_contact_errors']['nonce'] = __( 'Nonce failed!', 'pirate-forms' );
+
+			return false;
+		}
 	}
 
 	// If the honeypot caught a bear, beat it
@@ -471,6 +584,11 @@ function pirate_forms_process_contact() {
 
 	$contact_ip = filter_var( $_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP );
 
+	/* for the case of a Web server behind a reverse proxy */
+	if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER)) {
+		$contact_ip = array_pop(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']));
+	}
+
 	// If valid and present, create a link to an IP search
 	if ( ! empty( $contact_ip ) ) {
 		$body .= __( 'IP address: ','pirate-forms' ). $contact_ip ."\r ".__( 'IP search:','pirate-forms' )." http://whatismyipaddress.com/ip/$contact_ip \n\n";
@@ -574,7 +692,61 @@ function pirate_forms_process_contact() {
 			endif;
 		}
 
-		wp_mail( $site_recipients, 'Contact on ' . htmlspecialchars_decode( get_bloginfo( 'name' ) ), $body, $headers );
+		/*******************************************/
+		/********* Validate Attachment *************/
+		/*******************************************/
+
+		$attachments = '';
+
+		$pirate_forms_attach_file = isset( $_FILES['pirate-forms-attachment'] ) ? $_FILES['pirate-forms-attachment'] : '';
+
+		if( !empty($pirate_forms_attach_file) && !empty($pirate_forms_attach_file['name']) ) {
+
+			/* Validate file type */
+			$pirate_forms_file_types_allowed = 'jpg|jpeg|png|gif|pdf|doc|docx|ppt|pptx|odt|avi|ogg|m4a|mov|mp3|mp4|mpg|wav|wmv';
+
+			$pirate_forms_file_types_allowed = trim( $pirate_forms_file_types_allowed, '|' );
+			$pirate_forms_file_types_allowed = '(' . $pirate_forms_file_types_allowed . ')';
+			$pirate_forms_file_types_allowed = '/\.' . $pirate_forms_file_types_allowed . '$/i';
+
+			if ( ! preg_match( $pirate_forms_file_types_allowed, $pirate_forms_attach_file['name'] ) ) {
+				$_SESSION['pirate_forms_contact_errors']['pirate-forms-upload-failed-type'] = __( 'Uploaded file is not allowed for file type', 'pirate-forms' );
+			}
+
+			/* Validate file size */
+			$pirate_forms_file_size_allowed = 1048576; // default size 1 MB
+
+			if ( $pirate_forms_attach_file['size'] > $pirate_forms_file_size_allowed ) {
+				$_SESSION['pirate_forms_contact_errors']['pirate-forms-upload-failed-size'] = __( 'Uploaded file is too large', 'pirate-forms' );
+			}
+
+			pirate_forms_init_uploads();
+			$uploads_dir = pirate_forms_upload_tmp_dir();
+			$uploads_dir = pirate_forms_maybe_add_random_dir( $uploads_dir );
+
+			$filename = $pirate_forms_attach_file['name'];
+			$filename = pirate_forms_canonicalize( $filename );
+			$filename = sanitize_file_name( $filename );
+			$filename = pirate_forms_antiscript_file_name( $filename );
+			$filename = wp_unique_filename( $uploads_dir, $filename );
+
+			$new_file = trailingslashit( $uploads_dir ) . $filename;
+
+
+			if ( false === @move_uploaded_file( $pirate_forms_attach_file['tmp_name'], $new_file ) ) {
+				$_SESSION['pirate_forms_contact_errors']['pirate-forms-upload-failed-general'] = __( 'There was an unknown error uploading the file.', 'pirate-forms' );
+			}
+
+			// Make sure the uploaded file is only readable for the owner process
+			@chmod( $new_file, 0400 );
+
+			if( !empty($new_file) ) {
+				$attachments = $new_file;
+			}
+
+		}
+		
+		wp_mail( $site_recipients, 'Contact on ' . htmlspecialchars_decode( get_bloginfo( 'name' ) ), $body, $headers, $attachments );
 
 		// Should a confirm email be sent?
 		$confirm_body = stripslashes( trim( pirate_forms_get_key( 'pirateformsopt_confirm_email' ) ) );
@@ -615,11 +787,19 @@ function pirate_forms_process_contact() {
 			}
 		}
 
+		$pirate_forms_current_theme = wp_get_theme();
 
-		$redirect = $_SERVER["HTTP_REFERER"] . ( strpos( $_SERVER["HTTP_REFERER"], '?' ) === FALSE ? '?' : '&' ) . 'pcf=1#contact';
-
-
-		wp_safe_redirect( $redirect );
+		/* If a Thank you page is selected, redirect to that page */
+		if ( pirate_forms_get_key( 'pirateformsopt_thank_you_url' ) ) {
+			$redirect_id = intval( pirate_forms_get_key( 'pirateformsopt_thank_you_url' ) );
+			$redirect    = get_permalink( $redirect_id );
+			wp_safe_redirect( $redirect );
+		}
+		/* Redirect to ?pcf=1#contact only if the theme is Zerif */
+		elseif( ( 'Zerif Lite' == $pirate_forms_current_theme->name ) || ('Zerif Lite' == $pirate_forms_current_theme->parent_theme ) || ( 'Zerif PRO' == $pirate_forms_current_theme->name ) || ('Zerif PRO' == $pirate_forms_current_theme->parent_theme ) ) {
+			$redirect = $_SERVER["HTTP_REFERER"] . ( strpos( $_SERVER["HTTP_REFERER"], '?' ) === FALSE ? '?' : '&' ) . 'pcf=1#contact';
+			wp_safe_redirect( $redirect );
+		}
 
 	}
 
