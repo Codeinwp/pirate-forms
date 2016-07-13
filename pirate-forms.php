@@ -447,7 +447,7 @@ add_action( 'template_redirect', 'pirate_forms_process_contact' );
 function pirate_forms_process_contact() {
 
 	// If POST, nonce and honeypot are not set, beat it
-	if ( empty( $_POST ) || empty( $_POST['wordpress-nonce'] ) || !isset( $_POST['honeypot'] )) {
+	if ( empty( $_POST ) || !isset( $_POST['honeypot'] )) {
 		return false;
 	}
 
