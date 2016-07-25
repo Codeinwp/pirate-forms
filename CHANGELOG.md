@@ -1,4 +1,8 @@
 
+### 1.0.17 - 25/07/2016
+**Changes:** 
+- Development
+
 ### 1.0.16 - 13/07/2016
 **Changes:** 
 - Fixed IP issue when using web server behind a reverse proxy
