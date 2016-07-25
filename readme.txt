@@ -77,6 +77,16 @@ Activating the Pirate Contact Form plugin is just like any other plugin. If you'
 
 == Changelog ==
 
+= 1.0.17 =
+* Fixed IP issue when using web server behind a reverse proxy
+* Fixed W3C compatibility issues
+* Remove pcf=1#contact from url when theme is different then Zerif
+* Removed blacklist option and made it default set to true
+* Display site key and secret key fields only if recaptcha option is selected
+* New attachment option
+* New thank you URL option
+* New option to make the nonce optional
+
 = 1.0.16 =
 * textarea field not saving
 
