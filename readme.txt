@@ -11,7 +11,7 @@ Makes your contact form page more engaging by creating a good-looking simple Wor
 
 == Description ==
 
-Stay in touch with your visitors very easily. <a href="http://themeisle.com/plugins/pirate-forms/" rel="friend">Pirate Contact Forms</a> offers you a great and friendly contact form for your website.
+Stay in touch with your visitors very easily. <a href="http://themeisle.com/plugins/pirate-forms/" rel="nofollow">Pirate Contact Forms</a> offers you a great and friendly contact form for your website.
 This is an easy-to-use WordPress contact form with captcha plugin. To create a contact form you just need to use the [pirate_forms] shortcode or the 'Pirate Forms' widget.
 
 **Why use our responsive WordPress Contact Form:**
@@ -31,7 +31,7 @@ Avoid spam messages and make sure the e-mails you receive are entirely addressed
 - Comes with SMTP
 
 With the SMTP option, you can be sure you won’t miss any e-mail from your visitors. The messages will be safely delivered from the source to your personal e-mail address.
-If you were using Mandrill's SMTP for transactional emails and contact forms, you should take a look at these <a href="http://www.codeinwp.com/blog/mandrill-alternatives/" rel="friend" target="_blank">Mandrill Alternatives</a>.
+If you were using Mandrill's SMTP for transactional emails and contact forms, you should take a look at these <a href="http://www.codeinwp.com/blog/mandrill-alternatives/" rel="nofollow" target="_blank">Mandrill Alternatives</a>.
 
 - Stores contacts in special databases
 
@@ -40,7 +40,7 @@ You can keep all the contacts in an archive by saving their e-mail addresses. Pi
 A simple to use contact form plugin for creating a clean contact form using the [pirate_forms] shortcode or the 'Pirate Forms' widget.
 
 
-We've also built some fantastic <a href="http://themeisle.com/wordpress-themes/free/" rel="friend" target="_blank">free themes</a> that work well with Pirate Contact Form, check them out.
+We've also built some fantastic <a href="http://themeisle.com/wordpress-themes/free/" rel="nofollow" target="_blank">free themes</a> that work well with Pirate Contact Form, check them out.
 
 **Features:**
 
@@ -50,7 +50,7 @@ We've also built some fantastic <a href="http://themeisle.com/wordpress-themes/f
 - reCAPTCHA
 - Store the contacts in the database
 
-If are you looking for other alternatives check-out our article on <a href="http://www.codeinwp.com/blog/best-contact-form-plugins-wordpress/" rel="friend" target="_blank">best contact form plugins</a>.
+If are you looking for other alternatives check-out our article on <a href="http://www.codeinwp.com/blog/best-contact-form-plugins-wordpress/" rel="nofollow" target="_blank">best contact form plugins</a>.
 
 
 
