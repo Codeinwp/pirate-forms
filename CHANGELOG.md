@@ -1,4 +1,10 @@
 
+### 1.0.18 - 07/11/2016
+**Changes:** 
+- Fixed php strict standards error
+- Update tags
+- Tested up to WordPress 4.6
+
 ### 1.0.17 - 25/07/2016
 **Changes:** 
 - Development
