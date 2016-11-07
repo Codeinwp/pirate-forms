@@ -586,7 +586,12 @@ function pirate_forms_process_contact() {
 
 	/* for the case of a Web server behind a reverse proxy */
 	if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER)) {
-		$contact_ip = array_pop(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']));
+
+		$contact_ip_tmp = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+		if( !empty( $contact_ip_tmp ) ) {
+			$contact_ip = array_pop( $contact_ip_tmp );
+		}
+
 	}
 
 	// If valid and present, create a link to an IP search
