@@ -1,4 +1,8 @@
 
+### 1.1.0 - 19/12/2016
+**Changes:** 
+- Escape form fields
+
 ### 1.0.18 - 07/11/2016
 **Changes:** 
 - Fixed php strict standards error
