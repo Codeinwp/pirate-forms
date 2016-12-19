@@ -1,4 +1,8 @@
 
+### 1.1.1 - 19/12/2016
+**Changes:** 
+- Update changelog
+
 ### 1.1.0 - 19/12/2016
 **Changes:** 
 - Escape form fields
