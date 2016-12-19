@@ -77,6 +77,14 @@ Activating the Pirate Contact Form plugin is just like any other plugin. If you'
 
 == Changelog ==
 
+= 1.1.0 =
+* Escape form fields ( Thanks to Gabriel Avramescu gabriel.avramescu@ituniversity.ro )
+
+= 1.0.18 =
+* Fixed php strict standards error
+* Update tags
+* Tested up to WordPress 4.6
+
 = 1.0.17 =
 * Fixed IP issue when using web server behind a reverse proxy
 * Fixed W3C compatibility issues
