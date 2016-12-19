@@ -303,7 +303,7 @@ class PhpFormBuilder {
 
 				case 'textarea':
 					$element = 'textarea';
-					$end     = ' class="form-control" placeholder="'.$val['placeholder'].'">' . $val['value'] . '</textarea>';
+					$end     = ' class="form-control" placeholder="'.$val['placeholder'].'">' . esc_attr( $val['value'] ) . '</textarea>';
 					break;
 
 				case 'select':
@@ -381,10 +381,10 @@ class PhpFormBuilder {
 
 					/* don't add a placeholder attribute for input type=hidden */
 					if( !empty($val['type']) && ($val['type'] == 'hidden' ) ) {
-						$end .= ' class="form-control" type="' . $val['type'] . '" value="' . $val['value'] . '"';
+						$end .= ' class="form-control" type="' . $val['type'] . '" value="' . esc_attr ( $val['value'] ) . '"';
 					}
 					else {
-						$end .= ' class="form-control" type="' . $val['type'] . '" value="' . $val['value'] . '" placeholder="' . $val['placeholder'] . '"';
+						$end .= ' class="form-control" type="' . $val['type'] . '" value="' . esc_attr ( $val['value'] ) . '" placeholder="' . $val['placeholder'] . '"';
 					}
 					$end .= $val['checked'] ? ' checked' : '';
 					$end .= $this->field_close();
