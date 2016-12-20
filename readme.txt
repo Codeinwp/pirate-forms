@@ -77,7 +77,7 @@ Activating the Pirate Contact Form plugin is just like any other plugin. If you'
 
 == Changelog ==
 
-= 1.1.2 =
+= 1.1.3 =
 
 * Added integration with custom emails plugin
 * Fixed text domains errors
