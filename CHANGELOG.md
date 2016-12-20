@@ -1,4 +1,8 @@
 
+### 1.1.3 - 20/12/2016
+**Changes:** 
+- Sync with wp.org
+
 ### 1.1.2 - 20/12/2016
 **Changes:** 
 - Added upsell for custom emails plugin
