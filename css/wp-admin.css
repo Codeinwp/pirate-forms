@@ -225,52 +225,56 @@
 .pirate-forms-hidden {
 	display: none !important;
 }
-#pirate-forms-main{
-	float:left;
+
+#pirate-forms-main {
+	float: left;
 }
-#pirate-forms-sidebar{
-	float:left;
-	margin-left:50px;
-	margin-top:94px;
-	width:300px;
+
+#pirate-forms-sidebar {
+	float: left;
+	width: 300px;
+	margin-top: 94px;
+	margin-left: 50px;
 }
-.pirate-custom-emails a:hover{
+
+.pirate-custom-emails a:hover {
+	-webkit-box-shadow: none;
 	box-shadow: none;
-	transform: translateY(4px);
 	-webkit-transform: translateY(4px);
 	-moz-transform: translateY(4px);
 	-ms-transform: translateY(4px);
 	-o-transform: translateY(4px);
+	transform: translateY(4px);
 }
-.pirate-custom-emails a{
 
-	background: #ff7f65;
-	box-shadow: 0 4px 0 #da6f5a;
+.pirate-custom-emails a {
+	display: inline-block;
+	margin-top: 10px;
+	padding: 9px;
 	border-radius: 3px;
 	color: #fff;
-	cursor: pointer;
-	display: inline-block;
-	font-weight: 700;
-	padding: 9px;
+	background: #ff7f65;
+	-webkit-box-shadow: 0 4px 0 #da6f5a;
+	box-shadow: 0 4px 0 #da6f5a;
 	font-size: 12px;
+	font-weight: 700;
 	text-decoration: none;
 	text-transform: uppercase;
-	-webkit-transition: ease .25s;
-	-moz-transition: ease .25s;
-	-ms-transition: ease .25s;
-	-o-transition: ease .25s;
-	transition: ease .25s;
+	cursor: pointer;
+	-webkit-transition: ease 0.25s;
+	transition: ease 0.25s;
+}
+
+.pirate-custom-emails {
+	width: 90%;
+	margin: auto;
 	margin-top: 10px;
+	border-color: #fdbda9;
 }
-.pirate-custom-emails{
-	border-color:#fdbda9;
-	width:90%;
-	margin:auto;
-	margin-top:10px;
-}
+
 @media screen and (max-width: 780px) {
-	#pirate-forms-sidebar{
-		margin:4px;
-		width:100%;
+	#pirate-forms-sidebar {
+		width: 100%;
+		margin: 4px;
 	}
 }

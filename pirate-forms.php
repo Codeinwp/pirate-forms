@@ -540,7 +540,6 @@ function pirate_forms_process_contact() {
 		$headers = "From: $send_from_name <$send_from>\r\nReply-To: $pirate_forms_contact_name <$pirate_forms_contact_email>";
 		add_action( 'phpmailer_init', 'pirate_forms_phpmailer' );
 
-
 		/**
 		 ******* Validate Attachment */
 		$attachments              = '';
@@ -634,7 +633,6 @@ function pirate_forms_process_contact() {
  * Alter the phpmailer object
  *
  * @param $phpmailer PHPMailer object
- *
  */
 function pirate_forms_phpmailer( $phpmailer ) {
 	$pirateformsopt_use_smtp                = pirate_forms_get_key( 'pirateformsopt_use_smtp' );
