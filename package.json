@@ -1,0 +1,27 @@
+{
+  "name": "pirate-forms",
+  "version": "1.1.2",
+  "description": "Pirate Forms plugin",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Codeinwp/pirate-forms.git"
+  },
+  "keywords": [
+    "wordpress-plugin"
+  ],
+  "textdomain": "pirate-forms",
+  "author": "ThemeIsle <friends@themeisle.com>",
+  "license": "GPL-2.0+",
+  "bugs": {
+    "url": "https://github.com/Codeinwp/pirate-forms/issues"
+  },
+  "pot": {
+    "reportmsgidbugsto": "https://github.com/Codeinwp/pirate-forms/issues",
+    "languageteam": "Themeisle Translate <friends@themeisle.com>",
+    "lasttranslator": "Themeisle Translate Team <friends@themeisle.com>"
+  },
+  "devDependencies": {
+    "grunt-plugin-fleet": "codeinwp/grunt-plugin-fleet",
+    "load-project-config": "~0.2.0"
+  }
+}

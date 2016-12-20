@@ -10,7 +10,7 @@ jQuery(document).ready(function() {
             return false;
         }
     });
-    if ( thisOpen == false && (typeof jQuery('.pirate_forms textarea').val() != 'undefined') && (jQuery('.pirate_forms textarea').val().length > 0) ) {
+    if ( thisOpen === false && (typeof jQuery('.pirate_forms textarea').val() !== 'undefined') && (jQuery('.pirate_forms textarea').val().length > 0) ) {
         thisOpen = true;
         jQuery('.pirate-forms-g-recaptcha').css('display','block').delay(1000).css('opacity','1');
     }
