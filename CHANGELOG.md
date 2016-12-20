@@ -1,4 +1,10 @@
 
+### 1.1.2 - 20/12/2016
+**Changes:** 
+- Added upsell for custom emails plugin
+- Fixed text domains errors
+- Added travis and grunt
+
 ### 1.1.1 - 19/12/2016
 **Changes:** 
 - Update changelog
