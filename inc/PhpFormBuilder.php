@@ -1,7 +1,6 @@
 <?php
 
 // v 0.8.6
-
 class PhpFormBuilder {
 
 	// Stores all form inputs
@@ -23,11 +22,10 @@ class PhpFormBuilder {
 
 		/* if the form has an attachment option change the enctype to multipart/form-data */
 
-		$pirateformsopt_attachment_field = pirate_forms_get_key('pirateformsopt_attachment_field');
-		if( !empty($pirateformsopt_attachment_field) && ($pirateformsopt_attachment_field == 'yes') ) {
+		$pirateformsopt_attachment_field = pirate_forms_get_key( 'pirateformsopt_attachment_field' );
+		if ( ! empty( $pirateformsopt_attachment_field ) && ($pirateformsopt_attachment_field == 'yes') ) {
 			$pirate_forms_enctype = 'multipart/form-data';
-		}
-		else {
+		} else {
 			$pirate_forms_enctype = 'application/x-www-form-urlencoded';
 		}
 
@@ -43,7 +41,7 @@ class PhpFormBuilder {
 			'add_nonce'    => false,
 			'add_honeypot' => true,
 			'form_element' => true,
-			'add_submit'   => true
+			'add_submit'   => true,
 		);
 
 		// Merge with arguments, if present
@@ -171,7 +169,7 @@ class PhpFormBuilder {
 			'wrap_style'       => '',
 			'before_html'      => '',
 			'after_html'       => '',
-			'request_populate' => true
+			'request_populate' => true,
 		);
 
 		// Combined defaults and arguments
@@ -251,7 +249,7 @@ class PhpFormBuilder {
 				'wrap_class'       => array( 'form_field_wrap', 'hidden' ),
 				'wrap_id'          => '',
 				'wrap_style'       => 'display: none',
-				'request_populate' => false
+				'request_populate' => false,
 			) );
 		}
 
@@ -261,7 +259,7 @@ class PhpFormBuilder {
 				'value'            => wp_create_nonce( $this->form['add_nonce'] ),
 				'add_label'        => false,
 				'type'             => 'hidden',
-				'request_populate' => false
+				'request_populate' => false,
 			) );
 		}
 
@@ -303,7 +301,7 @@ class PhpFormBuilder {
 
 				case 'textarea':
 					$element = 'textarea';
-					$end     = ' class="form-control" placeholder="'.$val['placeholder'].'">' . esc_attr( $val['value'] ) . '</textarea>';
+					$end     = ' class="form-control" placeholder="' . $val['placeholder'] . '">' . esc_attr( $val['value'] ) . '</textarea>';
 					break;
 
 				case 'select':
@@ -323,7 +321,7 @@ class PhpFormBuilder {
 						) {
 							$opt_insert = ' selected';
 
-						// Does the field have a default selected value?
+							// Does the field have a default selected value?
 						} else if ( $val['selected'] === $key ) {
 							$opt_insert = ' selected';
 						}
@@ -333,7 +331,7 @@ class PhpFormBuilder {
 					break;
 				case 'captcha':
 					$element = 'div';
-					$end     = ' class="g-recaptcha pirate-forms-g-recaptcha" data-sitekey="' .$val['value'] . '"></div>';
+					$end     = ' class="g-recaptcha pirate-forms-g-recaptcha" data-sitekey="' . $val['value'] . '"></div>';
 					break;
 				case 'file':
 					$element = 'input';
@@ -380,11 +378,10 @@ class PhpFormBuilder {
 					$element = 'input';
 
 					/* don't add a placeholder attribute for input type=hidden */
-					if( !empty($val['type']) && ($val['type'] == 'hidden' ) ) {
-						$end .= ' class="form-control" type="' . $val['type'] . '" value="' . esc_attr ( $val['value'] ) . '"';
-					}
-					else {
-						$end .= ' class="form-control" type="' . $val['type'] . '" value="' . esc_attr ( $val['value'] ) . '" placeholder="' . $val['placeholder'] . '"';
+					if ( ! empty( $val['type'] ) && ($val['type'] == 'hidden' ) ) {
+						$end .= ' class="form-control" type="' . $val['type'] . '" value="' . esc_attr( $val['value'] ) . '"';
+					} else {
+						$end .= ' class="form-control" type="' . $val['type'] . '" value="' . esc_attr( $val['value'] ) . '" placeholder="' . $val['placeholder'] . '"';
 					}
 					$end .= $val['checked'] ? ' checked' : '';
 					$end .= $this->field_close();
@@ -428,16 +425,14 @@ class PhpFormBuilder {
 					$field = '
 					<' . $element . $id . ' name="' . $val['name'] . '"' . $min_max_range . $class . $attr . $end .
 					         $field;
-				}
-				elseif ( $val['type'] === 'captcha' ) { /* don't add name attribute to div's holding recaptcha keys */
+				} elseif ( $val['type'] === 'captcha' ) { /* don't add name attribute to div's holding recaptcha keys */
 					$field .= '
 					<' . $element . $id . ' ' . $min_max_range . $class . $attr . $end;
-				}
-				else {
+				} else {
 					$field .= '
 					<' . $element . $id . ' name="' . $val['name'] . '"' . $min_max_range . $class . $attr . $end;
 				}
-			// Not a form element
+				// Not a form element
 			} else {
 				$field .= $end;
 			}
@@ -497,7 +492,6 @@ class PhpFormBuilder {
 
 		// Check $name for correct characters
 		// "^[a-zA-Z0-9_-]*$"
-
 		return $result;
 
 	}
@@ -523,7 +517,6 @@ class PhpFormBuilder {
 
 		$output = '';
 
-		
 		if ( is_array( $classes ) && count( $classes ) > 0 ) {
 			$output .= ' class="';
 			foreach ( $classes as $class ) {
