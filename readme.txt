@@ -2,7 +2,7 @@
 Contributors: themeisle, codeinwp, rodicaelena, alexandrastan001, gouravwptech, hardeepasrani
 Tags:  contact forms plugin, contact form, contact us, contact us form, contacts form plugin, custom form, subscribe form, feedback form, wordpress contact form
 Requires at least: 3.0
-Tested up to: 4.6
+Tested up to: 4.7
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
