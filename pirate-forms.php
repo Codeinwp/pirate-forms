@@ -773,3 +773,5 @@ function pirate_forms_widget_text_filter( $content ) {
 
 	return $content;
 }
+
+require dirname( __FILE__ ) . '/dashboard/dashboard.php';

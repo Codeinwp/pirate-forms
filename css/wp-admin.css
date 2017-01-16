@@ -241,9 +241,7 @@
 	-webkit-box-shadow: none;
 	box-shadow: none;
 	-webkit-transform: translateY(4px);
-	-moz-transform: translateY(4px);
 	-ms-transform: translateY(4px);
-	-o-transform: translateY(4px);
 	transform: translateY(4px);
 }
 
