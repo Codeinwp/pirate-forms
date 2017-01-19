@@ -542,7 +542,8 @@ function pirate_forms_process_contact() {
 		/**
 		 ******* Validate Attachment */
 		$attachments = '';
-		if ( ! empty( pirate_forms_get_key( 'pirateformsopt_attachment_field' ) ) && ( pirate_forms_get_key( 'pirateformsopt_attachment_field' ) == 'yes' ) ) {
+		$use_files =  pirate_forms_get_key( 'pirateformsopt_attachment_field' );
+		if ( ! empty( $use_files ) && ( $use_files == 'yes' ) ) {
 			$attachments              = '';
 			$pirate_forms_attach_file = isset( $_FILES['pirate-forms-attachment'] ) ? $_FILES['pirate-forms-attachment'] : '';
 			if ( ! empty( $pirate_forms_attach_file ) && ! empty( $pirate_forms_attach_file['name'] ) ) {
