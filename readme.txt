@@ -77,6 +77,10 @@ Activating the Pirate Contact Form plugin is just like any other plugin. If you'
 
 == Changelog ==
 
+= 1.2.0 =
+
+* Fixed security error when upload field was active.
+
 = 1.1.3 =
 
 * Added integration with custom emails plugin
