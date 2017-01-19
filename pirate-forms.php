@@ -3,7 +3,7 @@
 Plugin Name: Free & Simple Contact Form Plugin - PirateForms
 Plugin URI: http://themeisle.com/plugins/pirate-forms/
 Description: Easily creates a nice looking, simple contact form on your WP site.
-Version: 1.1.3
+Version: 1.2.0
 Author: Themeisle
 Author URI: http://themeisle.com
 Text Domain: pirate-forms
@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_action' ) ) {
 	die( 'Nothing to do...' );
 }
 /* Important constants */
-define( 'PIRATE_FORMS_VERSION', '1.1.3' );
+define( 'PIRATE_FORMS_VERSION', '1.2.0' );
 define( 'PIRATE_FORMS_URL', plugin_dir_url( __FILE__ ) );
 define( 'PIRATE_FORMS_PATH', plugin_dir_path( __FILE__ ) );
 /* Required helper functions */
@@ -44,7 +44,7 @@ add_shortcode( 'pirate_forms', 'pirate_forms_display_form' );
 function pirate_forms_display_form( $atts, $content = null ) {
 	/* thank you message */
 	$pirate_forms_thankyou_message = '';
-	if ( ( isset( $_GET['pcf'] ) && $_GET['pcf'] == 1 ) || ( isset( $_POST['pirate-forms-contact-submit'] ) ) ) {
+	if ( ( ( isset( $_GET['pcf'] ) && $_GET['pcf'] == 1 ) || ( isset( $_POST['pirate-forms-contact-submit'] ) ) ) && empty( $_SESSION['pirate_forms_contact_errors'] ) ) {
 		$pirate_forms_thankyou_message .= '
 		<div class="col-sm-12 col-lg-12 pirate_forms_thankyou_wrap">
 			<p>' . sanitize_text_field( pirate_forms_get_key( 'pirateformsopt_label_submit' ) ) . '</p>
@@ -539,50 +539,55 @@ function pirate_forms_process_contact() {
 		// Sent an email notification to the correct address
 		$headers = "From: $send_from_name <$send_from>\r\nReply-To: $pirate_forms_contact_name <$pirate_forms_contact_email>";
 		add_action( 'phpmailer_init', 'pirate_forms_phpmailer' );
-
 		/**
 		 ******* Validate Attachment */
-		$attachments              = '';
-		$pirate_forms_attach_file = isset( $_FILES['pirate-forms-attachment'] ) ? $_FILES['pirate-forms-attachment'] : '';
-		if ( ! empty( $pirate_forms_attach_file ) && ! empty( $pirate_forms_attach_file['name'] ) ) {
-			/* Validate file type */
-			$pirate_forms_file_types_allowed = 'jpg|jpeg|png|gif|pdf|doc|docx|ppt|pptx|odt|avi|ogg|m4a|mov|mp3|mp4|mpg|wav|wmv';
-			$pirate_forms_file_types_allowed = trim( $pirate_forms_file_types_allowed, '|' );
-			$pirate_forms_file_types_allowed = '(' . $pirate_forms_file_types_allowed . ')';
-			$pirate_forms_file_types_allowed = '/\.' . $pirate_forms_file_types_allowed . '$/i';
-			if ( ! preg_match( $pirate_forms_file_types_allowed, $pirate_forms_attach_file['name'] ) ) {
-				$_SESSION['pirate_forms_contact_errors']['pirate-forms-upload-failed-type'] = __( 'Uploaded file is not allowed for file type', 'pirate-forms' );
-			}
-			/* Validate file size */
-			$pirate_forms_file_size_allowed = 1048576; // default size 1 MB
-			if ( $pirate_forms_attach_file['size'] > $pirate_forms_file_size_allowed ) {
-				$_SESSION['pirate_forms_contact_errors']['pirate-forms-upload-failed-size'] = __( 'Uploaded file is too large', 'pirate-forms' );
-			}
-			pirate_forms_init_uploads();
-			$uploads_dir = pirate_forms_upload_tmp_dir();
-			$uploads_dir = pirate_forms_maybe_add_random_dir( $uploads_dir );
-			$filename    = $pirate_forms_attach_file['name'];
-			$filename    = pirate_forms_canonicalize( $filename );
-			$filename    = sanitize_file_name( $filename );
-			$filename    = pirate_forms_antiscript_file_name( $filename );
-			$filename    = wp_unique_filename( $uploads_dir, $filename );
-			$new_file    = trailingslashit( $uploads_dir ) . $filename;
-			try {
-				if ( false === move_uploaded_file( $pirate_forms_attach_file['tmp_name'], $new_file ) ) {
-					throw new Exception( __( 'There was an unknown error uploading the file.', 'pirate-forms' ) );
+		$attachments = '';
+		if ( ! empty( pirate_forms_get_key( 'pirateformsopt_attachment_field' ) ) && ( pirate_forms_get_key( 'pirateformsopt_attachment_field' ) == 'yes' ) ) {
+			$attachments              = '';
+			$pirate_forms_attach_file = isset( $_FILES['pirate-forms-attachment'] ) ? $_FILES['pirate-forms-attachment'] : '';
+			if ( ! empty( $pirate_forms_attach_file ) && ! empty( $pirate_forms_attach_file['name'] ) ) {
+				/* Validate file type */
+				$pirate_forms_file_types_allowed = 'jpg|jpeg|png|gif|pdf|doc|docx|ppt|pptx|odt|avi|ogg|m4a|mov|mp3|mp4|mpg|wav|wmv';
+				$pirate_forms_file_types_allowed = trim( $pirate_forms_file_types_allowed, '|' );
+				$pirate_forms_file_types_allowed = '(' . $pirate_forms_file_types_allowed . ')';
+				$pirate_forms_file_types_allowed = '/\.' . $pirate_forms_file_types_allowed . '$/i';
+				if ( ! preg_match( $pirate_forms_file_types_allowed, $pirate_forms_attach_file['name'] ) ) {
+					$_SESSION['pirate_forms_contact_errors']['pirate-forms-upload-failed-type'] = __( 'Uploaded file is not allowed for file type', 'pirate-forms' );
+
+					return false;
 				}
-				// Make sure the uploaded file is only readable for the owner process
-				if ( false === chmod( $new_file, 0400 ) ) {
-					throw new Exception( __( 'There was an unknown error uploading the file.', 'pirate-forms' ) );
+				/* Validate file size */
+				$pirate_forms_file_size_allowed = 1048576; // default size 1 MB
+				if ( $pirate_forms_attach_file['size'] > $pirate_forms_file_size_allowed ) {
+					$_SESSION['pirate_forms_contact_errors']['pirate-forms-upload-failed-size'] = __( 'Uploaded file is too large', 'pirate-forms' );
 				}
-			} catch ( Exception $ex ) {
-				$_SESSION['pirate_forms_contact_errors']['pirate-forms-upload-failed-general'] = $ex->getMessage();
-			}
-			if ( ! empty( $new_file ) ) {
-				$attachments = $new_file;
+				pirate_forms_init_uploads();
+				$uploads_dir = pirate_forms_upload_tmp_dir();
+				$uploads_dir = pirate_forms_maybe_add_random_dir( $uploads_dir );
+				$filename    = $pirate_forms_attach_file['name'];
+				$filename    = pirate_forms_canonicalize( $filename );
+				$filename    = sanitize_file_name( $filename );
+				$filename    = pirate_forms_antiscript_file_name( $filename );
+				$filename    = wp_unique_filename( $uploads_dir, $filename );
+				$new_file    = trailingslashit( $uploads_dir ) . $filename;
+				try {
+					if ( false === move_uploaded_file( $pirate_forms_attach_file['tmp_name'], $new_file ) ) {
+						throw new Exception( __( 'There was an unknown error uploading the file.', 'pirate-forms' ) );
+					}
+					// Make sure the uploaded file is only readable for the owner process
+				} catch ( Exception $ex ) {
+					$_SESSION['pirate_forms_contact_errors']['pirate-forms-upload-failed-general'] = $ex->getMessage();
+				}
+				if ( ! empty( $new_file ) ) {
+					$attachments = $new_file;
+				}
 			}
 		}
 		wp_mail( $site_recipients, 'Contact on ' . htmlspecialchars_decode( get_bloginfo( 'name' ) ), $body, $headers, $attachments );
+		require_once( ABSPATH . 'wp-admin/includes/file.php' );
+		WP_Filesystem();
+		global $wp_filesystem;
+		$wp_filesystem->delete( pirate_forms_upload_tmp_dir(), true, 'd' );
 		// Should a confirm email be sent?
 		$confirm_body = stripslashes( trim( pirate_forms_get_key( 'pirateformsopt_confirm_email' ) ) );
 		if ( ! empty( $confirm_body ) && ! empty( $pirate_forms_contact_email ) ) {

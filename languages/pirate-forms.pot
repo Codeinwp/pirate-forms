@@ -452,59 +452,59 @@ msgstr ""
 msgid "Form submission blocked!"
 msgstr ""
 
-#: pirate-forms.php:554
+#: pirate-forms.php:555
 msgid "Uploaded file is not allowed for file type"
 msgstr ""
 
-#: pirate-forms.php:559
+#: pirate-forms.php:562
 msgid "Uploaded file is too large"
 msgstr ""
 
-#: pirate-forms.php:572 pirate-forms.php:576
+#: pirate-forms.php:575
 msgid "There was an unknown error uploading the file."
 msgstr ""
 
-#: pirate-forms.php:721
+#: pirate-forms.php:726
 msgid "Add New Contact"
 msgstr ""
 
-#: pirate-forms.php:722
+#: pirate-forms.php:727
 msgid "New Contact"
 msgstr ""
 
-#: pirate-forms.php:723
+#: pirate-forms.php:728
 msgid "Edit Contact"
 msgstr ""
 
-#: pirate-forms.php:724
+#: pirate-forms.php:729
 msgid "View Contact"
 msgstr ""
 
-#: pirate-forms.php:725
+#: pirate-forms.php:730
 msgid "All Contacts"
 msgstr ""
 
-#: pirate-forms.php:726
+#: pirate-forms.php:731
 msgid "Search Contacts"
 msgstr ""
 
-#: pirate-forms.php:727
+#: pirate-forms.php:732
 msgid "Parent Contacts:"
 msgstr ""
 
-#: pirate-forms.php:728
+#: pirate-forms.php:733
 msgid "No contacts found."
 msgstr ""
 
-#: pirate-forms.php:729
+#: pirate-forms.php:734
 msgid "No contacts found in Trash."
 msgstr ""
 
-#: pirate-forms.php:733
+#: pirate-forms.php:738
 msgid "Contacts from Pirate Forms"
 msgstr ""
 
-#: pirate-forms.php:752
+#: pirate-forms.php:757
 msgid "Settings"
 msgstr ""
 
@@ -528,27 +528,27 @@ msgstr ""
 msgid "http://themeisle.com"
 msgstr ""
 
-#: pirate-forms.php:716
+#: pirate-forms.php:721
 msgctxt "post type general name"
 msgid "Contacts"
 msgstr ""
 
-#: pirate-forms.php:717
+#: pirate-forms.php:722
 msgctxt "post type singular name"
 msgid "Contact"
 msgstr ""
 
-#: pirate-forms.php:718
+#: pirate-forms.php:723
 msgctxt "admin menu"
 msgid "Contacts"
 msgstr ""
 
-#: pirate-forms.php:719
+#: pirate-forms.php:724
 msgctxt "add new on admin bar"
 msgid "Contact"
 msgstr ""
 
-#: pirate-forms.php:720
+#: pirate-forms.php:725
 msgctxt "contact"
 msgid "Add New"
 msgstr ""
