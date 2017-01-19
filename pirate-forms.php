@@ -542,7 +542,7 @@ function pirate_forms_process_contact() {
 		/**
 		 ******* Validate Attachment */
 		$attachments = '';
-		$use_files =  pirate_forms_get_key( 'pirateformsopt_attachment_field' );
+		$use_files = pirate_forms_get_key( 'pirateformsopt_attachment_field' );
 		if ( ! empty( $use_files ) && ( $use_files == 'yes' ) ) {
 			$attachments              = '';
 			$pirate_forms_attach_file = isset( $_FILES['pirate-forms-attachment'] ) ? $_FILES['pirate-forms-attachment'] : '';
