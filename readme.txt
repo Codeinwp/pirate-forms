@@ -1,4 +1,4 @@
-=== Contact Form Plugin by PirateForms ===
+=== Contact Form & SMTP Plugin by PirateForms ===
 Contributors: themeisle, codeinwp, rodicaelena, hardeepasrani, pirateforms
 Tags:  contact forms plugin, contact form, contact us, contact us form, contacts form plugin, custom form, subscribe form, feedback form, wordpress contact form
 Requires at least: 3.0
@@ -7,7 +7,7 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-A simple and effective WordPress contact form plugin. Compatible with best themes out there, is both secure and responsive.
+A simple and effective WordPress contact form & SMTP plugin. Compatible with best themes out there, is both secure and responsive.
 
 == Description ==
 
