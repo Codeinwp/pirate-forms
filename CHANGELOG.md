@@ -1,6 +1,10 @@
 
 ### 1.2.0 - 06/04/2017
 **Changes:** 
+- Update readme.txt
+
+### 1.2.0 - 06/04/2017
+**Changes:** 
 - Improved description
 
 ### 1.2.0 - 19/01/2017
