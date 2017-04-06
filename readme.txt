@@ -14,6 +14,7 @@ A simple and effective WordPress contact form plugin. Compatible with best theme
 Stay in touch with your visitors very easily. <a href="https://themeisle.com/plugins/pirate-forms/" rel="nofollow">Pirate Contact Forms</a> offers you a great and friendly contact form for your website.
 This is an easy-to-use WordPress contact form with captcha plugin. To create a contact form you just need to use the [pirate_forms] shortcode or use the WordPress contact form widget.
 
+
 **Why use our responsive WordPress Contact Form:**
 
 - It's easy to use
@@ -31,7 +32,7 @@ Avoid spam messages and make sure the e-mails you receive are entirely addressed
 - Comes with SMTP
 
 With the SMTP option, you can be sure you won’t miss any e-mail from your visitors. The messages will be safely delivered from the source to your personal e-mail address.
-If you were using Mandrill's SMTP for transactional emails and contact forms, you should take a look at these <a href="http://www.codeinwp.com/blog/mandrill-alternatives/" rel="friend" target="_blank">Mandrill Alternatives</a>.
+If you were using Mandrill's SMTP for transactional emails and contact forms, you should take a look at these <a href="http://www.codeinwp.com/blog/mandrill-alternatives/" rel="nofollow" target="_blank">Mandrill Alternatives</a>.
 
 - Stores contacts in special databases
 
@@ -41,7 +42,9 @@ A simple to use contact form plugin for creating a clean contact form using the 
 
 - What PirateForms isn't for now
 
+
 This is not a form maker or drag & drop builder plugin nor "the best contact form plugin", you cannot add new fields or create multiple forms (subscription forms, payment, order, feedback or quote), there are some great alternatives out there for those like : Caldera Forms or Ninja Forms.
+
 
 
 We've also built some fantastic <a href="http://themeisle.com/wordpress-themes/free/" rel="nofollow" target="_blank">free themes</a> that work well with Pirate Contact Form, check them out.
