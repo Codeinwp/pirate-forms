@@ -370,6 +370,10 @@ function pirate_forms_maybe_add_random_dir( $dir ) {
 	return $dir;
 }
 
+function pirate_forms_table_row($key, $value) {
+	return '<tr><th>' . $key . '</th><td>' . $value . '</td></tr>';
+}
+
 /**
  * Process the incoming contact form data, if any
  */
@@ -396,8 +400,10 @@ function pirate_forms_process_contact() {
 		return false;
 	}
 	// Start the body of the contact email
-	$body = '*** ' . __( 'Contact form submission from', 'pirate-forms' ) . ' ' .
-	        get_bloginfo( 'name' ) . ' (' . site_url() . ") *** \n\n";
+	$body = '<h2>' . __( 'Contact form submission from', 'pirate-forms' ) . ' ' .
+	        get_bloginfo( 'name' ) . ' (' . site_url() . ") </h2>";
+
+	$body .= '<table>';
 	/**
 	 *******   Sanitize and validate name */
 	$pirate_forms_contact_name = isset( $_POST['pirate-forms-contact-name'] ) ? sanitize_text_field( trim( $_POST['pirate-forms-contact-name'] ) ) : '';
@@ -406,7 +412,7 @@ function pirate_forms_process_contact() {
 		$_SESSION['pirate_forms_contact_errors']['pirate-forms-contact-name'] = pirate_forms_get_key( 'pirateformsopt_label_err_name' );
 	} // If not required and empty, leave it out
 	elseif ( ! empty( $pirate_forms_contact_name ) ) {
-		$body .= stripslashes( pirate_forms_get_key( 'pirateformsopt_label_name' ) ) . ": $pirate_forms_contact_name \r";
+		$body .= pirate_forms_table_row( stripslashes( pirate_forms_get_key( 'pirateformsopt_label_name' ) ), $pirate_forms_contact_name );
 	}
 	/**
 	 *****  Sanitize and validate email */
@@ -416,8 +422,7 @@ function pirate_forms_process_contact() {
 		$_SESSION['pirate_forms_contact_errors']['pirate-forms-contact-email'] = pirate_forms_get_key( 'pirateformsopt_label_err_email' );
 	} // If not required and empty, leave it out
 	elseif ( ! empty( $pirate_forms_contact_email ) ) {
-		$body .= stripslashes( pirate_forms_get_key( 'pirateformsopt_label_email' ) )
-		         . ": $pirate_forms_contact_email \r";
+		$body .= pirate_forms_table_row( stripslashes( pirate_forms_get_key( 'pirateformsopt_label_email' ) ), $pirate_forms_contact_email );
 	}
 	/**
 	 *******   Sanitize and validate subject */
@@ -427,7 +432,7 @@ function pirate_forms_process_contact() {
 		$_SESSION['pirate_forms_contact_errors']['pirate-forms-contact-subject'] = pirate_forms_get_key( 'pirateformsopt_label_err_subject' );
 	} // If not required and empty, leave it out
 	elseif ( ! empty( $pirate_forms_contact_subject ) ) {
-		$body .= stripslashes( pirate_forms_get_key( 'pirateformsopt_label_subject' ) ) . ": $pirate_forms_contact_subject \r";
+		$body .= pirate_forms_table_row( stripslashes( pirate_forms_get_key( 'pirateformsopt_label_subject' ) ), $pirate_forms_contact_subject );
 	}
 	/**
 	 *******   Sanitize and validate message */
@@ -437,7 +442,7 @@ function pirate_forms_process_contact() {
 		$_SESSION['pirate_forms_contact_errors']['pirate-forms-contact-message'] = pirate_forms_get_key( 'pirateformsopt_label_err_message' );
 	} // If not required and empty, leave it out
 	elseif ( ! empty( $pirate_forms_contact_message ) ) {
-		$body .= stripslashes( pirate_forms_get_key( 'pirateformsopt_label_message' ) ) . ": $pirate_forms_contact_message \r";
+		$body .= pirate_forms_table_row( stripslashes( pirate_forms_get_key( 'pirateformsopt_label_message' ) ), $pirate_forms_contact_message );
 	}
 	/**
 	 *********** Validate reCAPTCHA */
@@ -480,14 +485,15 @@ function pirate_forms_process_contact() {
 	}
 	// If valid and present, create a link to an IP search
 	if ( ! empty( $contact_ip ) ) {
-		$body .= __( 'IP address: ', 'pirate-forms' ) . $contact_ip . "\r " . __( 'IP search:', 'pirate-forms' ) . " http://whatismyipaddress.com/ip/$contact_ip \n\n";
+		$body .= pirate_forms_table_row( __( 'IP address: ', 'pirate-forms' ), $contact_ip );
+		$body .= pirate_forms_table_row( __( 'IP search:', 'pirate-forms' ), "http://whatismyipaddress.com/ip/$contact_ip" );
 	}
 	// Sanitize and prepare referrer;
 	if ( ! empty( $_POST['pirate-forms-contact-referrer'] ) ) {
-		$body .= __( 'Came from: ', 'pirate-forms' ) . sanitize_text_field( $_POST['pirate-forms-contact-referrer'] ) . " \r";
+		$body .= pirate_forms_table_row( __( 'Came from: ', 'pirate-forms' ), sanitize_text_field( $_POST['pirate-forms-contact-referrer'] ) );
 	}
 	// Show the page this contact form was submitted on
-	$body .= __( 'Sent from page: ', 'pirate-forms' ) . get_permalink( get_the_id() );
+	$body .= pirate_forms_table_row( __( 'Sent from page: ', 'pirate-forms' ), get_permalink( get_the_id() ) );
 	// Check the blacklist
 	$blocked = pirate_forms_get_blacklist();
 	if ( ! empty( $blocked ) ) {
@@ -500,6 +506,8 @@ function pirate_forms_process_contact() {
 			return false;
 		}
 	}
+	$body .= '</table>';
+
 	// No errors? Go ahead and process the contact
 	if ( empty( $_SESSION['pirate_forms_contact_errors'] ) ) {
 		$pirate_forms_options_tmp = get_option( 'pirate_forms_settings_array' );
@@ -537,7 +545,7 @@ function pirate_forms_process_contact() {
 		}
 		$send_from_name = $site_name;
 		// Sent an email notification to the correct address
-		$headers = "From: $send_from_name <$send_from>\r\nReply-To: $pirate_forms_contact_name <$pirate_forms_contact_email>";
+		$headers = "From: $send_from_name <$send_from>\r\nReply-To: $pirate_forms_contact_name <$pirate_forms_contact_email>\r\nContent-type: text/html";
 		add_action( 'phpmailer_init', 'pirate_forms_phpmailer' );
 		/**
 		 ******* Validate Attachment */
@@ -584,6 +592,7 @@ function pirate_forms_process_contact() {
 				}
 			}
 		}
+
 		wp_mail( $site_recipients, 'Contact on ' . htmlspecialchars_decode( get_bloginfo( 'name' ) ), $body, $headers, $attachments );
 		require_once( ABSPATH . 'wp-admin/includes/file.php' );
 		WP_Filesystem();
