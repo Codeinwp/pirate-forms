@@ -345,10 +345,11 @@ function pirate_forms_init_uploads() {
 		return;
 	}
 	try {
-		if ( $handle = fopen( $htaccess_file, 'w' ) ) {
-			if ( ! $handle ) {
-				throw new Exception( 'File open failed.' );
-			}
+		$handle = fopen( $htaccess_file, 'w' );
+
+		if ( ! $handle ) {
+			throw new Exception( 'File open failed.' );
+		} else {
 			fwrite( $handle, "Deny from all\n" );
 			fclose( $handle );
 		}
@@ -370,7 +371,7 @@ function pirate_forms_maybe_add_random_dir( $dir ) {
 	return $dir;
 }
 
-function pirate_forms_table_row($key, $value) {
+function pirate_forms_table_row( $key, $value ) {
 	return '<tr><th>' . $key . '</th><td>' . $value . '</td></tr>';
 }
 
@@ -401,7 +402,7 @@ function pirate_forms_process_contact() {
 	}
 	// Start the body of the contact email
 	$body = '<h2>' . __( 'Contact form submission from', 'pirate-forms' ) . ' ' .
-	        get_bloginfo( 'name' ) . ' (' . site_url() . ") </h2>";
+	        get_bloginfo( 'name' ) . ' (' . site_url() . ') </h2>';
 
 	$body .= '<table>';
 	/**
@@ -583,7 +584,6 @@ function pirate_forms_process_contact() {
 					if ( false === move_uploaded_file( $pirate_forms_attach_file['tmp_name'], $new_file ) ) {
 						throw new Exception( __( 'There was an unknown error uploading the file.', 'pirate-forms' ) );
 					}
-					// Make sure the uploaded file is only readable for the owner process
 				} catch ( Exception $ex ) {
 					$_SESSION['pirate_forms_contact_errors']['pirate-forms-upload-failed-general'] = $ex->getMessage();
 				}
@@ -718,7 +718,9 @@ function pirate_forms_admin_css() {
 	) {
 		wp_enqueue_style( 'pirate_forms_admin_styles', PIRATE_FORMS_URL . 'css/wp-admin.css' );
 		wp_enqueue_script( 'pirate_forms_scripts_admin', plugins_url( 'js/scripts-admin.js', __FILE__ ), array( 'jquery' ) );
-		wp_localize_script( 'pirate_forms_scripts_admin', 'cwp_top_ajaxload', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
+		wp_localize_script( 'pirate_forms_scripts_admin', 'cwp_top_ajaxload', array(
+			'ajaxurl' => admin_url( 'admin-ajax.php' ),
+		) );
 	}
 }
 
