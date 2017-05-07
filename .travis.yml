@@ -1,18 +1,55 @@
 language: php
-
-##  PHP versions to test  against
 php:
+    - "7.1"
     - "7.0"
     - "5.6"
     - "5.5"
     - "5.4"
     - "5.3"
-    - "5.2"
 sudo: false
+branches:
+  except:
+  - "/^*-v[0-9]/"
 env:
-    - WP_VERSION=master WP_MULTISITE=0
+  matrix:
+  - WP_VERSION=latest WP_MULTISITE=0
+  global:
+  - MASTER_BRANCH=production UPSTREAM_REPO=Codeinwp/pirate-forms STORE_URL=https://themeisle.com
 install:
-  - chmod +x bin/install-dependencies.sh
-  - ". ./bin/install-dependencies.sh"
+- chmod +x bin/install-dependencies.sh
+- ". ./bin/install-dependencies.sh"
 script:
-     grunt travis
+- if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then  grunt travis; fi;
+before_deploy:
+- chmod +x bin/prepare-deploy.sh
+- ". ./bin/prepare-deploy.sh"
+deploy:
+- provider: s3
+  access_key_id: "$AWS_ACCESS_KEY"
+  secret_access_key: "$AWS_SECRET_KEY"
+  bucket: "$AWS_BUCKET"
+  skip_cleanup: true
+  acl: public_read
+  overwrite: true
+  local-dir: artifact/
+  upload-dir: "$AWS_PRODUCTS_FOLDER/$THEMEISLE_REPO/latest"
+  on:
+    branch: "$MASTER_BRANCH"
+    repo: "$UPSTREAM_REPO"
+    condition: $TRAVIS_PHP_VERSION = "7.0"
+- provider: s3
+  access_key_id: "$AWS_ACCESS_KEY"
+  secret_access_key: "$AWS_SECRET_KEY"
+  bucket: "$AWS_BUCKET"
+  skip_cleanup: true
+  acl: public_read
+  overwrite: true
+  local-dir: artifact/
+  upload-dir: "$AWS_PRODUCTS_FOLDER/$THEMEISLE_REPO/$THEMEISLE_VERSION"
+  on:
+    repo: "$UPSTREAM_REPO"
+    branch: "$MASTER_BRANCH"
+    condition: $TRAVIS_PHP_VERSION = "7.0"
+after_deploy:
+- chmod +x bin/deploy.sh
+- ". ./bin/deploy.sh"
