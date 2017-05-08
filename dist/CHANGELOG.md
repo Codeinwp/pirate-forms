@@ -1,4 +1,8 @@
 
+ ### v1.2.2 - 2017-05-08 
+ **Changes:** 
+ - Update version
+ 
  ### v1.2.1 - 2017-05-08 
  **Changes:** 
  - Update version
