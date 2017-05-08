@@ -7,11 +7,14 @@
     <exclude-pattern>node_modules/*</exclude-pattern>
     <exclude-pattern>vendor/*</exclude-pattern>
     <exclude-pattern>lib/*</exclude-pattern>
+    <exclude-pattern>tests/*</exclude-pattern>
     <rule ref="WordPress-Core">
         <exclude name="Squiz.Commenting"/>
         <exclude name="WordPress.NamingConvention.ValidVariableName.StringNotSnakeCase" />
         <exclude name="WordPress.NamingConventions.ValidVariableName.NotSnakeCase" />
         <exclude name="WordPress.PHP.YodaConditions.NotYoda" />
+
+        <exclude name="WordPress.Files.FileName.InvalidClassFileName" />
     </rule>
     <rule ref="WordPress-Docs">
 
