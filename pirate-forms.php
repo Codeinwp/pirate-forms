@@ -690,9 +690,9 @@ function pirate_forms_add_styles_and_scripts() {
 			if ( defined( 'POLYLANG_VERSION' ) && function_exists( 'pll_current_language' ) ) {
 				$pirate_forms_contactus_language = pll_current_language();
 			} else {
-				$pirate_forms_contactus_language = get_locale();
+				$pirate_forms_contactus_language = substr(get_locale(), 0, 2);
 			}
-			wp_enqueue_script( 'recaptcha', 'https://www.google.com/recaptcha/api.js?hl=' . $pirate_forms_contactus_language . '' );
+			wp_enqueue_script( 'recaptcha', 'https://www.google.com/recaptcha/api.js?hl=' . $pirate_forms_contactus_language, array(), null );
 			wp_enqueue_script( 'pirate_forms_scripts', plugins_url( 'js/scripts.js', __FILE__ ), array(
 				'jquery',
 				'recaptcha',
