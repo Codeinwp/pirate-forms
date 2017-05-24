@@ -708,10 +708,10 @@ function pirate_forms_admin() {
 
 		if ( ( $pirate_current_theme != 'Hestia' ) && ( $pirate_current_theme != 'Hestia Pro' ) ) {
 
-			$pirate_upgrade_hestia_box_text = 'Check-out our latest FREE multi-purpose theme: Hestia';
+			$pirate_upgrade_hestia_box_text = 'Check-out our latest FREE multi-purpose theme: <strong>Hestia</strong>';
 
 			if ( $pirate_current_theme == 'Zerif Lite' ) {
-				$pirate_upgrade_hestia_box_text = 'Check-out our latest FREE multi-purpose theme: Hestia, your Zerif Lite content will be imported automatically! ';
+				$pirate_upgrade_hestia_box_text = 'Check-out our latest FREE multi-purpose theme: <strong>Hestia</strong>, your Zerif Lite content will be imported automatically! ';
 			}
 			?>
 			<div class="pirate-upgrade-hestia postbox card">
@@ -723,7 +723,7 @@ function pirate_forms_admin() {
 						'theme' => 'hestia',
 					), admin_url( 'theme-install.php' ) );
 					?>
-					<a href="<?php echo $pirate_upgrade_hestia_url; ?>" target="_blank">Get Hestia</a>
+					<a href="<?php echo $pirate_upgrade_hestia_url; ?>" target="_blank">Preview Hestia</a>
 				</div>
 			</div>
 			<?php

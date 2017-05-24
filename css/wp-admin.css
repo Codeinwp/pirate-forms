@@ -118,6 +118,7 @@
 	display: inline-block;
 	width: 90%;
 	vertical-align: top;
+	margin-top: 0px;
 }
 
 .wrap {
@@ -266,11 +267,17 @@
 	margin-top: 10px;
 	border-color: #fdbda9;
 }
+
 .pirate-upgrade-hestia {
 	width: 90%;
 	margin-top: 0px;
 	border-color: #fdbda9;
 }
+
+.pirate-forms-upgrade-hestia-content {
+	padding-top: 15px;
+}
+
 @media screen and (max-width: 1024px) {
 	#pirate-forms-sidebar {
 		margin: 10px 0px;
