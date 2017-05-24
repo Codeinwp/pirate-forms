@@ -50,7 +50,7 @@
 
 .pirate-forms-tab-content {
 	float: left;
-	width: 860px;
+	width: 700px;
 	border-right: 1px solid #ddd;
 	border-bottom: 1px solid #ddd;
 	border-left: 1px solid #ddd;
@@ -117,7 +117,6 @@
 .pirate-subscribe.postbox {
 	display: inline-block;
 	width: 90%;
-	margin: auto;
 	vertical-align: top;
 }
 
@@ -207,7 +206,6 @@
 @media( max-width: 1360px) {
 	.pirate-subscribe.postbox {
 		display: block;
-		margin-top: 40px;
 		margin-left: 0;
 	}
 }
@@ -245,7 +243,7 @@
 	transform: translateY(4px);
 }
 
-.pirate-custom-emails a {
+.pirate-custom-emails a, .pirate-upgrade-hestia a {
 	display: inline-block;
 	margin-top: 10px;
 	padding: 9px;
@@ -265,9 +263,18 @@
 
 .pirate-custom-emails {
 	width: 90%;
-	margin: auto;
 	margin-top: 10px;
 	border-color: #fdbda9;
+}
+.pirate-upgrade-hestia {
+	width: 90%;
+	margin-top: 0px;
+	border-color: #fdbda9;
+}
+@media screen and (max-width: 1024px) {
+	#pirate-forms-sidebar {
+		margin: 10px 0px;
+	}
 }
 
 @media screen and (max-width: 780px) {

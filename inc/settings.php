@@ -692,6 +692,43 @@ function pirate_forms_admin() {
 		</div><!-- .pirate-options -->
 	</div><!-- .pirate-options -->
 	<div id="pirate-forms-sidebar">
+		<?php
+		/* Upgrade to Hestia notification box */
+		$pirate_current_theme = '';
+
+		$theme = wp_get_theme();
+
+		if ( ! empty( $theme ) ) {
+			if ( is_child_theme() ) {
+				$pirate_current_theme = $theme->parent()->get( 'Name' );
+			} else {
+				$pirate_current_theme = $theme->get( 'Name' );
+			}
+		}
+
+		if ( ( $pirate_current_theme != 'Hestia' ) && ( $pirate_current_theme != 'Hestia Pro' ) ) {
+
+			$pirate_upgrade_hestia_box_text = 'Check-out our latest FREE multi-purpose theme: Hestia';
+
+			if ( $pirate_current_theme == 'Zerif Lite' ) {
+				$pirate_upgrade_hestia_box_text = 'Check-out our latest FREE multi-purpose theme: Hestia, your Zerif Lite content will be imported automatically! ';
+			}
+			?>
+			<div class="pirate-upgrade-hestia postbox card">
+				<div class="pirate-forms-upgrade-hestia-content">
+					<?php echo wp_kses_post( $pirate_upgrade_hestia_box_text ); ?><br>
+					<?php
+					$pirate_upgrade_hestia_url = add_query_arg( array(
+						'tab'   => 'theme-information',
+						'theme' => 'hestia',
+					), admin_url( 'theme-install.php' ) );
+					?>
+					<a href="<?php echo $pirate_upgrade_hestia_url; ?>" target="_blank">Get Hestia</a>
+				</div>
+			</div>
+			<?php
+		}
+		?>
 		<div class="pirate-subscribe postbox card">
 			<h3 class="title"><?php esc_html_e( 'Get Our Free Email Course', 'pirate-forms' ) ?></h3>
 			<div class="pirate-forms-subscribe-content">
