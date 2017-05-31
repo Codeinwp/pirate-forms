@@ -3,21 +3,24 @@
 Plugin Name: Free & Simple Contact Form Plugin - PirateForms
 Plugin URI: http://themeisle.com/plugins/pirate-forms/
 Description: Easily creates a nice looking, simple contact form on your WP site.
-Version: 1.2.4
+Version: 1.2.5
 Author: Themeisle
 Author URI: http://themeisle.com
 Text Domain: pirate-forms
 Domain Path: /languages
 License: GPLv2
+WordPress Available:  yes
+Requires License:    no
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
 if ( ! function_exists( 'add_action' ) ) {
 	die( 'Nothing to do...' );
 }
 /* Important constants */
-define( 'PIRATE_FORMS_VERSION', '1.2.4' );
+define( 'PIRATE_FORMS_VERSION', '1.2.5' );
 define( 'PIRATE_FORMS_URL', plugin_dir_url( __FILE__ ) );
 define( 'PIRATE_FORMS_PATH', plugin_dir_path( __FILE__ ) );
+define( 'PIRATE_FORMS_BASEFILE', __FILE__ );
 /* Required helper functions */
 include_once( dirname( __FILE__ ) . '/inc/helpers.php' );
 include_once( dirname( __FILE__ ) . '/inc/settings.php' );
@@ -551,7 +554,7 @@ function pirate_forms_process_contact() {
 		/**
 		 ******* Validate Attachment */
 		$attachments = '';
-		$use_files = pirate_forms_get_key( 'pirateformsopt_attachment_field' );
+		$use_files   = pirate_forms_get_key( 'pirateformsopt_attachment_field' );
 		if ( ! empty( $use_files ) && ( $use_files == 'yes' ) ) {
 			$attachments              = '';
 			$pirate_forms_attach_file = isset( $_FILES['pirate-forms-attachment'] ) ? $_FILES['pirate-forms-attachment'] : '';
@@ -792,3 +795,9 @@ function pirate_forms_widget_text_filter( $content ) {
 }
 
 require dirname( __FILE__ ) . '/dashboard/dashboard.php';
+
+$vendor_file = PIRATE_FORMS_PATH . '/vendor/autoload_52.php';
+if ( is_readable( $vendor_file ) ) {
+	require_once $vendor_file;
+	ThemeIsle_SDK_Loader::init_product( PIRATE_FORMS_BASEFILE );
+}

@@ -2,9 +2,9 @@
 # This file is distributed under the GPLv2.
 msgid ""
 msgstr ""
-"Project-Id-Version: Free & Simple Contact Form Plugin - PirateForms 1.2.3\n"
+"Project-Id-Version: Free & Simple Contact Form Plugin - PirateForms 1.2.4\n"
 "Report-Msgid-Bugs-To: https://github.com/Codeinwp/pirate-forms/issues\n"
-"POT-Creation-Date: 2017-05-31 10:45:34+00:00\n"
+"POT-Creation-Date: 2017-05-31 13:29:26+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
