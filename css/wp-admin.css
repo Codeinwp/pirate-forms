@@ -117,8 +117,8 @@
 .pirate-subscribe.postbox {
 	display: inline-block;
 	width: 90%;
+	margin-top: 0;
 	vertical-align: top;
-	margin-top: 0px;
 }
 
 .wrap {
@@ -244,7 +244,8 @@
 	transform: translateY(4px);
 }
 
-.pirate-custom-emails a, .pirate-upgrade-hestia a {
+.pirate-custom-emails a,
+.pirate-upgrade-hestia a {
 	display: inline-block;
 	margin-top: 10px;
 	padding: 9px;
@@ -270,7 +271,7 @@
 
 .pirate-upgrade-hestia {
 	width: 90%;
-	margin-top: 0px;
+	margin-top: 0;
 	border-color: #fdbda9;
 }
 
@@ -280,7 +281,7 @@
 
 @media screen and (max-width: 1024px) {
 	#pirate-forms-sidebar {
-		margin: 10px 0px;
+		margin: 10px 0;
 	}
 }
 

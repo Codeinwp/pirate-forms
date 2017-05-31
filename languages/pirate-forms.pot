@@ -2,9 +2,9 @@
 # This file is distributed under the GPLv2.
 msgid ""
 msgstr ""
-"Project-Id-Version: Free & Simple Contact Form Plugin - PirateForms 1.2.0\n"
+"Project-Id-Version: Free & Simple Contact Form Plugin - PirateForms 1.2.3\n"
 "Report-Msgid-Bugs-To: https://github.com/Codeinwp/pirate-forms/issues\n"
-"POT-Creation-Date: 2017-01-19 17:18:12+00:00\n"
+"POT-Creation-Date: 2017-05-31 10:45:34+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -292,7 +292,7 @@ msgid "Pirate Forms settings"
 msgstr ""
 
 #: inc/settings.php:350 inc/settings.php:439 inc/widget.php:18
-#: inc/widget.php:19
+#: inc/widget.php:21
 msgid "Pirate Forms"
 msgstr ""
 
@@ -352,31 +352,33 @@ msgstr ""
 msgid "Are you enjoying Pirate Forms?"
 msgstr ""
 
-#: inc/settings.php:493
+#: inc/settings.php:496
+#. translators: link to WordPress.org repo for PirateForms
 msgid "Rate our plugin on %1$s WordPress.org %2$s. We'd really appreciate it!"
 msgstr ""
 
-#: inc/settings.php:502
+#: inc/settings.php:510
+#. translators: link to blog article about contact form plugins
 msgid ""
 "If you want a more complex Contact Form Plugin please check %1$s this link "
 "%2$s."
 msgstr ""
 
-#: inc/settings.php:669
+#: inc/settings.php:679
 msgid "Save changes"
 msgstr ""
 
-#: inc/settings.php:686
+#: inc/settings.php:732
 msgid "Get Our Free Email Course"
 msgstr ""
 
-#: inc/settings.php:710
+#: inc/settings.php:756
 msgid ""
 "Ready to learn how to reduce your website loading times by half? Come and "
 "join the 1st lesson here!"
 msgstr ""
 
-#: inc/settings.php:712
+#: inc/settings.php:758
 msgid ""
 "Thank you for subscribing! You have been added to the mailing list and will "
 "receive the next email information in the coming weeks. If you ever wish to "
@@ -384,23 +386,23 @@ msgid ""
 "newsletter."
 msgstr ""
 
-#: inc/settings.php:720
+#: inc/settings.php:766
 msgid "Control Emails in WordPress"
 msgstr ""
 
-#: inc/widget.php:80
+#: inc/widget.php:83
 msgid "Title"
 msgstr ""
 
-#: inc/widget.php:81
+#: inc/widget.php:84
 msgid "Text above form"
 msgstr ""
 
-#: inc/widget.php:84
+#: inc/widget.php:87
 msgid "Title:"
 msgstr ""
 
-#: inc/widget.php:90
+#: inc/widget.php:93
 msgid "Subtext:"
 msgstr ""
 
@@ -412,99 +414,99 @@ msgstr ""
 msgid "Referring page"
 msgstr ""
 
-#: pirate-forms.php:387
+#: pirate-forms.php:392
 msgid "Nonce failed!"
 msgstr ""
 
-#: pirate-forms.php:394
+#: pirate-forms.php:399
 msgid "Form submission failed!"
 msgstr ""
 
-#: pirate-forms.php:399
+#: pirate-forms.php:404
 msgid "Contact form submission from"
 msgstr ""
 
-#: pirate-forms.php:452 pirate-forms.php:462
+#: pirate-forms.php:458 pirate-forms.php:468
 msgid "Wrong reCAPTCHA"
 msgstr ""
 
-#: pirate-forms.php:469
+#: pirate-forms.php:475
 msgid "Please enter one or more Contact submission recipients"
 msgstr ""
 
-#: pirate-forms.php:483
+#: pirate-forms.php:489
 msgid "IP address: "
 msgstr ""
 
-#: pirate-forms.php:483
+#: pirate-forms.php:490
 msgid "IP search:"
 msgstr ""
 
-#: pirate-forms.php:487
+#: pirate-forms.php:494
 msgid "Came from: "
 msgstr ""
 
-#: pirate-forms.php:490
+#: pirate-forms.php:497
 msgid "Sent from page: "
 msgstr ""
 
-#: pirate-forms.php:498
+#: pirate-forms.php:505
 msgid "Form submission blocked!"
 msgstr ""
 
-#: pirate-forms.php:556
+#: pirate-forms.php:565
 msgid "Uploaded file is not allowed for file type"
 msgstr ""
 
-#: pirate-forms.php:563
+#: pirate-forms.php:572
 msgid "Uploaded file is too large"
 msgstr ""
 
-#: pirate-forms.php:576
+#: pirate-forms.php:585
 msgid "There was an unknown error uploading the file."
 msgstr ""
 
-#: pirate-forms.php:727
+#: pirate-forms.php:738
 msgid "Add New Contact"
 msgstr ""
 
-#: pirate-forms.php:728
+#: pirate-forms.php:739
 msgid "New Contact"
 msgstr ""
 
-#: pirate-forms.php:729
+#: pirate-forms.php:740
 msgid "Edit Contact"
 msgstr ""
 
-#: pirate-forms.php:730
+#: pirate-forms.php:741
 msgid "View Contact"
 msgstr ""
 
-#: pirate-forms.php:731
+#: pirate-forms.php:742
 msgid "All Contacts"
 msgstr ""
 
-#: pirate-forms.php:732
+#: pirate-forms.php:743
 msgid "Search Contacts"
 msgstr ""
 
-#: pirate-forms.php:733
+#: pirate-forms.php:744
 msgid "Parent Contacts:"
 msgstr ""
 
-#: pirate-forms.php:734
+#: pirate-forms.php:745
 msgid "No contacts found."
 msgstr ""
 
-#: pirate-forms.php:735
+#: pirate-forms.php:746
 msgid "No contacts found in Trash."
 msgstr ""
 
-#: pirate-forms.php:739
+#: pirate-forms.php:750
 msgid "Contacts from Pirate Forms"
 msgstr ""
 
-#: pirate-forms.php:758
+#: pirate-forms.php:769
 msgid "Settings"
 msgstr ""
 
@@ -528,27 +530,27 @@ msgstr ""
 msgid "http://themeisle.com"
 msgstr ""
 
-#: pirate-forms.php:722
+#: pirate-forms.php:733
 msgctxt "post type general name"
 msgid "Contacts"
 msgstr ""
 
-#: pirate-forms.php:723
+#: pirate-forms.php:734
 msgctxt "post type singular name"
 msgid "Contact"
 msgstr ""
 
-#: pirate-forms.php:724
+#: pirate-forms.php:735
 msgctxt "admin menu"
 msgid "Contacts"
 msgstr ""
 
-#: pirate-forms.php:725
+#: pirate-forms.php:736
 msgctxt "add new on admin bar"
 msgid "Contact"
 msgstr ""
 
-#: pirate-forms.php:726
+#: pirate-forms.php:737
 msgctxt "contact"
 msgid "Add New"
 msgstr ""
