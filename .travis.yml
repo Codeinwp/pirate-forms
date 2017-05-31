@@ -26,6 +26,8 @@ install:
 - ". ./bin/install-dependencies.sh"
 script:
 - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then  grunt travis; fi;
+after_failure:
+- cat logs/phpcs.log ;
 before_deploy:
 - openssl aes-256-cbc -K $encrypted_1fc90f464345_key -iv $encrypted_1fc90f464345_iv
   -in key.enc -out /tmp/key -d
