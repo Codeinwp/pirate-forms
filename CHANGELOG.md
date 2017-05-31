@@ -1,4 +1,9 @@
 
+ ### v1.2.5 - 2017-05-31 
+ **Changes:** 
+ - Added themeisle-sdk.
+- Added new deployment stack.
+ 
 ### 1.2.0 - 19/01/2017
 **Changes:** 
 - Fixed security error for file field.
