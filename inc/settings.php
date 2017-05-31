@@ -719,7 +719,6 @@ function pirate_forms_admin() {
 					<?php echo wp_kses_post( $pirate_upgrade_hestia_box_text ); ?><br>
 					<?php
 					$pirate_upgrade_hestia_url = add_query_arg( array(
-						'tab'   => 'theme-information',
 						'theme' => 'hestia',
 					), admin_url( 'theme-install.php' ) );
 					?>
