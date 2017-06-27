@@ -1,28 +1,44 @@
 <?php
 
-// v 0.8.6
+/**
+ * Builds the form
+ *
+ * @since    1.0.0
+ */
 class PhpFormBuilder {
 
-	// Stores all form inputs
+	/**
+	 * Stores all form inputs
+	 *
+	 * @var      string    $inputs
+	 * @since    1.0.0
+	 */
 	private $inputs = array();
 
-	// Stores all form attributes
+	/**
+	 * Stores all form attributes
+	 *
+	 * @var      array    $form
+	 * @since    1.0.0
+	 */
 	private $form = array();
 
-	// Does this form have a submit value?
+	/**
+	 * Does this form have a submit value?
+	 *
+	 * @var      bool    $has_submit
+	 * @since    1.0.0
+	 */
 	private $has_submit = false;
 
 	/**
 	 * Constructor function to set form action and attributes
-	 *
-	 * @param string $action
-	 * @param bool   $args
 	 */
 	function __construct( $action = '', $args = false ) {
 
 		/* if the form has an attachment option change the enctype to multipart/form-data */
 
-		$pirateformsopt_attachment_field = pirate_forms_get_key( 'pirateformsopt_attachment_field' );
+		$pirateformsopt_attachment_field = PirateForms::pirate_forms_get_key( 'pirateformsopt_attachment_field' );
 		if ( ! empty( $pirateformsopt_attachment_field ) && ($pirateformsopt_attachment_field == 'yes') ) {
 			$pirate_forms_enctype = 'multipart/form-data';
 		} else {
@@ -47,7 +63,7 @@ class PhpFormBuilder {
 		// Merge with arguments, if present
 		if ( $args ) {
 			$settings = array_merge( $defaults, $args );
-		} // Otherwise, use the defaults wholesale
+		} // End if().
 		else {
 			$settings = $defaults;
 		}
@@ -65,8 +81,8 @@ class PhpFormBuilder {
 	/**
 	 * Validate and set form
 	 *
-	 * @param string        $key A valid key; switch statement ensures validity
-	 * @param string | bool $val A valid value; validated for each key
+	 * @param string        $key A valid key; switch statement ensures validity.
+	 * @param string | bool $val A valid value; validated for each key.
 	 *
 	 * @return bool
 	 */
@@ -130,10 +146,6 @@ class PhpFormBuilder {
 
 	/**
 	 * Add an input field to the form for outputting later
-	 *
-	 * @param string $label
-	 * @param string $args
-	 * @param string $slug
 	 */
 	function add_input( $label, $args = '', $slug = '' ) {
 
@@ -182,8 +194,6 @@ class PhpFormBuilder {
 	/**
 	 * Add multiple inputs to the input queue
 	 *
-	 * @param $arr
-	 *
 	 * @return bool
 	 */
 	function add_inputs( $arr ) {
@@ -205,7 +215,7 @@ class PhpFormBuilder {
 	/**
 	 * Build the HTML for the form based on the input queue
 	 *
-	 * @param bool $echo Should the HTML be echoed or returned?
+	 * @param bool $echo Should the HTML be echoed or returned?.
 	 *
 	 * @return string
 	 */
@@ -237,7 +247,10 @@ class PhpFormBuilder {
 			}
 
 			$output .= '>';
+			$this->set_element( 'form_start', $output );
 		}
+
+		$form_end   = '';
 
 		// Add honeypot anti-spam field
 		if ( $this->form['add_honeypot'] ) {
@@ -266,7 +279,13 @@ class PhpFormBuilder {
 		// Iterate through the input queue and add input HTML
 		foreach ( $this->inputs as $val ) :
 
-			$min_max_range = $element = $end = $attr = $field = $label_html = '';
+			$add_to_form_end    = false;
+			$min_max_range      = '';
+			$element            = '';
+			$end                = '';
+			$attr               = '';
+			$field              = '';
+			$label_html         = '';
 
 			// Automatic population of values using $_REQUEST data
 			if ( $val['request_populate'] && isset( $_REQUEST[ $val['name'] ] ) ) {
@@ -322,7 +341,7 @@ class PhpFormBuilder {
 							$opt_insert = ' selected';
 
 							// Does the field have a default selected value?
-						} else if ( $val['selected'] === $key ) {
+						} elseif ( $val['selected'] === $key ) {
 							$opt_insert = ' selected';
 						}
 						$end .= '<option value="' . $key . '"' . $opt_insert . '>' . $opt . '</option>';
@@ -379,15 +398,19 @@ class PhpFormBuilder {
 
 					/* don't add a placeholder attribute for input type=hidden */
 					if ( ! empty( $val['type'] ) && ($val['type'] == 'hidden' ) ) {
+						$add_to_form_end = true;
 						$end .= ' class="form-control" type="' . $val['type'] . '" value="' . esc_attr( $val['value'] ) . '"';
 					} else {
 						$end .= ' class="form-control" type="' . $val['type'] . '" value="' . esc_attr( $val['value'] ) . '" placeholder="' . $val['placeholder'] . '"';
+					}
+					if ( 'form_honeypot' === $val['id'] ) {
+						$add_to_form_end = true;
 					}
 					$end .= $val['checked'] ? ' checked' : '';
 					$end .= $this->field_close();
 					break;
 
-			}
+			}// End switch().
 
 			// Added a submit button, no need to auto-add one
 			if ( $val['type'] === 'submit' ) {
@@ -432,7 +455,6 @@ class PhpFormBuilder {
 					$field .= '
 					<' . $element . $id . ' name="' . $val['name'] . '"' . $min_max_range . $class . $attr . $end;
 				}
-				// Not a form element
 			} else {
 				$field .= $end;
 			}
@@ -459,18 +481,27 @@ class PhpFormBuilder {
 				$output .= $field;
 			endif;
 
+			if ( $add_to_form_end ) {
+				$form_end .= $output;
+			} else {
+				$this->set_element( $val['id'], $output );
+			}
+
 		endforeach;
 
 		// Auto-add submit button
 		if ( ! $this->has_submit && $this->form['add_submit'] ) {
 			$output .= '<div class="form_field_wrap"><input type="submit" value="Submit" name="submit"></div>';
+			$this->set_element( 'contact_submit', $output );
 		}
 
 		// Close the form tag if one was added
 		if ( $this->form['form_element'] ) {
-			$output .= '</form>';
+			$form_end .= '</form>';
+			$this->set_element( 'form_end', $form_end );
 		}
 
+		$output = $this->load_theme();
 		// Output or return?
 		if ( $echo ) {
 			echo $output;
@@ -479,13 +510,20 @@ class PhpFormBuilder {
 		}
 	}
 
-	// Easy way to auto-close fields, if necessary
+	/**
+	 * Easy way to auto-close fields, if necessary
+	 *
+	 * @since    1.0.0
+	 */
 	function field_close() {
 		return $this->form['markup'] === 'xhtml' ? ' />' : '>';
 	}
 
-	// Validates id and class attributes
-	// TODO: actually validate these things
+	/**
+	 * Validates id and class attributes
+	 *
+	 * @since    1.0.0
+	 */
 	private function _check_valid_attr( $string ) {
 
 		$result = true;
@@ -496,7 +534,11 @@ class PhpFormBuilder {
 
 	}
 
-	// Create a slug from a label name
+	/**
+	 * Create a slug from a label name
+	 *
+	 * @since    1.0.0
+	 */
 	private function _make_slug( $string ) {
 
 		$result = '';
@@ -512,7 +554,11 @@ class PhpFormBuilder {
 
 	}
 
-	// Parses and builds the classes in multiple places
+	/**
+	 * Parses and builds the classes in multiple places
+	 *
+	 * @since    1.0.0
+	 */
 	private function _output_classes( $classes ) {
 
 		$output = '';
@@ -523,10 +569,39 @@ class PhpFormBuilder {
 				$output .= $class . ' ';
 			}
 			$output .= '"';
-		} else if ( is_string( $classes ) ) {
+		} elseif ( is_string( $classes ) ) {
 			$output .= ' class="' . $classes . '"';
 		}
 
+		return $output;
+	}
+
+	/**
+	 * Sets the element as a variable that can be used in the templates
+	 *
+	 * @since    1.2.6
+	 */
+	public function set_element( $element_name, &$output ) {
+		$name           = str_replace( array( 'pirate-forms-', '-' ), array( '', '_' ), $element_name );
+		$this->$name    = $output;
+		$output         = '';
+	}
+
+	/**
+	 * Load the correct template
+	 *
+	 * @since    1.2.6
+	 */
+	private function load_theme() {
+		$default    = PIRATEFORMS_DIR__ . 'public/partials/pirateforms-form.php';
+		$custom     = trailingslashit( get_template_directory() ) . 'pirate-forms/form.php';
+		$file       = $default;
+		if ( is_readable( $custom ) ) {
+			$file   = $custom;
+		}
+		ob_start();
+		include $file;
+		$output = ob_get_clean();
 		return $output;
 	}
 }
