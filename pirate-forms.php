@@ -132,9 +132,12 @@ function run_pirate_forms() {
 	$vendor_file = PIRATEFORMS_DIR__ . '/vendor/autoload_52.php';
 	if ( is_readable( $vendor_file ) ) {
 		require_once $vendor_file;
-		ThemeIsle_SDK_Loader::init_product( PIRATEFORMS_BASEFILE );
 	}
+	add_filter( 'themeisle_sdk_products', function ( $products ) {
+		$products[] = PIRATEFORMS_BASEFILE;
 
+		return $products;
+	} );
 }
 spl_autoload_register( 'pirate_forms_autoload' );
 run_pirate_forms();
