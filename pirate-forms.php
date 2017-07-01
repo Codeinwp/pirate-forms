@@ -132,7 +132,6 @@ function run_pirate_forms() {
 	if ( is_readable( $vendor_file ) ) {
 		require_once $vendor_file;
 	}
-
 	add_filter( 'themeisle_sdk_products', function ( $products ) {
 		$products[] = PIRATEFORMS_BASEFILE;
 		return $products;
