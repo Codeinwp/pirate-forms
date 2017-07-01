@@ -96,31 +96,6 @@ class PirateForms {
 	 */
 	private function load_dependencies() {
 
-		/**
-		 * The class responsible for orchestrating the actions and filters of the
-		 * core plugin.
-		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-pirateforms-loader.php';
-
-		/**
-		 * The class responsible for defining internationalization functionality
-		 * of the plugin.
-		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-pirateforms-i18n.php';
-
-		/**
-		 * The class responsible for defining all actions that occur in the admin area.
-		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-pirateforms-admin.php';
-
-		/**
-		 * The class responsible for defining all actions that occur in the public-facing
-		 * side of the site.
-		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-pirateforms-public.php';
-
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/widget.php';
-
 		$this->loader = new PirateForms_Loader();
 
 	}
@@ -156,7 +131,7 @@ class PirateForms {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles_and_scripts' );
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'pirate_forms_add_to_admin' );
 		$this->loader->add_action( 'admin_head', $plugin_admin, 'pirate_forms_settings_init' );
-		$this->loader->add_filter( 'plugin_action_links_' . PIRATEFORMS_BASENAME__, $plugin_admin, 'pirate_forms_add_settings_link' );
+		$this->loader->add_filter( 'plugin_action_links_' . PIRATEFORMS_BASENAME, $plugin_admin, 'pirate_forms_add_settings_link' );
 		$this->loader->add_action( 'init', $this, 'pirate_forms_register_content_type' );
 	}
 
@@ -188,7 +163,9 @@ class PirateForms {
 	 * @since    1.0.0
 	 */
 	public function run() {
-		add_action( 'widgets_init', create_function( '', 'return register_widget("pirate_forms_contact_widget");' ) );
+		add_action( 'widgets_init', function() {
+			return register_widget( 'PirateForms_Widget' );
+		} );
 
 		$this->loader->run();
 	}

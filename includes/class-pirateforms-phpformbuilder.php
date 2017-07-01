@@ -5,7 +5,7 @@
  *
  * @since    1.0.0
  */
-class PhpFormBuilder {
+class PirateForms_PhpFormBuilder {
 
 	/**
 	 * Stores all form inputs
@@ -593,7 +593,7 @@ class PhpFormBuilder {
 	 * @since    1.2.6
 	 */
 	private function load_theme() {
-		$default    = PIRATEFORMS_DIR__ . 'public/partials/pirateforms-form.php';
+		$default    = PIRATEFORMS_DIR . 'public/partials/pirateforms-form.php';
 		$custom     = trailingslashit( get_template_directory() ) . 'pirate-forms/form.php';
 		$file       = $default;
 		if ( is_readable( $custom ) ) {

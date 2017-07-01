@@ -32,14 +32,13 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-define( 'PIRATEFORMS_NAME__', 'Pirate Forms' );
-define( 'PIRATEFORMS_SLUG__', 'pirate-forms' );
-define( 'PIRATEFORMS_VERSION__', 1 );
-define( 'PIRATEFORMS_DIR__', trailingslashit( plugin_dir_path( __FILE__ ) ) );
-define( 'PIRATEFORMS_URL__', plugin_dir_url( __FILE__ ) );
-define( 'PIRATEFORMS_BASENAME__', plugin_basename( __FILE__ ) );
+define( 'PIRATEFORMS_NAME', 'Pirate Forms' );
+define( 'PIRATEFORMS_SLUG', 'pirate-forms' );
+define( 'PIRATEFORMS_DIR', trailingslashit( plugin_dir_path( __FILE__ ) ) );
+define( 'PIRATEFORMS_URL', plugin_dir_url( __FILE__ ) );
+define( 'PIRATEFORMS_BASENAME', plugin_basename( __FILE__ ) );
 define( 'PIRATEFORMS_BASEFILE', __FILE__ );
-define( 'PIRATEFORMS_ROOT__', trailingslashit( plugins_url( '', __FILE__ ) ) );
+define( 'PIRATEFORMS_ROOT', trailingslashit( plugins_url( '', __FILE__ ) ) );
 
 /**
  * The code that runs during plugin activation.
@@ -78,32 +77,32 @@ function pirate_forms_autoload( $class ) {
 	$class1     = 'class-' . $class;
 	foreach ( $namespaces as $namespace ) {
 		if ( substr( $class, 0, strlen( $namespace ) ) == $namespace ) {
-			$filename = plugin_dir_path( __FILE__ ) . 'includes/' . str_replace( '_', '-', strtolower( $class1 ) ) . '.php';
+			$filename = PIRATEFORMS_DIR . 'includes/' . str_replace( '_', '-', strtolower( $class1 ) ) . '.php';
 			if ( is_readable( $filename ) ) {
 				require_once $filename;
 
 				return true;
 			}
-			$filename = plugin_dir_path( __FILE__ ) . 'admin/' . str_replace( '_', '-', strtolower( $class1 ) ) . '.php';
+			$filename = PIRATEFORMS_DIR . 'admin/' . str_replace( '_', '-', strtolower( $class1 ) ) . '.php';
 			if ( is_readable( $filename ) ) {
 				require_once $filename;
 
 				return true;
 			}
-			$filename = plugin_dir_path( __FILE__ ) . 'admin/partials/' . str_replace( '_', '-', strtolower( $class1 ) ) . '.php';
+			$filename = PIRATEFORMS_DIR . 'admin/partials/' . str_replace( '_', '-', strtolower( $class1 ) ) . '.php';
 			if ( is_readable( $filename ) ) {
 				require_once $filename;
 
 				return true;
 			}
-			$filename = plugin_dir_path( __FILE__ ) . 'public/' . str_replace( '_', '-', strtolower( $class1 ) ) . '.php';
+			$filename = PIRATEFORMS_DIR . 'public/' . str_replace( '_', '-', strtolower( $class1 ) ) . '.php';
 			if ( is_readable( $filename ) ) {
 				require_once $filename;
 
 				return true;
 			}
 
-			$filename = plugin_dir_path( __FILE__ ) . 'public/partials/' . str_replace( '_', '-', strtolower( $class1 ) ) . '.php';
+			$filename = PIRATEFORMS_DIR . 'public/partials/' . str_replace( '_', '-', strtolower( $class1 ) ) . '.php';
 			if ( is_readable( $filename ) ) {
 				require_once $filename;
 
@@ -129,12 +128,15 @@ function run_pirate_forms() {
 	$plugin = new PirateForms();
 	$plugin->run();
 
-	$vendor_file = PIRATEFORMS_DIR__ . '/vendor/autoload_52.php';
+	$vendor_file = PIRATEFORMS_DIR . '/vendor/autoload_52.php';
 	if ( is_readable( $vendor_file ) ) {
 		require_once $vendor_file;
-		ThemeIsle_SDK_Loader::init_product( PIRATEFORMS_BASEFILE );
 	}
 
+	add_filter( 'themeisle_sdk_products', function ( $products ) {
+		$products[] = PIRATEFORMS_BASEFILE;
+		return $products;
+	} );
 }
 spl_autoload_register( 'pirate_forms_autoload' );
 run_pirate_forms();
