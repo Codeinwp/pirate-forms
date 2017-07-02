@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Free & Simple Contact Form Plugin - Pirateforms 1.2.6\n"
 "Report-Msgid-Bugs-To: https://github.com/Codeinwp/pirate-forms/issues\n"
-"POT-Creation-Date: 2017-07-01 07:18:22+00:00\n"
+"POT-Creation-Date: 2017-07-02 06:02:43+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -409,43 +409,43 @@ msgstr ""
 msgid "Subtext:"
 msgstr ""
 
-#: includes/class-pirateforms.php:258
+#: includes/class-pirateforms.php:260
 msgid "Add New Contact"
 msgstr ""
 
-#: includes/class-pirateforms.php:259
+#: includes/class-pirateforms.php:261
 msgid "New Contact"
 msgstr ""
 
-#: includes/class-pirateforms.php:260
+#: includes/class-pirateforms.php:262
 msgid "Edit Contact"
 msgstr ""
 
-#: includes/class-pirateforms.php:261
+#: includes/class-pirateforms.php:263
 msgid "View Contact"
 msgstr ""
 
-#: includes/class-pirateforms.php:262
+#: includes/class-pirateforms.php:264
 msgid "All Contacts"
 msgstr ""
 
-#: includes/class-pirateforms.php:263
+#: includes/class-pirateforms.php:265
 msgid "Search Contacts"
 msgstr ""
 
-#: includes/class-pirateforms.php:264
+#: includes/class-pirateforms.php:266
 msgid "Parent Contacts:"
 msgstr ""
 
-#: includes/class-pirateforms.php:265
+#: includes/class-pirateforms.php:267
 msgid "No contacts found."
 msgstr ""
 
-#: includes/class-pirateforms.php:266
+#: includes/class-pirateforms.php:268
 msgid "No contacts found in Trash."
 msgstr ""
 
-#: includes/class-pirateforms.php:270
+#: includes/class-pirateforms.php:272
 msgid "Contacts from Pirate Forms"
 msgstr ""
 
@@ -544,27 +544,27 @@ msgstr ""
 msgid "http://themeisle.com"
 msgstr ""
 
-#: includes/class-pirateforms.php:253
+#: includes/class-pirateforms.php:255
 msgctxt "post type general name"
 msgid "Contacts"
 msgstr ""
 
-#: includes/class-pirateforms.php:254
+#: includes/class-pirateforms.php:256
 msgctxt "post type singular name"
 msgid "Contact"
 msgstr ""
 
-#: includes/class-pirateforms.php:255
+#: includes/class-pirateforms.php:257
 msgctxt "admin menu"
 msgid "Contacts"
 msgstr ""
 
-#: includes/class-pirateforms.php:256
+#: includes/class-pirateforms.php:258
 msgctxt "add new on admin bar"
 msgid "Contact"
 msgstr ""
 
-#: includes/class-pirateforms.php:257
+#: includes/class-pirateforms.php:259
 msgctxt "contact"
 msgid "Add New"
 msgstr ""

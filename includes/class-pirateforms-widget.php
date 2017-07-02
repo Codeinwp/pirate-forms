@@ -6,7 +6,7 @@
  * @see WP_Widget::widget()
  */
 // @codingStandardsIgnoreStart
-class PirateForms_Widget extends WP_Widget {
+class pirate_forms_contact_widget extends WP_Widget {
     // @codingStandardsIgnoreEnd
 
 	/**
@@ -14,7 +14,7 @@ class PirateForms_Widget extends WP_Widget {
 	 */
 	public function __construct() {
 		parent::__construct(
-			'PirateForms_Widget',
+			'pirate_forms_contact_widget',
 			__( 'Pirate Forms', 'pirate-forms' ),
 			array(
 				'classname' => __FUNCTION__,

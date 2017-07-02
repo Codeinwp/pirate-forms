@@ -96,6 +96,8 @@ class PirateForms {
 	 */
 	private function load_dependencies() {
 
+		require_once PIRATEFORMS_DIR . 'includes/class-pirateforms-widget.php';
+
 		$this->loader = new PirateForms_Loader();
 
 	}
@@ -164,7 +166,7 @@ class PirateForms {
 	 */
 	public function run() {
 		add_action( 'widgets_init', function() {
-			return register_widget( 'PirateForms_Widget' );
+			return register_widget( 'pirate_forms_contact_widget' );
 		} );
 
 		$this->loader->run();
