@@ -96,8 +96,6 @@ class PirateForms {
 	 */
 	private function load_dependencies() {
 
-		require_once PIRATEFORMS_DIR . 'includes/class-pirateforms-widget.php';
-
 		$this->loader = new PirateForms_Loader();
 
 	}

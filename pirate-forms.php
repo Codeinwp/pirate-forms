@@ -109,7 +109,14 @@ function pirate_forms_autoload( $class ) {
 				return true;
 			}
 		}
-	}
+
+		$filename = PIRATEFORMS_DIR . 'includes/class-pirateforms-widget.php';
+		if ( is_readable( $filename ) ) {
+			require_once $filename;
+
+			return true;
+		}
+	}// End foreach().
 
 	return false;
 }
