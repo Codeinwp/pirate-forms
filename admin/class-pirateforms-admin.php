@@ -83,7 +83,6 @@ class PirateForms_Admin {
 		do_action( 'pirate_forms_load_sidebar_theme' );
 		do_action( 'pirate_forms_load_sidebar_subscribe' );
 		echo ob_get_clean();
-		include_once PIRATEFORMS_DIR . 'admin/partials/pirateforms-settings-sidebar.php';
 	}
 
 	/**
