@@ -24,6 +24,13 @@ class pirate_forms_contact_widget extends WP_Widget {
 	}
 
 	/**
+	 *  Register the widget
+	 */
+	public static function register_widget() {
+		register_widget( 'pirate_forms_contact_widget' );
+	}
+
+	/**
 	 * Widget logic and display
 	 */
 	function widget( $args, $instance ) {

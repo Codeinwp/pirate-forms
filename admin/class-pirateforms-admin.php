@@ -72,12 +72,44 @@ class PirateForms_Admin {
 		}
 	}
 
+
+	/**
+	 * Loads the sidebar
+	 *
+	 * @since    1.0.0
+	 */
+	public function load_sidebar() {
+		ob_start();
+		do_action( 'pirate_forms_load_sidebar_theme' );
+		do_action( 'pirate_forms_load_sidebar_subscribe' );
+		echo ob_get_clean();
+		include_once PIRATEFORMS_DIR . 'admin/partials/pirateforms-settings-sidebar.php';
+	}
+
+	/**
+	 * Loads the theme-specific sidebar box
+	 *
+	 * @since    1.0.0
+	 */
+	public function load_sidebar_theme() {
+		include_once PIRATEFORMS_DIR . 'admin/partials/pirateforms-settings-sidebar-theme.php';
+	}
+
+	/**
+	 * Loads the sidebar subscription box
+	 *
+	 * @since    1.0.0
+	 */
+	public function load_sidebar_subscribe() {
+		include_once PIRATEFORMS_DIR . 'admin/partials/pirateforms-settings-sidebar-subscribe.php';
+	}
+
 	/**
 	 * Add the settings link in the plugin page
 	 *
 	 * @since    1.0.0
 	 */
-	public function pirate_forms_add_settings_link( $links ) {
+	public function add_settings_link( $links ) {
 		$settings_link = '<a href="options-general.php?page=pirateforms-admin">' . __( 'Settings', 'pirate-forms' ) . '</a>';
 		if ( function_exists( 'array_unshift' ) ) :
 			array_unshift( $links, $settings_link );
@@ -94,7 +126,7 @@ class PirateForms_Admin {
 	 *
 	 *  @since 1.0.0
 	 */
-	public function pirate_forms_add_to_admin() {
+	public function add_to_admin() {
 		add_menu_page( PIRATEFORMS_NAME, PIRATEFORMS_NAME, 'manage_options', 'pirateforms-admin', array( $this, 'pirate_forms_admin' ), 'dashicons-feedback' );
 		add_submenu_page( 'pirateforms-admin', PIRATEFORMS_NAME, __( 'Settings', 'pirate-forms' ), 'manage_options', 'pirateforms-admin', array( $this, 'pirate_forms_admin' ) );
 	}
@@ -107,22 +139,21 @@ class PirateForms_Admin {
 	 */
 	function pirate_forms_admin() {
 		global $current_user;
-		$pirate_forms_options = get_option( 'pirate_forms_settings_array' );
+		$pirate_forms_options = PirateForms_Util::get_option();
 		$plugin_options       = $this->pirate_forms_plugin_options();
 		include_once PIRATEFORMS_DIR . 'admin/partials/pirateforms-settings-display.php';
 	}
 	/**
 	 * ******** Save default options if none exist ***********/
-	public function pirate_forms_settings_init() {
-		if ( ! get_option( 'pirate_forms_settings_array' ) ) {
+	public function settings_init() {
+		if ( ! PirateForms_Util::get_option() ) {
 			$new_opt = array();
 			foreach ( $this->pirate_forms_plugin_options() as $temparr ) {
 				foreach ( $temparr as $key => $opt ) {
 					$new_opt[ $key ] = $opt[3];
 				}
 			}
-			update_option( 'pirate_forms_settings_array', $new_opt );
-
+			PirateForms_Util::set_option( $new_opt );
 		}
 	}
 
@@ -206,13 +237,13 @@ class PirateForms_Admin {
 					__( 'Contact notification sender email', 'pirate-forms' ),
 					'<strong>' . __( "Insert [email] to use the contact form submitter's email.", 'pirate-forms' ) . '</strong><br>' . __( "Email to use for the sender of the contact form emails both to the recipients below and the contact form submitter (if this is activated below). The domain for this email address should match your site's domain.", 'pirate-forms' ),
 					'text',
-					PirateForms::pirate_forms_from_email(),
+					PirateForms_Util::get_from_email(),
 				),
 				'pirateformsopt_email_recipients' => array(
 					__( 'Contact submission recipients', 'pirate-forms' ),
 					__( 'Email address(es) to receive contact submission notifications. You can separate multiple emails with a comma.', 'pirate-forms' ),
 					'text',
-					PirateForms::pirate_forms_get_key( 'pirateformsopt_email' ) ? PirateForms::pirate_forms_get_key( 'pirateformsopt_email' ) : $pirate_forms_contactus_email,
+					PirateForms_Util::get_option( 'pirateformsopt_email' ) ? PirateForms_Util::get_option( 'pirateformsopt_email' ) : $pirate_forms_contactus_email,
 				),
 				'pirateformsopt_store'            => array(
 					__( 'Store submissions in the database', 'pirate-forms' ),
@@ -445,5 +476,70 @@ class PirateForms_Admin {
 				),
 			),
 		);
+	}
+
+	/**
+	 * Save the data
+	 *
+	 * @since    1.0.0
+	 */
+	public function save_callback() {
+		if ( isset( $_POST['dataSent'] ) ) :
+			$dataSent = $_POST['dataSent'];
+			$params   = array();
+			if ( ! empty( $dataSent ) ) :
+				parse_str( $dataSent, $params );
+			endif;
+			if ( ! empty( $params ) ) :
+				/**
+				 ****** Important fix for saving inputs of type checkbox */
+				if ( ! isset( $params['pirateformsopt_store'] ) ) {
+					$params['pirateformsopt_store'] = '';
+				}
+				if ( ! isset( $params['pirateformsopt_recaptcha_field'] ) ) {
+					$params['pirateformsopt_recaptcha_field'] = '';
+				}
+				if ( ! isset( $params['pirateformsopt_nonce'] ) ) {
+					$params['pirateformsopt_nonce'] = '';
+				}
+				if ( ! isset( $params['pirateformsopt_attachment_field'] ) ) {
+					$params['pirateformsopt_attachment_field'] = '';
+				}
+				if ( ! isset( $params['pirateformsopt_use_smtp'] ) ) {
+					$params['pirateformsopt_use_smtp'] = '';
+				}
+				if ( ! isset( $params['pirateformsopt_use_smtp_authentication'] ) ) {
+					$params['pirateformsopt_use_smtp_authentication'] = '';
+				}
+				PirateForms_Util::set_option( $params );
+				$pirate_forms_zerif_lite_mods = get_option( 'theme_mods_zerif-lite' );
+				if ( empty( $pirate_forms_zerif_lite_mods ) ) :
+					$pirate_forms_zerif_lite_mods = array();
+				endif;
+				if ( isset( $params['pirateformsopt_label_submit_btn'] ) ) :
+					$pirate_forms_zerif_lite_mods['zerif_contactus_button_label'] = $params['pirateformsopt_label_submit_btn'];
+				endif;
+				if ( isset( $params['pirateformsopt_email'] ) ) :
+					$pirate_forms_zerif_lite_mods['zerif_contactus_email'] = $params['pirateformsopt_email'];
+				endif;
+				if ( isset( $params['pirateformsopt_email_recipients'] ) ) :
+					$pirate_forms_zerif_lite_mods['zerif_contactus_email'] = $params['pirateformsopt_email_recipients'];
+				endif;
+				if ( isset( $params['pirateformsopt_recaptcha_field'] ) && ( $params['pirateformsopt_recaptcha_field'] == 'yes' ) ) :
+					$pirate_forms_zerif_lite_mods['zerif_contactus_recaptcha_show'] = 0;
+				else :
+					$pirate_forms_zerif_lite_mods['zerif_contactus_recaptcha_show'] = 1;
+				endif;
+				if ( isset( $params['pirateformsopt_recaptcha_sitekey'] ) ) :
+					$pirate_forms_zerif_lite_mods['zerif_contactus_sitekey'] = $params['pirateformsopt_recaptcha_sitekey'];
+				endif;
+				if ( isset( $params['pirateformsopt_recaptcha_secretkey'] ) ) :
+					$pirate_forms_zerif_lite_mods['zerif_contactus_secretkey'] = $params['pirateformsopt_recaptcha_secretkey'];
+				endif;
+				update_option( 'theme_mods_zerif-lite', $pirate_forms_zerif_lite_mods );
+			endif;
+		endif;
+		die();
+
 	}
 }

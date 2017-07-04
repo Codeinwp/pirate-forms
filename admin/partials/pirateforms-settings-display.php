@@ -142,7 +142,7 @@
 										break;
 									case 'text':
 										/* Display recaptcha secret key and site key only if the Add a reCAPTCHA option is checked */
-										$pirateformsopt_recaptcha_field = PirateForms::pirate_forms_get_key( 'pirateformsopt_recaptcha_field' );
+										$pirateformsopt_recaptcha_field = PirateForms_Util::get_option( 'pirateformsopt_recaptcha_field' );
 										if ( ! empty( $opt_id ) && ( ( $opt_id != 'pirateformsopt_recaptcha_sitekey' ) && ( $opt_id != 'pirateformsopt_recaptcha_secretkey' ) ) || ( ! empty( $pirateformsopt_recaptcha_field ) && ( $pirateformsopt_recaptcha_field == 'yes' ) && ( ( $opt_id == 'pirateformsopt_recaptcha_sitekey' ) || ( $opt_id == 'pirateformsopt_recaptcha_secretkey' ) ) ) ) {
 											$pirate_forms_is_hidden_class = '';
 										} else {
@@ -272,88 +272,10 @@
 				</div><!-- .pirate-forms-tab-content -->
 			</div><!-- .pirate-options -->
 		</div><!-- .pirate-options -->
+
 		<div id="pirate-forms-sidebar">
-			<?php
-			/* Upgrade to Hestia notification box */
-			$pirate_current_theme = '';
-
-			$theme = wp_get_theme();
-
-			if ( ! empty( $theme ) ) {
-				if ( is_child_theme() ) {
-					$pirate_current_theme = $theme->parent()->get( 'Name' );
-				} else {
-					$pirate_current_theme = $theme->get( 'Name' );
-				}
-			}
-
-			if ( ( $pirate_current_theme != 'Hestia' ) && ( $pirate_current_theme != 'Hestia Pro' ) ) {
-
-				$pirate_upgrade_hestia_box_text = 'Check-out our latest FREE multi-purpose theme: <strong>Hestia</strong>';
-
-				if ( $pirate_current_theme == 'Zerif Lite' ) {
-					$pirate_upgrade_hestia_box_text = 'Check-out our latest FREE multi-purpose theme: <strong>Hestia</strong>, your Zerif Lite content will be imported automatically! ';
-				}
-				?>
-				<div class="pirate-upgrade-hestia postbox card">
-					<div class="pirate-forms-upgrade-hestia-content">
-						<?php echo wp_kses_post( $pirate_upgrade_hestia_box_text ); ?><br>
-						<?php
-						$pirate_upgrade_hestia_url = add_query_arg( array(
-							'theme' => 'hestia',
-						), admin_url( 'theme-install.php' ) );
-						?>
-						<a href="<?php echo $pirate_upgrade_hestia_url; ?>" target="_blank">Preview Hestia</a>
-					</div>
-				</div>
-				<?php
-			}
-			?>
-			<div class="pirate-subscribe postbox card">
-				<h3 class="title"><?php esc_html_e( 'Get Our Free Email Course', 'pirate-forms' ) ?></h3>
-				<div class="pirate-forms-subscribe-content">
-					<?php
-					if ( ! empty( $_POST['pirate_forms_mail'] ) ) {
-						require( PIRATE_FORMS_PATH . 'mailin.php' );
-						$user_info = get_userdata( 1 );
-						$mailin    = new Mailin( 'https://api.sendinblue.com/v2.0', 'cHW5sxZnzE7mhaYb' );
-						$data      = array(
-							'email'           => $_POST['pirate_forms_mail'],
-							'attributes'      => array(
-								'NAME'    => $user_info->first_name,
-								'SURNAME' => $user_info->last_name,
-							),
-							'blacklisted'     => 0,
-							'listid'          => array( 51 ),
-							'blacklisted_sms' => 0,
-						);
-						$status    = $mailin->create_update_user( $data );
-						if ( $status['code'] == 'success' ) {
-							update_option( 'pirate_forms_subscribe', true );
-						}
-					}
-					$was_submited = get_option( 'pirate_forms_subscribe', false );
-					if ( $was_submited == false ) {
-						echo sprintf( '<p> %s </p><form class="pirate-forms-submit-mail" method="post"><input name="pirate_forms_mail" type="email" value="' . get_option( 'admin_email' ) . '" /><input class="button" type="submit" value="Submit"></form>', esc_html__( 'Ready to learn how to reduce your website loading times by half? Come and join the 1st lesson here!', 'pirate-forms' ) );
-					} else {
-						echo sprintf( '<p> %s </p>', esc_html__( 'Thank you for subscribing! You have been added to the mailing list and will receive the next email information in the coming weeks. If you ever wish to unsubscribe, simply use the "Unsubscribe" link included in each newsletter.', 'pirate-forms' ) );
-					} ?>
-				</div>
-			</div>
-			<?php
-			if ( ! class_exists( 'Dev7CustomEmails' ) ) {
-				?>
-				<div class="pirate-custom-emails postbox card">
-					<h3 class="title"><?php esc_html_e( 'Control Emails in WordPress', 'pirate-forms' ) ?></h3>
-					<div class="pirate-forms-custom-emails-content">
-						Change default WordPress email templates using <strong>Custom Emails</strong>  plugin
-						<a href="https://themeisle.com/plugins/custom-emails-wordpress-plugin/" target="_blank">View more
-							details</a>
-					</div>
-				</div>
-				<?php
-			}
-			?>
+			<?php do_action( 'pirate_forms_load_sidebar' ); ?>
 		</div>
+
 		<div class="clear"></div>
 		</div><!-- .wrap -->

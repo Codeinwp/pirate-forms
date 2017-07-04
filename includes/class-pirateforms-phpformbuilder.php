@@ -38,7 +38,7 @@ class PirateForms_PhpFormBuilder {
 
 		/* if the form has an attachment option change the enctype to multipart/form-data */
 
-		$pirateformsopt_attachment_field = PirateForms::pirate_forms_get_key( 'pirateformsopt_attachment_field' );
+		$pirateformsopt_attachment_field = PirateForms_Util::get_option( 'pirateformsopt_attachment_field' );
 		if ( ! empty( $pirateformsopt_attachment_field ) && ($pirateformsopt_attachment_field == 'yes') ) {
 			$pirate_forms_enctype = 'multipart/form-data';
 		} else {

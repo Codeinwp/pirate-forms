@@ -96,6 +96,8 @@ class PirateForms {
 	 */
 	private function load_dependencies() {
 
+		require_once PIRATEFORMS_DIR . 'includes/class-pirateforms-widget.php';
+
 		$this->loader = new PirateForms_Loader();
 
 	}
@@ -129,10 +131,15 @@ class PirateForms {
 		$plugin_admin = new PirateForms_Admin( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles_and_scripts' );
-		$this->loader->add_action( 'admin_menu', $plugin_admin, 'pirate_forms_add_to_admin' );
-		$this->loader->add_action( 'admin_head', $plugin_admin, 'pirate_forms_settings_init' );
-		$this->loader->add_filter( 'plugin_action_links_' . PIRATEFORMS_BASENAME, $plugin_admin, 'pirate_forms_add_settings_link' );
-		$this->loader->add_action( 'init', $this, 'pirate_forms_register_content_type' );
+		$this->loader->add_action( 'admin_menu', $plugin_admin, 'add_to_admin' );
+		$this->loader->add_action( 'admin_head', $plugin_admin, 'settings_init' );
+		$this->loader->add_filter( 'plugin_action_links_' . PIRATEFORMS_BASENAME, $plugin_admin, 'add_settings_link' );
+		$this->loader->add_action( 'wp_ajax_pirate_forms_save', $plugin_admin, 'save_callback' );
+		$this->loader->add_action( 'pirate_forms_load_sidebar', $plugin_admin, 'load_sidebar' );
+		$this->loader->add_action( 'pirate_forms_load_sidebar_theme', $plugin_admin, 'load_sidebar_theme' );
+		$this->loader->add_action( 'pirate_forms_load_sidebar_subscribe', $plugin_admin, 'load_sidebar_subscribe' );
+
+		$this->loader->add_action( 'init', $this, 'register_content_type' );
 	}
 
 
@@ -148,13 +155,12 @@ class PirateForms {
 		$plugin_public = new PirateForms_Public( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles_and_scripts' );
-		$this->loader->add_action( 'template_redirect', $plugin_public, 'pirate_forms_process_contact' );
-		$this->loader->add_action( 'wp_ajax_pirate_forms_save', $plugin_public, 'pirate_forms_save_callback' );
-		$this->loader->add_action( 'wp_ajax_nopriv_pirate_forms_save', $plugin_public, 'pirate_forms_save_callback' );
-		$this->loader->add_filter( 'widget_text', $plugin_public, 'pirate_forms_widget_text_filter', 9 );
-		$this->loader->add_action( 'init', $this, 'pirate_forms_register_content_type' );
+		$this->loader->add_action( 'template_redirect', $plugin_public, 'template_redirect' );
+		$this->loader->add_action( 'init', $this, 'register_content_type' );
 
-		add_shortcode( 'pirate_forms', array( $plugin_public, 'pirate_forms_display_form' ) );
+		$this->loader->add_filter( 'widget_text', $plugin_public, 'widget_text_filter', 9 );
+
+		add_shortcode( 'pirate_forms', array( $plugin_public, 'display_form' ) );
 	}
 
 	/**
@@ -163,9 +169,7 @@ class PirateForms {
 	 * @since    1.0.0
 	 */
 	public function run() {
-		add_action( 'widgets_init', function() {
-			return register_widget( 'pirate_forms_contact_widget' );
-		} );
+		$this->loader->add_action( 'widgets_init', 'pirate_forms_contact_widget', 'register_widget' );
 
 		$this->loader->run();
 	}
@@ -202,53 +206,12 @@ class PirateForms {
 	}
 
 	/**
-	 * Returns if the domain is localhost
-	 *
-	 * @since     1.0.0
-	 */
-	public static function pirate_forms_is_localhost() {
-		$server_name = strtolower( $_SERVER['SERVER_NAME'] );
-		return in_array( $server_name, array( 'localhost', '127.0.0.1' ) );
-	}
-
-	/**
-	 * Gets the from email
-	 *
-	 * @since     1.0.0
-	 */
-	public static function pirate_forms_from_email() {
-		$admin_email = get_option( 'admin_email' );
-		$sitename    = strtolower( $_SERVER['SERVER_NAME'] );
-		if ( self::pirate_forms_is_localhost() ) {
-			return $admin_email;
-		}
-		if ( substr( $sitename, 0, 4 ) == 'www.' ) {
-			$sitename = substr( $sitename, 4 );
-		}
-		if ( strpbrk( $admin_email, '@' ) == '@' . $sitename ) {
-			return $admin_email;
-		}
-
-		return 'wordpress@' . $sitename;
-	}
-
-	/**
-	 * Get the settings key
-	 *
-	 * @since     1.0.0
-	 */
-	public static function pirate_forms_get_key( $id ) {
-		$pirate_forms_options = get_option( 'pirate_forms_settings_array' );
-		return isset( $pirate_forms_options[ $id ] ) ? $pirate_forms_options[ $id ] : '';
-	}
-
-	/**
 	 * Register the contacts CPT
 	 *
 	 * @since     1.0.0
 	 */
-	public function pirate_forms_register_content_type() {
-		if ( self::pirate_forms_get_key( 'pirateformsopt_store' ) === 'yes' ) {
+	public function register_content_type() {
+		if ( PirateForms_Util::get_option( 'pirateformsopt_store' ) === 'yes' ) {
 			$labels = array(
 				'name'               => _x( 'Contacts', 'post type general name', 'pirate-forms' ),
 				'singular_name'      => _x( 'Contact', 'post type singular name', 'pirate-forms' ),

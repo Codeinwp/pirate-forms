@@ -74,35 +74,35 @@ register_deactivation_hook( __FILE__, 'deactivate_pirate_forms' );
  */
 function pirate_forms_autoload( $class ) {
 	$namespaces = array( 'PirateForms' );
-	$class1     = 'class-' . $class;
+	$class1     = str_replace( '_', '-', strtolower( 'class-' . $class ) );
 	foreach ( $namespaces as $namespace ) {
 		if ( substr( $class, 0, strlen( $namespace ) ) == $namespace ) {
-			$filename = PIRATEFORMS_DIR . 'includes/' . str_replace( '_', '-', strtolower( $class1 ) ) . '.php';
+			$filename = PIRATEFORMS_DIR . 'includes/' . $class1 . '.php';
 			if ( is_readable( $filename ) ) {
 				require_once $filename;
 
 				return true;
 			}
-			$filename = PIRATEFORMS_DIR . 'admin/' . str_replace( '_', '-', strtolower( $class1 ) ) . '.php';
+			$filename = PIRATEFORMS_DIR . 'admin/' . $class1 . '.php';
 			if ( is_readable( $filename ) ) {
 				require_once $filename;
 
 				return true;
 			}
-			$filename = PIRATEFORMS_DIR . 'admin/partials/' . str_replace( '_', '-', strtolower( $class1 ) ) . '.php';
+			$filename = PIRATEFORMS_DIR . 'admin/partials/' . $class1 . '.php';
 			if ( is_readable( $filename ) ) {
 				require_once $filename;
 
 				return true;
 			}
-			$filename = PIRATEFORMS_DIR . 'public/' . str_replace( '_', '-', strtolower( $class1 ) ) . '.php';
+			$filename = PIRATEFORMS_DIR . 'public/' . $class1 . '.php';
 			if ( is_readable( $filename ) ) {
 				require_once $filename;
 
 				return true;
 			}
 
-			$filename = PIRATEFORMS_DIR . 'public/partials/' . str_replace( '_', '-', strtolower( $class1 ) ) . '.php';
+			$filename = PIRATEFORMS_DIR . 'public/partials/' . $class1 . '.php';
 			if ( is_readable( $filename ) ) {
 				require_once $filename;
 
