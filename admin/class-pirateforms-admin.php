@@ -64,8 +64,8 @@ class PirateForms_Admin {
 		if ( ! empty( $pagenow ) && ( $pagenow == 'options-general.php' || $pagenow == 'admin.php' )
 			 && isset( $_GET['page'] ) && $_GET['page'] == 'pirateforms-admin'
 		) {
-			wp_enqueue_style( 'pirateforms_admin_styles', PIRATEFORMS_URL . 'admin/css/wp-admin.css' );
-			wp_enqueue_script( 'pirateforms_scripts_admin', PIRATEFORMS_URL . 'admin/js/scripts-admin.js', array( 'jquery' ) );
+			wp_enqueue_style( 'pirateforms_admin_styles', PIRATEFORMS_URL . 'admin/css/wp-admin.css', array(), $this->version );
+			wp_enqueue_script( 'pirateforms_scripts_admin', PIRATEFORMS_URL . 'admin/js/scripts-admin.js', array( 'jquery' ), $this->version );
 			wp_localize_script( 'pirateforms_scripts_admin', 'cwp_top_ajaxload', array(
 				'ajaxurl' => admin_url( 'admin-ajax.php' ),
 			) );
