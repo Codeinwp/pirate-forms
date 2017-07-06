@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Free & Simple Contact Form Plugin - Pirateforms 1.2.6\n"
 "Report-Msgid-Bugs-To: https://github.com/Codeinwp/pirate-forms/issues\n"
-"POT-Creation-Date: 2017-07-05 16:47:32+00:00\n"
+"POT-Creation-Date: 2017-07-06 14:00:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -278,17 +278,33 @@ msgstr ""
 msgid "Use SMTP Authentication?"
 msgstr ""
 
-#: admin/class-pirateforms-admin.php:460
+#: admin/class-pirateforms-admin.php:460 admin/class-pirateforms-admin.php:466
 msgid ""
 "If you check this box, make sure the SMTP Username and SMTP Password are "
 "completed."
 msgstr ""
 
 #: admin/class-pirateforms-admin.php:465
-msgid "SMTP Username"
+msgid "Security?"
+msgstr ""
+
+#: admin/class-pirateforms-admin.php:469
+msgid "No"
+msgstr ""
+
+#: admin/class-pirateforms-admin.php:470
+msgid "SSL"
 msgstr ""
 
 #: admin/class-pirateforms-admin.php:471
+msgid "TLS"
+msgstr ""
+
+#: admin/class-pirateforms-admin.php:475
+msgid "SMTP Username"
+msgstr ""
+
+#: admin/class-pirateforms-admin.php:481
 msgid "SMTP Password"
 msgstr ""
 
@@ -367,7 +383,7 @@ msgid ""
 "%2$s."
 msgstr ""
 
-#: admin/partials/pirateforms-settings-display.php:260
+#: admin/partials/pirateforms-settings-display.php:295
 msgid "Save changes"
 msgstr ""
 
@@ -493,20 +509,20 @@ msgstr ""
 msgid "Form submission blocked!"
 msgstr ""
 
-#: public/class-pirateforms-public.php:750
-#: public/class-pirateforms-public.php:761
+#: public/class-pirateforms-public.php:757
+#: public/class-pirateforms-public.php:768
 msgid "Wrong reCAPTCHA"
 msgstr ""
 
-#: public/class-pirateforms-public.php:789
+#: public/class-pirateforms-public.php:796
 msgid "Uploaded file is not allowed for file type"
 msgstr ""
 
-#: public/class-pirateforms-public.php:795
+#: public/class-pirateforms-public.php:802
 msgid "Uploaded file is too large"
 msgstr ""
 
-#: public/class-pirateforms-public.php:809
+#: public/class-pirateforms-public.php:816
 msgid "There was an unknown error uploading the file."
 msgstr ""
 

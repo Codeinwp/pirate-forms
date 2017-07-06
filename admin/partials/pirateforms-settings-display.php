@@ -225,6 +225,41 @@
 
 										<?php
 										break;
+									case 'radio':
+										if ( ! is_array( $value[3] ) ) {
+											break;
+										}
+										?>
+										<div class="pirate-forms-grouped">
+											<label for="<?php echo $opt_id ?>"><?php echo $opt_name;
+											if ( ! empty( $opt_desc ) ) {
+												if ( ( $opt_id == 'pirateformsopt_store' ) || ( $opt_id == 'pirateformsopt_nonce' ) ) {
+													echo '<span class="dashicons dashicons-editor-help"></span>';
+
+												}
+												echo '<div class="pirate_forms_option_description">' . $opt_desc . '</div>';
+											} ?>
+
+											</label>
+
+											<?php
+												$index_radio  = 0;
+											foreach ( $value[3] as $key1 => $label1 ) {
+												$checked    = $opt_val == $key1 ? 'checked' : '';
+												if ( $index_radio++ == 0 ) {
+													$checked    = 'checked';
+												}
+											?>
+											<input type="radio" value="<?php echo $key1;?>" name="<?php echo $opt_id; ?>"
+										   id="<?php echo $opt_id; ?><?php echo $key1 ?>" <?php echo $checked; ?>><?php echo $label1;?>
+											&nbsp;
+
+											<?php
+											}
+											?>
+										</div>
+										<?php
+										break;
 									case 'checkbox':
 										?>
 										<div class="pirate-forms-grouped">
