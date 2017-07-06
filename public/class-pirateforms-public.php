@@ -736,8 +736,6 @@ class PirateForms_Public {
             }
             // @codingStandardsIgnoreEnd
 		endif;
-
-		error_log( print_r( $phpmailer,true ) );
 	}
 
 	/**
