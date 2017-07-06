@@ -170,6 +170,24 @@
 
 										<?php
 										break;
+									case 'password':
+										?>
+										<div class="pirate-forms-grouped">
+
+											<label for="<?php echo $opt_id ?>"><?php echo $opt_name;
+											if ( ! empty( $opt_desc ) ) {
+												echo '<div class="pirate_forms_option_description">' . $opt_desc . '</div>';
+											} ?>
+
+											</label>
+
+											<input name="<?php echo $opt_id; ?>" id="<?php echo $opt_id ?>"
+												   type="<?php echo $opt_type; ?>"
+												   value="<?php echo stripslashes( $opt_val ); ?>">
+										</div>
+
+										<?php
+										break;
 									case 'textarea':
 										?>
 

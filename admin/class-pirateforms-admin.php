@@ -470,7 +470,7 @@ class PirateForms_Admin {
 				'pirateformsopt_smtp_password'           => array(
 					__( 'SMTP Password', 'pirate-forms' ),
 					'',
-					'text',
+					'password',
 					'',
 				),
 			),
