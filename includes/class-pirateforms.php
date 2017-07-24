@@ -69,7 +69,7 @@ class PirateForms {
 	public function __construct() {
 
 		$this->plugin_name = 'pirateforms';
-		$this->version = '1.2.5';
+		$this->version = '2.0.0';
 
 		$this->load_dependencies();
 		$this->set_locale();
