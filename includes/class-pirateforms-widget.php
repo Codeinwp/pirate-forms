@@ -24,10 +24,14 @@ class pirate_forms_contact_widget extends WP_Widget {
 	}
 
 	/**
+	 *  Register the widget
+	 */
+	public static function register_widget() {
+		register_widget( 'pirate_forms_contact_widget' );
+	}
+
+	/**
 	 * Widget logic and display
-	 *
-	 * @param array $args
-	 * @param array $instance
 	 */
 	function widget( $args, $instance ) {
 		// Pulling out all settings
@@ -49,7 +53,7 @@ class pirate_forms_contact_widget extends WP_Widget {
 		if ( ! empty( $instance['pirate_forms_widget_subtext'] ) ) {
 			echo wpautop( stripslashes( $instance['pirate_forms_widget_subtext'] ) );
 		}
-		echo do_shortcode( '[pirate_forms]' );
+		echo do_shortcode( '[pirate_forms from="widget"]' );
 		echo '<div class="pirate_forms_clearfix"></div>';
 		echo '</div>' . $args['after_widget'];
 
@@ -57,9 +61,6 @@ class pirate_forms_contact_widget extends WP_Widget {
 
 	/**
 	 * Used to update widget settings
-	 *
-	 * @param array $new_instance
-	 * @param array $old_instance
 	 *
 	 * @return array
 	 */
@@ -74,8 +75,6 @@ class pirate_forms_contact_widget extends WP_Widget {
 
 	/**
 	 * Used to generate the widget admin view
-	 *
-	 * @param array $instance
 	 *
 	 * @return string|void
 	 */
@@ -98,5 +97,3 @@ class pirate_forms_contact_widget extends WP_Widget {
 
 	}
 }
-
-add_action( 'widgets_init', create_function( '', 'return register_widget("pirate_forms_contact_widget");' ) );
