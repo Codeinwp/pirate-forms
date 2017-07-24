@@ -461,6 +461,16 @@ class PirateForms_Admin {
 					'checkbox',
 					'yes',
 				),
+				'pirateformsopt_use_secure' => array(
+					__( 'Security?', 'pirate-forms' ),
+					__( 'If you check this box, make sure the SMTP Username and SMTP Password are completed.', 'pirate-forms' ),
+					'radio',
+					array(
+						''      => __( 'No', 'pirate-forms' ),
+						'ssl'   => __( 'SSL', 'pirate-forms' ),
+						'tls'   => __( 'TLS', 'pirate-forms' ),
+					),
+				),
 				'pirateformsopt_smtp_username'           => array(
 					__( 'SMTP Username', 'pirate-forms' ),
 					'',
