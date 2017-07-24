@@ -718,6 +718,7 @@ class PirateForms_Public {
 		$pirateformsopt_smtp_port               = PirateForms_Util::get_option( 'pirateformsopt_smtp_port' );
 		$pirateformsopt_smtp_username           = PirateForms_Util::get_option( 'pirateformsopt_smtp_username' );
 		$pirateformsopt_smtp_password           = PirateForms_Util::get_option( 'pirateformsopt_smtp_password' );
+		$pirateformsopt_use_secure              = PirateForms_Util::get_option( 'pirateformsopt_use_secure' );
 		$pirateformsopt_use_smtp_authentication = PirateForms_Util::get_option( 'pirateformsopt_use_smtp_authentication' );
 		if ( ! empty( $pirateformsopt_use_smtp ) && ( $pirateformsopt_use_smtp == 'yes' ) && ! empty( $pirateformsopt_smtp_host ) && ! empty( $pirateformsopt_smtp_port ) ) :
             // @codingStandardsIgnoreStart
@@ -729,6 +730,10 @@ class PirateForms_Public {
                 $phpmailer->Username = $pirateformsopt_smtp_username;
                 $phpmailer->Password = $pirateformsopt_smtp_password;
             endif;
+
+            if ( ! empty( $pirateformsopt_use_secure ) ) {
+                $phpmailer->SMTPSecure = $pirateformsopt_use_secure;
+            }
             // @codingStandardsIgnoreEnd
 		endif;
 	}
