@@ -328,7 +328,7 @@ class PirateForms_Public {
 			'slug'      => 'honeypot',
 			'wrap'      => array(
 				'type'      => 'div',
-			    'class'     => 'form_field_wrap hidden',
+				'class'     => 'form_field_wrap hidden',
 				'style'     => 'display: none',
 			),
 		);

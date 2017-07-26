@@ -96,7 +96,7 @@ class PirateForms_HTML {
 		$html       = 'id="' . esc_attr( $args['id'] ) . '" name="' . esc_attr( $args['name'] ) . '" class="' . ( isset( $args['class'] ) ? esc_attr( $args['class'] ) : '' ) . '" placeholder="' . ( isset( $args['placeholder'] ) ? esc_attr( $args['placeholder'] ) : '' ) . '" ' . ( isset( $args['required'] ) && $args['required'] ? 'required' : '' );
 
 		if ( in_array( 'value', $additional ) ) {
-		    $html       .= ' value="' . ( isset( $args['value'] ) ? esc_attr( $args['value'] ) : '' ) . '"';
+			$html       .= ' value="' . ( isset( $args['value'] ) ? esc_attr( $args['value'] ) : '' ) . '"';
 		}
 
 		return $html;

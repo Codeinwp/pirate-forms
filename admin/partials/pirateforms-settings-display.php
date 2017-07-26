@@ -102,7 +102,7 @@
 						foreach ( $plugin_options as $tab => $array ) {
 						?>
 						<div id="<?php echo $tab_index++ ?>" class="pirate-forms-tab-pane <?php echo $tab; ?>">
-						    <form method="post" class="pirate_forms_contact_settings">
+							<form method="post" class="pirate_forms_contact_settings">
 						<?php
 							$html_helper->add( array(
 								'type'      => 'h3',
@@ -134,9 +134,9 @@
 								'value'     => wp_create_nonce( $current_user->user_email ),
 							) );
 						?>
-						    </form><!-- .pirate_forms_contact_settings -->
-						    <div class="ajaxAnimation"></div>
-					    </div><!-- .pirate-forms-tab-pane -->
+							</form><!-- .pirate_forms_contact_settings -->
+							<div class="ajaxAnimation"></div>
+						</div><!-- .pirate-forms-tab-pane -->
 
 					<?php }// End foreach().
 	?>
