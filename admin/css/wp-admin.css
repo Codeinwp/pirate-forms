@@ -125,12 +125,12 @@
 	margin-right: 0;
 }
 
-#\31 > form > div > label > span.dashicons {
+div.pirate_dashicons > form > div > label > span.dashicons {
 	margin-left: 10px;
 	color: #888;
 }
 
-#\31 > form > div > label > span.dashicons:after {
+div.pirate_dashicons > form > div > label > span.dashicons:after {
 	display: none;
 	position: absolute;
 	margin-left: 5px;
@@ -140,7 +140,7 @@
 	content: "";
 }
 
-#\31 > form > div > label > .pirate_forms_option_description {
+div.pirate_dashicons > form > div > label > .pirate_forms_option_description {
 	display: none;
 	position: absolute;
 	z-index: 999;
@@ -156,12 +156,12 @@
 	text-align: left;
 }
 
-#\31 > form > div > label > span.dashicons:hover + .pirate_forms_option_description,
-#\31 > form > div > label > span.dashicons:hover::after {
+div.pirate_dashicons > form > div > label > span.dashicons:hover + .pirate_forms_option_description,
+div.pirate_dashicons > form > div > label > span.dashicons:hover::after {
 	display: block;
 }
 
-#\31 > form > div > label {
+div.pirate_dashicons > form > div > label {
 	width: 400px;
 	font-weight: normal;
 }
