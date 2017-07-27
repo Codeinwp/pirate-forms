@@ -139,10 +139,18 @@ function run_pirate_forms() {
 	if ( is_readable( $vendor_file ) ) {
 		require_once $vendor_file;
 	}
-	add_filter( 'themeisle_sdk_products', function ( $products ) {
-		$products[] = PIRATEFORMS_BASEFILE;
-		return $products;
-	} );
+	add_filter(
+		'themeisle_sdk_products', function ( $products ) {
+			$products[] = PIRATEFORMS_BASEFILE;
+			return $products;
+		}
+	);
+	add_filter(
+		'pirate_parrot_log', function ( $plugins ) {
+			$plugins[] = PIRATEFORMS_NAME;
+			return $plugins;
+		}
+	);
 }
 spl_autoload_register( 'pirate_forms_autoload' );
 run_pirate_forms();
