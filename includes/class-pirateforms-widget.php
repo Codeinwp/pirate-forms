@@ -35,16 +35,20 @@ class pirate_forms_contact_widget extends WP_Widget {
 	 */
 	function widget( $args, $instance ) {
 		// Pulling out all settings
-		$args     = wp_parse_args( $args, array(
-			'before_widget' => '',
-			'after_widget'  => '',
-			'before_title'  => '',
-			'after_title'   => '',
-		) );
-		$instance = wp_parse_args( $instance, array(
-			'pirate_forms_widget_title'   => 'Pirate Forms',
-			'pirate_forms_widget_subtext' => 'Pirate Forms',
-		) );
+		$args     = wp_parse_args(
+			$args, array(
+				'before_widget' => '',
+				'after_widget'  => '',
+				'before_title'  => '',
+				'after_title'   => '',
+			)
+		);
+		$instance = wp_parse_args(
+			$instance, array(
+				'pirate_forms_widget_title'   => 'Pirate Forms',
+				'pirate_forms_widget_subtext' => 'Pirate Forms',
+			)
+		);
 		// Output all wrappers
 		echo $args['before_widget'] . '<div class="pirate-forms-contact-widget">';
 		if ( ! empty( $instance['pirate_forms_widget_title'] ) ) {
