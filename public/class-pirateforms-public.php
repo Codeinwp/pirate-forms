@@ -387,6 +387,7 @@ class PirateForms_Public {
 				$elements[]     = array(
 					'placeholder'   => stripslashes( sanitize_text_field( $label ) ),
 					'required'      => $required,
+					'required_msg'  => PirateForms_Util::get_option( 'pirateformsopt_label_err_name' ),
 					'type'          => 'text',
 					'id'            => 'pirate-forms-contact-name',
 					'class'         => 'form-control',
@@ -415,6 +416,7 @@ class PirateForms_Public {
 				$elements[]     = array(
 					'placeholder'   => stripslashes( sanitize_text_field( $label ) ),
 					'required'      => $required,
+					'required_msg'  => PirateForms_Util::get_option( 'pirateformsopt_label_err_email' ),
 					'type'          => 'email',
 					'id'            => 'pirate-forms-contact-email',
 					'class'         => 'form-control',
@@ -443,6 +445,7 @@ class PirateForms_Public {
 				$elements[]     = array(
 					'placeholder'   => stripslashes( sanitize_text_field( $label ) ),
 					'required'      => $required,
+					'required_msg'  => PirateForms_Util::get_option( 'pirateformsopt_label_err_subject' ),
 					'type'          => 'text',
 					'id'            => 'pirate-forms-contact-subject',
 					'class'         => 'form-control',
@@ -469,6 +472,7 @@ class PirateForms_Public {
 				$elements[]     = array(
 					'placeholder'   => stripslashes( sanitize_text_field( $label ) ),
 					'required'      => $required,
+					'required_msg'  => PirateForms_Util::get_option( 'pirateformsopt_label_err_no_content' ),
 					'type'          => 'textarea',
 					'class'         => 'form-control',
 					'id'            => 'pirate-forms-contact-message',

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Free & Simple Contact Form Plugin - Pirateforms 1.2.6\n"
 "Report-Msgid-Bugs-To: https://github.com/Codeinwp/pirate-forms/issues\n"
-"POT-Creation-Date: 2017-07-26 17:29:37+00:00\n"
+"POT-Creation-Date: 2017-07-27 04:13:33+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -210,7 +210,7 @@ msgid "Submit button"
 msgstr ""
 
 #: admin/class-pirateforms-admin.php:581
-#: public/class-pirateforms-public.php:522
+#: public/class-pirateforms-public.php:526
 msgid "Submit"
 msgstr ""
 
@@ -508,24 +508,24 @@ msgstr ""
 msgid "Sent from page: "
 msgstr ""
 
-#: public/class-pirateforms-public.php:605
+#: public/class-pirateforms-public.php:609
 msgid "Form submission blocked!"
 msgstr ""
 
-#: public/class-pirateforms-public.php:780
-#: public/class-pirateforms-public.php:791
+#: public/class-pirateforms-public.php:784
+#: public/class-pirateforms-public.php:795
 msgid "Wrong reCAPTCHA"
 msgstr ""
 
-#: public/class-pirateforms-public.php:819
+#: public/class-pirateforms-public.php:823
 msgid "Uploaded file is not allowed for file type"
 msgstr ""
 
-#: public/class-pirateforms-public.php:825
+#: public/class-pirateforms-public.php:829
 msgid "Uploaded file is too large"
 msgstr ""
 
-#: public/class-pirateforms-public.php:839
+#: public/class-pirateforms-public.php:843
 msgid "There was an unknown error uploading the file."
 msgstr ""
 
