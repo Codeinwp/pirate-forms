@@ -55,15 +55,15 @@ if ( ! empty( $this->errors ) ) :
 		<?php echo $this->contact_message; ?>
 	</div>
 
-	<?php if ( isset( $this->captcha ) ) { ?>
-		<div class="col-xs-12 col-sm-6 col-lg-6 form_field_wrap form_captcha_wrap">
-			<?php echo $this->captcha; ?>
-		</div>
-	<?php } ?>
-
 	<?php if ( isset( $this->attachment ) ) { ?>
 		<div class="col-sm-12 col-lg-12 form_field_wrap contact_attachment_wrap  ">
 			<?php echo $this->attachment; ?>
+		</div>
+	<?php } ?>
+
+	<?php if ( isset( $this->captcha ) ) { ?>
+		<div class="col-xs-12 col-sm-6 col-lg-6 form_field_wrap form_captcha_wrap">
+			<?php echo $this->captcha; ?>
 		</div>
 	<?php } ?>
 
