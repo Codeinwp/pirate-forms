@@ -266,7 +266,7 @@ class PirateForms_Admin {
 										'class' => 'pirate_forms_option_description',
 									),
 								),
-								'default'   => PirateForms_Util::get_from_email(),
+								'default'   => $pirate_forms_contactus_email,
 								'value'     => PirateForms_Util::get_option( 'pirateformsopt_email_recipients' ),
 								'wrap'      => array(
 									'type'  => 'div',
@@ -491,6 +491,7 @@ class PirateForms_Admin {
 								'label'     => array(
 									'value' => __( 'Secret key', 'pirate-forms' ),
 								),
+								'default'   => $pirate_forms_contactus_secretkey,
 								'value'     => PirateForms_Util::get_option( 'pirateformsopt_recaptcha_secretkey' ),
 								'wrap'      => array(
 									'type'  => 'div',
@@ -578,7 +579,7 @@ class PirateForms_Admin {
 								'label'     => array(
 									'value' => __( 'Submit button', 'pirate-forms' ),
 								),
-								'default'   => __( 'Submit', 'pirate-forms' ),
+								'default'   => $pirate_forms_contactus_button_label,
 								'value'     => PirateForms_Util::get_option( 'pirateformsopt_label_submit_btn' ),
 								'wrap'      => array(
 									'type'  => 'div',
