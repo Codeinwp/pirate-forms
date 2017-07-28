@@ -526,7 +526,7 @@ class PirateForms_Public {
 				$pirateformsopt_label_submit_btn    = __( 'Submit', 'pirate-forms' );
 			}
 			$elements[]     = array(
-				'type'          => 'submit',
+				'type'          => 'button',
 				'id'            => 'pirate-forms-contact-submit',
 				'class'         => 'pirate-forms-submit-button col-xs-12 col-sm-6 col-lg-6 form_field_wrap contact_submit_wrap',
 				'wrap'          => array(
