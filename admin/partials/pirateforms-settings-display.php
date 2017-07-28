@@ -142,10 +142,9 @@
 								)
 							);
 						?>
-							</form><!-- .pirate_forms_contact_settings -->
-							<div class="ajaxAnimation"></div>
-						</div><!-- .pirate-forms-tab-pane -->
-
+						</form><!-- .pirate_forms_contact_settings -->
+						<div class="ajaxAnimation"></div>
+					</div><!-- .pirate-forms-tab-pane -->
 					<?php
 						} // End foreach().
 					?>

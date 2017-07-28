@@ -69,7 +69,7 @@ class PirateForms {
 	public function __construct() {
 
 		$this->plugin_name = 'pirateforms';
-		$this->version = '1.2.5';
+		$this->version = '2.0.0';
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -157,6 +157,9 @@ class PirateForms {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles_and_scripts' );
 		$this->loader->add_action( 'template_redirect', $plugin_public, 'template_redirect' );
 		$this->loader->add_action( 'init', $this, 'register_content_type' );
+
+		// ONLY FOR UNIT TESTING: we cannot fire template_redirect without errors, that is why we are creating a manual hook for this
+		$this->loader->add_action( 'pirate_unittesting_template_redirect', $plugin_public, 'template_redirect' );
 
 		$this->loader->add_filter( 'widget_text', $plugin_public, 'widget_text_filter', 9 );
 
