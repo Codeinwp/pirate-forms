@@ -244,6 +244,7 @@ class PirateForms_Public {
 			}
 
 			$subject        = 'Contact on ' . htmlspecialchars_decode( get_bloginfo( 'name' ) );
+
 			do_action( 'pirate_forms_before_sending', $site_recipients, $subject, $body, $headers, $attachments );
 			do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'before sending email to = %s, subject = %s, body = %s, headers = %s, attachments = %s', $site_recipients, $subject, $body, $headers, print_r( $attachments, true ) ), 'debug', __FILE__, __LINE__ );
 			$response       = wp_mail( $site_recipients, $subject, $body, $headers, $attachments );
@@ -265,6 +266,7 @@ class PirateForms_Public {
 				$confirm_body = str_replace( '&#39;', "'", $confirm_body );
 				$headers      = "From: $site_name <$site_email>\r\nReply-To: $site_name <$site_email>";
 				$subject      = PirateForms_Util::get_option( 'pirateformsopt_label_submit' ) . ' - ' . $site_name;
+
 				do_action( 'pirate_forms_before_sending_confirm', $pirate_forms_contact_email, $subject, $confirm_body, $headers );
 				do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'before sending confirm email to = %s, subject = %s, body = %s, headers = %s', $pirate_forms_contact_email, $subject, $confirm_body, $headers ), 'debug', __FILE__, __LINE__ );
 				$response     = wp_mail( $pirate_forms_contact_email, $subject, $confirm_body, $headers );
