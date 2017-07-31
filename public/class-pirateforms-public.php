@@ -100,6 +100,8 @@ class PirateForms_Public {
 	 * @throws  Exception When file uploading fails.
 	 */
 	public function template_redirect() {
+		do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'POST data = %s', print_r( $_POST, true ) ), 'debug', __FILE__, __LINE__ );
+
 		// If POST and honeypot are not set, beat it
 		if ( empty( $_POST ) || ! isset( $_POST['honeypot'] ) ) {
 			return false;
@@ -116,7 +118,7 @@ class PirateForms_Public {
 		if ( 'yes' === PirateForms_Util::get_option( 'pirateformsopt_nonce' ) ) {
 			if ( ! wp_verify_nonce( $_POST['wordpress-nonce'], get_bloginfo( 'admin_email' ) . $nonce_append ) ) {
 				$_SESSION[ $error_key ]['nonce'] = __( 'Nonce failed!', 'pirate-forms' );
-
+				do_action( 'themeisle_log_event', PIRATEFORMS_NAME, 'Nonce failed', 'error', __FILE__, __LINE__ );
 				return false;
 			}
 		}
@@ -241,7 +243,13 @@ class PirateForms_Public {
 				return false;
 			}
 
-			wp_mail( $site_recipients, 'Contact on ' . htmlspecialchars_decode( get_bloginfo( 'name' ) ), $body, $headers, $attachments );
+			$subject        = 'Contact on ' . htmlspecialchars_decode( get_bloginfo( 'name' ) ); 
+			add_action( 'pirate_forms_before_sending', $site_recipients, $subject, $body, $headers, $attachments );
+			do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'before sending email to = %s, subject = %s, body = %s, headers = %s, attachments = %s', $site_recipients, $subject, $body, $headers, print_r( $attachments, true ) ), 'debug', __FILE__, __LINE__ );
+			$response       = wp_mail( $site_recipients, $subject, $body, $headers, $attachments );
+			add_action( 'pirate_forms_after_sending', $site_recipients, $subject, $body, $headers, $attachments ); 
+			do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'after sending email, response = %s', $response ), 'debug', __FILE__, __LINE__ );
+ 
 
 			// delete the tmp directory
 			require_once( ABSPATH . 'wp-admin/includes/file.php' );
@@ -256,13 +264,21 @@ class PirateForms_Public {
 				$confirm_body = htmlspecialchars_decode( $confirm_body );
 				$confirm_body = html_entity_decode( $confirm_body );
 				$confirm_body = str_replace( '&#39;', "'", $confirm_body );
-				$headers      = "From: $site_name <$site_email>\r\nReply-To: $site_name <$site_email>";
+				$headers      = "From: $site_name <$site_email>\r\nReply-To: $site_name <$site_email>"; 
+				$subject      = PirateForms_Util::get_option( 'pirateformsopt_label_submit' ) . ' - ' . $site_name;
+				add_action( 'pirate_forms_before_sending_confirm', $pirate_forms_contact_email, $subject, $confirm_body, $headers );
+				$response     = wp_mail( $pirate_forms_contact_email, $subject, $confirm_body, $headers );
+				add_action( 'pirate_forms_after_sending_confirm', $pirate_forms_contact_email, $subject, $confirm_body, $headers );
+ 
+				$subject        = PirateForms_Util::get_option( 'pirateformsopt_label_submit' ) . ' - ' . $site_name;
+				do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'before sending confirm email to = %s, subject = %s, body = %s, headers = %s', $pirate_forms_contact_email, $subject, $confirm_body, $headers ), 'debug', __FILE__, __LINE__ );
 				$response     = wp_mail(
 					$pirate_forms_contact_email,
-					PirateForms_Util::get_option( 'pirateformsopt_label_submit' ) . ' - ' . $site_name,
+					$subject,
 					$confirm_body,
 					$headers
 				);
+				do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'after sending confirm email response = %s', $response ), 'debug', __FILE__, __LINE__ ); 
 				if ( ! $response ) {
 					error_log( 'Email not sent' );
 				}
@@ -387,6 +403,7 @@ class PirateForms_Public {
 				$elements[]     = array(
 					'placeholder'   => stripslashes( sanitize_text_field( $label ) ),
 					'required'      => $required,
+					'required_msg'  => PirateForms_Util::get_option( 'pirateformsopt_label_err_name' ),
 					'type'          => 'text',
 					'id'            => 'pirate-forms-contact-name',
 					'class'         => 'form-control',
@@ -415,6 +432,7 @@ class PirateForms_Public {
 				$elements[]     = array(
 					'placeholder'   => stripslashes( sanitize_text_field( $label ) ),
 					'required'      => $required,
+					'required_msg'  => PirateForms_Util::get_option( 'pirateformsopt_label_err_email' ),
 					'type'          => 'email',
 					'id'            => 'pirate-forms-contact-email',
 					'class'         => 'form-control',
@@ -443,6 +461,7 @@ class PirateForms_Public {
 				$elements[]     = array(
 					'placeholder'   => stripslashes( sanitize_text_field( $label ) ),
 					'required'      => $required,
+					'required_msg'  => PirateForms_Util::get_option( 'pirateformsopt_label_err_subject' ),
 					'type'          => 'text',
 					'id'            => 'pirate-forms-contact-subject',
 					'class'         => 'form-control',
@@ -469,6 +488,7 @@ class PirateForms_Public {
 				$elements[]     = array(
 					'placeholder'   => stripslashes( sanitize_text_field( $label ) ),
 					'required'      => $required,
+					'required_msg'  => PirateForms_Util::get_option( 'pirateformsopt_label_err_no_content' ),
 					'type'          => 'textarea',
 					'class'         => 'form-control',
 					'id'            => 'pirate-forms-contact-message',
@@ -480,6 +500,30 @@ class PirateForms_Public {
 				);
 			endif;
 
+			$field  = $pirate_forms_options['pirateformsopt_attachment_field'];
+
+			/**
+			 ******  Message field */
+			if ( ! empty( $field ) && 'no' !== $field ) :
+				$required     = $field === 'req' ? true : false;
+				$wrap_classes = array( 'contact_attachment_wrap ' );
+				// If this field was submitted with invalid data
+				if ( isset( $_SESSION[ $error_key ]['contact-attachment'] ) ) {
+					$wrap_classes[] = 'error';
+				}
+				$elements[]     = array(
+					'placeholder'   => stripslashes( sanitize_text_field( $label ) ),
+					'required'      => $required,
+					'required_msg'  => PirateForms_Util::get_option( 'pirateformsopt_label_err_no_attachment' ),
+					'type'          => 'file',
+					'class'         => 'form-control',
+					'id'            => 'pirate-forms-attachment',
+					'wrap'          => array(
+						'type'      => 'div',
+						'class'     => implode( ' ', apply_filters( 'pirateform_wrap_classes_attachment', $wrap_classes ) ),
+					),
+				);
+			endif;
 			/**
 			 ******* ReCaptcha */
 			if ( ! empty( $pirate_forms_options['pirateformsopt_recaptcha_secretkey'] ) && ! empty( $pirate_forms_options['pirateformsopt_recaptcha_sitekey'] ) && ! empty( $pirate_forms_options['pirateformsopt_recaptcha_field'] ) && ( $pirate_forms_options['pirateformsopt_recaptcha_field'] == 'yes' ) ) :
@@ -499,20 +543,6 @@ class PirateForms_Public {
 			endif;
 
 			/**
-			 ******** Attachment */
-			if ( ! empty( $pirate_forms_options['pirateformsopt_attachment_field'] ) && ( $pirate_forms_options['pirateformsopt_attachment_field'] == 'yes' ) ) {
-				$elements[]     = array(
-					'type'          => 'file',
-					'id'            => 'pirate-forms-attachment',
-					'class'         => 'form-control',
-					'wrap'          => array(
-						'type'      => 'div',
-						'class'     => implode( ' ', apply_filters( 'pirateform_wrap_classes_attachment', array() ) ),
-					),
-				);
-			}
-
-			/**
 			 ******  Submit button */
 			$pirateformsopt_label_submit_btn    = '';
 			if ( ! empty( $pirate_forms_options['pirateformsopt_label_submit_btn'] ) ) {
@@ -522,12 +552,12 @@ class PirateForms_Public {
 				$pirateformsopt_label_submit_btn    = __( 'Submit', 'pirate-forms' );
 			}
 			$elements[]     = array(
-				'type'          => 'submit',
+				'type'          => 'button',
 				'id'            => 'pirate-forms-contact-submit',
 				'class'         => 'pirate-forms-submit-button col-xs-12 col-sm-6 col-lg-6 form_field_wrap contact_submit_wrap',
 				'wrap'          => array(
 					'type'      => 'div',
-					'class'     => implode( ' ', apply_filters( 'pirateform_wrap_classes_submit', array() ) ),
+					'class'     => implode( ' ', apply_filters( 'pirateform_wrap_classes_submit', array( 'col-xs-12 col-sm-6 col-lg-6 form_field_wrap contact_submit_wrap' ) ) ),
 				),
 				'value'         => $pirateformsopt_label_submit_btn,
 			);
@@ -558,6 +588,7 @@ class PirateForms_Public {
 			unset( $_SESSION[ $error_key ] );
 		}
 
+		do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'displaying elements %s', print_r( $elements, true ) ), 'debug', __FILE__, __LINE__ );
 		return $pirate_form->build_form( apply_filters( 'pirate_forms_public_controls', $elements ) );
 	}
 
@@ -596,6 +627,8 @@ class PirateForms_Public {
 				$final_blocked_arr[] = $ip_or_email;
 			}
 		}
+
+		do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'email = %s, IP = %s, final_blocked_arr = %s', $email, $ip, print_r( $final_blocked_arr, true ) ), 'debug', __FILE__, __LINE__ );
 
 		if ( ! empty( $final_blocked_arr ) ) {
 			if (
@@ -811,17 +844,20 @@ class PirateForms_Public {
 			$pirate_forms_attach_file = isset( $_FILES['pirate-forms-attachment'] ) ? $_FILES['pirate-forms-attachment'] : '';
 			if ( ! empty( $pirate_forms_attach_file ) && ! empty( $pirate_forms_attach_file['name'] ) ) {
 				/* Validate file type */
-				$pirate_forms_file_types_allowed = 'jpg|jpeg|png|gif|pdf|doc|docx|ppt|pptx|odt|avi|ogg|m4a|mov|mp3|mp4|mpg|wav|wmv';
+				$file_types_allowed              = 'jpg|jpeg|png|gif|pdf|doc|docx|ppt|pptx|odt|avi|ogg|m4a|mov|mp3|mp4|mpg|wav|wmv';
+				$pirate_forms_file_types_allowed = $file_types_allowed;
 				$pirate_forms_file_types_allowed = trim( $pirate_forms_file_types_allowed, '|' );
 				$pirate_forms_file_types_allowed = '(' . $pirate_forms_file_types_allowed . ')';
 				$pirate_forms_file_types_allowed = '/\.' . $pirate_forms_file_types_allowed . '$/i';
 				if ( ! preg_match( $pirate_forms_file_types_allowed, $pirate_forms_attach_file['name'] ) ) {
+					do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'file invalid: expected %s got %s', $file_types_allowed, $pirate_forms_attach_file['name'] ), 'error', __FILE__, __LINE__ );
 					$_SESSION[ $error_key ]['pirate-forms-upload-failed-type'] = __( 'Uploaded file is not allowed for file type', 'pirate-forms' );
 					return false;
 				}
 				/* Validate file size */
 				$pirate_forms_file_size_allowed = 1048576; // default size 1 MB
 				if ( $pirate_forms_attach_file['size'] > $pirate_forms_file_size_allowed ) {
+					do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'file too large: expected %d got %d', $pirate_forms_file_size_allowed, $pirate_forms_attach_file['size'] ), 'error', __FILE__, __LINE__ );
 					$_SESSION[ $error_key ]['pirate-forms-upload-failed-size'] = __( 'Uploaded file is too large', 'pirate-forms' );
 					return false;
 				}
@@ -836,9 +872,11 @@ class PirateForms_Public {
 				$new_file    = trailingslashit( $uploads_dir ) . $filename;
 				try {
 					if ( false === move_uploaded_file( $pirate_forms_attach_file['tmp_name'], $new_file ) ) {
+						do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'unable to move the uploaded file from %s to %s', $pirate_forms_attach_file['tmp_name'], $new_file ), 'error', __FILE__, __LINE__ );
 						throw new Exception( __( 'There was an unknown error uploading the file.', 'pirate-forms' ) );
 					}
 				} catch ( Exception $ex ) {
+					do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'unable to move the uploaded file from %s to %s with error %s', $pirate_forms_attach_file['tmp_name'], $new_file, $ex->getMessage() ), 'error', __FILE__, __LINE__ );
 					$_SESSION[ $error_key ]['pirate-forms-upload-failed-general'] = $ex->getMessage();
 				}
 				if ( ! empty( $new_file ) ) {

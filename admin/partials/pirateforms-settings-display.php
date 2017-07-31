@@ -141,10 +141,10 @@
 									'value'     => wp_create_nonce( $current_user->user_email ),
 								)
 							);
-						?>
+						?> 
 						</form><!-- .pirate_forms_contact_settings -->
 						<div class="ajaxAnimation"></div>
-					</div><!-- .pirate-forms-tab-pane -->
+					</div><!-- .pirate-forms-tab-pane --> 
 					<?php
 						} // End foreach().
 					?>

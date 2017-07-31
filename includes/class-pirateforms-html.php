@@ -95,6 +95,10 @@ class PirateForms_HTML {
 	private function get_common( $args, $additional = array() ) {
 		$html       = 'id="' . esc_attr( $args['id'] ) . '" name="' . esc_attr( $args['name'] ) . '" class="' . ( isset( $args['class'] ) ? esc_attr( $args['class'] ) : '' ) . '" placeholder="' . ( isset( $args['placeholder'] ) ? esc_attr( $args['placeholder'] ) : '' ) . '" ' . ( isset( $args['required'] ) && $args['required'] ? 'required' : '' );
 
+		if ( isset( $args['required'] ) && $args['required'] && isset( $args['required_msg'] ) ) {
+			$html   .= ' oninvalid="this.setCustomValidity(\'' . esc_attr( $args['required_msg'] ) . '\')" onchange="this.setCustomValidity(\'\')"';
+		}
+
 		if ( in_array( 'value', $additional ) ) {
 			$html       .= ' value="' . ( isset( $args['value'] ) ? esc_attr( $args['value'] ) : '' ) . '"';
 		}
@@ -297,6 +301,17 @@ class PirateForms_HTML {
 	 */
 	private function submit( $args ) {
 		$html       = '<input type="submit" ' . $this->get_common( $args, array( 'value' ) ) . '>';
+
+		return $this->get_wrap( $args, $html );
+	}
+
+	/**
+	 * The button element
+	 *
+	 * @since    1.2.6
+	 */
+	private function button( $args ) {
+		$html       = '<button type="submit" ' . $this->get_common( $args ) . '>' . ( isset( $args['value'] ) ? $args['value'] : '' ) . '</button>';
 
 		return $this->get_wrap( $args, $html );
 	}
