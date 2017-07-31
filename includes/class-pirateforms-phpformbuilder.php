@@ -64,6 +64,8 @@ class PirateForms_PhpFormBuilder {
 		$file       = $default;
 		if ( is_readable( $custom ) ) {
 			$file   = $custom;
+		} elseif ( file_exists( $custom ) ) {
+			do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'cannot access theme = %s', $custom ), 'error', __FILE__, __LINE__ );
 		}
 		ob_start();
 		include $file;
