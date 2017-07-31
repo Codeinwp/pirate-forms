@@ -145,6 +145,12 @@ function run_pirate_forms() {
 			return $products;
 		}
 	);
+	add_filter(
+		'pirate_parrot_log', function ( $plugins ) {
+			$plugins[] = PIRATEFORMS_NAME;
+			return $plugins;
+		}
+	);
 }
 spl_autoload_register( 'pirate_forms_autoload' );
 run_pirate_forms();
