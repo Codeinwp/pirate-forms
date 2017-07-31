@@ -242,9 +242,9 @@ class PirateForms_Public {
 			}
 
 			$subject        = 'Contact on ' . htmlspecialchars_decode( get_bloginfo( 'name' ) );
-			add_action( 'pirate_forms_before_sending', $site_recipients, $subject, $body, $headers, $attachments );
+			do_action( 'pirate_forms_before_sending', $site_recipients, $subject, $body, $headers, $attachments );
 			wp_mail( $site_recipients, $subject, $body, $headers, $attachments );
-			add_action( 'pirate_forms_after_sending', $site_recipients, $subject, $body, $headers, $attachments );
+			do_action( 'pirate_forms_after_sending', $site_recipients, $subject, $body, $headers, $attachments );
 
 			// delete the tmp directory
 			require_once( ABSPATH . 'wp-admin/includes/file.php' );
@@ -261,9 +261,9 @@ class PirateForms_Public {
 				$confirm_body = str_replace( '&#39;', "'", $confirm_body );
 				$headers      = "From: $site_name <$site_email>\r\nReply-To: $site_name <$site_email>";
 				$subject      = PirateForms_Util::get_option( 'pirateformsopt_label_submit' ) . ' - ' . $site_name;
-				add_action( 'pirate_forms_before_sending_confirm', $pirate_forms_contact_email, $subject, $confirm_body, $headers );
+				do_action( 'pirate_forms_before_sending_confirm', $pirate_forms_contact_email, $subject, $confirm_body, $headers );
 				$response     = wp_mail( $pirate_forms_contact_email, $subject, $confirm_body, $headers );
-				add_action( 'pirate_forms_after_sending_confirm', $pirate_forms_contact_email, $subject, $confirm_body, $headers );
+				do_action( 'pirate_forms_after_sending_confirm', $pirate_forms_contact_email, $subject, $confirm_body, $headers );
 				if ( ! $response ) {
 					error_log( 'Email not sent' );
 				}
