@@ -492,6 +492,30 @@ class PirateForms_Public {
 				);
 			endif;
 
+			$field  = $pirate_forms_options['pirateformsopt_attachment_field'];
+
+			/**
+			 ******  Message field */
+			if ( ! empty( $field ) && 'no' !== $field ) :
+				$required     = $field === 'req' ? true : false;
+				$wrap_classes = array( 'contact_attachment_wrap ' );
+				// If this field was submitted with invalid data
+				if ( isset( $_SESSION[ $error_key ]['contact-attachment'] ) ) {
+					$wrap_classes[] = 'error';
+				}
+				$elements[]     = array(
+					'placeholder'   => stripslashes( sanitize_text_field( $label ) ),
+					'required'      => $required,
+					'required_msg'  => PirateForms_Util::get_option( 'pirateformsopt_label_err_no_attachment' ),
+					'type'          => 'file',
+					'class'         => 'form-control',
+					'id'            => 'pirate-forms-attachment',
+					'wrap'          => array(
+						'type'      => 'div',
+						'class'     => implode( ' ', apply_filters( 'pirateform_wrap_classes_attachment', $wrap_classes ) ),
+					),
+				);
+			endif;
 			/**
 			 ******* ReCaptcha */
 			if ( ! empty( $pirate_forms_options['pirateformsopt_recaptcha_secretkey'] ) && ! empty( $pirate_forms_options['pirateformsopt_recaptcha_sitekey'] ) && ! empty( $pirate_forms_options['pirateformsopt_recaptcha_field'] ) && ( $pirate_forms_options['pirateformsopt_recaptcha_field'] == 'yes' ) ) :
@@ -511,20 +535,6 @@ class PirateForms_Public {
 			endif;
 
 			/**
-			 ******** Attachment */
-			if ( ! empty( $pirate_forms_options['pirateformsopt_attachment_field'] ) && ( $pirate_forms_options['pirateformsopt_attachment_field'] == 'yes' ) ) {
-				$elements[]     = array(
-					'type'          => 'file',
-					'id'            => 'pirate-forms-attachment',
-					'class'         => 'form-control',
-					'wrap'          => array(
-						'type'      => 'div',
-						'class'     => implode( ' ', apply_filters( 'pirateform_wrap_classes_attachment', array() ) ),
-					),
-				);
-			}
-
-			/**
 			 ******  Submit button */
 			$pirateformsopt_label_submit_btn    = '';
 			if ( ! empty( $pirate_forms_options['pirateformsopt_label_submit_btn'] ) ) {
@@ -534,12 +544,12 @@ class PirateForms_Public {
 				$pirateformsopt_label_submit_btn    = __( 'Submit', 'pirate-forms' );
 			}
 			$elements[]     = array(
-				'type'          => 'submit',
+				'type'          => 'button',
 				'id'            => 'pirate-forms-contact-submit',
 				'class'         => 'pirate-forms-submit-button col-xs-12 col-sm-6 col-lg-6 form_field_wrap contact_submit_wrap',
 				'wrap'          => array(
 					'type'      => 'div',
-					'class'     => implode( ' ', apply_filters( 'pirateform_wrap_classes_submit', array() ) ),
+					'class'     => implode( ' ', apply_filters( 'pirateform_wrap_classes_submit', array( 'col-xs-12 col-sm-6 col-lg-6 form_field_wrap contact_submit_wrap' ) ) ),
 				),
 				'value'         => $pirateformsopt_label_submit_btn,
 			);
