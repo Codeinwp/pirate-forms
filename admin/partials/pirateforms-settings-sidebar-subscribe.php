@@ -1,5 +1,5 @@
 			<div class="pirate-subscribe postbox card">
-				<h3 class="title"><?php esc_html_e( 'Get Our Free Email Course', 'pirate-forms' ) ?></h3>
+				<h3 class="title"><?php esc_html_e( 'Get Our Free Email Course', 'pirate-forms' ); ?></h3>
 				<div class="pirate-forms-subscribe-content">
 					<?php
 					if ( ! empty( $_POST['pirate_forms_mail'] ) ) {
@@ -26,14 +26,15 @@
 						echo sprintf( '<p> %s </p><form class="pirate-forms-submit-mail" method="post"><input name="pirate_forms_mail" type="email" value="' . get_option( 'admin_email' ) . '" /><input class="button" type="submit" value="Submit"></form>', esc_html__( 'Ready to learn how to reduce your website loading times by half? Come and join the 1st lesson here!', 'pirate-forms' ) );
 					} else {
 						echo sprintf( '<p> %s </p>', esc_html__( 'Thank you for subscribing! You have been added to the mailing list and will receive the next email information in the coming weeks. If you ever wish to unsubscribe, simply use the "Unsubscribe" link included in each newsletter.', 'pirate-forms' ) );
-					} ?>
+					}
+					?>
 				</div>
 			</div>
 			<?php
 			if ( ! class_exists( 'Dev7CustomEmails' ) ) {
 				?>
 				<div class="pirate-custom-emails postbox card">
-					<h3 class="title"><?php esc_html_e( 'Control Emails in WordPress', 'pirate-forms' ) ?></h3>
+					<h3 class="title"><?php esc_html_e( 'Control Emails in WordPress', 'pirate-forms' ); ?></h3>
 					<div class="pirate-forms-custom-emails-content">
 						Change default WordPress email templates using <strong>Custom Emails</strong>  plugin
 						<a href="https://themeisle.com/plugins/custom-emails-wordpress-plugin/" target="_blank">View more

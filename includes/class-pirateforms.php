@@ -246,6 +246,6 @@ class PirateForms {
 				'supports'           => array( 'title', 'editor', 'custom-fields' ),
 			);
 			register_post_type( 'pf_contact', $args );
-	    }
+		}
 	}
 }
