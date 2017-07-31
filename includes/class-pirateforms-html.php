@@ -305,4 +305,15 @@ class PirateForms_HTML {
 		return $this->get_wrap( $args, $html );
 	}
 
+	/**
+	 * The button element
+	 *
+	 * @since    1.2.6
+	 */
+	private function button( $args ) {
+		$html       = '<button type="submit" ' . $this->get_common( $args ) . '>' . ( isset( $args['value'] ) ? $args['value'] : '' ) . '</button>';
+
+		return $this->get_wrap( $args, $html );
+	}
+
 }
