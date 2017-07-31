@@ -448,6 +448,25 @@ class PirateForms_Admin {
 									'req' => __( 'Required', 'pirate-forms' ),
 								),
 							),
+							/* Attachment */
+							array(
+								'id'        => 'pirateformsopt_attachment_field',
+								'type'      => 'select',
+								'label'     => array(
+									'value' => __( 'Attachment', 'pirate-forms' ),
+								),
+								'value'     => PirateForms_Util::get_option( 'pirateformsopt_attachment_field' ),
+								'wrap'      => array(
+									'type'  => 'div',
+									'class' => 'pirate-forms-grouped',
+								),
+								'options'   => array(
+									''    => __( 'None', 'pirate-forms' ),
+									'no' => __( 'No', 'pirate-forms' ),
+									'yes' => __( 'Yes but not required', 'pirate-forms' ),
+									'req' => __( 'Required', 'pirate-forms' ),
+								),
+							),
 							/* Recaptcha */
 							array(
 								'id'        => 'pirateformsopt_recaptcha_field',
@@ -496,22 +515,6 @@ class PirateForms_Admin {
 								'wrap'      => array(
 									'type'  => 'div',
 									'class' => 'pirate-forms-grouped',
-								),
-							),
-							/* Attachment */
-							array(
-								'id'        => 'pirateformsopt_attachment_field',
-								'type'      => 'checkbox',
-								'label'     => array(
-									'value' => __( 'Add an attachment field', 'pirate-forms' ),
-								),
-								'value'     => PirateForms_Util::get_option( 'pirateformsopt_attachment_field' ),
-								'wrap'      => array(
-									'type'  => 'div',
-									'class' => 'pirate-forms-grouped',
-								),
-								'options'   => array(
-									'yes' => __( 'Yes', 'pirate-forms' ),
 								),
 							),
 						)
@@ -640,6 +643,19 @@ class PirateForms_Admin {
 								),
 								'default'   => __( 'Enter your question or comment', 'pirate-forms' ),
 								'value'     => PirateForms_Util::get_option( 'pirateformsopt_label_err_no_content' ),
+								'wrap'      => array(
+									'type'  => 'div',
+									'class' => 'pirate-forms-grouped',
+								),
+							),
+							array(
+								'id'        => 'pirateformsopt_label_err_no_attachment',
+								'type'      => 'text',
+								'label'     => array(
+									'value' => __( 'Attachment is missing', 'pirate-forms' ),
+								),
+								'default'   => __( 'Please add an attachment', 'pirate-forms' ),
+								'value'     => PirateForms_Util::get_option( 'pirateformsopt_label_err_no_attachment' ),
 								'wrap'      => array(
 									'type'  => 'div',
 									'class' => 'pirate-forms-grouped',
