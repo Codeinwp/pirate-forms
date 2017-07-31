@@ -247,7 +247,7 @@ class PirateForms_Public {
 			do_action( 'pirate_forms_before_sending', $site_recipients, $subject, $body, $headers, $attachments );
 			do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'before sending email to = %s, subject = %s, body = %s, headers = %s, attachments = %s', $site_recipients, $subject, $body, $headers, print_r( $attachments, true ) ), 'debug', __FILE__, __LINE__ );
 			$response       = wp_mail( $site_recipients, $subject, $body, $headers, $attachments );
-			do_action( 'pirate_forms_after_sending', $site_recipients, $subject, $body, $headers, $attachments );
+			do_action( 'pirate_forms_after_sending', $response, $site_recipients, $subject, $body, $headers, $attachments );
 			do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'after sending email, response = %s', $response ), 'debug', __FILE__, __LINE__ );
 
 			// delete the tmp directory
@@ -263,13 +263,13 @@ class PirateForms_Public {
 				$confirm_body = htmlspecialchars_decode( $confirm_body );
 				$confirm_body = html_entity_decode( $confirm_body );
 				$confirm_body = str_replace( '&#39;', "'", $confirm_body );
-				$headers      = "From: $site_name <$site_email>\r\nReply-To: $site_name <$site_email>"; 
+				$headers      = "From: $site_name <$site_email>\r\nReply-To: $site_name <$site_email>";
 				$subject      = PirateForms_Util::get_option( 'pirateformsopt_label_submit' ) . ' - ' . $site_name;
 				do_action( 'pirate_forms_before_sending_confirm', $pirate_forms_contact_email, $subject, $confirm_body, $headers );
 				do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'before sending confirm email to = %s, subject = %s, body = %s, headers = %s', $pirate_forms_contact_email, $subject, $confirm_body, $headers ), 'debug', __FILE__, __LINE__ );
 				$response     = wp_mail( $pirate_forms_contact_email, $subject, $confirm_body, $headers );
-				do_action( 'pirate_forms_after_sending_confirm', $pirate_forms_contact_email, $subject, $confirm_body, $headers );
-				do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'after sending confirm email response = %s', $response ), 'debug', __FILE__, __LINE__ ); 
+				do_action( 'pirate_forms_after_sending_confirm', $response, $pirate_forms_contact_email, $subject, $confirm_body, $headers );
+				do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'after sending confirm email response = %s', $response ), 'debug', __FILE__, __LINE__ );
 				if ( ! $response ) {
 					error_log( 'Email not sent' );
 				}
