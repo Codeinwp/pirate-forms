@@ -513,6 +513,30 @@ msgstr ""
 msgid "Sent from page: "
 msgstr ""
 
+<<<<<<< HEAD
+#: public/class-pirateforms-public.php:543
+msgid "Submit"
+msgstr ""
+
+#: public/class-pirateforms-public.php:629
+msgid "Form submission blocked!"
+msgstr ""
+
+#: public/class-pirateforms-public.php:804
+#: public/class-pirateforms-public.php:815
+msgid "Wrong reCAPTCHA"
+msgstr ""
+
+#: public/class-pirateforms-public.php:845
+msgid "Uploaded file is not allowed for file type"
+msgstr ""
+
+#: public/class-pirateforms-public.php:852
+msgid "Uploaded file is too large"
+msgstr ""
+
+#: public/class-pirateforms-public.php:867
+=======
 #: public/class-pirateforms-public.php:551
 msgid "Submit"
 msgstr ""
@@ -540,6 +564,16 @@ msgstr ""
 
 #: public/partials/pirateforms-form.php:25
 msgid "Sorry, an error occured."
+msgstr ""
+
+#: vendor/codeinwp/themeisle-sdk/class-themeisle-sdk-licenser.php:476
+msgid ""
+"Updating this theme will lose any customizations you have made. Cancel to "
+"stop, OK to update."
+msgstr ""
+
+#: vendor/codeinwp/themeisle-sdk/class-themeisle-sdk-widget-dashboard-blog.php:197
+msgid "Install"
 msgstr ""
 
 #. Plugin Name of the plugin/theme
