@@ -84,6 +84,14 @@ You can follow the full documentation [here](http://docs.themeisle.com/article/4
 [http://docs.themeisle.com/article/431-how-to-change-font-in-pirate-forms](http://docs.themeisle.com/article/431-how-to-change-font-in-pirate-forms)
 
 
+= How you can overwrite the default form template in Pirate Forms =
+[http://docs.themeisle.com/article/664-how-you-can-overwrite-the-default-form-template-in-pirate-forms](http://docs.themeisle.com/article/664-how-you-can-overwrite-the-default-form-template-in-pirate-forms)
+
+
+= What actions and filters are available in Pirate Forms =
+[http://docs.themeisle.com/article/663-what-actions-and-filters-are-available-in-pirate-forms](http://docs.themeisle.com/article/663-what-actions-and-filters-are-available-in-pirate-forms)
+
+
 == Installation ==
 
 Activating the Pirate Contact Form plugin is just like any other plugin. If you've uploaded the plugin package to your server already, skip to step 5 below:

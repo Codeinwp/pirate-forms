@@ -69,7 +69,7 @@ class PirateForms {
 	public function __construct() {
 
 		$this->plugin_name = 'pirateforms';
-		$this->version = '2.0.0';
+		$this->version = '2.0.1';
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -162,6 +162,7 @@ class PirateForms {
 		$this->loader->add_action( 'pirate_unittesting_template_redirect', $plugin_public, 'template_redirect' );
 
 		$this->loader->add_filter( 'widget_text', $plugin_public, 'widget_text_filter', 9 );
+		$this->loader->add_filter( 'pirate_forms_public_controls', $plugin_public, 'compatibility_class', 9 );
 
 		add_shortcode( 'pirate_forms', array( $plugin_public, 'display_form' ) );
 	}
