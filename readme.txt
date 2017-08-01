@@ -69,6 +69,20 @@ This plugin started as a fork of https://wordpress.org/plugins/proper-contact-fo
 
 You can learn more about PirateForms and ask for help by <a href="https://themeisle.com/contact/"  >visiting ThemeIsle website</a>.
 
+= What can i do with this plugin =
+
+You can follow the full documentation [here](http://docs.themeisle.com/article/436-pirate-forms-documentation)
+
+= How to Change Pirate Forms Submit Button Color =
+
+[http://docs.themeisle.com/article/423-how-to-change-pirate-forms-submit-button-color](http://docs.themeisle.com/article/423-how-to-change-pirate-forms-submit-button-color)
+
+= How to Center the Send Message button for Pirate Forms =
+[http://docs.themeisle.com/article/427-how-to-center-the-send-message-button-for-pirate-forms](http://docs.themeisle.com/article/427-how-to-center-the-send-message-button-for-pirate-forms)
+
+= How to change font in Pirate Forms =
+[http://docs.themeisle.com/article/431-how-to-change-font-in-pirate-forms](http://docs.themeisle.com/article/431-how-to-change-font-in-pirate-forms)
+
 
 == Installation ==
 
@@ -81,22 +95,6 @@ Activating the Pirate Contact Form plugin is just like any other plugin. If you'
 5. Now, you're able to add contact forms but, first, we could configure a few settings. These can be found at **Settings &gt; Pirate Forms**
 6. Make the changes desired, then click the **Save changes** button at the bottom
 7. To add this form to any page or post, just copy/paste or type "[pirate_forms]" into the page or post content and save. The form should appear on that page
-
-== Frequently Asked Questions ==
-
-= What can i do with this plugin =
-
-You can follow the full documentation [here](http://docs.themeisle.com/article/436-pirate-forms-documentation)
-
-= How to Change Pirate Forms Submit Button Color =
-[http://docs.themeisle.com/article/423-how-to-change-pirate-forms-submit-button-color](http://docs.themeisle.com/article/423-how-to-change-pirate-forms-submit-button-color)
-
-= How to Center the Send Message button for Pirate Forms =
-[http://docs.themeisle.com/article/427-how-to-center-the-send-message-button-for-pirate-forms](http://docs.themeisle.com/article/427-how-to-center-the-send-message-button-for-pirate-forms)
-
-= How to change font in Pirate Forms =
-[http://docs.themeisle.com/article/431-how-to-change-font-in-pirate-forms](http://docs.themeisle.com/article/431-how-to-change-font-in-pirate-forms)
-
 
 
 == Screenshots ==
