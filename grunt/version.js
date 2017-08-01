@@ -17,15 +17,23 @@ module.exports = {
         },
         src: [
             'pirate-forms.php',
-            'css/front.css',
+            'public/css/front.css',
         ]
     },
     functions: {
-        options: {
-            prefix: 'PIRATE_FORMS_VERSION\'\,\\s+\''
-        },
-        src: [
-            'pirate-forms.php',
-        ]
+	    options: {
+		    prefix: 'version\\s+=\\s+[\'"]'
+	    },
+	    src: [
+		    'includes/class-pirateforms.php',
+	    ]
+    },
+    constants: {
+	    options: {
+		    prefix: 'PIRATE_FORMS_VERSION\'\,\\s+\''
+	    },
+	    src: [
+		    'pirate-forms.php',
+	    ]
     }
 };

@@ -35,42 +35,38 @@ if ( ! empty( $this->errors ) ) :
 		echo $output;
 ?>
 
-	<?php echo $this->form_start ;?>
+	<?php echo $this->form_start; ?>
 
 	<div class="pirate_forms_three_inputs_wrap">
-		<div class="col-sm-4 col-lg-4 form_field_wrap contact_name_wrap pirate_forms_three_inputs  ">
-			<?php echo $this->contact_name;?>
-		</div>
+			<?php echo $this->contact_name; ?>
+
 		
-		<div class="col-sm-4 col-lg-4 form_field_wrap contact_email_wrap pirate_forms_three_inputs  ">
-			<?php echo $this->contact_email;?>
-		</div>
-		
-		<div class="col-sm-4 col-lg-4 form_field_wrap contact_subject_wrap pirate_forms_three_inputs  ">
-			<?php echo $this->contact_subject;?>
-		</div>
+			<?php echo $this->contact_email; ?>
+
+
+			<?php echo $this->contact_subject; ?>
 	</div>
 
 	<div class="col-sm-12 col-lg-12 form_field_wrap contact_message_wrap  ">
-		<?php echo $this->contact_message;?>
+		<?php echo $this->contact_message; ?>
 	</div>
-
-	<?php if ( isset( $this->captcha ) ) { ?>
-		<div class="col-xs-12 col-sm-6 col-lg-6 form_field_wrap form_captcha_wrap">
-			<?php echo $this->captcha;?>
-		</div>
-	<?php } ?>
 
 	<?php if ( isset( $this->attachment ) ) { ?>
 		<div class="col-sm-12 col-lg-12 form_field_wrap contact_attachment_wrap  ">
-			<?php echo $this->attachment;?>
+			<?php echo $this->attachment; ?>
+		</div>
+	<?php } ?>
+
+	<?php if ( isset( $this->captcha ) ) { ?>
+		<div class="col-xs-12 col-sm-6 col-lg-6 form_field_wrap form_captcha_wrap">
+			<?php echo $this->captcha; ?>
 		</div>
 	<?php } ?>
 
 	<div class="col-xs-12 col-sm-6 col-lg-6 form_field_wrap contact_submit_wrap">
-		<?php echo $this->contact_submit;?>
+		<?php echo $this->contact_submit; ?>
 	</div>
 
-	<?php echo $this->form_end ;?>
+	<?php echo $this->form_end; ?>
 	<div class="pirate_forms_clearfix"></div>
 </div>

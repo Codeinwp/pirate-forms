@@ -24,9 +24,11 @@ if ( ( $pirate_current_theme != 'Hestia' ) && ( $pirate_current_theme != 'Hestia
 		<div class="pirate-forms-upgrade-hestia-content">
 			<?php echo wp_kses_post( $pirate_upgrade_hestia_box_text ); ?><br>
 			<?php
-			$pirate_upgrade_hestia_url = add_query_arg( array(
-				'theme' => 'hestia',
-			), admin_url( 'theme-install.php' ) );
+			$pirate_upgrade_hestia_url = add_query_arg(
+				array(
+					'theme' => 'hestia',
+				), admin_url( 'theme-install.php' )
+			);
 			?>
 			<a href="<?php echo $pirate_upgrade_hestia_url; ?>" target="_blank">Preview Hestia</a>
 					</div>

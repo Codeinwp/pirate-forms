@@ -2,12 +2,18 @@
 /**
  * PHPUnit bootstrap file
  *
- * @package Revive_Network
+ * @package PirateForms
  */
 $_tests_dir = getenv( 'WP_TESTS_DIR' );
 if ( ! $_tests_dir ) {
 	$_tests_dir = '/tmp/wordpress-tests-lib';
 }
+
+/************* contactashish13 test environment *************
+$_tests_dir = 'E:\work\apps\wordpress-dev\tests\phpunit';
+$_core_dir = 'E:\work\apps\wordpress-dev\src\\';
+************* contactashish13 test environment *************/
+
 /**
  * The path to the main file of the plugin to test.
  */
@@ -23,11 +29,9 @@ function _manually_load_plugin() {
 }
 
 tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
-define( 'REVIVE_NETWORK_ENABLE_LOG', false );
-define( 'REVIVE_NETWORK_PREVENT_SHARING', true );
 // Start up the WP testing environment.
 require $_tests_dir . '/includes/bootstrap.php';
-activate_plugin( 'revive-network/pirate-forms.php' );
+activate_plugin( 'pirate-forms/pirate-forms.php' );
 global $current_user;
 $current_user = new WP_User( 1 );
 $current_user->set_role( 'administrator' );
