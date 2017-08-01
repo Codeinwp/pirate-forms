@@ -3,8 +3,7 @@
   "description": "Pirate forms for WordPress.",
   "keywords": [
     "wordpress",
-    "charts",
-    "visualization"
+    "forms"
   ],
   "repositories": [
     {
@@ -12,7 +11,7 @@
       "url": "https://github.com/Codeinwp/themeisle-sdk"
     }
   ],
-  "homepage": "https://themeisle.com/plugins/visualizer/",
+  "homepage": "https://themeisle.com/plugins/pirate-forms/",
   "license": "GPL-2.0+",
   "authors": [
     {
@@ -23,8 +22,8 @@
   ],
   "type": "wordpress-plugin",
   "support": {
-    "issues": "https://github.com/Codeinwp/visualizer/issues",
-    "source": "https://github.com/Codeinwp/visualizer"
+    "issues": "https://github.com/Codeinwp/pirate-forms/issues",
+    "source": "https://github.com/Codeinwp/pirate-forms"
   },
   "require": {
     "codeinwp/themeisle-sdk": "master",

@@ -2,7 +2,7 @@
 /**
  * PHPUnit bootstrap file
  *
- * @package Revive_Network
+ * @package PirateForms
  */
 $_tests_dir = getenv( 'WP_TESTS_DIR' );
 if ( ! $_tests_dir ) {

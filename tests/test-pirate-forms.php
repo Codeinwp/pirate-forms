@@ -2,7 +2,7 @@
 /**
  * Sample class for PHPUnit.
  *
- * @package     nivo-slider
+ * @package     PirateForms
  * @subpackage  Tests
  * @copyright   Copyright (c) 2017, Marius Cristea
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
