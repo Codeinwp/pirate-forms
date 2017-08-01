@@ -9,6 +9,7 @@
   "keywords": [
     "wordpress-plugin"
   ],
+  "category": "plugins",
   "textdomain": "pirate-forms",
   "author": "ThemeIsle <friends@themeisle.com>",
   "license": "GPL-2.0+",
