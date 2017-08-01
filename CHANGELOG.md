@@ -1,4 +1,8 @@
 
+ ### v2.0.1 - 2017-08-01 
+ **Changes:** 
+ * Fixed backwards compatibility with Zerif themes
+ 
  ### v2.0.0 - 2017-08-01 
  **Changes:** 
  * Major code refactor ( Please TEST BEFORE updating).

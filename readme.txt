@@ -113,6 +113,11 @@ Activating the Pirate Contact Form plugin is just like any other plugin. If you'
 4. Screenshot 4. Enabling SMTP
 
 == Changelog ==
+= 2.0.1 - 2017-08-01  = 
+
+* Fixed backwards compatibility with Zerif themes
+
+
 = 2.0.0 - 2017-08-01  = 
 
 * Major code refactor ( Please TEST BEFORE updating).
