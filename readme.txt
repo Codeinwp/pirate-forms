@@ -152,16 +152,6 @@ Activating the Pirate Contact Form plugin is just like any other plugin. If you'
 
 = 1.0.9 =
 * Fixed layout issues #52
-* Update readme.txt with == Changelog == section #51
-= 2.0.0 - 2017-08-01  = 
-
-* Major code refactor ( Please TEST BEFORE updating).
-* Added multiple filters and hooks to be easily extended by developers. 
-* Fixed some issues with attachment fields.
-* Added support for TLS.
-* Added support to change browser required messages.
-
-
 
 = 1.0.8 =
 * Update readme.txt
