@@ -21,11 +21,19 @@ module.exports = {
         ]
     },
     functions: {
-        options: {
-            prefix: 'version\\s+=\\s+[\'"]'
-        },
-        src: [
-            'includes/class-pirateforms.php',
-        ]
+	    options: {
+		    prefix: 'version\\s+=\\s+[\'"]'
+	    },
+	    src: [
+		    'includes/class-pirateforms.php',
+	    ]
+    },
+    constants: {
+	    options: {
+		    prefix: 'PIRATE_FORMS_VERSION\'\,\\s+\''
+	    },
+	    src: [
+		    'pirate-forms.php',
+	    ]
     }
 };

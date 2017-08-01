@@ -17,7 +17,7 @@
 
 		<div class="wrap">
 			<div id="pirate-forms-main">
-				<h1><?php esc_html_e( 'Pirate Forms', 'pirate-forms' ); ?></h1>
+				<h3><?php esc_html_e( 'Pirate Forms', 'pirate-forms' ); ?></h3>
 
 				<div class="pirate-options">
 					<ul class="pirate-forms-nav-tabs" role="tablist">
@@ -44,7 +44,7 @@
 
 						<div id="0" class="pirate-forms-tab-pane active">
 
-							<h2 class="pirate_forms_welcome_text"><?php esc_html_e( 'Welcome to Pirate Forms!', 'pirate-forms' ); ?></h2>
+							<h3 class="pirate_forms_welcome_text"><?php esc_html_e( 'Welcome to Pirate Forms!', 'pirate-forms' ); ?></h3>
 							<p class="pirate_forms_subheading"><?php esc_html_e( 'To get started, just ', 'pirate-forms' ); ?>
 								<b><?php esc_html_e( 'configure all the options ', 'pirate-forms' ); ?></b><?php esc_html_e( 'you need, hit save and start using the created form.', 'pirate-forms' ); ?>
 							</p>
@@ -152,11 +152,12 @@
 
 				</div><!-- .pirate-forms-tab-content -->
 			</div><!-- .pirate-options -->
+				<div id="pirate-forms-sidebar">
+					<?php do_action( 'pirate_forms_load_sidebar' ); ?>
+				</div>
+				<div class="clear"></div>
 		</div><!-- .pirate-options -->
 
-		<div id="pirate-forms-sidebar">
-			<?php do_action( 'pirate_forms_load_sidebar' ); ?>
-		</div>
 
-		<div class="clear"></div>
+
 		</div><!-- .wrap -->

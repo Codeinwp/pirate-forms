@@ -38,17 +38,13 @@ if ( ! empty( $this->errors ) ) :
 	<?php echo $this->form_start; ?>
 
 	<div class="pirate_forms_three_inputs_wrap">
-		<div class="col-sm-4 col-lg-4 form_field_wrap contact_name_wrap pirate_forms_three_inputs  ">
 			<?php echo $this->contact_name; ?>
-		</div>
+
 		
-		<div class="col-sm-4 col-lg-4 form_field_wrap contact_email_wrap pirate_forms_three_inputs  ">
 			<?php echo $this->contact_email; ?>
-		</div>
-		
-		<div class="col-sm-4 col-lg-4 form_field_wrap contact_subject_wrap pirate_forms_three_inputs  ">
+
+
 			<?php echo $this->contact_subject; ?>
-		</div>
 	</div>
 
 	<div class="col-sm-12 col-lg-12 form_field_wrap contact_message_wrap  ">

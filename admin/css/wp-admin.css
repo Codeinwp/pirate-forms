@@ -49,8 +49,6 @@
 }
 
 .pirate-forms-tab-content {
-	float: left;
-	width: 700px;
 	border-right: 1px solid #ddd;
 	border-bottom: 1px solid #ddd;
 	border-left: 1px solid #ddd;
@@ -111,7 +109,8 @@
 }
 
 .pirate-options {
-	display: inline-block;
+	float: left;
+	width: 80%;
 }
 
 .pirate-subscribe.postbox {
@@ -226,14 +225,14 @@ div.pirate_dashicons > form > div > label {
 }
 
 #pirate-forms-main {
-	float: left;
+	width: 90%;
 }
 
 #pirate-forms-sidebar {
-	float: left;
-	width: 300px;
-	margin-top: 94px;
-	margin-left: 50px;
+	float: right;
+	width: 18%;
+	margin-top: 50px;
+	margin-left: 2%;
 }
 
 .pirate-custom-emails a:hover {
@@ -285,9 +284,23 @@ div.pirate_dashicons > form > div > label {
 	}
 }
 
-@media screen and (max-width: 780px) {
+@media screen and (max-width:1200px) {
 	#pirate-forms-sidebar {
 		width: 100%;
 		margin: 4px;
+		text-align: center;
 	}
+
+	.pirate-options {
+		width: 100%;
+		margin: 4px;
+	}
+}
+
+#pirate-forms-sidebar div.card {
+	width: 100%;
+	min-width: initial;
+	max-width: initial;
+	margin: auto;
+	margin-bottom: 5px;
 }

@@ -34,6 +34,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 define( 'PIRATEFORMS_NAME', 'Pirate Forms' );
 define( 'PIRATEFORMS_SLUG', 'pirate-forms' );
+define( 'PIRATE_FORMS_VERSION', '2.0.0' );
 define( 'PIRATEFORMS_DIR', trailingslashit( plugin_dir_path( __FILE__ ) ) );
 define( 'PIRATEFORMS_URL', plugin_dir_url( __FILE__ ) );
 define( 'PIRATEFORMS_BASENAME', plugin_basename( __FILE__ ) );

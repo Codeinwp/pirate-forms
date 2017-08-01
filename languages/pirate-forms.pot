@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Free & Simple Contact Form Plugin - Pirateforms 2.0.0\n"
 "Report-Msgid-Bugs-To: https://github.com/Codeinwp/pirate-forms/issues\n"
-"POT-Creation-Date: 2017-08-01 08:49:45+00:00\n"
+"POT-Creation-Date: 2017-08-01 11:24:40+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -419,10 +419,6 @@ msgid ""
 "receive the next email information in the coming weeks. If you ever wish to "
 "unsubscribe, simply use the \"Unsubscribe\" link included in each "
 "newsletter."
-msgstr ""
-
-#: admin/partials/pirateforms-settings-sidebar-subscribe.php:37
-msgid "Control Emails in WordPress"
 msgstr ""
 
 #: includes/class-pirateforms-widget.php:86

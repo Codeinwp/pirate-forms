@@ -30,17 +30,4 @@
 					?>
 				</div>
 			</div>
-			<?php
-			if ( ! class_exists( 'Dev7CustomEmails' ) ) {
-				?>
-				<div class="pirate-custom-emails postbox card">
-					<h3 class="title"><?php esc_html_e( 'Control Emails in WordPress', 'pirate-forms' ); ?></h3>
-					<div class="pirate-forms-custom-emails-content">
-						Change default WordPress email templates using <strong>Custom Emails</strong>  plugin
-						<a href="https://themeisle.com/plugins/custom-emails-wordpress-plugin/" target="_blank">View more
-							details</a>
-					</div>
-				</div>
-				<?php
-			}
-			?>
+

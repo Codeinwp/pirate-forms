@@ -1,4 +1,5 @@
 /* global pirateFormsObject */
+/* global jQuery */
 jQuery(document).ready(function() {
 
     var session_var = pirateFormsObject.errors;

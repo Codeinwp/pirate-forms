@@ -547,7 +547,7 @@ class PirateForms_Public {
 			$elements[]     = array(
 				'type'          => 'button',
 				'id'            => 'pirate-forms-contact-submit',
-				'class'         => 'pirate-forms-submit-button col-xs-12 col-sm-6 col-lg-6 form_field_wrap contact_submit_wrap',
+				'class'         => 'pirate-forms-submit-button btn btn-primary',
 				'wrap'          => array(
 					'type'      => 'div',
 					'class'     => implode( ' ', apply_filters( 'pirateform_wrap_classes_submit', array( 'col-xs-12 col-sm-6 col-lg-6 form_field_wrap contact_submit_wrap' ) ) ),

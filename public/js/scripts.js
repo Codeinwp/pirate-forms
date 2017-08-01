@@ -1,3 +1,4 @@
+/* global jQuery */
 jQuery(document).ready(function() {
 
     /* show/hide reCaptcha */

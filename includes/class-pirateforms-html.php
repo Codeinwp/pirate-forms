@@ -39,6 +39,7 @@ class PirateForms_HTML {
 	 * @since    1.2.6
 	 */
 	private function get_wrap( $args, $inside ) {
+
 		$html       = '';
 		if ( isset( $args['wrap'] ) ) {
 			$html   .= '<' . $args['wrap']['type'];
@@ -48,9 +49,8 @@ class PirateForms_HTML {
 			if ( isset( $args['wrap']['style'] ) ) {
 				$html   .= ' style="' . $args['wrap']['style'] . '"';
 			}
-			$html   .= '/>';
+			$html   .= '>';
 		}
-
 		$html       .= $inside;
 
 		if ( isset( $args['wrap'] ) ) {
