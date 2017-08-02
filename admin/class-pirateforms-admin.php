@@ -240,10 +240,10 @@ class PirateForms_Admin {
 								'id'        => 'pirateformsopt_email',
 								'type'      => 'text',
 								'label'     => array(
-									'value' => __( 'Contact notification sender email', 'pirate-forms' ),
+									'value' => __( 'Contact notification email address', 'pirate-forms' ),
 									'html'  => '<span class="dashicons dashicons-editor-help"></span>',
 									'desc'      => array(
-										'value' => '<strong>' . __( "Insert [email] to use the contact form submitter's email.", 'pirate-forms' ) . '</strong><br>' . __( "Email to use for the sender of the contact form emails both to the recipients below and the contact form submitter (if this is activated below). The domain for this email address should match your site's domain.", 'pirate-forms' ),
+										'value' => '<strong>' . __( "Insert [email] to use the contact form submitter's email.", 'pirate-forms' ) . '</strong><br>' . __( "The notification email will be sent from this address both to the recipients below and the contact form submitter (if this is activated below in email confirmation, in which case the domain for this email address should match your site's domain).", 'pirate-forms' ),
 										'class' => 'pirate_forms_option_description',
 									),
 								),
@@ -336,10 +336,10 @@ class PirateForms_Admin {
 								'id'        => 'pirateformsopt_thank_you_url',
 								'type'      => 'select',
 								'label'     => array(
-									'value' => __( '"Thank You" URL', 'pirate-forms' ),
+									'value' => __( '"Thank You" Page', 'pirate-forms' ),
 									'html'  => '<span class="dashicons dashicons-editor-help"></span>',
 									'desc'      => array(
-										'value' => __( 'Select the post-submit page for all forms submitted', 'pirate-forms' ),
+										'value' => __( 'Select the page that displays after a successful form submission. The page will be displayed without pausing on the email form, so please be sure to configure a relevant thank you message in this page.', 'pirate-forms' ),
 										'class' => 'pirate_forms_option_description',
 									),
 								),
@@ -376,7 +376,7 @@ class PirateForms_Admin {
 									'class' => 'pirate-forms-grouped',
 								),
 								'options'   => array(
-									''    => __( 'None', 'pirate-forms' ),
+									''    => __( 'No', 'pirate-forms' ),
 									'yes' => __( 'Yes but not required', 'pirate-forms' ),
 									'req' => __( 'Required', 'pirate-forms' ),
 								),
@@ -400,7 +400,6 @@ class PirateForms_Admin {
 									'class' => 'pirate-forms-grouped',
 								),
 								'options'   => array(
-									''    => __( 'None', 'pirate-forms' ),
 									'yes' => __( 'Yes but not required', 'pirate-forms' ),
 									'req' => __( 'Required', 'pirate-forms' ),
 								),
@@ -424,7 +423,7 @@ class PirateForms_Admin {
 									'class' => 'pirate-forms-grouped',
 								),
 								'options'   => array(
-									''    => __( 'None', 'pirate-forms' ),
+									''    => __( 'No', 'pirate-forms' ),
 									'yes' => __( 'Yes but not required', 'pirate-forms' ),
 									'req' => __( 'Required', 'pirate-forms' ),
 								),
@@ -443,7 +442,6 @@ class PirateForms_Admin {
 									'class' => 'pirate-forms-grouped',
 								),
 								'options'   => array(
-									''    => __( 'None', 'pirate-forms' ),
 									'yes' => __( 'Yes but not required', 'pirate-forms' ),
 									'req' => __( 'Required', 'pirate-forms' ),
 								),
@@ -461,8 +459,7 @@ class PirateForms_Admin {
 									'class' => 'pirate-forms-grouped',
 								),
 								'options'   => array(
-									''    => __( 'None', 'pirate-forms' ),
-									'no' => __( 'No', 'pirate-forms' ),
+									''    => __( 'No', 'pirate-forms' ),
 									'yes' => __( 'Yes but not required', 'pirate-forms' ),
 									'req' => __( 'Required', 'pirate-forms' ),
 								),

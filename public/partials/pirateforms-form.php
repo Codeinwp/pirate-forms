@@ -42,15 +42,18 @@ if ( ! empty( $this->thank_you_message ) ) :
 	<?php echo $this->form_start; ?>
 
 	<div class="pirate_forms_three_inputs_wrap">
-		<?php echo $this->contact_name; ?>
+		<?php if ( isset( $this->contact_name ) ) { ?>
+			<?php echo $this->contact_name; ?>
+		<?php } ?>
 
 		<?php echo $this->contact_email; ?>
 
-		<?php echo $this->contact_subject; ?>
+		<?php if ( isset( $this->contact_subject ) ) { ?>
+			<?php echo $this->contact_subject; ?>
+		<?php } ?>
 	</div>
 
-		<?php echo $this->contact_message; ?>
-
+	<?php echo $this->contact_message; ?>
 
 	<?php if ( isset( $this->attachment ) ) { ?>
 		<div class="col-sm-12 col-lg-12 form_field_wrap contact_attachment_wrap  ">
@@ -64,8 +67,7 @@ if ( ! empty( $this->thank_you_message ) ) :
 		</div>
 	<?php } ?>
 
-		<?php echo $this->contact_submit; ?>
-
+	<?php echo $this->contact_submit; ?>
 
 	<?php echo $this->form_end; ?>
 	<div class="pirate_forms_clearfix"></div>
