@@ -220,19 +220,15 @@ class PirateForms_Public {
 			if ( empty( $pirate_forms_contact_name ) ) {
 				$pirate_forms_contact_name = ! empty( $pirate_forms_contact_email ) ? $pirate_forms_contact_email : '[None given]';
 			}
+
 			// Need an email address for the email notification
-			if ( ! empty( $site_email ) ) {
-				if ( $site_email == '[email]' ) {
-					if ( ! empty( $pirate_forms_contact_email ) ) {
-						$send_from = $pirate_forms_contact_email;
-					} else {
-						$send_from = PirateForms::pirate_forms_from_email();
-					}
-				} else {
-					$send_from = $site_email;
-				}
+			$send_from				= '';
+			if ( '[email]' == $site_email && ! empty( $pirate_forms_contact_email ) ) {
+				$send_from = $pirate_forms_contact_email;
+			} elseif ( ! empty( $site_email ) ) {
+				$send_from = $site_email;
 			} else {
-				$send_from = PirateForms::pirate_forms_from_email();
+				$send_from = PirateForms_Util::get_from_email();
 			}
 			$send_from_name = $site_name;
 
