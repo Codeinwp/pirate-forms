@@ -128,8 +128,8 @@ class PirateForms_Admin {
 	 *  @since 1.0.0
 	 */
 	public function add_to_admin() {
-		add_menu_page( PIRATEFORMS_NAME, PIRATEFORMS_NAME, 'manage_options', 'pirateforms-admin', array( $this, 'pirate_forms_admin' ), 'dashicons-feedback' );
-		add_submenu_page( 'pirateforms-admin', PIRATEFORMS_NAME, __( 'Settings', 'pirate-forms' ), 'manage_options', 'pirateforms-admin', array( $this, 'pirate_forms_admin' ) );
+		add_menu_page( PIRATEFORMS_NAME, PIRATEFORMS_NAME, 'manage_options', 'pirateforms-admin', array( $this, 'settings' ), 'dashicons-feedback' );
+		add_submenu_page( 'pirateforms-admin', PIRATEFORMS_NAME, __( 'Settings', 'pirate-forms' ), 'manage_options', 'pirateforms-admin', array( $this, 'settings' ) );
 	}
 
 
@@ -138,7 +138,7 @@ class PirateForms_Admin {
 	 *
 	 * @since 1.0.0
 	 */
-	function pirate_forms_admin() {
+	function settings() {
 		global $current_user;
 		$pirate_forms_options = PirateForms_Util::get_option();
 		$plugin_options       = $this->pirate_forms_plugin_options();
@@ -158,30 +158,6 @@ class PirateForms_Admin {
 		}
 	}
 
-	/**
-	 * Get the list of all pages
-	 *
-	 * @since    1.0.0
-	 */
-	function pirate_forms_get_pages_array( $type = 'page' ) {
-		$content = array(
-			'' => __( 'None', 'pirate-forms' ),
-		);
-		$items   = get_posts(
-			array(
-				'post_type'   => $type,
-				'numberposts' => - 1,
-			)
-		);
-		if ( ! empty( $items ) ) :
-			foreach ( $items as $item ) :
-				$content[ $item->ID ] = $item->post_title;
-			endforeach;
-		endif;
-
-		return $content;
-
-	}
 
 	/**
 	 *
@@ -328,8 +304,7 @@ class PirateForms_Admin {
 									'type'  => 'div',
 									'class' => 'pirate-forms-grouped',
 								),
-								'class'     => 'widefat',
-								'cols'      => 30,
+								'cols'      => 70,
 								'rows'      => 5,
 							),
 							array(
@@ -348,7 +323,7 @@ class PirateForms_Admin {
 									'type'  => 'div',
 									'class' => 'pirate-forms-grouped',
 								),
-								'options'   => $this->pirate_forms_get_pages_array(),
+								'options'   => PirateForms_Util::get_thank_you_pages(),
 							),
 						)
 					),

@@ -198,7 +198,7 @@ class PirateForms_Public {
 		$body .= $this->table_row( __( 'Sent from page: ', 'pirate-forms' ), get_permalink( get_the_id() ) );
 
 		// Check the blacklist
-		$blocked = $this->is_blacklisted( $error_key, $pirate_forms_contact_email, $contact_ip );
+		$blocked = PirateForms_Util::is_blacklisted( $error_key, $pirate_forms_contact_email, $contact_ip );
 		if ( $blocked ) {
 			return false;
 		}
@@ -359,50 +359,6 @@ class PirateForms_Public {
 	 */
 	public function table_row( $key, $value ) {
 		return '<tr><th>' . $key . '</th><td>' . $value . '</td></tr>';
-	}
-
-	/**
-	 * Check if the email/IP is blacklisted
-	 *
-	 * @param string $error_key the key for the session object.
-	 * @param string $email the email id to check.
-	 * @param string $ip the IP to check.
-	 *
-	 * @since    1.0.0
-	 */
-	public function is_blacklisted( $error_key, $email, $ip ) {
-		$final_blocked_arr = array();
-
-		$blocked = get_option( 'blacklist_keys' );
-		$blocked = str_replace( "\r", "\n", $blocked );
-
-		$blocked_arr = explode( "\n", $blocked );
-		$blocked_arr = array_map( 'trim', $blocked_arr );
-
-		foreach ( $blocked_arr as $ip_or_email ) {
-			$ip_or_email = trim( $ip_or_email );
-			if (
-				filter_var( $ip_or_email, FILTER_VALIDATE_IP ) ||
-				filter_var( $ip_or_email, FILTER_VALIDATE_EMAIL )
-			) {
-				$final_blocked_arr[] = $ip_or_email;
-			}
-		}
-
-		do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'email = %s, IP = %s, final_blocked_arr = %s', $email, $ip, print_r( $final_blocked_arr, true ) ), 'debug', __FILE__, __LINE__ );
-
-		if ( ! empty( $final_blocked_arr ) ) {
-			if (
-				in_array( $email, $final_blocked_arr ) ||
-				in_array( $ip, $final_blocked_arr )
-			) {
-				$_SESSION[ $error_key ]['blacklist-blocked'] = __( 'Form submission blocked!', 'pirate-forms' );
-
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 	/**
