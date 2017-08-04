@@ -133,7 +133,7 @@ class PirateForms_Util {
 				'pirate_forms_thank_you_pages_args',
 				array(
 					'post_type'     => 'page',
-					'numberposts'   => - 1,
+					'numberposts'   => 300,
 					'post_status'   => 'publish',
 				)
 			)
