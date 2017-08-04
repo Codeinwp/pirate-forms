@@ -148,4 +148,12 @@ class PirateForms_Util {
 
 	}
 
+	/**
+	 * Get the post meta value
+	 *
+	 * @since    1.0.0
+	 */
+	public static function get_post_meta( $id, $key, $single = false ) {
+		return get_post_meta( $id, PIRATEFORMS_SLUG . $key, $single );
+	}
 }
