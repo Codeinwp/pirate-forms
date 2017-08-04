@@ -257,10 +257,10 @@ class PirateForms_Public {
 				$subject    = $pirate_forms_contact_subject;
 			}
 
-			do_action( 'pirate_forms_before_sending', $site_recipients, $subject, $body, $headers, $attachments );
+			do_action( 'pirate_forms_before_sending', $pirate_forms_contact_email, $site_recipients, $subject, $body, $headers, $attachments );
 			do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'before sending email to = %s, subject = %s, body = %s, headers = %s, attachments = %s', $site_recipients, $subject, $body, $headers, print_r( $attachments, true ) ), 'debug', __FILE__, __LINE__ );
 			$response = wp_mail( $site_recipients, $subject, $body, $headers, $attachments );
-			do_action( 'pirate_forms_after_sending', $response, $site_recipients, $subject, $body, $headers, $attachments );
+			do_action( 'pirate_forms_after_sending', $pirate_forms_options, $response, $pirate_forms_contact_email, $site_recipients, $subject, $body, $headers, $attachments );
 			do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'after sending email, response = %s', $response ), 'debug', __FILE__, __LINE__ );
 
 			// delete the tmp directory
@@ -285,15 +285,17 @@ class PirateForms_Public {
 				$headers      = "From: $site_name <$send_from>\r\nReply-To: $site_name <$send_from>";
 				$subject      = $pirate_forms_options['pirateformsopt_label_submit'] . ' - ' . $site_name;
 
-				do_action( 'pirate_forms_before_sending_confirm', $pirate_forms_contact_email, $subject, $confirm_body, $headers );
+				do_action( 'pirate_forms_before_sending_confirm', $pirate_forms_contact_email, $pirate_forms_contact_email, $subject, $confirm_body, $headers );
 				do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'before sending confirm email to = %s, subject = %s, body = %s, headers = %s', $pirate_forms_contact_email, $subject, $confirm_body, $headers ), 'debug', __FILE__, __LINE__ );
 				$response = wp_mail( $pirate_forms_contact_email, $subject, $confirm_body, $headers );
-				do_action( 'pirate_forms_after_sending_confirm', $response, $pirate_forms_contact_email, $subject, $confirm_body, $headers );
+				do_action( 'pirate_forms_after_sending_confirm', $pirate_forms_options, $response, $pirate_forms_contact_email, $pirate_forms_contact_email, $subject, $confirm_body, $headers );
 				do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'after sending confirm email response = %s', $response ), 'debug', __FILE__, __LINE__ );
 				if ( ! $response ) {
 					error_log( 'Email not sent' );
 				}
 			}
+
+			unset( $_SESSION['pirate_forms_options'] );
 
 			/**
 			 ***********   Store the entries in the DB */
@@ -852,7 +854,6 @@ class PirateForms_Public {
 	 */
 	function phpmailer( $phpmailer ) {
 		$pirate_forms_options                   = $_SESSION['pirate_forms_options'];
-		unset( $_SESSION['pirate_forms_options'] );
 		$pirateformsopt_use_smtp                = $pirate_forms_options['pirateformsopt_use_smtp'];
 		$pirateformsopt_smtp_host               = $pirate_forms_options['pirateformsopt_smtp_host'];
 		$pirateformsopt_smtp_port               = $pirate_forms_options['pirateformsopt_smtp_port'];
@@ -876,8 +877,6 @@ class PirateForms_Public {
 			}
 			// @codingStandardsIgnoreEnd
 		endif;
-
-		error_log( print_r( $phpmailer,true ) );
 	}
 
 	/**
