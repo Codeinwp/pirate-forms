@@ -143,6 +143,8 @@ class PirateForms_Public {
 		$body .= '<table>';
 
 		$pirate_forms_contact_email = null;
+		$pirate_forms_contact_name  = null;
+		$pirate_forms_contact_subject   = null;
 		$fields                     = array( 'name', 'email', 'subject', 'message' );
 		foreach ( $fields as $field ) {
 			$value = isset( $_POST[ 'pirate-forms-contact-' . $field ] ) ? sanitize_text_field( trim( $_POST[ 'pirate-forms-contact-' . $field ] ) ) : '';
@@ -154,6 +156,10 @@ class PirateForms_Public {
 				} else {
 					if ( 'email' === $field ) {
 						$pirate_forms_contact_email = $value;
+					} elseif ( 'name' === $field ) {
+						$pirate_forms_contact_name  = $value;
+					} elseif ( 'subject' === $field ) {
+						$pirate_forms_contact_subject   = $value;
 					}
 					$body .= $this->table_row( stripslashes( PirateForms_Util::get_option( 'pirateformsopt_label_' . $field ) ), $value );
 				}
@@ -192,7 +198,7 @@ class PirateForms_Public {
 		$body .= $this->table_row( __( 'Sent from page: ', 'pirate-forms' ), get_permalink( get_the_id() ) );
 
 		// Check the blacklist
-		$blocked = $this->is_blacklisted( $error_key, $pirate_forms_contact_email, $contact_ip );
+		$blocked = PirateForms_Util::is_blacklisted( $error_key, $pirate_forms_contact_email, $contact_ip );
 		if ( $blocked ) {
 			return false;
 		}
@@ -201,10 +207,7 @@ class PirateForms_Public {
 
 		// No errors? Go ahead and process the contact
 		if ( empty( $_SESSION[ $error_key ] ) ) {
-			$pirate_forms_options_tmp = get_option( 'pirate_forms_settings_array' );
-			if ( isset( $pirate_forms_options_tmp['pirateformsopt_email'] ) ) {
-				$site_email = $pirate_forms_options_tmp['pirateformsopt_email'];
-			}
+			$site_email = sanitize_text_field( PirateForms_Util::get_option( 'pirateformsopt_email' ) );
 			if ( ! empty( $pirate_forms_contact_name ) ) :
 				$site_name = $pirate_forms_contact_name;
 			else :
@@ -220,19 +223,15 @@ class PirateForms_Public {
 			if ( empty( $pirate_forms_contact_name ) ) {
 				$pirate_forms_contact_name = ! empty( $pirate_forms_contact_email ) ? $pirate_forms_contact_email : '[None given]';
 			}
+
 			// Need an email address for the email notification
-			if ( ! empty( $site_email ) ) {
-				if ( $site_email == '[email]' ) {
-					if ( ! empty( $pirate_forms_contact_email ) ) {
-						$send_from = $pirate_forms_contact_email;
-					} else {
-						$send_from = PirateForms::pirate_forms_from_email();
-					}
-				} else {
-					$send_from = $site_email;
-				}
+			$send_from              = '';
+			if ( '[email]' == $site_email && ! empty( $pirate_forms_contact_email ) ) {
+				$send_from = $pirate_forms_contact_email;
+			} elseif ( ! empty( $site_email ) ) {
+				$send_from = $site_email;
 			} else {
-				$send_from = PirateForms::pirate_forms_from_email();
+				$send_from = PirateForms_Util::get_from_email();
 			}
 			$send_from_name = $site_name;
 
@@ -246,6 +245,9 @@ class PirateForms_Public {
 			}
 
 			$subject = 'Contact on ' . htmlspecialchars_decode( get_bloginfo( 'name' ) );
+			if ( ! empty( $pirate_forms_contact_subject ) ) {
+				$subject    = $pirate_forms_contact_subject;
+			}
 
 			do_action( 'pirate_forms_before_sending', $site_recipients, $subject, $body, $headers, $attachments );
 			do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'before sending email to = %s, subject = %s, body = %s, headers = %s, attachments = %s', $site_recipients, $subject, $body, $headers, print_r( $attachments, true ) ), 'debug', __FILE__, __LINE__ );
@@ -266,7 +268,13 @@ class PirateForms_Public {
 				$confirm_body = htmlspecialchars_decode( $confirm_body );
 				$confirm_body = html_entity_decode( $confirm_body );
 				$confirm_body = str_replace( '&#39;', "'", $confirm_body );
-				$headers      = "From: $site_name <$site_email>\r\nReply-To: $site_name <$site_email>";
+				$send_from      = PirateForms_Util::get_from_email();
+				if ( ! empty( $site_email ) && '[email]' !== $site_email ) {
+					$send_from = $site_email;
+				}
+				$site_name      = htmlspecialchars_decode( get_bloginfo( 'name' ) );
+
+				$headers      = "From: $site_name <$send_from>\r\nReply-To: $site_name <$send_from>";
 				$subject      = PirateForms_Util::get_option( 'pirateformsopt_label_submit' ) . ' - ' . $site_name;
 
 				do_action( 'pirate_forms_before_sending_confirm', $pirate_forms_contact_email, $subject, $confirm_body, $headers );
@@ -351,50 +359,6 @@ class PirateForms_Public {
 	 */
 	public function table_row( $key, $value ) {
 		return '<tr><th>' . $key . '</th><td>' . $value . '</td></tr>';
-	}
-
-	/**
-	 * Check if the email/IP is blacklisted
-	 *
-	 * @param string $error_key the key for the session object.
-	 * @param string $email the email id to check.
-	 * @param string $ip the IP to check.
-	 *
-	 * @since    1.0.0
-	 */
-	public function is_blacklisted( $error_key, $email, $ip ) {
-		$final_blocked_arr = array();
-
-		$blocked = get_option( 'blacklist_keys' );
-		$blocked = str_replace( "\r", "\n", $blocked );
-
-		$blocked_arr = explode( "\n", $blocked );
-		$blocked_arr = array_map( 'trim', $blocked_arr );
-
-		foreach ( $blocked_arr as $ip_or_email ) {
-			$ip_or_email = trim( $ip_or_email );
-			if (
-				filter_var( $ip_or_email, FILTER_VALIDATE_IP ) ||
-				filter_var( $ip_or_email, FILTER_VALIDATE_EMAIL )
-			) {
-				$final_blocked_arr[] = $ip_or_email;
-			}
-		}
-
-		do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'email = %s, IP = %s, final_blocked_arr = %s', $email, $ip, print_r( $final_blocked_arr, true ) ), 'debug', __FILE__, __LINE__ );
-
-		if ( ! empty( $final_blocked_arr ) ) {
-			if (
-				in_array( $email, $final_blocked_arr ) ||
-				in_array( $ip, $final_blocked_arr )
-			) {
-				$_SESSION[ $error_key ]['blacklist-blocked'] = __( 'Form submission blocked!', 'pirate-forms' );
-
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 	/**
@@ -677,7 +641,7 @@ class PirateForms_Public {
 						'type'  => 'div',
 						'class' => implode( ' ', apply_filters( 'pirateform_wrap_classes_name', $wrap_classes ) ),
 					),
-					'value'        => isset( $_REQUEST['pirate-forms-contact-name'] ) ? $_REQUEST['pirate-forms-contact-name'] : '',
+					'value'        => empty( $thank_you_message ) && isset( $_REQUEST['pirate-forms-contact-name'] ) ? $_REQUEST['pirate-forms-contact-name'] : '',
 				);
 			endif;
 
@@ -706,7 +670,7 @@ class PirateForms_Public {
 						'type'  => 'div',
 						'class' => implode( ' ', apply_filters( 'pirateform_wrap_classes_email', $wrap_classes ) ),
 					),
-					'value'        => isset( $_REQUEST['pirate-forms-contact-email'] ) ? $_REQUEST['pirate-forms-contact-email'] : '',
+					'value'        => empty( $thank_you_message ) && isset( $_REQUEST['pirate-forms-contact-email'] ) ? $_REQUEST['pirate-forms-contact-email'] : '',
 				);
 			endif;
 
@@ -735,7 +699,7 @@ class PirateForms_Public {
 						'type'  => 'div',
 						'class' => implode( ' ', apply_filters( 'pirateform_wrap_classes_subject', $wrap_classes ) ),
 					),
-					'value'        => isset( $_REQUEST['pirate-forms-contact-subject'] ) ? $_REQUEST['pirate-forms-contact-subject'] : '',
+					'value'        => empty( $thank_you_message ) && isset( $_REQUEST['pirate-forms-contact-subject'] ) ? $_REQUEST['pirate-forms-contact-subject'] : '',
 				);
 			endif;
 
@@ -762,7 +726,7 @@ class PirateForms_Public {
 						'type'  => 'div',
 						'class' => implode( ' ', apply_filters( 'pirateform_wrap_classes_message', $wrap_classes ) ),
 					),
-					'value'        => isset( $_REQUEST['pirate-forms-contact-message'] ) ? $_REQUEST['pirate-forms-contact-message'] : '',
+					'value'        => empty( $thank_you_message ) && isset( $_REQUEST['pirate-forms-contact-message'] ) ? $_REQUEST['pirate-forms-contact-message'] : '',
 				);
 			endif;
 

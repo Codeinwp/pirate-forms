@@ -47,10 +47,9 @@ class PirateForms_PhpFormBuilder {
 	 *
 	 * @since    1.2.6
 	 */
-	public function set_element( $element_name, &$output ) {
+	public function set_element( $element_name, $output ) {
 		$name           = str_replace( array( 'pirate-forms-', '-' ), array( '', '_' ), $element_name );
 		$this->$name    = $output;
-		$output         = '';
 	}
 
 	/**
