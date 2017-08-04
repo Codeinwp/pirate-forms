@@ -238,7 +238,7 @@ class PirateForms_HTML {
 	private function select( $args ) {
 		$html       = $this->get_label( $args );
 
-		$html       .= '<select id="' . esc_attr( $args['id'] ) . '" name="' . esc_attr( $args['name'] ) . '" class="' . ( isset( $args['class'] ) ? esc_attr( $args['class'] ) : '' ) . '"';
+		$html       .= '<select id="' . esc_attr( $args['id'] ) . '" name="' . esc_attr( $args['name'] ) . '" class="' . ( isset( $args['class'] ) ? esc_attr( $args['class'] ) : '' ) . '">';
 		if ( isset( $args['options'] ) && is_array( $args['options'] ) ) {
 			foreach ( $args['options'] as $key => $val ) {
 				$extra  = $key == $args['value'] ? 'selected' : '';
