@@ -1,5 +1,5 @@
 === Contact Form & SMTP Plugin for WordPress by PirateForms ===
-Contributors: themeisle, codeinwp, rodicaelena, hardeepasrani, pirateforms
+Contributors: themeisle, codeinwp, rodicaelena, hardeepasrani, pirateforms, rozroz
 Tags:  contact form, contact form plugin, forms, smtp, custom form, subscribe form, feedback form, wordpress contact form
 Requires at least: 3.0
 Tested up to: 4.8

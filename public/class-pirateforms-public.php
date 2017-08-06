@@ -132,13 +132,7 @@ class PirateForms_Public {
 			return false;
 		}
 
-		$pirate_forms_options = PirateForms_Util::get_option();
-		if ( isset( $_POST['pirate_forms_form_id'] ) && ! empty( $_POST['pirate_forms_form_id'] ) ) {
-			// the custom form id will be present in the request
-			$pirate_forms_options = apply_filters( 'pirateformpro_get_form_attributes', $pirate_forms_options, $_POST['pirate_forms_form_id'] );
-		}
-		// add the form options to the session so that other methods can use it if they want to
-		$_SESSION['pirate_forms_options']   = $pirate_forms_options;
+		$pirate_forms_options = PirateForms_Util::get_form_options( isset( $_POST['pirate_forms_form_id'] ) ? $_POST['pirate_forms_form_id'] : null );
 
 		if ( ! $this->validate_captcha( $error_key, $pirate_forms_options ) ) {
 			return false;
@@ -294,8 +288,6 @@ class PirateForms_Public {
 					error_log( 'Email not sent' );
 				}
 			}
-
-			unset( $_SESSION['pirate_forms_options'] );
 
 			/**
 			 ***********   Store the entries in the DB */
@@ -608,12 +600,14 @@ class PirateForms_Public {
 
 		if ( isset( $atts['id'] ) && ! empty( $atts['id'] ) ) {
 			$pirate_forms_options = apply_filters( 'pirateformpro_get_form_attributes', $pirate_forms_options, $atts['id'] );
-			// add the form id to the form so that it can be used when we are processing the form
-			$elements[] = array(
-				'type'  => 'hidden',
-				'id'    => 'pirate_forms_form_id',
-				'value' => $atts['id'],
-			);
+			if ( isset( $pirate_forms_options['id'] ) ) {
+				// add the form id to the form so that it can be used when we are processing the form
+				$elements[] = array(
+					'type'  => 'hidden',
+					'id'    => 'pirate_forms_form_id',
+					'value' => $atts['id'],
+				);
+			}
 		}
 
 		$nonce_append = isset( $_POST['pirate_forms_from_widget'] ) && intval( $_POST['pirate_forms_from_widget'] ) === 1 ? 'yes' : 'no';
@@ -853,7 +847,7 @@ class PirateForms_Public {
 	 * @param object $phpmailer PHPMailer object.
 	 */
 	function phpmailer( $phpmailer ) {
-		$pirate_forms_options                   = $_SESSION['pirate_forms_options'];
+		$pirate_forms_options                   = PirateForms_Util::get_form_options( isset( $_POST['pirate_forms_form_id'] ) && ! empty( $_POST['pirate_forms_form_id'] ) ? $_POST['pirate_forms_form_id'] : null );
 		$pirateformsopt_use_smtp                = $pirate_forms_options['pirateformsopt_use_smtp'];
 		$pirateformsopt_smtp_host               = $pirate_forms_options['pirateformsopt_smtp_host'];
 		$pirateformsopt_smtp_port               = $pirate_forms_options['pirateformsopt_smtp_port'];

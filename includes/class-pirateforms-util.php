@@ -156,4 +156,14 @@ class PirateForms_Util {
 	public static function get_post_meta( $id, $key, $single = false ) {
 		return get_post_meta( $id, PIRATEFORMS_SLUG . $key, $single );
 	}
+
+	/**
+	 * Get the form options for the custom form id, else default
+	 *
+	 * @since    1.0.0
+	 */
+	public static function get_form_options( $id = null ) {
+		$pirate_forms_options = self::get_option();
+		return apply_filters( 'pirateformpro_get_form_attributes', $pirate_forms_options, $id );
+	}
 }
