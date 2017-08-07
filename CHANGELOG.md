@@ -1,4 +1,10 @@
 
+ ### v2.0.2 - 2017-08-07 
+ **Changes:** 
+ * Fixed none option for thank you page.
+* Fixed various issues with form layout.
+* Added support for future pro version.
+ 
  ### v2.0.1 - 2017-08-01 
  **Changes:** 
  * Fixed backwards compatibility with Zerif themes
