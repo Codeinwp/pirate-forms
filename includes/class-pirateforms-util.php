@@ -75,4 +75,95 @@ class PirateForms_Util {
 		return true;
 	}
 
+	/**
+	 * Check if the email/IP is blacklisted
+	 *
+	 * @param string $error_key the key for the session object.
+	 * @param string $email the email id to check.
+	 * @param string $ip the IP to check.
+	 *
+	 * @since    1.0.0
+	 */
+	public static function is_blacklisted( $error_key, $email, $ip ) {
+		$final_blocked_arr = array();
+
+		$blocked = get_option( 'blacklist_keys' );
+		$blocked = str_replace( "\r", "\n", $blocked );
+
+		$blocked_arr = explode( "\n", $blocked );
+		$blocked_arr = array_map( 'trim', $blocked_arr );
+
+		foreach ( $blocked_arr as $ip_or_email ) {
+			$ip_or_email = trim( $ip_or_email );
+			if (
+				filter_var( $ip_or_email, FILTER_VALIDATE_IP ) ||
+				filter_var( $ip_or_email, FILTER_VALIDATE_EMAIL )
+			) {
+				$final_blocked_arr[] = $ip_or_email;
+			}
+		}
+
+		do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'email = %s, IP = %s, final_blocked_arr = %s', $email, $ip, print_r( $final_blocked_arr, true ) ), 'debug', __FILE__, __LINE__ );
+
+		if ( ! empty( $final_blocked_arr ) ) {
+			if (
+				in_array( $email, $final_blocked_arr ) ||
+				in_array( $ip, $final_blocked_arr )
+			) {
+				$_SESSION[ $error_key ]['blacklist-blocked'] = __( 'Form submission blocked!', 'pirate-forms' );
+
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get the list of all pages
+	 *
+	 * @since    1.0.0
+	 */
+	public static function get_thank_you_pages() {
+		$content = array(
+			'' => __( 'None', 'pirate-forms' ),
+		);
+		$items   = get_posts(
+			apply_filters(
+				'pirate_forms_thank_you_pages_args',
+				array(
+					'post_type'     => 'page',
+					'numberposts'   => 300,
+					'post_status'   => 'publish',
+				)
+			)
+		);
+		if ( ! empty( $items ) ) :
+			foreach ( $items as $item ) :
+				$content[ $item->ID ] = $item->post_title;
+			endforeach;
+		endif;
+
+		return $content;
+
+	}
+
+	/**
+	 * Get the post meta value
+	 *
+	 * @since    1.0.0
+	 */
+	public static function get_post_meta( $id, $key, $single = false ) {
+		return get_post_meta( $id, PIRATEFORMS_SLUG . $key, $single );
+	}
+
+	/**
+	 * Get the form options for the custom form id, else default
+	 *
+	 * @since    1.0.0
+	 */
+	public static function get_form_options( $id = null ) {
+		$pirate_forms_options = self::get_option();
+		return apply_filters( 'pirateformpro_get_form_attributes', $pirate_forms_options, $id );
+	}
 }
