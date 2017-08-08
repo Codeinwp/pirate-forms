@@ -642,7 +642,7 @@ class PirateForms_Public {
 			if ( ! empty( $field ) && ! empty( $label ) ) :
 				$required     = $field === 'req' ? true : false;
 				$wrap_classes = array(
-					'contact_name_wrap pirate_forms_three_inputs form_field_wrap',
+					'col-sm-6 col-lg-6 contact_name_wrap pirate_forms_three_inputs form_field_wrap',
 				);
 				// If this field was submitted with invalid data
 				if ( isset( $_SESSION[ $error_key ]['contact-name'] ) ) {
@@ -671,7 +671,7 @@ class PirateForms_Public {
 			if ( ! empty( $field ) && ! empty( $label ) ) :
 				$required     = $field === 'req' ? true : false;
 				$wrap_classes = array(
-					'contact_email_wrap pirate_forms_three_inputs form_field_wrap',
+					'col-sm-6 col-lg-6 contact_email_wrap pirate_forms_three_inputs form_field_wrap',
 				);
 				// If this field was submitted with invalid data
 				if ( isset( $_SESSION[ $error_key ]['contact-email'] ) ) {
