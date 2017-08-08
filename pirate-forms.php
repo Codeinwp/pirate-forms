@@ -23,6 +23,7 @@
  * Domain Path: /languages
  * License: GPLv2
  * WordPress Available:  yes
+ * Pro Slug:    pirate-forms-pro
  * Requires License:    no
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  */
