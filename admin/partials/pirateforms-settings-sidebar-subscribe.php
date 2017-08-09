@@ -1,4 +1,15 @@
-			<div class="pirate-subscribe postbox card">
+            <div class="pirate-upgrade postbox card">
+                <h3 class="title"><?php esc_html_e( 'Upgrade to PRO','pirate-forms' ); ?></h3>
+                <ul>
+                    <li>Upgrade reason 1</li>
+                    <li>Upgrade reason 2</li>
+                    <li>Upgrade reason 3</li>
+                    <li>Upgrade reason 4</li>
+                </ul>
+                <a href="#" title="<?php esc_attr_e( 'Upgrade to PRO','pirate-forms' ); ?>" class="btn"><?php esc_html_e( 'Upgrade','pirate-forms' ); ?></a>
+            </div>
+
+            <div class="pirate-subscribe postbox card">
 				<h3 class="title"><?php esc_html_e( 'Get Our Free Email Course', 'pirate-forms' ); ?></h3>
 				<div class="pirate-forms-subscribe-content">
 					<?php
