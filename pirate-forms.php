@@ -141,18 +141,29 @@ function run_pirate_forms() {
 	if ( is_readable( $vendor_file ) ) {
 		require_once $vendor_file;
 	}
-	add_filter(
-		'themeisle_sdk_products', function ( $products ) {
-			$products[] = PIRATEFORMS_BASEFILE;
-			return $products;
-		}
-	);
-	add_filter(
-		'pirate_parrot_log', function ( $plugins ) {
-			$plugins[] = PIRATEFORMS_NAME;
-			return $plugins;
-		}
-	);
+	add_filter( 'themeisle_sdk_products', 'pirate_forms_register_sdk', 10, 1 );
+	add_filter( 'pirate_parrot_log', 'pirate_forms_register_parrot', 10, 1 );
 }
+
+/**
+ * Registers with the SDK
+ *
+ * @since    1.0.0
+ */
+function pirate_forms_register_sdk( $products ) {
+	$products[] = PIRATEFORMS_BASEFILE;
+	return $products;
+}
+
+/**
+ * Registers with the parrot plugin
+ *
+ * @since    1.0.0
+ */
+function pirate_forms_register_parrot( $plugins ) {
+	$plugins[] = PIRATEFORMS_NAME;
+	return $plugins;
+}
+
 spl_autoload_register( 'pirate_forms_autoload' );
 run_pirate_forms();
