@@ -16,7 +16,7 @@
  * Plugin Name:       Free & Simple Contact Form Plugin - Pirateforms
  * Plugin URI: http://themeisle.com/plugins/pirate-forms/
  * Description: Easily creates a nice looking, simple contact form on your WP site.
- * Version: 2.0.2
+ * Version: 2.0.3
  * Author: Themeisle
  * Author URI: http://themeisle.com
  * Text Domain: pirate-forms
@@ -35,7 +35,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 define( 'PIRATEFORMS_NAME', 'Pirate Forms' );
 define( 'PIRATEFORMS_SLUG', 'pirate-forms' );
-define( 'PIRATE_FORMS_VERSION', '2.0.2' );
+define( 'PIRATE_FORMS_VERSION', '2.0.3' );
 define( 'PIRATEFORMS_DIR', trailingslashit( plugin_dir_path( __FILE__ ) ) );
 define( 'PIRATEFORMS_URL', plugin_dir_url( __FILE__ ) );
 define( 'PIRATEFORMS_BASENAME', plugin_basename( __FILE__ ) );
@@ -141,18 +141,29 @@ function run_pirate_forms() {
 	if ( is_readable( $vendor_file ) ) {
 		require_once $vendor_file;
 	}
-	add_filter(
-		'themeisle_sdk_products', function ( $products ) {
-			$products[] = PIRATEFORMS_BASEFILE;
-			return $products;
-		}
-	);
-	add_filter(
-		'pirate_parrot_log', function ( $plugins ) {
-			$plugins[] = PIRATEFORMS_NAME;
-			return $plugins;
-		}
-	);
+	add_filter( 'themeisle_sdk_products', 'pirate_forms_register_sdk', 10, 1 );
+	add_filter( 'pirate_parrot_log', 'pirate_forms_register_parrot', 10, 1 );
 }
+
+/**
+ * Registers with the SDK
+ *
+ * @since    1.0.0
+ */
+function pirate_forms_register_sdk( $products ) {
+	$products[] = PIRATEFORMS_BASEFILE;
+	return $products;
+}
+
+/**
+ * Registers with the parrot plugin
+ *
+ * @since    1.0.0
+ */
+function pirate_forms_register_parrot( $plugins ) {
+	$plugins[] = PIRATEFORMS_NAME;
+	return $plugins;
+}
+
 spl_autoload_register( 'pirate_forms_autoload' );
 run_pirate_forms();

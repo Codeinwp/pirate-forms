@@ -120,6 +120,53 @@
 	vertical-align: top;
 }
 
+.pirate-upgrade {
+	margin-bottom: 25px !important;
+	padding: 2em;
+	border-color: #f3d1bd;
+	background: #fdf9f6;
+}
+
+.pirate-upgrade h3 {
+	margin: 0;
+	color: #e18a58;
+	font-weight: 700;
+	text-align: center;
+}
+
+.pirate-upgrade ul {
+	margin: 25px 20px;
+	text-align: left;
+	list-style-type: disc;
+}
+
+.pirate-upgrade ul li {
+	margin-bottom: 10px;
+}
+
+.pirate-upgrade ul li:last-child {
+	margin-bottom: 0;
+}
+
+.pirate-upgrade a.btn {
+	display: block;
+	padding: 10px;
+	border-radius: 3px;
+	color: #fff;
+	background: #e18a58;
+	font-weight: 700;
+	text-align: center;
+	text-decoration: none;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	-webkit-transition: 0.3s ease;
+	transition: 0.3s ease;
+}
+
+.pirate-upgrade a.btn:hover {
+	background: #e9a883;
+}
+
 .wrap {
 	margin-right: 0;
 }
@@ -286,8 +333,9 @@ div.pirate_dashicons > form > div > label {
 
 @media screen and (max-width:1200px) {
 	#pirate-forms-sidebar {
+		float: left;
 		width: 100%;
-		margin: 4px;
+		margin: 20px 4px 4px;
 		text-align: center;
 	}
 
@@ -298,7 +346,7 @@ div.pirate_dashicons > form > div > label {
 }
 
 #pirate-forms-sidebar div.card {
-	width: 100%;
+	width: auto;
 	min-width: initial;
 	max-width: initial;
 	margin: auto;
