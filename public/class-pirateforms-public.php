@@ -618,7 +618,7 @@ class PirateForms_Public {
 		/* thank you message */
 		if ( ( ( isset( $_GET['pcf'] ) && $_GET['pcf'] == 1 ) || ( isset( $_POST['pirate-forms-contact-submit'] ) ) )
 			 && empty( $_SESSION[ $error_key ] )
-			 && wp_verify_nonce( $_POST['wordpress-nonce'], get_bloginfo( 'admin_email' ) . ( empty( $atts['from'] ) ? 'no' : 'yes' ) )
+			 && ( empty( PirateForms_Util::get_option( 'pirateformsopt_nonce' ) ) || ( 'yes' === PirateForms_Util::get_option( 'pirateformsopt_nonce' ) && wp_verify_nonce( $_POST['wordpress-nonce'], get_bloginfo( 'admin_email' ) . ( empty( $atts['from'] ) ? 'no' : 'yes' ) ) ) )
 		) {
 			$thank_you_message = sanitize_text_field( $pirate_forms_options['pirateformsopt_label_submit'] );
 		}
