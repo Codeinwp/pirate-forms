@@ -130,6 +130,13 @@ Activating the Pirate Contact Form plugin is just like any other plugin. If you'
 4. Screenshot 4. Enabling SMTP
 
 == Changelog ==
+= 2.0.3 - 2017-08-10  = 
+
+* Fixed fatal errors on some environments because of anonymous functions usage.
+* Fixed thank you message when nonces are disabled.
+* Added compatibility with pro version.
+
+
 = 2.0.2 - 2017-08-07  = 
 
 * Fixed none option for thank you page.

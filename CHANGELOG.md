@@ -1,4 +1,10 @@
 
+ ### v2.0.3 - 2017-08-10 
+ **Changes:** 
+ * Fixed fatal errors on some environments because of anonymous functions usage.
+* Fixed thank you message when nonces are disabled.
+* Added compatibility with pro version.
+ 
  ### v2.0.2 - 2017-08-07 
  **Changes:** 
  * Fixed none option for thank you page.
