@@ -14,6 +14,15 @@ A simple and effective WordPress contact form & SMTP plugin. Compatible with bes
 Stay in touch with your visitors very easily. <a href="https://themeisle.com/plugins/pirate-forms/" rel="nofollow">Pirate Contact Forms</a> offers you a great and friendly contact form for your website.
 This is an easy-to-use WordPress contact form with captcha plugin. To create a contact form you just need to use the [pirate_forms] shortcode or use the WordPress contact form widget.
 
+> **Time-saving features available in the FULL version:**
+>
+> * Create multiple forms
+> * Mailchimp Integration
+> * Developer friendly
+> * 12 months Support & Updates
+> * 30 days Money Back Guaranteed
+>
+> **[Learn more about Pirate Forms Extended version]( https://themeisle.com/plugins/pirate-forms-extended/ )**
 
 **Why use our responsive WordPress Contact Form:**
 
@@ -44,6 +53,14 @@ A simple to use contact form plugin for creating a clean contact form using the 
 
 
 This is not a form maker or drag & drop builder plugin nor "the best contact form plugin", you cannot add new fields or create multiple forms (subscription forms, payment, order, feedback or quote), there are some great alternatives out there for those like : Caldera Forms or Ninja Forms.
+
+ = See how Pirate Forms can integrate with your website  =
+
+* [Default form](https://demo.themeisle.com/pirate-forms/default-form-shortcode/)
+* [Use multiple forms on same page](https://demo.themeisle.com/pirate-forms/multiple-forms-page/)
+* [Minimalistic form](https://demo.themeisle.com/pirate-forms/minimalistic-form/)
+* [Form with attachment](https://demo.themeisle.com/pirate-forms/form-with-attachment/)
+
 
 
 

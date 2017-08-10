@@ -121,10 +121,10 @@
 }
 
 .pirate-upgrade {
-	background: #fdf9f6;
 	margin-bottom: 25px !important;
 	padding: 2em;
 	border-color: #f3d1bd;
+	background: #fdf9f6;
 }
 
 .pirate-upgrade h3 {
@@ -135,9 +135,9 @@
 }
 
 .pirate-upgrade ul {
-	list-style-type: disc;
 	margin: 25px 20px;
 	text-align: left;
+	list-style-type: disc;
 }
 
 .pirate-upgrade ul li {
@@ -160,9 +160,6 @@
 	letter-spacing: 0.1em;
 	text-transform: uppercase;
 	-webkit-transition: 0.3s ease;
-	-moz-transition: 0.3s ease;
-	-ms-transition: 0.3s ease;
-	-o-transition: 0.3s ease;
 	transition: 0.3s ease;
 }
 
