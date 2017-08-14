@@ -755,7 +755,7 @@ class PirateForms_Public {
 			 ******  Message field */
 			if ( ! empty( $field ) && 'no' !== $field ) :
 				$required     = $field === 'req' ? true : false;
-				$wrap_classes = array( 'contact_attachment_wrap ' );
+				$wrap_classes = array( 'col-sm-12 col-lg-12 form_field_wrap contact_attachment_wrap' );
 				// If this field was submitted with invalid data
 				if ( isset( $_SESSION[ $error_key ]['contact-attachment'] ) ) {
 					$wrap_classes[] = 'error';
