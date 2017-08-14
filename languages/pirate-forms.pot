@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Free & Simple Contact Form Plugin - Pirateforms 2.0.3\n"
 "Report-Msgid-Bugs-To: https://github.com/Codeinwp/pirate-forms/issues\n"
-"POT-Creation-Date: 2017-08-14 05:20:56+00:00\n"
+"POT-Creation-Date: 2017-08-14 09:11:43+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -104,7 +104,7 @@ msgid ""
 msgstr ""
 
 #: admin/class-pirateforms-admin.php:314
-msgid "\"Thank You\" Page"
+msgid "Success Page"
 msgstr ""
 
 #: admin/class-pirateforms-admin.php:317
@@ -254,7 +254,7 @@ msgstr ""
 
 #: admin/class-pirateforms-admin.php:630
 msgid ""
-"This text is used on the page if no \"Thank You\" URL is set above. This is "
+"This text is used on the page if no Success Page is chosen above. This is "
 "also used as the confirmation email title, if one is set to send out."
 msgstr ""
 
@@ -518,24 +518,24 @@ msgstr ""
 msgid "Sent from page: "
 msgstr ""
 
-#: public/class-pirateforms-public.php:337
-#: public/class-pirateforms-public.php:349
+#: public/class-pirateforms-public.php:343
+#: public/class-pirateforms-public.php:355
 msgid "Wrong reCAPTCHA"
 msgstr ""
 
-#: public/class-pirateforms-public.php:391
+#: public/class-pirateforms-public.php:397
 msgid "Uploaded file is not allowed for file type"
 msgstr ""
 
-#: public/class-pirateforms-public.php:399
+#: public/class-pirateforms-public.php:405
 msgid "Uploaded file is too large"
 msgstr ""
 
-#: public/class-pirateforms-public.php:415
+#: public/class-pirateforms-public.php:421
 msgid "There was an unknown error uploading the file."
 msgstr ""
 
-#: public/class-pirateforms-public.php:801
+#: public/class-pirateforms-public.php:803
 msgid "Submit"
 msgstr ""
 
