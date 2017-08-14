@@ -130,6 +130,13 @@ Activating the Pirate Contact Form plugin is just like any other plugin. If you'
 4. Screenshot 4. Enabling SMTP
 
 == Changelog ==
+= 2.0.4 - 2017-08-14  = 
+
+* All fields are now optional.
+* Fixed redirect after form submission.
+* Added more flexibility for changing the layout via dynamic CSS classes.
+
+
 = 2.0.3 - 2017-08-10  = 
 
 * Fixed fatal errors on some environments because of anonymous functions usage.
