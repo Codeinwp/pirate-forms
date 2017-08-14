@@ -338,11 +338,6 @@ class PirateForms_Admin {
 								'type'      => 'select',
 								'label'     => array(
 									'value' => __( 'Name', 'pirate-forms' ),
-									'html'  => '<span class="dashicons dashicons-editor-help"></span>',
-									'desc'      => array(
-										'value' => __( 'Do you want the name field to be displayed?', 'pirate-forms' ),
-										'class' => 'pirate_forms_option_description',
-									),
 								),
 								'default'   => 'req',
 								'value'     => PirateForms_Util::get_option( 'pirateformsopt_name_field' ),
@@ -351,8 +346,8 @@ class PirateForms_Admin {
 									'class' => 'pirate-forms-grouped',
 								),
 								'options'   => array(
-									''    => __( 'No', 'pirate-forms' ),
-									'yes' => __( 'Yes but not required', 'pirate-forms' ),
+									''    => __( 'Do not display', 'pirate-forms' ),
+									'yes' => __( 'Display but not required', 'pirate-forms' ),
 									'req' => __( 'Required', 'pirate-forms' ),
 								),
 							),
@@ -362,11 +357,6 @@ class PirateForms_Admin {
 								'type'      => 'select',
 								'label'     => array(
 									'value' => __( 'Email address', 'pirate-forms' ),
-									'html'  => '<span class="dashicons dashicons-editor-help"></span>',
-									'desc'      => array(
-										'value' => __( 'Do you want the email address field be displayed?', 'pirate-forms' ),
-										'class' => 'pirate_forms_option_description',
-									),
 								),
 								'default'   => 'req',
 								'value'     => PirateForms_Util::get_option( 'pirateformsopt_email_field' ),
@@ -375,7 +365,8 @@ class PirateForms_Admin {
 									'class' => 'pirate-forms-grouped',
 								),
 								'options'   => array(
-									'yes' => __( 'Yes but not required', 'pirate-forms' ),
+									''    => __( 'Do not display', 'pirate-forms' ),
+									'yes' => __( 'Display but not required', 'pirate-forms' ),
 									'req' => __( 'Required', 'pirate-forms' ),
 								),
 							),
@@ -385,11 +376,6 @@ class PirateForms_Admin {
 								'type'      => 'select',
 								'label'     => array(
 									'value' => __( 'Subject', 'pirate-forms' ),
-									'html'  => '<span class="dashicons dashicons-editor-help"></span>',
-									'desc'      => array(
-										'value' => __( 'Do you want the subject field be displayed?', 'pirate-forms' ),
-										'class' => 'pirate_forms_option_description',
-									),
 								),
 								'default'   => 'req',
 								'value'     => PirateForms_Util::get_option( 'pirateformsopt_subject_field' ),
@@ -398,8 +384,8 @@ class PirateForms_Admin {
 									'class' => 'pirate-forms-grouped',
 								),
 								'options'   => array(
-									''    => __( 'No', 'pirate-forms' ),
-									'yes' => __( 'Yes but not required', 'pirate-forms' ),
+									''    => __( 'Do not display', 'pirate-forms' ),
+									'yes' => __( 'Display but not required', 'pirate-forms' ),
 									'req' => __( 'Required', 'pirate-forms' ),
 								),
 							),
@@ -417,7 +403,8 @@ class PirateForms_Admin {
 									'class' => 'pirate-forms-grouped',
 								),
 								'options'   => array(
-									'yes' => __( 'Yes but not required', 'pirate-forms' ),
+									''    => __( 'Do not display', 'pirate-forms' ),
+									'yes' => __( 'Display but not required', 'pirate-forms' ),
 									'req' => __( 'Required', 'pirate-forms' ),
 								),
 							),
@@ -434,8 +421,8 @@ class PirateForms_Admin {
 									'class' => 'pirate-forms-grouped',
 								),
 								'options'   => array(
-									''    => __( 'No', 'pirate-forms' ),
-									'yes' => __( 'Yes but not required', 'pirate-forms' ),
+									''    => __( 'Do not display', 'pirate-forms' ),
+									'yes' => __( 'Display but not required', 'pirate-forms' ),
 									'req' => __( 'Required', 'pirate-forms' ),
 								),
 							),
