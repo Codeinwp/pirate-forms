@@ -311,7 +311,7 @@ class PirateForms_Admin {
 								'id'        => 'pirateformsopt_thank_you_url',
 								'type'      => 'select',
 								'label'     => array(
-									'value' => __( '"Thank You" Page', 'pirate-forms' ),
+									'value' => __( 'Success Page', 'pirate-forms' ),
 									'html'  => '<span class="dashicons dashicons-editor-help"></span>',
 									'desc'      => array(
 										'value' => __( 'Select the page that displays after a successful form submission. The page will be displayed without pausing on the email form, so please be sure to configure a relevant thank you message in this page.', 'pirate-forms' ),
@@ -627,7 +627,7 @@ class PirateForms_Admin {
 									'value' => __( 'Successful form submission text', 'pirate-forms' ),
 									'html'  => '<span class="dashicons dashicons-editor-help"></span>',
 									'desc'      => array(
-										'value' => __( 'This text is used on the page if no "Thank You" URL is set above. This is also used as the confirmation email title, if one is set to send out.', 'pirate-forms' ),
+										'value' => __( 'This text is used on the page if no Success Page is chosen above. This is also used as the confirmation email title, if one is set to send out.', 'pirate-forms' ),
 										'class' => 'pirate_forms_option_description',
 									),
 								),
