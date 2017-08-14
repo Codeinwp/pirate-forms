@@ -22,8 +22,8 @@ class PirateForms_PhpFormBuilder {
 			$pirate_forms_enctype = 'application/x-www-form-urlencoded';
 		}
 
-		$form_start = '<form method="post" enctype="' . $pirate_forms_enctype . '" action="" class="pirate_forms">';
-		$this->set_element( 'form_start', $form_start );
+		$classes    = array();
+		$form_start = '<form method="post" enctype="' . $pirate_forms_enctype . '" action="" class="pirate_forms ';
 
 		$html_helper        = new PirateForms_HTML();
 		$form_end           = '';
@@ -33,7 +33,11 @@ class PirateForms_PhpFormBuilder {
 				$form_end .= $element;
 			}
 			$this->set_element( $val['id'], $element );
+			$classes[]      = $val['id'] . '-on';
 		}
+
+		$form_start .= implode( ' ', $classes ) . '">';
+		$this->set_element( 'form_start', $form_start );
 
 		$form_end .= '</form>';
 		$this->set_element( 'form_end', $form_end );

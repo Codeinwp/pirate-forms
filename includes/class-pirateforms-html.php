@@ -153,7 +153,7 @@ class PirateForms_HTML {
 		}
 
 		$html       .= '</div>';
-		return $html;
+		return $this->get_wrap( $args, $html );
 	}
 
 	/**

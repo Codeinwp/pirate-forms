@@ -311,7 +311,7 @@ class PirateForms_Admin {
 								'id'        => 'pirateformsopt_thank_you_url',
 								'type'      => 'select',
 								'label'     => array(
-									'value' => __( '"Thank You" Page', 'pirate-forms' ),
+									'value' => __( 'Success Page', 'pirate-forms' ),
 									'html'  => '<span class="dashicons dashicons-editor-help"></span>',
 									'desc'      => array(
 										'value' => __( 'Select the page that displays after a successful form submission. The page will be displayed without pausing on the email form, so please be sure to configure a relevant thank you message in this page.', 'pirate-forms' ),
@@ -338,11 +338,6 @@ class PirateForms_Admin {
 								'type'      => 'select',
 								'label'     => array(
 									'value' => __( 'Name', 'pirate-forms' ),
-									'html'  => '<span class="dashicons dashicons-editor-help"></span>',
-									'desc'      => array(
-										'value' => __( 'Do you want the name field to be displayed?', 'pirate-forms' ),
-										'class' => 'pirate_forms_option_description',
-									),
 								),
 								'default'   => 'req',
 								'value'     => PirateForms_Util::get_option( 'pirateformsopt_name_field' ),
@@ -351,8 +346,8 @@ class PirateForms_Admin {
 									'class' => 'pirate-forms-grouped',
 								),
 								'options'   => array(
-									''    => __( 'No', 'pirate-forms' ),
-									'yes' => __( 'Yes but not required', 'pirate-forms' ),
+									''    => __( 'Do not display', 'pirate-forms' ),
+									'yes' => __( 'Display but not required', 'pirate-forms' ),
 									'req' => __( 'Required', 'pirate-forms' ),
 								),
 							),
@@ -362,11 +357,6 @@ class PirateForms_Admin {
 								'type'      => 'select',
 								'label'     => array(
 									'value' => __( 'Email address', 'pirate-forms' ),
-									'html'  => '<span class="dashicons dashicons-editor-help"></span>',
-									'desc'      => array(
-										'value' => __( 'Do you want the email address field be displayed?', 'pirate-forms' ),
-										'class' => 'pirate_forms_option_description',
-									),
 								),
 								'default'   => 'req',
 								'value'     => PirateForms_Util::get_option( 'pirateformsopt_email_field' ),
@@ -375,7 +365,8 @@ class PirateForms_Admin {
 									'class' => 'pirate-forms-grouped',
 								),
 								'options'   => array(
-									'yes' => __( 'Yes but not required', 'pirate-forms' ),
+									''    => __( 'Do not display', 'pirate-forms' ),
+									'yes' => __( 'Display but not required', 'pirate-forms' ),
 									'req' => __( 'Required', 'pirate-forms' ),
 								),
 							),
@@ -385,11 +376,6 @@ class PirateForms_Admin {
 								'type'      => 'select',
 								'label'     => array(
 									'value' => __( 'Subject', 'pirate-forms' ),
-									'html'  => '<span class="dashicons dashicons-editor-help"></span>',
-									'desc'      => array(
-										'value' => __( 'Do you want the subject field be displayed?', 'pirate-forms' ),
-										'class' => 'pirate_forms_option_description',
-									),
 								),
 								'default'   => 'req',
 								'value'     => PirateForms_Util::get_option( 'pirateformsopt_subject_field' ),
@@ -398,8 +384,8 @@ class PirateForms_Admin {
 									'class' => 'pirate-forms-grouped',
 								),
 								'options'   => array(
-									''    => __( 'No', 'pirate-forms' ),
-									'yes' => __( 'Yes but not required', 'pirate-forms' ),
+									''    => __( 'Do not display', 'pirate-forms' ),
+									'yes' => __( 'Display but not required', 'pirate-forms' ),
 									'req' => __( 'Required', 'pirate-forms' ),
 								),
 							),
@@ -417,7 +403,8 @@ class PirateForms_Admin {
 									'class' => 'pirate-forms-grouped',
 								),
 								'options'   => array(
-									'yes' => __( 'Yes but not required', 'pirate-forms' ),
+									''    => __( 'Do not display', 'pirate-forms' ),
+									'yes' => __( 'Display but not required', 'pirate-forms' ),
 									'req' => __( 'Required', 'pirate-forms' ),
 								),
 							),
@@ -434,8 +421,8 @@ class PirateForms_Admin {
 									'class' => 'pirate-forms-grouped',
 								),
 								'options'   => array(
-									''    => __( 'No', 'pirate-forms' ),
-									'yes' => __( 'Yes but not required', 'pirate-forms' ),
+									''    => __( 'Do not display', 'pirate-forms' ),
+									'yes' => __( 'Display but not required', 'pirate-forms' ),
 									'req' => __( 'Required', 'pirate-forms' ),
 								),
 							),
@@ -640,7 +627,7 @@ class PirateForms_Admin {
 									'value' => __( 'Successful form submission text', 'pirate-forms' ),
 									'html'  => '<span class="dashicons dashicons-editor-help"></span>',
 									'desc'      => array(
-										'value' => __( 'This text is used on the page if no "Thank You" URL is set above. This is also used as the confirmation email title, if one is set to send out.', 'pirate-forms' ),
+										'value' => __( 'This text is used on the page if no Success Page is chosen above. This is also used as the confirmation email title, if one is set to send out.', 'pirate-forms' ),
 										'class' => 'pirate_forms_option_description',
 									),
 								),

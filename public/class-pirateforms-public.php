@@ -254,6 +254,9 @@ class PirateForms_Public {
 			do_action( 'pirate_forms_before_sending', $pirate_forms_contact_email, $site_recipients, $subject, $body, $headers, $attachments );
 			do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'before sending email to = %s, subject = %s, body = %s, headers = %s, attachments = %s', $site_recipients, $subject, $body, $headers, print_r( $attachments, true ) ), 'debug', __FILE__, __LINE__ );
 			$response = wp_mail( $site_recipients, $subject, $body, $headers, $attachments );
+			if ( ! $response ) {
+				error_log( 'Email not sent' );
+			}
 			do_action( 'pirate_forms_after_sending', $pirate_forms_options, $response, $pirate_forms_contact_email, $site_recipients, $subject, $body, $headers, $attachments );
 			do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'after sending email, response = %s', $response ), 'debug', __FILE__, __LINE__ );
 
@@ -285,7 +288,7 @@ class PirateForms_Public {
 				do_action( 'pirate_forms_after_sending_confirm', $pirate_forms_options, $response, $pirate_forms_contact_email, $pirate_forms_contact_email, $subject, $confirm_body, $headers );
 				do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'after sending confirm email response = %s', $response ), 'debug', __FILE__, __LINE__ );
 				if ( ! $response ) {
-					error_log( 'Email not sent' );
+					error_log( 'Confirm email not sent' );
 				}
 			}
 
@@ -313,7 +316,10 @@ class PirateForms_Public {
 				$redirect    = get_permalink( $redirect_id );
 				wp_safe_redirect( $redirect );
 			} elseif ( ( 'Zerif Lite' == $pirate_forms_current_theme->name ) || ( 'Zerif Lite' == $pirate_forms_current_theme->parent_theme ) || ( 'Zerif PRO' == $pirate_forms_current_theme->name ) || ( 'Zerif PRO' == $pirate_forms_current_theme->parent_theme ) ) {
-				$redirect = $_SERVER['HTTP_REFERER'] . ( strpos( $_SERVER['HTTP_REFERER'], '?' ) === false ? '?' : '&' ) . 'pcf=1#contact';
+				$redirect = $_SERVER['HTTP_REFERER'] . ( strpos( $_SERVER['HTTP_REFERER'], '?' ) === false ? '?' : '&' ) . 'pcf=1#contact&done';
+				wp_safe_redirect( $redirect );
+			} elseif ( isset( $_SERVER['HTTP_REFERER'] ) ) {
+				$redirect = $_SERVER['HTTP_REFERER'] . ( strpos( $_SERVER['HTTP_REFERER'], '?' ) === false ? '?' : '&' ) . 'done';
 				wp_safe_redirect( $redirect );
 			}
 		}// End if().
@@ -614,15 +620,11 @@ class PirateForms_Public {
 
 		$error_key = wp_create_nonce( get_bloginfo( 'admin_email' ) . ( empty( $atts['from'] ) ? 'no' : 'yes' ) );
 
-		$thank_you_message = '';
-		/* thank you message */
-		if ( ( ( isset( $_GET['pcf'] ) && $_GET['pcf'] == 1 ) || ( isset( $_POST['pirate-forms-contact-submit'] ) ) ) && empty( $_SESSION[ $error_key ] ) ) {
-			$show_nonce     = PirateForms_Util::get_option( 'pirateformsopt_nonce' );
-			$nonce_val      = get_bloginfo( 'admin_email' ) . ( empty( $atts['from'] ) ? 'no' : 'yes' );
-			if ( empty( $show_nonce ) || ( 'yes' === $show_nonce && wp_verify_nonce( $_POST['wordpress-nonce'], $nonce_val ) ) ) {
-				$thank_you_message = sanitize_text_field( $pirate_forms_options['pirateformsopt_label_submit'] );
-			}
+		$thank_you_message  = '';
+		if ( isset( $_GET['done'] ) ) {
+			$thank_you_message = sanitize_text_field( $pirate_forms_options['pirateformsopt_label_submit'] );
 		}
+
 		$pirate_form->set_element( 'thank_you_message', $thank_you_message );
 
 		/**
@@ -755,7 +757,7 @@ class PirateForms_Public {
 			 ******  Message field */
 			if ( ! empty( $field ) && 'no' !== $field ) :
 				$required     = $field === 'req' ? true : false;
-				$wrap_classes = array( 'contact_attachment_wrap ' );
+				$wrap_classes = array( 'col-sm-12 col-lg-12 form_field_wrap contact_attachment_wrap' );
 				// If this field was submitted with invalid data
 				if ( isset( $_SESSION[ $error_key ]['contact-attachment'] ) ) {
 					$wrap_classes[] = 'error';
