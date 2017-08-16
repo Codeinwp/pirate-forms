@@ -69,7 +69,7 @@ class PirateForms {
 	public function __construct() {
 
 		$this->plugin_name = 'pirateforms';
-		$this->version = '2.0.4';
+		$this->version = '2.0.5';
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -160,6 +160,9 @@ class PirateForms {
 
 		// ONLY FOR UNIT TESTING: we cannot fire template_redirect without errors, that is why we are creating a manual hook for this
 		$this->loader->add_action( 'pirate_unittesting_template_redirect', $plugin_public, 'template_redirect' );
+		$this->loader->add_action( 'pirate_forms_render_thankyou', $plugin_public, 'render_thankyou' );
+		$this->loader->add_action( 'pirate_forms_render_errors', $plugin_public, 'render_errors' );
+		$this->loader->add_action( 'pirate_forms_render_fields', $plugin_public, 'render_fields' );
 
 		$this->loader->add_filter( 'widget_text', $plugin_public, 'widget_text_filter', 9 );
 		$this->loader->add_filter( 'pirate_forms_public_controls', $plugin_public, 'compatibility_class', 9 );
@@ -215,38 +218,36 @@ class PirateForms {
 	 * @since     1.0.0
 	 */
 	public function register_content_type() {
-		if ( PirateForms_Util::get_option( 'pirateformsopt_store' ) === 'yes' ) {
-			$labels = array(
-				'name'               => _x( 'Contacts', 'post type general name', 'pirate-forms' ),
-				'singular_name'      => _x( 'Contact', 'post type singular name', 'pirate-forms' ),
-				'menu_name'          => _x( 'Contacts', 'admin menu', 'pirate-forms' ),
-				'name_admin_bar'     => _x( 'Contact', 'add new on admin bar', 'pirate-forms' ),
-				'add_new'            => _x( 'Add New', 'contact', 'pirate-forms' ),
-				'add_new_item'       => __( 'Add New Contact', 'pirate-forms' ),
-				'new_item'           => __( 'New Contact', 'pirate-forms' ),
-				'edit_item'          => __( 'Edit Contact', 'pirate-forms' ),
-				'view_item'          => __( 'View Contact', 'pirate-forms' ),
-				'all_items'          => __( 'All Contacts', 'pirate-forms' ),
-				'search_items'       => __( 'Search Contacts', 'pirate-forms' ),
-				'parent_item_colon'  => __( 'Parent Contacts:', 'pirate-forms' ),
-				'not_found'          => __( 'No contacts found.', 'pirate-forms' ),
-				'not_found_in_trash' => __( 'No contacts found in Trash.', 'pirate-forms' ),
-			);
-			$args   = array(
-				'labels'             => $labels,
-				'description'        => __( 'Contacts from Pirate Forms', 'pirate-forms' ),
-				'public'             => true,
-				'publicly_queryable' => true,
-				'show_ui'            => true,
-				'show_in_menu'       => 'pirateforms-admin',
-				'query_var'          => true,
-				'capability_type'    => 'post',
-				'has_archive'        => true,
-				'hierarchical'       => false,
-				'menu_position'      => null,
-				'supports'           => array( 'title', 'editor', 'custom-fields' ),
-			);
-			register_post_type( 'pf_contact', $args );
-		}
+		$labels = array(
+			'name'               => _x( 'Contacts', 'post type general name', 'pirate-forms' ),
+			'singular_name'      => _x( 'Contact', 'post type singular name', 'pirate-forms' ),
+			'menu_name'          => _x( 'Contacts', 'admin menu', 'pirate-forms' ),
+			'name_admin_bar'     => _x( 'Contact', 'add new on admin bar', 'pirate-forms' ),
+			'add_new'            => _x( 'Add New', 'contact', 'pirate-forms' ),
+			'add_new_item'       => __( 'Add New Contact', 'pirate-forms' ),
+			'new_item'           => __( 'New Contact', 'pirate-forms' ),
+			'edit_item'          => __( 'Edit Contact', 'pirate-forms' ),
+			'view_item'          => __( 'View Contact', 'pirate-forms' ),
+			'all_items'          => __( 'All Contacts', 'pirate-forms' ),
+			'search_items'       => __( 'Search Contacts', 'pirate-forms' ),
+			'parent_item_colon'  => __( 'Parent Contacts:', 'pirate-forms' ),
+			'not_found'          => __( 'No contacts found.', 'pirate-forms' ),
+			'not_found_in_trash' => __( 'No contacts found in Trash.', 'pirate-forms' ),
+		);
+		$args   = array(
+			'labels'             => $labels,
+			'description'        => __( 'Contacts from Pirate Forms', 'pirate-forms' ),
+			'public'             => true,
+			'publicly_queryable' => true,
+			'show_ui'            => true,
+			'show_in_menu'       => 'pirateforms-admin',
+			'query_var'          => true,
+			'capability_type'    => 'post',
+			'has_archive'        => true,
+			'hierarchical'       => false,
+			'menu_position'      => null,
+			'supports'           => array( 'title', 'editor', 'custom-fields' ),
+		);
+		register_post_type( 'pf_contact', $args );
 	}
 }
