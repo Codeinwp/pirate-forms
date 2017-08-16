@@ -74,7 +74,6 @@ class PirateForms_Admin {
 		}
 	}
 
-
 	/**
 	 * Loads the sidebar
 	 *

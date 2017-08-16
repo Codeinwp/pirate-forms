@@ -8,6 +8,15 @@
 class PirateForms_Util {
 
 	/**
+	 * Return the table row
+	 *
+	 * @since    1.0.0
+	 */
+	public static function table_row( $key, $value ) {
+		return '<tr><th>' . $key . '</th><td>' . $value . '</td></tr>';
+	}
+
+	/**
 	 * Returns if the domain is localhost
 	 *
 	 * @since     1.0.0

@@ -193,6 +193,30 @@ class PirateForms_HTML {
 	}
 
 	/**
+	 * The input type="number" element
+	 *
+	 * @since    1.2.6
+	 */
+	private function number( $args ) {
+		$html       = $this->get_label( $args );
+		$html       .= '<input type="number" ' . $this->get_common( $args, array( 'value' ) ) . ' min=0>';
+
+		return $this->get_wrap( $args, $html );
+	}
+
+	/**
+	 * The input type="tel" element
+	 *
+	 * @since    1.2.6
+	 */
+	private function tel( $args ) {
+		$html       = $this->get_label( $args );
+		$html       .= '<input type="tel" ' . $this->get_common( $args, array( 'value' ) ) . '>';
+
+		return $this->get_wrap( $args, $html );
+	}
+
+	/**
 	 * The input type="hidden" element
 	 *
 	 * @since    1.2.6
