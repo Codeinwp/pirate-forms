@@ -7,6 +7,7 @@ if ( ! defined( 'PIRATEFORMSPRO_BASEFILE' ) ) :
 		<li>Multiple forms builder</li>
 		<li>MailChimp integration</li>
 		<li>Developer friendly</li>
+		<li>Custom fields</li>
 		<li>12 months Support & Updates</li>
 		<li>30 days Money Back Guaranteed</li>
 	</ul>
