@@ -18,6 +18,7 @@ This is an easy-to-use WordPress contact form with captcha plugin. To create a c
 >
 > * Create multiple forms
 > * Mailchimp Integration
+> * Custom fields
 > * Developer friendly
 > * 12 months Support & Updates
 > * 30 days Money Back Guaranteed
@@ -60,6 +61,9 @@ This is not a form maker or drag & drop builder plugin nor "the best contact for
 * [Use multiple forms on same page](https://demo.themeisle.com/pirate-forms/multiple-forms-page/)
 * [Minimalistic form](https://demo.themeisle.com/pirate-forms/minimalistic-form/)
 * [Form with attachment](https://demo.themeisle.com/pirate-forms/form-with-attachment/)
+* [Subscription form](https://demo.themeisle.com/pirate-forms/subscription-form/)
+* [Complex support form](https://demo.themeisle.com/pirate-forms/support-form/)
+* [Telephone field form](https://demo.themeisle.com/pirate-forms/phone-number-form/)
 
 
 
