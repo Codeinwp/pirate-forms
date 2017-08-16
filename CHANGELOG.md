@@ -1,4 +1,9 @@
 
+ ### v2.0.5 - 2017-08-16 
+ **Changes:** 
+ * Fixed compatibility with the pro version for multiple fields. 
+* Fixed default consistency between forms.
+ 
  ### v2.0.4 - 2017-08-14 
  **Changes:** 
  * All fields are now optional.
