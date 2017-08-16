@@ -8,14 +8,25 @@
 class PirateForms_PhpFormBuilder {
 
 	/**
+	 * The array of options for the form.
+	 *
+	 * @access   public
+	 * @var      array $pirate_forms_options The array of options for the form.
+	 */
+	public $pirate_forms_options;
+
+	/**
 	 * Build the HTML for the form based on the input queue
 	 *
 	 * @param array $elements The array of HTML elements.
+	 * @param array $pirate_forms_options The array of options for the form.
+	 * @param bpol  $from_widget Is the form in the widget.
 	 *
 	 * @return string
 	 */
-	function build_form( $elements ) {
-		$pirateformsopt_attachment_field = PirateForms_Util::get_option( 'pirateformsopt_attachment_field' );
+	function build_form( $elements, $pirate_forms_options, $from_widget ) {
+		$this->pirate_forms_options = $pirate_forms_options;
+		$pirateformsopt_attachment_field = $pirate_forms_options['pirateformsopt_attachment_field'];
 		if ( 'yes' === $pirateformsopt_attachment_field ) {
 			$pirate_forms_enctype = 'multipart/form-data';
 		} else {
@@ -23,18 +34,28 @@ class PirateForms_PhpFormBuilder {
 		}
 
 		$classes    = array();
+		$classes[]  = $from_widget ? 'widget-on' : '';
 		$form_start = '<form method="post" enctype="' . $pirate_forms_enctype . '" action="" class="pirate_forms ';
 
 		$html_helper        = new PirateForms_HTML();
 		$form_end           = '';
+		$custom_fields      = '';
 		foreach ( $elements as $val ) {
-			$element    = $html_helper->add( $val, false );
-			if ( 'form_honeypot' === $val['id'] || in_array( $val['type'], array( 'hidden', 'div' ) ) ) {
-				$form_end .= $element;
+			if ( isset( $val['is_custom'] ) && $val['is_custom'] ) {
+				// we will combine the HTML for all the custom fields and save it under one element name.
+				$custom_fields  .= $html_helper->add( $val, false );
+				$classes[]      = $val['id'] . '-on';
+			} else {
+				$element    = $html_helper->add( $val, false );
+				if ( 'form_honeypot' === $val['id'] || in_array( $val['type'], array( 'hidden', 'div' ) ) ) {
+					$form_end .= $element;
+				}
+				$this->set_element( $val['id'], $element );
+				$classes[]      = $val['id'] . '-on';
 			}
-			$this->set_element( $val['id'], $element );
-			$classes[]      = $val['id'] . '-on';
 		}
+
+		$this->set_element( 'custom_fields', $custom_fields );
 
 		$form_start .= implode( ' ', $classes ) . '">';
 		$this->set_element( 'form_start', $form_start );
