@@ -230,7 +230,7 @@ class PirateForms_Public {
 			if ( ! empty( $field ) && ! empty( $label ) ) :
 				$required     = $field === 'req' ? true : false;
 				$wrap_classes = array(
-					'contact_subject_wrap pirate_forms_three_inputs form_field_wrap',
+					'contact_subject_wrap pirate_forms_three_inputs form_field_wrap col-md-12',
 				);
 				// If this field was submitted with invalid data
 				if ( isset( $_SESSION[ $error_key ]['contact-subject'] ) ) {
