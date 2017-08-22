@@ -57,7 +57,16 @@ class pirate_forms_contact_widget extends WP_Widget {
 		if ( ! empty( $instance['pirate_forms_widget_subtext'] ) ) {
 			echo wpautop( stripslashes( $instance['pirate_forms_widget_subtext'] ) );
 		}
-		echo do_shortcode( '[pirate_forms from="widget"]' );
+
+		$attributes = array( 'from' => 'widget' );
+		$attributes = apply_filters( 'pirate_forms_widget_attributes', $attributes, $instance );
+
+		$shortcode  = '[pirate_forms';
+		foreach ( $attributes as $k => $v ) {
+			$shortcode  .= " $k='$v'";
+		}
+		$shortcode  .= ']';
+		echo do_shortcode( $shortcode );
 		echo '<div class="pirate_forms_clearfix"></div>';
 		echo '</div>' . $args['after_widget'];
 
@@ -73,6 +82,8 @@ class pirate_forms_contact_widget extends WP_Widget {
 		// Storing widget title as inputted option or category name
 		$instance['pirate_forms_widget_title']   = apply_filters( 'widget_title', sanitize_text_field( $new_instance['pirate_forms_widget_title'] ) );
 		$instance['pirate_forms_widget_subtext'] = $new_instance['pirate_forms_widget_subtext'];
+
+		$instance   = apply_filters( 'pirate_forms_widget_update', $instance, $new_instance );
 
 		return $instance;
 	}
@@ -98,6 +109,6 @@ class pirate_forms_contact_widget extends WP_Widget {
 					  name="<?php echo $this->get_field_name( 'pirate_forms_widget_subtext' ); ?>"><?php echo esc_attr( $pirate_forms_widget_subtext ); ?></textarea>
 		</p>
 		<?php
-
+		echo apply_filters( 'pirate_forms_widget_form', sprintf( '<p>%s</p>', __( 'Some upsell message', 'pirate-forms' ) ), $instance, $this );
 	}
 }
