@@ -128,6 +128,21 @@
 
 							$html_helper->add(
 								array(
+									'type'      => 'submit',
+									'class'     => 'button-secondary pirate-forms-test-button',
+									'id'        => 'test',
+									'value'     => __( 'Send Test Email', 'pirate-forms' ),
+								)
+							);
+							$html_helper->add(
+								array(
+									'type'      => 'div',
+									'class'     => 'pirate-forms-test-message',
+								)
+							);
+
+							$html_helper->add(
+								array(
 									'type'      => 'hidden',
 									'id'        => 'action',
 									'value'     => 'save',

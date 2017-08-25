@@ -853,6 +853,49 @@ class PirateForms_Admin {
 			endif;
 		endif;
 		die();
+	}
 
+	/**
+	 * Test sending the email.
+	 */
+	public function test_email() {
+		add_filter( 'pirateformpro_get_form_attributes', array( $this, 'test_configuration' ), 999, 2 );
+		add_action( 'pirate_forms_after_processing', array( $this, 'test_result'), 10, 1 );
+		add_filter( 'pirate_forms_validate_request', array( $this, 'test_alter_session'), 10, 3 );
+		$_POST  = array(
+			'honeypot'                      => '',
+			'pirate_forms_form_id'          => isset( $_POST['pirate_forms_form_id'] ) ? $_POST['pirate_forms_form_id'] : '',
+			'pirate-forms-contact-name'     => 'Test Name',
+			'pirate-forms-contact-email'    => get_bloginfo( 'admin_email' ),
+			'pirate-forms-contact-subject'  => 'Test Email',
+			'pirate-forms-contact-message'  => 'This is a test.',
+		);
+		do_action( 'pirate_forms_send_email', true );
+	}
+
+	/**
+	 * Change the options for testing.
+	 */
+	public function test_configuration( $options, $id ) {
+		// disable captcha
+		$options['pirateformsopt_recaptcha_field']  = 'no';
+		// disable attachments
+		$options['pirateformsopt_attachment_field'] = 'no';
+		return $options;
+	}
+
+	/**
+	 * Hook into the sent result.
+	 */
+	public function test_result( $response ) {
+		wp_send_json_success( array( 'message' => $response ? __( 'Sent email successfully!', 'pirate-forms' ) : __( 'Sent email failed!', 'pirate-forms' ) ) );
+	}
+
+	/**
+	 * Clear the session of any errors.
+	 */
+	public function test_alter_session( $body, $error_key, $pirate_forms_options ) {
+		$_SESSION[ $error_key ] = '';
+		return $body;
 	}
 }
