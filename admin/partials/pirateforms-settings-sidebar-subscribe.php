@@ -11,7 +11,7 @@ if ( ! defined( 'PIRATEFORMSPRO_BASEFILE' ) ) :
 		<li>12 months Support & Updates</li>
 		<li>30 days Money Back Guaranteed</li>
 	</ul>
-	<a href="https://themeisle.com/plugins/pirate-forms-extended/" target="_blank"
+	<a href="<?php echo PIRATEFORMS_USELL_LINK; ?>" target="_blank"
 	   title="<?php esc_attr_e( 'View more features', 'pirate-forms' ); ?>"
 	   class="btn"><?php esc_html_e( 'View more features', 'pirate-forms' ); ?></a>
 	</div>
