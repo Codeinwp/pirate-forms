@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Free & Simple Contact Form Plugin - Pirateforms 2.0.5\n"
 "Report-Msgid-Bugs-To: https://github.com/Codeinwp/pirate-forms/issues\n"
-"POT-Creation-Date: 2017-08-22 10:17:32+00:00\n"
+"POT-Creation-Date: 2017-08-24 16:50:35+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -316,6 +316,14 @@ msgstr ""
 msgid "SMTP Password"
 msgstr ""
 
+#: admin/class-pirateforms-admin.php:858
+msgid "Sent email successfully!"
+msgstr ""
+
+#: admin/class-pirateforms-admin.php:858
+msgid "Sent email failed!"
+msgstr ""
+
 #: admin/partials/pirateforms-settings-display.php:20
 #: includes/class-pirateforms-widget.php:18
 #: includes/class-pirateforms-widget.php:21
@@ -395,6 +403,10 @@ msgstr ""
 msgid "Save changes"
 msgstr ""
 
+#: admin/partials/pirateforms-settings-display.php:134
+msgid "Send Test Email"
+msgstr ""
+
 #: admin/partials/pirateforms-settings-sidebar-subscribe.php:5
 msgid "Extend to FULL version"
 msgstr ""
@@ -450,43 +462,43 @@ msgstr ""
 msgid "Some upsell message"
 msgstr ""
 
-#: includes/class-pirateforms.php:227
+#: includes/class-pirateforms.php:239
 msgid "Add New Contact"
 msgstr ""
 
-#: includes/class-pirateforms.php:228
+#: includes/class-pirateforms.php:240
 msgid "New Contact"
 msgstr ""
 
-#: includes/class-pirateforms.php:229
+#: includes/class-pirateforms.php:241
 msgid "Edit Contact"
 msgstr ""
 
-#: includes/class-pirateforms.php:230
+#: includes/class-pirateforms.php:242
 msgid "View Contact"
 msgstr ""
 
-#: includes/class-pirateforms.php:231
+#: includes/class-pirateforms.php:243
 msgid "All Contacts"
 msgstr ""
 
-#: includes/class-pirateforms.php:232
+#: includes/class-pirateforms.php:244
 msgid "Search Contacts"
 msgstr ""
 
-#: includes/class-pirateforms.php:233
+#: includes/class-pirateforms.php:245
 msgid "Parent Contacts:"
 msgstr ""
 
-#: includes/class-pirateforms.php:234
+#: includes/class-pirateforms.php:246
 msgid "No contacts found."
 msgstr ""
 
-#: includes/class-pirateforms.php:235
+#: includes/class-pirateforms.php:247
 msgid "No contacts found in Trash."
 msgstr ""
 
-#: includes/class-pirateforms.php:239
+#: includes/class-pirateforms.php:251
 msgid "Contacts from Pirate Forms"
 msgstr ""
 
@@ -498,52 +510,52 @@ msgstr ""
 msgid "Sorry, an error occured."
 msgstr ""
 
-#: public/class-pirateforms-public.php:474
+#: public/class-pirateforms-public.php:484
 msgid "Nonce failed!"
 msgstr ""
 
-#: public/class-pirateforms-public.php:483
+#: public/class-pirateforms-public.php:493
 msgid "Form submission failed!"
 msgstr ""
 
-#: public/class-pirateforms-public.php:495
+#: public/class-pirateforms-public.php:505
 msgid "Contact form submission from"
 msgstr ""
 
-#: public/class-pirateforms-public.php:506
+#: public/class-pirateforms-public.php:516
 msgid "Please enter one or more Contact submission recipients"
 msgstr ""
 
-#: public/class-pirateforms-public.php:521
+#: public/class-pirateforms-public.php:531
 msgid "IP address: "
 msgstr ""
 
-#: public/class-pirateforms-public.php:522
+#: public/class-pirateforms-public.php:532
 msgid "IP search:"
 msgstr ""
 
-#: public/class-pirateforms-public.php:527
+#: public/class-pirateforms-public.php:537
 msgid "Came from: "
 msgstr ""
 
-#: public/class-pirateforms-public.php:531
+#: public/class-pirateforms-public.php:541
 msgid "Sent from page: "
 msgstr ""
 
-#: public/class-pirateforms-public.php:716
-#: public/class-pirateforms-public.php:728
+#: public/class-pirateforms-public.php:732
+#: public/class-pirateforms-public.php:744
 msgid "Wrong reCAPTCHA"
 msgstr ""
 
-#: public/class-pirateforms-public.php:761
+#: public/class-pirateforms-public.php:777
 msgid "Uploaded file is not allowed for file type"
 msgstr ""
 
-#: public/class-pirateforms-public.php:769
+#: public/class-pirateforms-public.php:785
 msgid "Uploaded file is too large"
 msgstr ""
 
-#: public/class-pirateforms-public.php:785
+#: public/class-pirateforms-public.php:801
 msgid "There was an unknown error uploading the file."
 msgstr ""
 
@@ -567,27 +579,27 @@ msgstr ""
 msgid "http://themeisle.com"
 msgstr ""
 
-#: includes/class-pirateforms.php:222
+#: includes/class-pirateforms.php:234
 msgctxt "post type general name"
 msgid "Contacts"
 msgstr ""
 
-#: includes/class-pirateforms.php:223
+#: includes/class-pirateforms.php:235
 msgctxt "post type singular name"
 msgid "Contact"
 msgstr ""
 
-#: includes/class-pirateforms.php:224
+#: includes/class-pirateforms.php:236
 msgctxt "admin menu"
 msgid "Contacts"
 msgstr ""
 
-#: includes/class-pirateforms.php:225
+#: includes/class-pirateforms.php:237
 msgctxt "add new on admin bar"
 msgid "Contact"
 msgstr ""
 
-#: includes/class-pirateforms.php:226
+#: includes/class-pirateforms.php:238
 msgctxt "contact"
 msgid "Add New"
 msgstr ""
