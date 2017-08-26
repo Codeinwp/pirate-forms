@@ -67,6 +67,10 @@
 
 							<hr>
 
+							<div class="pirate-forms-warning">
+							<?php esc_html_e( 'If you are using the default (non-SMTP) configuration which uses the WP/PHP mail, mails might either land in the spam/junk folders or they might get lost. So, you might not receive the email even if the status against an entry reads the mail has been sent successfully. If you face this, please contact your system administrator. If you continue to face this problem, you can switch to the SMTP configuration to ensure email deliverability.', 'pirate-forms' ); ?>
+							</div>
+
 							<div class="rate_plugin_invite">
 
 								<h4><?php esc_html_e( 'Are you enjoying Pirate Forms?', 'pirate-forms' ); ?></h4>

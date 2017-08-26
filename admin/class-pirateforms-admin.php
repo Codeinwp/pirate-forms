@@ -68,7 +68,8 @@ class PirateForms_Admin {
 			wp_enqueue_script( 'pirateforms_scripts_admin', PIRATEFORMS_URL . 'admin/js/scripts-admin.js', array( 'jquery' ), $this->version );
 			wp_localize_script(
 				'pirateforms_scripts_admin', 'cwp_top_ajaxload', array(
-					'ajaxurl' => admin_url( 'admin-ajax.php' ),
+					'ajaxurl'   => admin_url( 'admin-ajax.php' ),
+					'nonce'     => wp_create_nonce( PIRATEFORMS_SLUG ),
 				)
 			);
 		}
@@ -764,6 +765,8 @@ class PirateForms_Admin {
 	 * @since    1.0.0
 	 */
 	public function save_callback() {
+		check_ajax_referer( PIRATEFORMS_SLUG, 'security' );
+
 		if ( isset( $_POST['dataSent'] ) ) :
 			$dataSent = $_POST['dataSent'];
 			$params   = array();
@@ -823,9 +826,48 @@ class PirateForms_Admin {
 	}
 
 	/**
+	 * Add the columns for contacts listing
+	 *
+	 * @param array $columns array of columns.
+	 *
+	 * @since    1.0.0
+	 */
+	public function manage_contact_posts_columns( $columns ) {
+		$tmp     = $columns;
+		$columns = array();
+		foreach ( $tmp as $key => $val ) {
+			if ( 'date' === $key ) {
+				// ensure our columns are added before the date.
+				$columns['pf_mailstatus'] = __( 'Mail Status', 'pirate-forms' );
+			}
+			$columns[ $key ] = $val;
+		}
+
+		return $columns;
+	}
+
+	/**
+	 * Show the additional columns for contacts listing
+	 *
+	 * @param string  $column the column name.
+	 * @param numeric $id the post id.
+	 *
+	 * @since    1.0.0
+	 */
+	public function manage_contact_posts_custom_column( $column, $id ) {
+		switch ( $column ) {
+			case 'pf_mailstatus':
+				$response   = get_post_meta( $id, PIRATEFORMS_SLUG . 'mail-status', true );
+				echo empty( $response ) ? __( 'Status not captured', 'pirate-forms' ) : ( $response ? __( 'Mail sent successfully!', 'pirate-forms' ) : __( 'Mail sending failed!', 'pirate-forms' ) );
+				break;
+		}
+	}
+
+	/**
 	 * Test sending the email.
 	 */
 	public function test_email() {
+		check_ajax_referer( PIRATEFORMS_SLUG, 'security' );
 		add_filter( 'pirateformpro_get_form_attributes', array( $this, 'test_configuration' ), 999, 2 );
 		add_action( 'pirate_forms_after_processing', array( $this, 'test_result'), 10, 1 );
 		add_filter( 'pirate_forms_validate_request', array( $this, 'test_alter_session'), 10, 3 );
