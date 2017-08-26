@@ -7,7 +7,7 @@
  */
 // @codingStandardsIgnoreStart
 class pirate_forms_contact_widget extends WP_Widget {
-    // @codingStandardsIgnoreEnd
+	// @codingStandardsIgnoreEnd
 
 	/**
 	 *  Widget constructor
@@ -17,7 +17,7 @@ class pirate_forms_contact_widget extends WP_Widget {
 			'pirate_forms_contact_widget',
 			__( 'Pirate Forms', 'pirate-forms' ),
 			array(
-				'classname' => __FUNCTION__,
+				'classname'   => __FUNCTION__,
 				'description' => __( 'Pirate Forms', 'pirate-forms' ),
 			)
 		);
@@ -61,11 +61,11 @@ class pirate_forms_contact_widget extends WP_Widget {
 		$attributes = array( 'from' => 'widget' );
 		$attributes = apply_filters( 'pirate_forms_widget_attributes', $attributes, $instance );
 
-		$shortcode  = '[pirate_forms';
+		$shortcode = '[pirate_forms';
 		foreach ( $attributes as $k => $v ) {
-			$shortcode  .= " $k='$v'";
+			$shortcode .= " $k='$v'";
 		}
-		$shortcode  .= ']';
+		$shortcode .= ']';
 		echo do_shortcode( $shortcode );
 		echo '<div class="pirate_forms_clearfix"></div>';
 		echo '</div>' . $args['after_widget'];
@@ -83,7 +83,7 @@ class pirate_forms_contact_widget extends WP_Widget {
 		$instance['pirate_forms_widget_title']   = apply_filters( 'widget_title', sanitize_text_field( $new_instance['pirate_forms_widget_title'] ) );
 		$instance['pirate_forms_widget_subtext'] = $new_instance['pirate_forms_widget_subtext'];
 
-		$instance   = apply_filters( 'pirate_forms_widget_update', $instance, $new_instance );
+		$instance = apply_filters( 'pirate_forms_widget_update', $instance, $new_instance );
 
 		return $instance;
 	}
@@ -98,17 +98,17 @@ class pirate_forms_contact_widget extends WP_Widget {
 		$pirate_forms_widget_subtext = ! empty( $instance['pirate_forms_widget_subtext'] ) ? $instance['pirate_forms_widget_subtext'] : __( 'Text above form', 'pirate-forms' );
 		?>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'pirate_forms_widget_title' ); ?>"><?php _e( 'Title:','pirate-forms' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'pirate_forms_widget_title' ); ?>"><?php _e( 'Title:', 'pirate-forms' ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'pirate_forms_widget_title' ); ?>"
 				   name="<?php echo $this->get_field_name( 'pirate_forms_widget_title' ); ?>" type="text"
 				   value="<?php echo esc_attr( $pirate_forms_widget_title ); ?>">
 		</p>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'pirate_forms_widget_subtext' ); ?>"><?php _e( 'Subtext:','pirate-forms' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'pirate_forms_widget_subtext' ); ?>"><?php _e( 'Subtext:', 'pirate-forms' ); ?></label>
 			<textarea class="widefat" id="<?php echo $this->get_field_id( 'pirate_forms_widget_subtext' ); ?>"
 					  name="<?php echo $this->get_field_name( 'pirate_forms_widget_subtext' ); ?>"><?php echo esc_attr( $pirate_forms_widget_subtext ); ?></textarea>
 		</p>
 		<?php
-		echo apply_filters( 'pirate_forms_widget_form', sprintf( '<p>%s</p>', __( 'Some upsell message', 'pirate-forms' ) ), $instance, $this );
+		echo apply_filters( 'pirate_forms_widget_form', sprintf( '<p>%s</p>', sprintf( __( 'Need more forms ? Check our <a href="%s" target="_blank">extended</a> version for more features', 'pirate-forms' ), PIRATEFORMS_USELL_LINK ) ), $instance, $this );
 	}
 }
