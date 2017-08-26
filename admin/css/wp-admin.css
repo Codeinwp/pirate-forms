@@ -196,7 +196,7 @@ div.pirate_dashicons > form > div > label > .pirate_forms_option_description {
 	padding: 15px;
 	border-radius: 5px;
 	color: #fff;
-	background: rgba(0,0,0,0.8);
+	background: rgba(0, 0, 0, 0.8);
 	font-size: 11px;
 	line-height: 16px;
 	text-align: left;
@@ -250,7 +250,7 @@ div.pirate_dashicons > form > div > label {
 	margin: 0 auto 10px;
 }
 
-@media( max-width: 1360px) {
+@media ( max-width: 1360px) {
 	.pirate-subscribe.postbox {
 		display: block;
 		margin-left: 0;
@@ -264,7 +264,7 @@ div.pirate_dashicons > form > div > label {
 	right: 0;
 	bottom: 0;
 	left: 0;
-	background: url("../img/loader.gif") no-repeat center center, rgba(255,255,255,0.8);
+	background: url("../img/loader.gif") no-repeat center center, rgba(255, 255, 255, 0.8);
 }
 
 .pirate-forms-hidden {
@@ -331,7 +331,7 @@ div.pirate_dashicons > form > div > label {
 	}
 }
 
-@media screen and (max-width:1200px) {
+@media screen and (max-width: 1200px) {
 	#pirate-forms-sidebar {
 		float: left;
 		width: 100%;
@@ -356,4 +356,8 @@ div.pirate_dashicons > form > div > label {
 .pirate-forms-warning {
 	color: #f00;
 	font-weight: bold;
+}
+
+.pirate-forms-test-button {
+	margin-left: 10px;
 }
