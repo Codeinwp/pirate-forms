@@ -1,4 +1,11 @@
 
+ ### v2.1.0 - 2017-08-26 
+ **Changes:** 
+ * Improved compatibility with the pro version.
+* Fixed broken form layout on certain themes.
+* Improved security.
+* Added test email functionality.
+ 
  ### v2.0.5 - 2017-08-16 
  **Changes:** 
  * Fixed compatibility with the pro version for multiple fields. 
