@@ -650,6 +650,7 @@ class PirateForms_Public {
 				if ( isset( $pirate_forms_contact_email ) && ! empty( $pirate_forms_contact_email ) ) {
 					add_post_meta( $new_post_id, 'Contact email', $pirate_forms_contact_email );
 				}
+				add_post_meta( $new_post_id, PIRATEFORMS_SLUG . 'mail-status', $response );
 				do_action( 'pirate_forms_update_contact', $pirate_forms_options, $new_post_id );
 			}
 

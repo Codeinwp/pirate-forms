@@ -128,7 +128,7 @@ class PirateForms {
 	 * @access   private
 	 */
 	private function define_common_hooks() {
-		$this->loader->add_action( 'init', $this, 'register_content_type' );
+		$this->loader->add_action( 'init', $this, 'register_content_type', 10 );
 	}
 
 
@@ -144,7 +144,7 @@ class PirateForms {
 		$plugin_admin = new PirateForms_Admin( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles_and_scripts' );
-		$this->loader->add_action( 'admin_menu', $plugin_admin, 'add_to_admin' );
+		$this->loader->add_action( 'admin_menu', $plugin_admin, 'add_to_admin', 9 );
 		$this->loader->add_action( 'admin_head', $plugin_admin, 'settings_init' );
 		$this->loader->add_filter( 'plugin_action_links_' . PIRATEFORMS_BASENAME, $plugin_admin, 'add_settings_link' );
 		$this->loader->add_action( 'wp_ajax_pirate_forms_save', $plugin_admin, 'save_callback' );
@@ -152,6 +152,10 @@ class PirateForms {
 		$this->loader->add_action( 'pirate_forms_load_sidebar', $plugin_admin, 'load_sidebar' );
 		$this->loader->add_action( 'pirate_forms_load_sidebar_theme', $plugin_admin, 'load_sidebar_theme' );
 		$this->loader->add_action( 'pirate_forms_load_sidebar_subscribe', $plugin_admin, 'load_sidebar_subscribe' );
+
+		$this->loader->add_filter( 'manage_pf_contact_posts_columns', $plugin_admin, 'manage_contact_posts_columns' );
+		$this->loader->add_filter( 'manage_pf_contact_posts_custom_column', $plugin_admin, 'manage_contact_posts_custom_column', 10, 2 );
+
 	}
 
 
@@ -231,24 +235,21 @@ class PirateForms {
 	 */
 	public function register_content_type() {
 		$labels = array(
-			'name'               => _x( 'Contacts', 'post type general name', 'pirate-forms' ),
-			'singular_name'      => _x( 'Contact', 'post type singular name', 'pirate-forms' ),
-			'menu_name'          => _x( 'Contacts', 'admin menu', 'pirate-forms' ),
-			'name_admin_bar'     => _x( 'Contact', 'add new on admin bar', 'pirate-forms' ),
-			'add_new'            => _x( 'Add New', 'contact', 'pirate-forms' ),
-			'add_new_item'       => __( 'Add New Contact', 'pirate-forms' ),
-			'new_item'           => __( 'New Contact', 'pirate-forms' ),
-			'edit_item'          => __( 'Edit Contact', 'pirate-forms' ),
-			'view_item'          => __( 'View Contact', 'pirate-forms' ),
-			'all_items'          => __( 'All Contacts', 'pirate-forms' ),
-			'search_items'       => __( 'Search Contacts', 'pirate-forms' ),
-			'parent_item_colon'  => __( 'Parent Contacts:', 'pirate-forms' ),
-			'not_found'          => __( 'No contacts found.', 'pirate-forms' ),
-			'not_found_in_trash' => __( 'No contacts found in Trash.', 'pirate-forms' ),
+			'name'               => _x( 'Entries', 'post type general name', 'pirate-forms' ),
+			'singular_name'      => _x( 'Entry', 'post type singular name', 'pirate-forms' ),
+			'menu_name'          => _x( 'Entries', 'admin menu', 'pirate-forms' ),
+			'name_admin_bar'     => _x( 'Entry', 'add new on admin bar', 'pirate-forms' ),
+			'edit_item'          => __( 'Edit Entry', 'pirate-forms' ),
+			'view_item'          => __( 'View Entry', 'pirate-forms' ),
+			'all_items'          => __( 'All Entries', 'pirate-forms' ),
+			'search_items'       => __( 'Search Entries', 'pirate-forms' ),
+			'parent_item_colon'  => __( 'Parent Entries:', 'pirate-forms' ),
+			'not_found'          => __( 'No entries found.', 'pirate-forms' ),
+			'not_found_in_trash' => __( 'No entries found in Trash.', 'pirate-forms' ),
 		);
 		$args   = array(
 			'labels'             => $labels,
-			'description'        => __( 'Contacts from Pirate Forms', 'pirate-forms' ),
+			'description'        => __( 'Entries from Pirate Forms', 'pirate-forms' ),
 			'public'             => true,
 			'publicly_queryable' => true,
 			'show_ui'            => true,
@@ -259,6 +260,11 @@ class PirateForms {
 			'hierarchical'       => false,
 			'menu_position'      => null,
 			'supports'           => array( 'title', 'editor', 'custom-fields' ),
+			'capabilities'       => array(
+				'create_posts'   => false,
+			),
+			'map_meta_cap'       => true,
+
 		);
 		register_post_type( 'pf_contact', $args );
 	}

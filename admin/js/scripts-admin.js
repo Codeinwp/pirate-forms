@@ -30,7 +30,8 @@ jQuery(document).ready(function() {
             type: 'POST',
             url: cwp_top_ajaxload.ajaxurl,
             data: {
-                action: 'pirate_forms_test',
+                action      : 'pirate_forms_test',
+                security    : cwp_top_ajaxload.nonce
             },
             success: function (data) {
                 jQuery('.pirate-forms-test-message').html(data.data.message);
@@ -54,8 +55,9 @@ jQuery(document).ready(function() {
             url: cwp_top_ajaxload.ajaxurl,
 
             data: {
-                action: 'pirate_forms_save',
-                dataSent: data
+                action      : 'pirate_forms_save',
+                dataSent    : data,
+                security    : cwp_top_ajaxload.nonce
             },
             success: function (response) {
                 console.log(response);

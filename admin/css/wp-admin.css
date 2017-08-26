@@ -352,3 +352,8 @@ div.pirate_dashicons > form > div > label {
 	margin: auto;
 	margin-bottom: 5px;
 }
+
+.pirate-forms-warning {
+	color: #f00;
+	font-weight: bold;
+}
