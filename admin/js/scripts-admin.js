@@ -16,6 +16,34 @@ jQuery(document).ready(function() {
         cwpTopUpdateForm();
         return false;
     });
+
+    jQuery('.pirate-forms-test-button').click(function (e) {
+        e.preventDefault();
+        cwpSendTestEmail();
+        return false;
+    });
+
+    function cwpSendTestEmail() {
+        jQuery('.pirate-forms-test-message').html('');
+        startAjaxIntro();
+        jQuery.ajax({
+            type: 'POST',
+            url: cwp_top_ajaxload.ajaxurl,
+            data: {
+                action      : 'pirate_forms_test',
+                security    : cwp_top_ajaxload.nonce
+            },
+            success: function (data) {
+                jQuery('.pirate-forms-test-message').html(data.data.message);
+            },
+            error: function (MLHttpRequest, textStatus, errorThrown) {
+                console.log('There was an error: ' + errorThrown);
+            }
+        });
+        endAjaxIntro();
+        return false;
+    }
+
     function cwpTopUpdateForm() {
 
         startAjaxIntro();
@@ -27,8 +55,9 @@ jQuery(document).ready(function() {
             url: cwp_top_ajaxload.ajaxurl,
 
             data: {
-                action: 'pirate_forms_save',
-                dataSent: data
+                action      : 'pirate_forms_save',
+                dataSent    : data,
+                security    : cwp_top_ajaxload.nonce
             },
             success: function (response) {
                 console.log(response);

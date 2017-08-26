@@ -110,7 +110,7 @@
 
 .pirate-options {
 	float: left;
-	width: 80%;
+	width: 77%;
 }
 
 .pirate-subscribe.postbox {
@@ -272,14 +272,14 @@ div.pirate_dashicons > form > div > label {
 }
 
 #pirate-forms-main {
-	width: 90%;
+	width: 99%;
 }
 
 #pirate-forms-sidebar {
 	float: right;
-	width: 18%;
+	width: 22%;
 	margin-top: 50px;
-	margin-left: 2%;
+	margin-left: 1%;
 }
 
 .pirate-custom-emails a:hover {
@@ -351,4 +351,9 @@ div.pirate_dashicons > form > div > label {
 	max-width: initial;
 	margin: auto;
 	margin-bottom: 5px;
+}
+
+.pirate-forms-warning {
+	color: #f00;
+	font-weight: bold;
 }
