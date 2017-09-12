@@ -318,7 +318,7 @@ class PirateForms_Admin {
 										'class' => 'pirate_forms_option_description',
 									),
 								),
-								'value' => PirateForms_Util::get_option( 'pirateformsopt_confirm_email' ),
+								'value' => stripslashes( PirateForms_Util::get_option( 'pirateformsopt_confirm_email' ) ),
 								'wrap'  => array(
 									'type'  => 'div',
 									'class' => 'pirate-forms-grouped',

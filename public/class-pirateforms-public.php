@@ -764,7 +764,7 @@ class PirateForms_Public {
 		/**
 		 ******* Validate Attachment */
 		$use_files = $pirate_forms_options['pirateformsopt_attachment_field'];
-		if ( ! empty( $use_files ) && ( $use_files == 'yes' ) ) {
+		if ( ! empty( $use_files ) ) {
 			$pirate_forms_attach_file = isset( $_FILES['pirate-forms-attachment'] ) ? $_FILES['pirate-forms-attachment'] : '';
 			if ( ! empty( $pirate_forms_attach_file ) && ! empty( $pirate_forms_attach_file['name'] ) ) {
 				/* Validate file type */
