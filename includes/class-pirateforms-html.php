@@ -162,29 +162,28 @@ class PirateForms_HTML {
 	 * @since    1.2.6
 	 */
 	private function file( $args ) {
-		$class			= 'pirate-forms-file-upload-hidden';
+		$class          = 'pirate-forms-file-upload-hidden';
 		if ( isset( $args['class'] ) ) {
-			$class		.= ' ' . $args['class'];
+			$class      .= ' ' . $args['class'];
 		}
-		$args['class']	= $class;
+		$args['class']  = $class;
 
 		// label for the upload button
-		$label			= isset( $args['label']['value'] ) ? $args['label']['value'] : ( isset( $args['placeholder'] ) ? $args['placeholder'] : '' );
+		$label          = isset( $args['label']['value'] ) ? $args['label']['value'] : ( isset( $args['placeholder'] ) ? $args['placeholder'] : '' );
 		if ( empty( $label ) ) {
-			$label		= __( 'Upload file', 'pirate-forms' );
+			$label      = __( 'Upload file', 'pirate-forms' );
 		}
 		$args['label']['value'] = $label;
 
 		// since the file field is going to be non-focussable, let's put the required attributes (if available) on the text field
-
-		$text_args		= array(
-			'class'		=> 'pirate-forms-file-upload-input',
-			'id'		=> '',
-			'name'		=> '',
+		$text_args      = array(
+			'class'     => 'pirate-forms-file-upload-input',
+			'id'        => '',
+			'name'      => '',
 		);
 		if ( isset( $args['required'] ) && $args['required'] && isset( $args['required_msg'] ) ) {
-			$text_args['required']		= $args['required'];
-			$text_args['required_msg']	= $args['required_msg'];
+			$text_args['required']      = $args['required'];
+			$text_args['required_msg']  = $args['required_msg'];
 			unset( $args['required'] );
 			unset( $args['required_msg'] );
 		}
