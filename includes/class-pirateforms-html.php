@@ -311,7 +311,7 @@ class PirateForms_HTML {
 			}
 			foreach ( $args['options'] as $key => $val ) {
 				$extra  = $key == $args['value'] ? 'checked' : '';
-				$html   .= '<input type="checkbox" value="' . esc_attr( $key ) . '" id="' . esc_attr( $args['id'] . $key ) . '" name="' . $name . '" class="' . ( isset( $args['class'] ) ? esc_attr( $args['class'] ) : '' ) . '" ' . $extra . '>' . $val;
+				$html   .= '<input type="checkbox" ' . ( isset( $args['disabled'] ) && $args['disabled'] ? 'disabled' : '' ) . ' value="' . esc_attr( $key ) . '" id="' . esc_attr( $args['id'] . $key ) . '" name="' . $name . '" class="' . ( isset( $args['class'] ) ? esc_attr( $args['class'] ) : '' ) . '" ' . $extra . '>' . $val;
 			}
 		}
 

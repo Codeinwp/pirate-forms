@@ -148,7 +148,7 @@ class PirateForms_Public {
 		$error_key = wp_create_nonce( get_bloginfo( 'admin_email' ) . ( $from_widget ? 'yes' : 'no' ) );
 
 		$thank_you_message  = '';
-		if ( isset( $_GET['done'] ) ) {
+		if ( isset( $_GET['done'] ) && empty( $_SESSION[ $error_key ] ) ) {
 			$thank_you_message = sanitize_text_field( $pirate_forms_options['pirateformsopt_label_submit'] );
 		}
 
@@ -548,10 +548,9 @@ class PirateForms_Public {
 
 		$body .= '</table>';
 
-		if ( $this->is_spam( $pirate_forms_options, $contact_ip, get_permalink( get_the_id() ), $msg ) ) {
+		if ( $this->is_spam( $contact_ip, get_permalink( get_the_id() ), $msg ) ) {
 			$_SESSION[ $error_key ]['honeypot'] = __( 'Form submission failed!', 'pirate-forms' );
 		}
-
 
 		// No errors? Go ahead and process the contact
 		if ( empty( $_SESSION[ $error_key ] ) ) {
@@ -694,7 +693,7 @@ class PirateForms_Public {
 		$pirate_forms_contact_email     = null;
 		$pirate_forms_contact_name      = null;
 		$pirate_forms_contact_subject   = null;
-		$message						= null;
+		$message                        = null;
 		$fields                         = array( 'name', 'email', 'subject', 'message' );
 		foreach ( $fields as $field ) {
 			$value      = isset( $_POST[ 'pirate-forms-contact-' . $field ] ) ? sanitize_text_field( trim( $_POST[ 'pirate-forms-contact-' . $field ] ) ) : '';
@@ -1024,39 +1023,42 @@ class PirateForms_Public {
 		return $elements;
 	}
 
-	function is_spam( $pirate_forms_options, $ip, $page_url, $msg ) {
-		// check if akismet is installed and key provided
-		$key	= get_option('wordpress_api_key');
-		if ( empty( $key ) ) {
-			// see if we have provided the key in the options
-			$key	= isset( $pirate_forms_options['akismet_api_key'] ) ? $pirate_forms_options['akismet_api_key'] : '';
-		}
-		if ( empty( $key ) ) {
+	/**
+	 * Check with akismet if the message is spam.
+	 */
+	function is_spam( $ip, $page_url, $msg ) {
+		$integrate  = PirateForms_Util::get_option( 'pirateformsopt_akismet' );
+		// check if akismet is installed withkey provided and if integration is required and if the message body is non-empty
+		$key    = get_option( 'wordpress_api_key' );
+		if ( empty( $integrate ) || empty( $key ) || empty( $msg ) ) {
 			return false;
 		}
 
 		$data = array(
-				'blog'				=> home_url(),
-				'user_ip'			=> $ip,
-				'user_agent'		=> $_SERVER['HTTP_USER_AGENT'],
-				'referrer'			=> $_SERVER['HTTP_REFERER'],
-				'permalink'			=> $page_url,
-				'comment_type'		=> 'contact-form',
-				'comment_content'	=> $msg,
+			'blog'              => home_url(),
+			'user_ip'           => $ip,
+			'user_agent'        => $_SERVER['HTTP_USER_AGENT'],
+			'referrer'          => $_SERVER['HTTP_REFERER'],
+			'permalink'         => $page_url,
+			'comment_type'      => 'contact-form',
+			'comment_content'   => $msg,
 		);
-		$response	= wp_remote_retrieve_body( wp_remote_post( "https://{$key}.rest.akismet.com/1.1/comment-check", array(
-			'body'			=> $data,
-			'headers'		=> array(
-				'Content-Type'		=> 'application/x-www-form-urlencoded',
-				'User-Agent'		=> 'WordPress/4.4.1 | Akismet/3.1.7',
-			),
-		) ) );
-error_log("response $response");
-		 
+		$response   = wp_remote_retrieve_body(
+			wp_remote_post(
+				"https://{$key}.rest.akismet.com/1.1/comment-check", array(
+					'body'          => $data,
+					'headers'       => array(
+						'Content-Type'      => 'application/x-www-form-urlencoded',
+						'User-Agent'        => sprintf( 'WordPress/%s | Akismet/3.1.7', get_bloginfo( 'version' ) ),
+					),
+				)
+			)
+		);
+
 		if ( 'true' == $response ) {
 			return true;
 		}
-		
+
 		return false;
 	}
 }
