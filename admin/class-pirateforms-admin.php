@@ -276,7 +276,7 @@ class PirateForms_Admin {
 									'value' => __( 'Store submissions in the database', 'pirate-forms' ),
 									'html'  => '<span class="dashicons dashicons-editor-help"></span>',
 									'desc'  => array(
-										'value' => __( 'Should the submissions be stored in the admin area? If chosen, contact form submissions will be saved in Contacts on the left (appears after this option is activated).', 'pirate-forms' ),
+										'value' => __( 'Should the submissions be stored in the admin area? If chosen, contact form submissions will be saved under "All Entries" on the left (appears after this option is activated).', 'pirate-forms' ),
 										'class' => 'pirate_forms_option_description',
 									),
 								),
