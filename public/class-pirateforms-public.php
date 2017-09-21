@@ -607,6 +607,7 @@ class PirateForms_Public {
 
 			// Should a confirm email be sent?
 			$confirm_body = stripslashes( trim( $pirate_forms_options['pirateformsopt_confirm_email'] ) );
+			$response_confirm = '';
 			if ( ! empty( $confirm_body ) && ! empty( $pirate_forms_contact_email ) ) {
 				// Removing entities
 				$confirm_body = htmlspecialchars_decode( $confirm_body );
@@ -623,10 +624,10 @@ class PirateForms_Public {
 
 				do_action( 'pirate_forms_before_sending_confirm', $pirate_forms_contact_email, $pirate_forms_contact_email, $subject, $confirm_body, $headers );
 				do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'before sending confirm email to = %s, subject = %s, body = %s, headers = %s', $pirate_forms_contact_email, $subject, $confirm_body, $headers ), 'debug', __FILE__, __LINE__ );
-				$response1 = wp_mail( $pirate_forms_contact_email, $subject, $confirm_body, $headers );
-				do_action( 'pirate_forms_after_sending_confirm', $pirate_forms_options, $response1, $pirate_forms_contact_email, $pirate_forms_contact_email, $subject, $confirm_body, $headers );
-				do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'after sending confirm email response = %s', $response1 ), 'debug', __FILE__, __LINE__ );
-				if ( ! $response ) {
+				$response_confirm = wp_mail( $pirate_forms_contact_email, $subject, $confirm_body, $headers );
+				do_action( 'pirate_forms_after_sending_confirm', $pirate_forms_options, $response_confirm, $pirate_forms_contact_email, $pirate_forms_contact_email, $subject, $confirm_body, $headers );
+				do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'after sending confirm email response = %s', $response_confirm ), 'debug', __FILE__, __LINE__ );
+				if ( ! $response_confirm ) {
 					do_action( 'themeisle_log_event', PIRATEFORMS_NAME, 'Confirm email not sent', 'debug', __FILE__, __LINE__ );
 					error_log( 'Confirm email not sent' );
 				}
@@ -635,12 +636,10 @@ class PirateForms_Public {
 			/**
 			 ***********   Store the entries in the DB */
 			if ( 'yes' === $pirate_forms_options['pirateformsopt_store'] ) {
-				error_log("body " . print_r($body,true));
 				$mail_body	= apply_filters( 'pirate_forms_get_mail_body', $body );
 				if ( is_array( $mail_body ) ) {
 					$mail_body	= PirateForms_Util::get_table( $mail_body );
 				}
-				error_log("mail_body $mail_body");
 				$new_post_id = wp_insert_post(
 					array(
 						'post_type'    => 'pf_contact',
@@ -654,6 +653,7 @@ class PirateForms_Public {
 					add_post_meta( $new_post_id, 'Contact email', $pirate_forms_contact_email );
 				}
 				add_post_meta( $new_post_id, PIRATEFORMS_SLUG . 'mail-status', $response );
+				add_post_meta( $new_post_id, PIRATEFORMS_SLUG . 'confirm-mail-status', $response_confirm );
 				do_action( 'pirate_forms_update_contact', $pirate_forms_options, $new_post_id );
 			}
 
