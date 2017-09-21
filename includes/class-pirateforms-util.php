@@ -19,13 +19,14 @@ class PirateForms_Util {
 				case 'heading':
 					$html	.= '<h2>' . $value . '</h2>';
 					break;
-				case 'html':
-					$html	.= $value;
-					break;
 				case 'body':
 					$html	.= '<table>';
 					foreach ( $value as $k => $v ) {
 						$html	.= self::table_row( $k . ':', $v );
+					}
+					if ( isset( $body['rows'] ) ) {
+						// special case for new lite and old pro where the old pro returns the table rows as an HTML string
+						$html	.= $body['rows'];
 					}
 					$html	.= '</table>';
 					break;

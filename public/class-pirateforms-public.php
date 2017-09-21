@@ -718,7 +718,7 @@ class PirateForms_Public {
 			// new lite, old pro
 			$temp		= '';
 			$temp       = apply_filters( 'pirate_forms_validate_request', $temp, $error_key, $pirate_forms_options );
-			$body['html'] = $temp;
+			$body['rows'] = $temp;
 		} else {
 			// new lite, new pro
 			$body       = apply_filters( 'pirate_forms_validate_request', $body, $error_key, $pirate_forms_options );
