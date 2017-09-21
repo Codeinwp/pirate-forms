@@ -8,6 +8,33 @@
 class PirateForms_Util {
 
 	/**
+	 * Return the table.
+	 *
+	 * @since    1.0.0
+	 */
+	public static function get_table( $body ) {
+		$html		= '';
+		foreach ( $body as $type => $value ) {
+			switch( $type ) {
+				case 'heading':
+					$html	.= '<h2>' . $value . '</h2>';
+					break;
+				case 'html':
+					$html	.= $value;
+					break;
+				case 'body':
+					$html	.= '<table>';
+					foreach ( $value as $k => $v ) {
+						$html	.= self::table_row( $k . ':', $v );
+					}
+					$html	.= '</table>';
+					break;
+			}
+		}
+		return $html;
+	}
+
+	/**
 	 * Return the table row
 	 *
 	 * @since    1.0.0
