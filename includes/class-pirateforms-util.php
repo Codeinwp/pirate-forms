@@ -13,22 +13,22 @@ class PirateForms_Util {
 	 * @since    1.0.0
 	 */
 	public static function get_table( $body ) {
-		$html		= '';
+		$html       = '';
 		foreach ( $body as $type => $value ) {
-			switch( $type ) {
+			switch ( $type ) {
 				case 'heading':
-					$html	.= '<h2>' . $value . '</h2>';
+					$html   .= '<h2>' . $value . '</h2>';
 					break;
 				case 'body':
-					$html	.= '<table>';
+					$html   .= '<table>';
 					foreach ( $value as $k => $v ) {
-						$html	.= self::table_row( $k . ':', $v );
+						$html   .= self::table_row( $k . ':', $v );
 					}
 					if ( isset( $body['rows'] ) ) {
-						// special case for new lite and old pro where the old pro returns the table rows as an HTML string
-						$html	.= $body['rows'];
+						// special case for new lite and old pro where the old pro returns the table rows as an HTML string.
+						$html   .= $body['rows'];
 					}
-					$html	.= '</table>';
+					$html   .= '</table>';
 					break;
 			}
 		}

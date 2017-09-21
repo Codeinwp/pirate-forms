@@ -502,9 +502,9 @@ class PirateForms_Public {
 		}
 
 		// Start the body of the contact email
-		$body	= array();
-		$body['heading']	= sprintf( __( 'Contact form submission from %s', 'pirate-forms' ), get_bloginfo( 'name' ) . ' (' . site_url() . ')' );
-		$body['body']		= array();
+		$body   = array();
+		$body['heading']    = sprintf( __( 'Contact form submission from %s', 'pirate-forms' ), get_bloginfo( 'name' ) . ' (' . site_url() . ')' );
+		$body['body']       = array();
 
 		list($pirate_forms_contact_email, $pirate_forms_contact_name, $pirate_forms_contact_subject) = $this->validate_request( $error_key, $pirate_forms_options, $body );
 
@@ -527,17 +527,17 @@ class PirateForms_Public {
 
 		// If valid and present, create a link to an IP search
 		if ( ! empty( $contact_ip ) ) {
-			$body['body'][__( 'IP address', 'pirate-forms' )] = $contact_ip;
-			$body['body'][__( 'IP search', 'pirate-forms' )]	= "http://whatismyipaddress.com/ip/$contact_ip";
+			$body['body'][ __( 'IP address', 'pirate-forms' ) ] = $contact_ip;
+			$body['body'][ __( 'IP search', 'pirate-forms' ) ]    = "http://whatismyipaddress.com/ip/$contact_ip";
 		}
 
 		// Sanitize and prepare referrer;
 		if ( ! empty( $_POST['pirate-forms-contact-referrer'] ) ) {
-			$body['body'][__( 'Came from', 'pirate-forms' )]	= sanitize_text_field( $_POST['pirate-forms-contact-referrer'] );
+			$body['body'][ __( 'Came from', 'pirate-forms' ) ]    = sanitize_text_field( $_POST['pirate-forms-contact-referrer'] );
 		}
 
 		// Show the page this contact form was submitted on
-		$body['body'][__( 'Sent from page', 'pirate-forms' )]	= get_permalink( get_the_id() );
+		$body['body'][ __( 'Sent from page', 'pirate-forms' ) ]   = get_permalink( get_the_id() );
 
 		// Check the blacklist
 		$blocked = PirateForms_Util::is_blacklisted( $error_key, $pirate_forms_contact_email, $contact_ip );
@@ -636,9 +636,9 @@ class PirateForms_Public {
 			/**
 			 ***********   Store the entries in the DB */
 			if ( 'yes' === $pirate_forms_options['pirateformsopt_store'] ) {
-				$mail_body	= apply_filters( 'pirate_forms_get_mail_body', $body );
+				$mail_body  = apply_filters( 'pirate_forms_get_mail_body', $body );
 				if ( is_array( $mail_body ) ) {
-					$mail_body	= PirateForms_Util::get_table( $mail_body );
+					$mail_body  = PirateForms_Util::get_table( $mail_body );
 				}
 				$new_post_id = wp_insert_post(
 					array(
@@ -689,10 +689,10 @@ class PirateForms_Public {
 	 * @param string $body the body to save as the CPT.
 	 */
 	function validate_request( $error_key, $pirate_forms_options, &$body ) {
-		$contact_email		= null;
-		$contact_name		= null;
-		$contact_subject	= null;
-		$fields				= array( 'name', 'email', 'subject', 'message' );
+		$contact_email      = null;
+		$contact_name       = null;
+		$contact_subject    = null;
+		$fields             = array( 'name', 'email', 'subject', 'message' );
 		foreach ( $fields as $field ) {
 			$value      = isset( $_POST[ 'pirate-forms-contact-' . $field ] ) ? sanitize_text_field( trim( $_POST[ 'pirate-forms-contact-' . $field ] ) ) : '';
 			if ( 'req' === $pirate_forms_options[ 'pirateformsopt_' . $field . '_field' ] && empty( $value ) ) {
@@ -708,15 +708,15 @@ class PirateForms_Public {
 					} elseif ( 'subject' === $field ) {
 						$contact_subject   = $value;
 					}
-					$body['body'][stripslashes( $pirate_forms_options[ 'pirateformsopt_label_' . $field ] )] = $value;
+					$body['body'][ stripslashes( $pirate_forms_options[ 'pirateformsopt_label_' . $field ] ) ] = $value;
 				}
 			}
 		}
 
-		$customize	= apply_filters( 'pirate_forms_customize_body', false );
+		$customize  = apply_filters( 'pirate_forms_customize_body', false );
 		if ( ! $customize ) {
 			// new lite, old pro
-			$temp		= '';
+			$temp       = '';
 			$temp       = apply_filters( 'pirate_forms_validate_request', $temp, $error_key, $pirate_forms_options );
 			$body['rows'] = $temp;
 		} else {
@@ -772,7 +772,7 @@ class PirateForms_Public {
 	 *
 	 * @throws  Exception When file uploading fails.
 	 */
-	function get_attachments( $error_key, $pirate_forms_options, &$body) {
+	function get_attachments( $error_key, $pirate_forms_options, &$body ) {
 		$attachments = '';
 		/**
 		 ******* Validate Attachment */
@@ -820,7 +820,7 @@ class PirateForms_Public {
 				}
 				if ( ! empty( $new_file ) ) {
 					$attachments = $new_file;
-					$body['body'][__( 'Attachment', 'pirate-forms' )] = basename( $attachments );
+					$body['body'][ __( 'Attachment', 'pirate-forms' ) ] = basename( $attachments );
 				}
 			}// End if().
 		}// End if().
