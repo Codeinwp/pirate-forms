@@ -589,14 +589,19 @@ class PirateForms_Public {
 				$subject    = $pirate_forms_contact_subject;
 			}
 
-			do_action( 'pirate_forms_before_sending', $pirate_forms_contact_email, $site_recipients, $subject, $body, $headers, $attachments );
-			do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'before sending email to = %s, subject = %s, body = %s, headers = %s, attachments = %s', $site_recipients, $subject, print_r( $body, true ), $headers, print_r( $attachments, true ) ), 'debug', __FILE__, __LINE__ );
-			$response = wp_mail( $site_recipients, $subject, $body, $headers, $attachments );
+			$mail_body  = apply_filters( 'pirate_forms_get_mail_body', $body );
+			if ( is_array( $mail_body ) ) {
+				$mail_body  = PirateForms_Util::get_table( $mail_body );
+			}
+
+			do_action( 'pirate_forms_before_sending', $pirate_forms_contact_email, $site_recipients, $subject, $mail_body, $headers, $attachments );
+			do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'before sending email to = %s, subject = %s, body = %s, headers = %s, attachments = %s', $site_recipients, $subject, $mail_body, $headers, print_r( $attachments, true ) ), 'debug', __FILE__, __LINE__ );
+			$response = wp_mail( $site_recipients, $subject, $mail_body, $headers, $attachments );
 			if ( ! $response ) {
 				do_action( 'themeisle_log_event', PIRATEFORMS_NAME, 'Email not sent', 'debug', __FILE__, __LINE__ );
 				error_log( 'Email not sent' );
 			}
-			do_action( 'pirate_forms_after_sending', $pirate_forms_options, $response, $pirate_forms_contact_email, $site_recipients, $subject, $body, $headers, $attachments );
+			do_action( 'pirate_forms_after_sending', $pirate_forms_options, $response, $pirate_forms_contact_email, $site_recipients, $subject, $mail_body, $headers, $attachments );
 			do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'after sending email, response = %s', $response ), 'debug', __FILE__, __LINE__ );
 
 			// delete the tmp directory
@@ -636,10 +641,6 @@ class PirateForms_Public {
 			/**
 			 ***********   Store the entries in the DB */
 			if ( 'yes' === $pirate_forms_options['pirateformsopt_store'] ) {
-				$mail_body  = apply_filters( 'pirate_forms_get_mail_body', $body );
-				if ( is_array( $mail_body ) ) {
-					$mail_body  = PirateForms_Util::get_table( $mail_body );
-				}
 				$new_post_id = wp_insert_post(
 					array(
 						'post_type'    => 'pf_contact',
