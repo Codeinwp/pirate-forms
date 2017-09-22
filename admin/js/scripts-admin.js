@@ -23,7 +23,7 @@ jQuery(document).ready(function() {
         return false;
     });
 
-    jQuery('input[name="pirateformsopt_recaptcha_field"]').on('click', function(e){
+    jQuery('input[name="pirateformsopt_recaptcha_field"]').on('click', function(){
         if(jQuery(this).val() === 'yes'){
             jQuery('.pirateformsopt_recaptcha').show();
         }else{
