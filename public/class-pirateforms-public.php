@@ -67,7 +67,7 @@ class PirateForms_Public {
 		/* recaptcha js */
 		$pirate_forms_options = get_option( 'pirate_forms_settings_array' );
 		if ( ! empty( $pirate_forms_options ) ) :
-			if ( ! empty( $pirate_forms_options['pirateformsopt_recaptcha_secretkey'] ) && ! empty( $pirate_forms_options['pirateformsopt_recaptcha_sitekey'] ) && ! empty( $pirate_forms_options['pirateformsopt_recaptcha_field'] ) && ( $pirate_forms_options['pirateformsopt_recaptcha_field'] == 'yes' ) ) :
+			if ( ! empty( $pirate_forms_options['pirateformsopt_recaptcha_secretkey'] ) && ! empty( $pirate_forms_options['pirateformsopt_recaptcha_sitekey'] ) && 'yes' === $pirate_forms_options['pirateformsopt_recaptcha_field'] ) :
 				if ( defined( 'POLYLANG_VERSION' ) && function_exists( 'pll_current_language' ) ) {
 					$pirate_forms_contactus_language = pll_current_language();
 				} else {
@@ -90,6 +90,10 @@ class PirateForms_Public {
 		wp_localize_script(
 			'pirate_forms_scripts_general', 'pirateFormsObject', array(
 				'errors' => $pirate_forms_errors,
+				'spam'  => array(
+					'label' => __( 'I\'m human!', 'pirate-forms' ),
+					'value' => wp_create_nonce( PIRATEFORMS_NAME ),
+				),
 			)
 		);
 	}
@@ -304,7 +308,7 @@ class PirateForms_Public {
 			endif;
 			/**
 			 ******* ReCaptcha */
-			if ( ! empty( $pirate_forms_options['pirateformsopt_recaptcha_secretkey'] ) && ! empty( $pirate_forms_options['pirateformsopt_recaptcha_sitekey'] ) && ! empty( $pirate_forms_options['pirateformsopt_recaptcha_field'] ) && ( $pirate_forms_options['pirateformsopt_recaptcha_field'] == 'yes' ) ) :
+			if ( ! empty( $pirate_forms_options['pirateformsopt_recaptcha_secretkey'] ) && ! empty( $pirate_forms_options['pirateformsopt_recaptcha_sitekey'] ) && 'yes' === $pirate_forms_options['pirateformsopt_recaptcha_field'] ) :
 				$pirateformsopt_recaptcha_sitekey   = $pirate_forms_options['pirateformsopt_recaptcha_sitekey'];
 				$pirateformsopt_recaptcha_secretkey = $pirate_forms_options['pirateformsopt_recaptcha_secretkey'];
 				$elements[]                         = array(
@@ -316,6 +320,18 @@ class PirateForms_Public {
 					'wrap'        => array(
 						'type'  => 'div',
 						'class' => implode( ' ', apply_filters( 'pirateform_wrap_classes_captcha', array( 'col-xs-12 col-sm-6 col-lg-6 form_field_wrap form_captcha_wrap' ) ) ),
+					),
+				);
+			endif;
+
+			if ( 'custom' === $pirate_forms_options['pirateformsopt_recaptcha_field'] ) :
+				$elements[]                         = array(
+					'type'        => 'div',
+					'class'       => 'pirate-forms-maps-custom',    // spam.reverse() = maps
+					'id'          => 'pirate-forms-maps-custom',
+					'wrap'        => array(
+						'type'  => 'div',
+						'class' => implode( ' ', apply_filters( 'pirateform_wrap_classes_spam', array( 'col-xs-12 col-sm-6 col-lg-6 form_field_wrap pirateform_wrap_classes_spam_wrap' ) ) ),
 					),
 				);
 			endif;
@@ -497,7 +513,7 @@ class PirateForms_Public {
 
 		$pirate_forms_options   = PirateForms_Util::get_form_options( isset( $_POST['pirate_forms_form_id'] ) ? $_POST['pirate_forms_form_id'] : null );
 
-		if ( ! $this->validate_captcha( $error_key, $pirate_forms_options ) ) {
+		if ( ! $this->validate_spam( $error_key, $pirate_forms_options ) ) {
 			return false;
 		}
 
@@ -716,18 +732,18 @@ class PirateForms_Public {
 	}
 
 	/**
-	 * Validate CAPTCHA
+	 * Validate SPAM/reCAPTCHA
 	 *
 	 * @param string $error_key the key for the session object.
 	 * @param array  $pirate_forms_options the array of options for this form.
 	 */
-	function validate_captcha( $error_key, $pirate_forms_options ) {
-		$pirateformsopt_recaptcha_sitekey   = $pirate_forms_options['pirateformsopt_recaptcha_sitekey'];
-		$pirateformsopt_recaptcha_secretkey = $pirate_forms_options['pirateformsopt_recaptcha_secretkey'];
+	function validate_spam( $error_key, $pirate_forms_options ) {
 		$pirateformsopt_recaptcha_field     = isset( $pirate_forms_options['pirateformsopt_recaptcha_field'] ) ? $pirate_forms_options['pirateformsopt_recaptcha_field'] : '';
-		if ( ! empty( $pirateformsopt_recaptcha_secretkey ) && ! empty( $pirateformsopt_recaptcha_sitekey ) && ! empty( $pirateformsopt_recaptcha_field ) && ( $pirateformsopt_recaptcha_field == 'yes' ) ) :
-			if ( isset( $_POST['g-recaptcha-response'] ) ) {
-				$captcha = $_POST['g-recaptcha-response'];
+		if ( 'yes' === $pirateformsopt_recaptcha_field ) {
+			$pirateformsopt_recaptcha_sitekey   = $pirate_forms_options['pirateformsopt_recaptcha_sitekey'];
+			$pirateformsopt_recaptcha_secretkey = $pirate_forms_options['pirateformsopt_recaptcha_secretkey'];
+			if ( ! empty( $pirateformsopt_recaptcha_secretkey ) && ! empty( $pirateformsopt_recaptcha_sitekey ) ) {
+					$captcha = $_POST['g-recaptcha-response'];
 			}
 			if ( ! $captcha ) {
 				$_SESSION[ $error_key ]['pirate-forms-captcha'] = __( 'Wrong reCAPTCHA', 'pirate-forms' );
@@ -746,7 +762,14 @@ class PirateForms_Public {
 
 				return false;
 			}
-		endif;
+		} elseif ( 'custom' === $pirateformsopt_recaptcha_field ) {
+			if ( isset( $_POST['xobkcehc'] ) && wp_verify_nonce( $_POST['xobkcehc'], PIRATEFORMS_NAME ) ) {
+				return true;
+			}
+
+			$_SESSION[ $error_key ]['pirate-forms-captcha'] = __( 'Submission blocked!', 'pirate-forms' );
+			return false;
+		}
 
 		return true;
 	}
