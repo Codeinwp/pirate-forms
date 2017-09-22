@@ -678,6 +678,7 @@ class PirateForms_Public {
 
 			if ( ! $test ) {
 				$pirate_forms_current_theme = wp_get_theme();
+				$is_our_theme               = array_intersect( array( 'Zerif Lite', 'Zerif PRO', 'Hestia Pro'), array( $pirate_forms_current_theme->name, $pirate_forms_current_theme->parent_theme ) );
 
 				/* If a Thank you page is selected, redirect to that page */
 				if ( $pirate_forms_options['pirateformsopt_thank_you_url'] ) {
@@ -686,7 +687,7 @@ class PirateForms_Public {
 					if ( ! empty( $redirect ) ) {
 						wp_safe_redirect( $redirect );
 					}
-				} elseif ( ( 'Zerif Lite' == $pirate_forms_current_theme->name ) || ( 'Zerif Lite' == $pirate_forms_current_theme->parent_theme ) || ( 'Zerif PRO' == $pirate_forms_current_theme->name ) || ( 'Zerif PRO' == $pirate_forms_current_theme->parent_theme ) ) {
+				} elseif ( $is_our_theme ) {
 					// the fragment identifier should always be the last argument, otherwise the thank you message will not show.
 					$redirect = add_query_arg( array( 'done' => 'done', 'pcf' => '1#contact' ), $_SERVER['HTTP_REFERER'] );
 					wp_safe_redirect( $redirect );
