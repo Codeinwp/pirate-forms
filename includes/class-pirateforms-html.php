@@ -103,6 +103,10 @@ class PirateForms_HTML {
 			$html       .= ' value="' . ( isset( $args['value'] ) ? esc_attr( $args['value'] ) : '' ) . '"';
 		}
 
+		if ( isset( $args['disabled'] ) && $args['disabled'] ) {
+			$html       .= ' disabled';
+		}
+
 		return $html;
 	}
 
@@ -310,8 +314,8 @@ class PirateForms_HTML {
 				$name   .= '[]';
 			}
 			foreach ( $args['options'] as $key => $val ) {
-				$extra  = $key == $args['value'] ? 'checked' : '';
-				$html   .= '<input type="checkbox" ' . ( isset( $args['disabled'] ) && $args['disabled'] ? 'disabled' : '' ) . ' value="' . esc_attr( $key ) . '" id="' . esc_attr( $args['id'] . $key ) . '" name="' . $name . '" class="' . ( isset( $args['class'] ) ? esc_attr( $args['class'] ) : '' ) . '" ' . $extra . '>' . $val;
+				$extra  = isset( $args['value'] ) && $key == $args['value'] ? 'checked' : '';
+				$html   .= '<input type="checkbox" ' . $extra . ' ' . $this->get_common( $args ) . ' value="' . esc_attr( $key ) . '">' . esc_attr( $val );
 			}
 		}
 
