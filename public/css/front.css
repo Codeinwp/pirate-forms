@@ -47,3 +47,51 @@ Version: 2.1.0
 .contact_submit_wrap {
 	text-align: right;
 }
+
+.pirate-forms-file-upload-hidden {
+  display: none;
+  visibility: hidden;
+  position: absolute;
+  left: -9999px;
+}
+
+.pirate-forms-file-upload {
+  display: block;
+  width: auto;
+}
+.pirate-forms-file-upload label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.pirate-forms-file-upload-wrapper {
+  position: relative;
+  margin-bottom: 5px;
+}
+
+.pirate-forms-file-upload-input {
+  width: 70% !important;
+  outline: none !important;
+  border: none !important;
+  -moz-transition: all 0.2s ease-in;
+  -o-transition: all 0.2s ease-in;
+  -webkit-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
+  float: left;
+  /* IE 9 Fix */
+}
+.pirate-forms-file-upload-input:hover, .pirate-forms-file-upload-input:focus {
+  outline: none;
+}
+
+.pirate-forms-file-upload-button {
+  cursor: pointer;
+  display: inline-block;
+  margin-left: -1px;
+  float: left;
+  /* IE 9 Fix */
+  -moz-transition: all 0.2s ease-in;
+  -o-transition: all 0.2s ease-in;
+  -webkit-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
+}
