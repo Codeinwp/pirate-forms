@@ -153,6 +153,9 @@ class PirateForms {
 		$this->loader->add_action( 'pirate_forms_load_sidebar_theme', $plugin_admin, 'load_sidebar_theme' );
 		$this->loader->add_action( 'pirate_forms_load_sidebar_subscribe', $plugin_admin, 'load_sidebar_subscribe' );
 
+		// this informs the pro whether the lite will implement the custom spam checkbox or not.
+		add_filter( 'pirate_forms_support_custom_spam', '__return_true' );
+
 		$this->loader->add_filter( 'manage_pf_contact_posts_columns', $plugin_admin, 'manage_contact_posts_columns' );
 		$this->loader->add_filter( 'manage_pf_contact_posts_custom_column', $plugin_admin, 'manage_contact_posts_custom_column', 10, 2 );
 

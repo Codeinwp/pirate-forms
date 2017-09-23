@@ -276,7 +276,7 @@ class PirateForms_Admin {
 									'value' => __( 'Store submissions in the database', 'pirate-forms' ),
 									'html'  => '<span class="dashicons dashicons-editor-help"></span>',
 									'desc'  => array(
-										'value' => __( 'Should the submissions be stored in the admin area? If chosen, contact form submissions will be saved in Contacts on the left (appears after this option is activated).', 'pirate-forms' ),
+										'value' => __( 'Should the submissions be stored in the admin area? If chosen, contact form submissions will be saved under "All Entries" on the left (appears after this option is activated).', 'pirate-forms' ),
 										'class' => 'pirate_forms_option_description',
 									),
 								),
@@ -448,9 +448,9 @@ class PirateForms_Admin {
 							/* Recaptcha */
 							array(
 								'id'      => 'pirateformsopt_recaptcha_field',
-								'type'    => 'checkbox',
+								'type'    => 'radio',
 								'label'   => array(
-									'value' => __( 'Add a reCAPTCHA', 'pirate-forms' ),
+									'value' => __( 'Add a spam trap', 'pirate-forms' ),
 								),
 								'default' => $pirate_forms_contactus_recaptcha_show,
 								'value'   => PirateForms_Util::get_option( 'pirateformsopt_recaptcha_field' ),
@@ -459,7 +459,9 @@ class PirateForms_Admin {
 									'class' => 'pirate-forms-grouped',
 								),
 								'options' => array(
-									'yes' => __( 'Yes', 'pirate-forms' ),
+									'' => __( 'No', 'pirate-forms' ),
+									'custom' => __( 'Custom', 'pirate-forms' ),
+									'yes' => __( 'Google reCAPTCHA', 'pirate-forms' ),
 								),
 							),
 							/* Site key */
@@ -478,7 +480,7 @@ class PirateForms_Admin {
 								'value'   => PirateForms_Util::get_option( 'pirateformsopt_recaptcha_sitekey' ),
 								'wrap'    => array(
 									'type'  => 'div',
-									'class' => 'pirate-forms-grouped',
+									'class' => 'pirate-forms-grouped pirateformsopt_recaptcha',
 								),
 							),
 							/* Secret key */
@@ -492,7 +494,7 @@ class PirateForms_Admin {
 								'value'   => PirateForms_Util::get_option( 'pirateformsopt_recaptcha_secretkey' ),
 								'wrap'    => array(
 									'type'  => 'div',
-									'class' => 'pirate-forms-grouped',
+									'class' => 'pirate-forms-grouped pirateformsopt_recaptcha',
 								),
 							),
 						)

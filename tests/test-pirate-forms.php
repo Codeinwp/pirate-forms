@@ -117,7 +117,7 @@ class Test_Pirate_Forms extends WP_UnitTestCase {
 	 * @access public
 	 */
     public function phpmailer_wp_mail( $phpmailer ) {
-        $this->assertEquals('<h2>Contact form submission from Test Blog (http://example.org) </h2><table><tr><th>Your Name</th><td>x</td></tr><tr><th>Your Email</th><td>x@x.com</td></tr><tr><th>Subject</th><td>x</td></tr><tr><th>Your message</th><td>x</td></tr><tr><th>IP address: </th><td>127.0.0.1</td></tr><tr><th>IP search:</th><td>http://whatismyipaddress.com/ip/127.0.0.1</td></tr><tr><th>Sent from page: </th><td></td></tr></table>', $phpmailer->Body);
+        $this->assertEquals('<h2>Contact form submission from Test Blog (http://example.org)</h2><table><tr><th>Your Name:</th><td>x</td></tr><tr><th>Your Email:</th><td>x@x.com</td></tr><tr><th>Subject:</th><td>x</td></tr><tr><th>Your message:</th><td>x</td></tr><tr><th>IP address:</th><td>127.0.0.1</td></tr><tr><th>IP search:</th><td>http://whatismyipaddress.com/ip/127.0.0.1</td></tr><tr><th>Sent from page:</th><td></td></tr></table>', $phpmailer->Body);
     }
 
 	/**
@@ -126,7 +126,7 @@ class Test_Pirate_Forms extends WP_UnitTestCase {
 	 * @access public
 	 */
     public function phpmailer_smtp_mail( $phpmailer ) {
-        $this->assertEquals('<h2>Contact form submission from Test Blog (http://example.org) </h2><table><tr><th>Your Name</th><td>x</td></tr><tr><th>Your Email</th><td>x@x.com</td></tr><tr><th>Subject</th><td>x</td></tr><tr><th>Your message</th><td>x</td></tr><tr><th>IP address: </th><td>127.0.0.1</td></tr><tr><th>IP search:</th><td>http://whatismyipaddress.com/ip/127.0.0.1</td></tr><tr><th>Sent from page: </th><td></td></tr></table>', $phpmailer->Body);
+        $this->assertEquals('<h2>Contact form submission from Test Blog (http://example.org)</h2><table><tr><th>Your Name:</th><td>x</td></tr><tr><th>Your Email:</th><td>x@x.com</td></tr><tr><th>Subject:</th><td>x</td></tr><tr><th>Your message:</th><td>x</td></tr><tr><th>IP address:</th><td>127.0.0.1</td></tr><tr><th>IP search:</th><td>http://whatismyipaddress.com/ip/127.0.0.1</td></tr><tr><th>Sent from page:</th><td></td></tr></table>', $phpmailer->Body);
         $this->assertEquals($this->smpt_data['host'], $phpmailer->Host);
         $this->assertEquals($this->smpt_data['port'], $phpmailer->Port);
         $this->assertEquals($this->smpt_data['user'], $phpmailer->Username);
