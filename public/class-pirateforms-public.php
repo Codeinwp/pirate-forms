@@ -152,7 +152,7 @@ class PirateForms_Public {
 		$error_key = wp_create_nonce( get_bloginfo( 'admin_email' ) . ( $from_widget ? 'yes' : 'no' ) );
 
 		$thank_you_message  = '';
-		if ( isset( $_GET['done'] ) ) {
+		if ( isset( $_GET['done'] ) && empty( $_SESSION[ $error_key ] ) ) {
 			$thank_you_message = sanitize_text_field( $pirate_forms_options['pirateformsopt_label_submit'] );
 		}
 
@@ -294,7 +294,6 @@ class PirateForms_Public {
 					$wrap_classes[] = 'error';
 				}
 				$elements[] = array(
-					'placeholder'  => stripslashes( sanitize_text_field( $label ) ),
 					'required'     => $required,
 					'required_msg' => $pirate_forms_options['pirateformsopt_label_err_no_attachment'],
 					'type'         => 'file',
@@ -522,7 +521,7 @@ class PirateForms_Public {
 		$body['heading']    = sprintf( __( 'Contact form submission from %s', 'pirate-forms' ), get_bloginfo( 'name' ) . ' (' . site_url() . ')' );
 		$body['body']       = array();
 
-		list($pirate_forms_contact_email, $pirate_forms_contact_name, $pirate_forms_contact_subject) = $this->validate_request( $error_key, $pirate_forms_options, $body );
+		list($pirate_forms_contact_email, $pirate_forms_contact_name, $pirate_forms_contact_subject, $msg ) = $this->validate_request( $error_key, $pirate_forms_options, $body );
 
 		/**
 		 ******** Validate recipients email */
@@ -559,6 +558,10 @@ class PirateForms_Public {
 		$blocked = PirateForms_Util::is_blacklisted( $error_key, $pirate_forms_contact_email, $contact_ip );
 		if ( $blocked ) {
 			return false;
+		}
+
+		if ( $this->is_spam( $pirate_forms_options, $contact_ip, get_permalink( get_the_id() ), $msg ) ) {
+			$_SESSION[ $error_key ]['honeypot'] = __( 'Form submission failed!', 'pirate-forms' );
 		}
 
 		// No errors? Go ahead and process the contact
@@ -710,7 +713,9 @@ class PirateForms_Public {
 		$contact_email      = null;
 		$contact_name       = null;
 		$contact_subject    = null;
+    $message                        = null;
 		$fields             = array( 'name', 'email', 'subject', 'message' );
+
 		foreach ( $fields as $field ) {
 			$value      = isset( $_POST[ 'pirate-forms-contact-' . $field ] ) ? sanitize_text_field( trim( $_POST[ 'pirate-forms-contact-' . $field ] ) ) : '';
 			if ( 'req' === $pirate_forms_options[ 'pirateformsopt_' . $field . '_field' ] && empty( $value ) ) {
@@ -725,6 +730,8 @@ class PirateForms_Public {
 						$contact_name  = $value;
 					} elseif ( 'subject' === $field ) {
 						$contact_subject   = $value;
+					} elseif ( 'message' === $field ) {
+						$message   = $value;
 					}
 					$body['body'][ stripslashes( $pirate_forms_options[ 'pirateformsopt_label_' . $field ] ) ] = $value;
 				}
@@ -742,7 +749,7 @@ class PirateForms_Public {
 			$body       = apply_filters( 'pirate_forms_validate_request', $body, $error_key, $pirate_forms_options );
 		}
 
-		return array( $contact_email, $contact_name, $contact_subject );
+		return array( $contact_email, $contact_name, $contact_subject, $message );
 	}
 
 	/**
@@ -797,58 +804,67 @@ class PirateForms_Public {
 	 *
 	 * @throws  Exception When file uploading fails.
 	 */
+
 	function get_attachments( $error_key, $pirate_forms_options, &$body ) {
-		$attachments = '';
-		/**
-		 ******* Validate Attachment */
-		$use_files = $pirate_forms_options['pirateformsopt_attachment_field'];
-		if ( ! empty( $use_files ) ) {
-			$pirate_forms_attach_file = isset( $_FILES['pirate-forms-attachment'] ) ? $_FILES['pirate-forms-attachment'] : '';
-			if ( ! empty( $pirate_forms_attach_file ) && ! empty( $pirate_forms_attach_file['name'] ) ) {
+		$attachments    = array();
+		$has_files      = $pirate_forms_options['pirateformsopt_attachment_field'];
+		if ( ! empty( $has_files ) ) {
+			$uploads_dir = $this->get_upload_tmp_dir();
+			$uploads_dir = $this->maybe_add_random_dir( $uploads_dir );
+
+			foreach ( $_FILES as $label => $file ) {
+				if ( empty( $file['name'] ) ) {
+					continue;
+				}
 				/* Validate file type */
-				$file_types_allowed              = 'jpg|jpeg|png|gif|pdf|doc|docx|ppt|pptx|odt|avi|ogg|m4a|mov|mp3|mp4|mpg|wav|wmv';
+				$file_types_allowed              = implode( '|', apply_filters( 'pirate_forms_allowed_file_types', explode( '|', 'jpg|jpeg|png|gif|pdf|doc|docx|ppt|pptx|odt|avi|ogg|m4a|mov|mp3|mp4|mpg|wav|wmv|xls|xlsx|txt' ) ) );
 				$pirate_forms_file_types_allowed = $file_types_allowed;
 				$pirate_forms_file_types_allowed = trim( $pirate_forms_file_types_allowed, '|' );
 				$pirate_forms_file_types_allowed = '(' . $pirate_forms_file_types_allowed . ')';
 				$pirate_forms_file_types_allowed = '/\.' . $pirate_forms_file_types_allowed . '$/i';
-				if ( ! preg_match( $pirate_forms_file_types_allowed, $pirate_forms_attach_file['name'] ) ) {
-					do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'file invalid: expected %s got %s', $file_types_allowed, $pirate_forms_attach_file['name'] ), 'error', __FILE__, __LINE__ );
-					$_SESSION[ $error_key ]['pirate-forms-upload-failed-type'] = __( 'Uploaded file is not allowed for file type', 'pirate-forms' );
+				if ( ! preg_match( $pirate_forms_file_types_allowed, $file['name'] ) ) {
+					do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'file invalid: expected %s got %s', $file_types_allowed, $file['name'] ), 'error', __FILE__, __LINE__ );
+					$_SESSION[ $error_key ]['pirate-forms-upload-failed-type'] = sprintf( __( 'Uploaded file type is not allowed for %s', 'pirate-forms' ), $file['name'] );
 
 					return false;
 				}
 				/* Validate file size */
 				$pirate_forms_file_size_allowed = 1048576; // default size 1 MB
-				if ( $pirate_forms_attach_file['size'] > $pirate_forms_file_size_allowed ) {
-					do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'file too large: expected %d got %d', $pirate_forms_file_size_allowed, $pirate_forms_attach_file['size'] ), 'error', __FILE__, __LINE__ );
-					$_SESSION[ $error_key ]['pirate-forms-upload-failed-size'] = __( 'Uploaded file is too large', 'pirate-forms' );
+				if ( $file['size'] > $pirate_forms_file_size_allowed ) {
+					do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'file too large: expected %d got %d', $pirate_forms_file_size_allowed, $file['size'] ), 'error', __FILE__, __LINE__ );
+					$_SESSION[ $error_key ]['pirate-forms-upload-failed-size'] = sprintf( __( 'Uploaded file is too large %s', 'pirate-forms' ), $file['name'] );
 
 					return false;
 				}
 				$this->init_uploads();
-				$uploads_dir = $this->get_upload_tmp_dir();
-				$uploads_dir = $this->maybe_add_random_dir( $uploads_dir );
-				$filename    = $pirate_forms_attach_file['name'];
+				$filename    = $file['name'];
 				$filename    = $this->canonicalize( $filename );
 				$filename    = sanitize_file_name( $filename );
 				$filename    = $this->antiscript_file_name( $filename );
 				$filename    = wp_unique_filename( $uploads_dir, $filename );
 				$new_file    = trailingslashit( $uploads_dir ) . $filename;
 				try {
-					if ( false === move_uploaded_file( $pirate_forms_attach_file['tmp_name'], $new_file ) ) {
-						do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'unable to move the uploaded file from %s to %s', $pirate_forms_attach_file['tmp_name'], $new_file ), 'error', __FILE__, __LINE__ );
-						throw new Exception( __( 'There was an unknown error uploading the file.', 'pirate-forms' ) );
+					if ( false === move_uploaded_file( $file['tmp_name'], $new_file ) ) {
+						do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'unable to move the uploaded file from %s to %s', $file['tmp_name'], $new_file ), 'error', __FILE__, __LINE__ );
+						throw new Exception( sprintf( __( 'There was an unknown error uploading the file %s', 'pirate-forms' ), $file['name'] ) );
 					}
 				} catch ( Exception $ex ) {
-					do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'unable to move the uploaded file from %s to %s with error %s', $pirate_forms_attach_file['tmp_name'], $new_file, $ex->getMessage() ), 'error', __FILE__, __LINE__ );
+					do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'unable to move the uploaded file from %s to %s with error %s', $file['tmp_name'], $new_file, $ex->getMessage() ), 'error', __FILE__, __LINE__ );
 					$_SESSION[ $error_key ]['pirate-forms-upload-failed-general'] = $ex->getMessage();
 				}
 				if ( ! empty( $new_file ) ) {
-					$attachments = $new_file;
-					$body['body'][ __( 'Attachment', 'pirate-forms' ) ] = basename( $attachments );
+					$attachments[] = $new_file;
 				}
-			}// End if().
-		}// End if().
+			}
+		}
+    if ( $attachments ) {
+      $files = array();
+      foreach( $attachments as $file ) {
+        $files[] = basename( $file );
+      }
+      $body['body'][ __( 'Attachment', 'pirate-forms' ) ] = implode( ',', $files );
+    }
+		do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'finally attaching attachment(s): %s', print_r( $attachments, true ) ), 'info', __FILE__, __LINE__ );
 		return $attachments;
 	}
 
@@ -1053,5 +1069,48 @@ class PirateForms_Public {
 		}
 
 		return $elements;
+	}
+
+	/**
+	 * Check with akismet if this is spam
+	 */
+	function is_spam( $pirate_forms_options, $ip, $page_url, $msg ) {
+		// check if akismet is installed and key provided
+		$key    = get_option( 'wordpress_api_key' );
+		if ( empty( $key ) ) {
+			// see if we have provided the key in the options
+			$key    = isset( $pirate_forms_options['akismet_api_key'] ) ? $pirate_forms_options['akismet_api_key'] : '';
+		}
+		if ( empty( $key ) ) {
+			return false;
+		}
+
+		$data = array(
+			'blog'              => home_url(),
+			'user_ip'           => $ip,
+			'user_agent'        => $_SERVER['HTTP_USER_AGENT'],
+			'referrer'          => $_SERVER['HTTP_REFERER'],
+			'permalink'         => $page_url,
+			'comment_type'      => 'contact-form',
+			'comment_content'   => $msg,
+		);
+		$response   = wp_remote_retrieve_body(
+			wp_remote_post(
+				"https://{$key}.rest.akismet.com/1.1/comment-check", array(
+					'body'          => $data,
+					'headers'       => array(
+						'Content-Type'      => 'application/x-www-form-urlencoded',
+						'User-Agent'        => 'WordPress/4.4.1 | Akismet/3.1.7',
+					),
+				)
+			)
+		);
+		error_log( "response $response" );
+
+		if ( 'true' == $response ) {
+			return true;
+		}
+
+		return false;
 	}
 }
