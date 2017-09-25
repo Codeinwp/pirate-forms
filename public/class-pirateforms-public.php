@@ -713,7 +713,7 @@ class PirateForms_Public {
 		$contact_email      = null;
 		$contact_name       = null;
 		$contact_subject    = null;
-    $message                        = null;
+		$message                        = null;
 		$fields             = array( 'name', 'email', 'subject', 'message' );
 
 		foreach ( $fields as $field ) {
@@ -804,7 +804,6 @@ class PirateForms_Public {
 	 *
 	 * @throws  Exception When file uploading fails.
 	 */
-
 	function get_attachments( $error_key, $pirate_forms_options, &$body ) {
 		$attachments    = array();
 		$has_files      = $pirate_forms_options['pirateformsopt_attachment_field'];
@@ -857,13 +856,13 @@ class PirateForms_Public {
 				}
 			}
 		}
-    if ( $attachments ) {
-      $files = array();
-      foreach( $attachments as $file ) {
-        $files[] = basename( $file );
-      }
-      $body['body'][ __( 'Attachment', 'pirate-forms' ) ] = implode( ',', $files );
-    }
+		if ( $attachments ) {
+			$files = array();
+			foreach ( $attachments as $file ) {
+				$files[] = basename( $file );
+			}
+			$body['body'][ __( 'Attachment', 'pirate-forms' ) ] = implode( ',', $files );
+		}
 		do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'finally attaching attachment(s): %s', print_r( $attachments, true ) ), 'info', __FILE__, __LINE__ );
 		return $attachments;
 	}
