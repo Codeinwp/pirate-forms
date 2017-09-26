@@ -1071,8 +1071,8 @@ class PirateForms_Public {
 	}
 
 	/**
-	 * Check with akismet if this is spam
-	 */
+  * Check with akismet if the message is spam.
+  */
 	function is_spam( $pirate_forms_options, $ip, $page_url, $msg ) {
 		// check if akismet is installed and key provided
 		$key    = get_option( 'wordpress_api_key' );
@@ -1099,12 +1099,11 @@ class PirateForms_Public {
 					'body'          => $data,
 					'headers'       => array(
 						'Content-Type'      => 'application/x-www-form-urlencoded',
-						'User-Agent'        => 'WordPress/4.4.1 | Akismet/3.1.7',
+						'User-Agent'        => sprintf( 'WordPress/%s | Akismet/3.1.7', get_bloginfo( 'version' ) ),
 					),
 				)
 			)
 		);
-		error_log( "response $response" );
 
 		if ( 'true' == $response ) {
 			return true;
