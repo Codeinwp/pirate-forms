@@ -186,6 +186,12 @@ class PirateForms {
 		$this->loader->add_filter( 'widget_text', $plugin_public, 'widget_text_filter', 9 );
 		$this->loader->add_filter( 'pirate_forms_public_controls', $plugin_public, 'compatibility_class', 9 );
 
+		/**
+		 * SDK tweaks.
+		 */
+
+		$this->loader->add_filter( 'pirate_forms_friendly_name', $plugin_public, 'change_name' );
+
 		add_shortcode( 'pirate_forms', array( $plugin_public, 'display_form' ) );
 	}
 
