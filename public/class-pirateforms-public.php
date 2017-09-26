@@ -1071,8 +1071,8 @@ class PirateForms_Public {
 	}
 
 	/**
-  * Check with akismet if the message is spam.
-  */
+	 * Check with akismet if the message is spam.
+	 */
 	function is_spam( $pirate_forms_options, $ip, $page_url, $msg ) {
 		// check if akismet is installed and key provided
 		$key    = get_option( 'wordpress_api_key' );
