@@ -905,12 +905,19 @@ class PirateForms_Admin {
 	public function manage_contact_posts_columns( $columns ) {
 		$tmp     = $columns;
 		$columns = array();
+		/**
+		 * Remove redundant columns.
+		 */
+		$allowed_keys = array( 'cb', 'title', 'pf_mailstatus', 'pf_form', 'date' );
+
 		foreach ( $tmp as $key => $val ) {
 			if ( 'date' === $key ) {
 				// ensure our columns are added before the date.
 				$columns['pf_mailstatus'] = __( 'Mail Status', 'pirate-forms' );
 			}
-			$columns[ $key ] = $val;
+			if ( in_array( $key, $allowed_keys ) ) {
+				$columns[ $key ] = $val;
+			}
 		}
 
 		return $columns;
