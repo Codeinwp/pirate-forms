@@ -27,7 +27,7 @@ class PirateForms_PhpFormBuilder {
 	function build_form( $elements, $pirate_forms_options, $from_widget ) {
 		$this->pirate_forms_options = $pirate_forms_options;
 		$pirateformsopt_attachment_field = $pirate_forms_options['pirateformsopt_attachment_field'];
-		if ( 'yes' === $pirateformsopt_attachment_field ) {
+		if ( ! empty( $pirateformsopt_attachment_field ) ) {
 			$pirate_forms_enctype = 'multipart/form-data';
 		} else {
 			$pirate_forms_enctype = 'application/x-www-form-urlencoded';

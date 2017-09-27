@@ -103,6 +103,10 @@ class PirateForms_HTML {
 			$html       .= ' value="' . ( isset( $args['value'] ) ? esc_attr( $args['value'] ) : '' ) . '"';
 		}
 
+		if ( isset( $args['disabled'] ) && $args['disabled'] ) {
+			$html       .= ' disabled';
+		}
+
 		return $html;
 	}
 
@@ -162,8 +166,33 @@ class PirateForms_HTML {
 	 * @since    1.2.6
 	 */
 	private function file( $args ) {
-		$html       = $this->get_label( $args );
-		$html       .= '<input type="file" ' . $this->get_common( $args, array( 'value' ) ) . '>';
+		$class          = 'pirate-forms-file-upload-hidden';
+		if ( isset( $args['class'] ) ) {
+			$class      .= ' ' . $args['class'];
+		}
+		$args['class']  = $class;
+
+		// label for the upload button
+		$label          = isset( $args['label']['value'] ) ? $args['label']['value'] : ( isset( $args['placeholder'] ) ? $args['placeholder'] : '' );
+		if ( empty( $label ) ) {
+			$label      = __( 'Upload file', 'pirate-forms' );
+		}
+		$args['label']['value'] = $label;
+
+		// since the file field is going to be non-focussable, let's put the required attributes (if available) on the text field
+		$text_args      = array(
+			'class'     => 'pirate-forms-file-upload-input',
+			'id'        => '',
+			'name'      => '',
+		);
+		if ( isset( $args['required'] ) && $args['required'] && isset( $args['required_msg'] ) ) {
+			$text_args['required']      = $args['required'];
+			$text_args['required_msg']  = $args['required_msg'];
+			unset( $args['required'] );
+			unset( $args['required_msg'] );
+		}
+
+		$html       = '<div class="pirate-forms-file-upload-wrapper"><input type="file" ' . $this->get_common( $args, array( 'value' ) ) . ' style="position: absolute; left: -9999px;" tabindex="-1"><button type="button" class="pirate-forms-file-upload-button" tabindex="-1">' . ( isset( $args['label']['value'] ) ? esc_attr( $args['label']['value'] ) : '' ) . '</button><input type="text" ' . $this->get_common( $text_args ) . ' />';
 
 		return $this->get_wrap( $args, $html );
 	}
@@ -310,8 +339,8 @@ class PirateForms_HTML {
 				$name   .= '[]';
 			}
 			foreach ( $args['options'] as $key => $val ) {
-				$extra  = $key == $args['value'] ? 'checked' : '';
-				$html   .= '<input type="checkbox" value="' . esc_attr( $key ) . '" id="' . esc_attr( $args['id'] . $key ) . '" name="' . $name . '" class="' . ( isset( $args['class'] ) ? esc_attr( $args['class'] ) : '' ) . '" ' . $extra . '>' . $val;
+				$extra  = isset( $args['value'] ) && $key == $args['value'] ? 'checked' : '';
+				$html   .= '<input type="checkbox" ' . $extra . ' ' . $this->get_common( $args ) . ' value="' . esc_attr( $key ) . '">' . esc_attr( $val );
 			}
 		}
 

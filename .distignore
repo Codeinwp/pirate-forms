@@ -18,3 +18,4 @@ artifact
 composer.json
 composer.lock
 key.enc
+package-lock.json

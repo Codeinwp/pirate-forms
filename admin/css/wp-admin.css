@@ -361,3 +361,11 @@ div.pirate_dashicons > form > div > label {
 .pirate-forms-test-button {
 	margin-left: 10px;
 }
+input#save.pirate-forms-save-button{
+	margin-right:10px;
+}
+.pirate-forms-grouped input[type=radio]{
+	margin-top: 0px;
+	margin-left:5px;
+	margin-right: 10px;
+}
