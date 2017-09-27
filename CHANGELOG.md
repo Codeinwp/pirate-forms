@@ -1,4 +1,11 @@
 
+ ### v2.2.0 - 2017-09-27 
+ **Changes:** 
+ * Adds integration with Akismet for spam block.
+* Adds another spam tramp mechanism, independent from Google reCAPTCHA.
+* Adds filter for customizing the email body.
+* Improvements for compatibility with the pro version.
+ 
  ### v2.1.0 - 2017-08-26 
  **Changes:** 
  * Improved compatibility with the pro version.

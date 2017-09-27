@@ -134,6 +134,14 @@ Activating the Pirate Contact Form plugin is just like any other plugin. If you'
 4. Screenshot 4. Enabling SMTP
 
 == Changelog ==
+= 2.2.0 - 2017-09-27  = 
+
+* Adds integration with Akismet for spam block.
+* Adds another spam tramp mechanism, independent from Google reCAPTCHA.
+* Adds filter for customizing the email body.
+* Improvements for compatibility with the pro version.
+
+
 = 2.1.0 - 2017-08-26  = 
 
 * Improved compatibility with the pro version.
