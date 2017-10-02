@@ -626,7 +626,7 @@ class PirateForms_Public {
 
 			do_action( 'pirate_forms_before_sending', $pirate_forms_contact_email, $site_recipients, $subject, $mail_body, $headers, $attachments );
 			do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'before sending email to = %s, subject = %s, body = %s, headers = %s, attachments = %s', $site_recipients, $subject, $mail_body, $headers, print_r( $attachments, true ) ), 'debug', __FILE__, __LINE__ );
-			$response = $this->finally_send_mail( $site_recipients, $subject, $mail_body, $headers, $attachments );
+			$response = $this->finally_send_mail( $site_recipients, $subject, $mail_body, $headers, $attachments, true );
 			if ( ! $response ) {
 				do_action( 'themeisle_log_event', PIRATEFORMS_NAME, 'Email not sent', 'debug', __FILE__, __LINE__ );
 				error_log( 'Email not sent' );
@@ -659,7 +659,7 @@ class PirateForms_Public {
 
 				do_action( 'pirate_forms_before_sending_confirm', $pirate_forms_contact_email, $pirate_forms_contact_email, $subject, $confirm_body, $headers );
 				do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'before sending confirm email to = %s, subject = %s, body = %s, headers = %s', $pirate_forms_contact_email, $subject, $confirm_body, $headers ), 'debug', __FILE__, __LINE__ );
-				$response_confirm = $this->finally_send_mail( $pirate_forms_contact_email, $subject, $confirm_body, $headers );
+				$response_confirm = $this->finally_send_mail( $pirate_forms_contact_email, $subject, $confirm_body, $headers, null, false );
 				do_action( 'pirate_forms_after_sending_confirm', $pirate_forms_options, $response_confirm, $pirate_forms_contact_email, $pirate_forms_contact_email, $subject, $confirm_body, $headers );
 				do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'after sending confirm email response = %s', $response_confirm ), 'debug', __FILE__, __LINE__ );
 				if ( ! $response_confirm ) {
@@ -733,11 +733,14 @@ class PirateForms_Public {
 	 * @param string $to the email recipient.
 	 * @param string $subject the email subject.
 	 * @param string $body the email body.
-	 * @param array $headers the email headers.
+	 * @param array  $headers the email headers.
 	 * @param string $attachments the email attachments.
+	 * @param bool   $capture_failure whether to capture failure reason or not.
 	 */
-	private function finally_send_mail( $to, $subject, $body, $headers, $attachments = null ) {
-		add_action( 'wp_mail_failed', array( $this, 'mail_sending_error' ) );
+	private function finally_send_mail( $to, $subject, $body, $headers, $attachments, $capture_failure = true ) {
+		if ( $capture_failure ) {
+			add_action( 'wp_mail_failed', array( $this, 'mail_sending_error' ) );
+		}
 		return wp_mail( $to, $subject, $body, $headers, $attachments );
 	}
 

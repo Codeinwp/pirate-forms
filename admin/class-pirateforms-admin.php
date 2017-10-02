@@ -935,11 +935,11 @@ class PirateForms_Admin {
 		switch ( $column ) {
 			case 'pf_mailstatus':
 				$response   = get_post_meta( $id, PIRATEFORMS_SLUG . 'mail-status', true );
-				$failed		= $response == 'false';
+				$failed     = $response == 'false';
 				echo empty( $response ) ? __( 'Status not captured', 'pirate-forms' ) : ( $failed ? __( 'Mail sending failed!', 'pirate-forms' ) : __( 'Mail sent successfully!', 'pirate-forms' ) );
 
 				if ( $failed ) {
-					$reason		= get_post_meta( $id, PIRATEFORMS_SLUG . 'mail-status-reason', true );
+					$reason     = get_post_meta( $id, PIRATEFORMS_SLUG . 'mail-status-reason', true );
 					if ( ! empty( $reason ) ) {
 						echo '<br>(' . $reason . ')';
 					}
