@@ -935,7 +935,15 @@ class PirateForms_Admin {
 		switch ( $column ) {
 			case 'pf_mailstatus':
 				$response   = get_post_meta( $id, PIRATEFORMS_SLUG . 'mail-status', true );
-				echo empty( $response ) ? __( 'Status not captured', 'pirate-forms' ) : ( $response ? __( 'Mail sent successfully!', 'pirate-forms' ) : __( 'Mail sending failed!', 'pirate-forms' ) );
+				$failed		= $response == 'false';
+				echo empty( $response ) ? __( 'Status not captured', 'pirate-forms' ) : ( $failed ? __( 'Mail sending failed!', 'pirate-forms' ) : __( 'Mail sent successfully!', 'pirate-forms' ) );
+
+				if ( $failed ) {
+					$reason		= get_post_meta( $id, PIRATEFORMS_SLUG . 'mail-status-reason', true );
+					if ( ! empty( $reason ) ) {
+						echo '<br>(' . $reason . ')';
+					}
+				}
 				break;
 		}
 	}
