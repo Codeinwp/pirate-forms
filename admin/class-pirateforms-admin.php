@@ -72,8 +72,8 @@ class PirateForms_Admin {
 				'pirateforms_scripts_admin', 'cwp_top_ajaxload', array(
 					'ajaxurl'   => admin_url( 'admin-ajax.php' ),
 					'nonce'     => wp_create_nonce( PIRATEFORMS_SLUG ),
-					'i10n'		=> array(
-						'recaptcha'	=> __( 'Please specify the Site Key and Secret Key.', 'pirate-forms' ),
+					'i10n'      => array(
+						'recaptcha' => __( 'Please specify the Site Key and Secret Key.', 'pirate-forms' ),
 					),
 				)
 			);
