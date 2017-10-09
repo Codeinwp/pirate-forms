@@ -115,6 +115,7 @@ class PirateForms_Public {
 	 * @since    1.0.0
 	 */
 	public function display_form( $atts, $content = null ) {
+		error_log("display_form called for " . print_r($atts,true));
 		$atts = shortcode_atts(
 			array(
 				'from' => '',
@@ -122,6 +123,7 @@ class PirateForms_Public {
 			), $atts
 		);
 
+		$form_id	= isset( $atts['id'] ) && ! empty( $atts['id'] ) ? intval( $atts['id'] ) : 0;
 		$from_widget = ! empty( $atts['from'] );
 		$elements    = array();
 		$pirate_form = new PirateForms_PhpFormBuilder();
@@ -146,14 +148,14 @@ class PirateForms_Public {
 
 		$pirate_forms_options = PirateForms_Util::get_option();
 
-		if ( isset( $atts['id'] ) && ! empty( $atts['id'] ) ) {
-			$pirate_forms_options = apply_filters( 'pirateformpro_get_form_attributes', $pirate_forms_options, $atts['id'] );
+		if ( $form_id > 0 ) {
+			$pirate_forms_options = apply_filters( 'pirateformpro_get_form_attributes', $pirate_forms_options, $form_id );
 			if ( isset( $pirate_forms_options['id'] ) ) {
 				// add the form id to the form so that it can be used when we are processing the form
 				$elements[] = array(
 					'type'  => 'hidden',
 					'id'    => 'pirate_forms_form_id',
-					'value' => $atts['id'],
+					'value' => $form_id,
 				);
 			}
 		}
@@ -162,9 +164,11 @@ class PirateForms_Public {
 
 		$error_key = wp_create_nonce( get_bloginfo( 'admin_email' ) . ( $from_widget ? 'yes' : 'no' ) );
 
+error_log(sprintf("ashish getting %s %s %s", print_r($_GET,true),$nonce_append . '.' . $form_id, @$_SESSION[ $nonce_append . '.' . $form_id ]));
 		$thank_you_message = '';
-		if ( isset( $_GET['done'] ) && empty( $_SESSION[ $error_key ] ) ) {
-			$thank_you_message = sanitize_text_field( $pirate_forms_options['pirateformsopt_label_submit'] );
+		if ( isset( $_GET['done'] ) && ! empty( $_SESSION[ $nonce_append . '.' . $form_id ] ) ) {
+error_log("madarchod!");
+			$thank_you_message = $_SESSION[ $nonce_append . '.' . $form_id ];
 		}
 
 		$pirate_form->set_element( 'thank_you_message', $thank_you_message );
@@ -521,7 +525,8 @@ class PirateForms_Public {
 			return false;
 		}
 
-		$pirate_forms_options = PirateForms_Util::get_form_options( isset( $_POST['pirate_forms_form_id'] ) ? $_POST['pirate_forms_form_id'] : null );
+		$form_id			  = isset( $_POST['pirate_forms_form_id'] ) ? $_POST['pirate_forms_form_id'] : 0;
+		$pirate_forms_options = PirateForms_Util::get_form_options( $form_id );
 
 		if ( ! $this->validate_spam( $error_key, $pirate_forms_options ) ) {
 			return false;
@@ -577,6 +582,10 @@ class PirateForms_Public {
 
 		// No errors? Go ahead and process the contact
 		if ( empty( $_SESSION[ $error_key ] ) ) {
+error_log(sprintf("ashish setting %s", $nonce_append . '.' . $form_id));
+
+			$_SESSION[ $nonce_append . '.' . $form_id ] = sanitize_text_field( $pirate_forms_options['pirateformsopt_label_submit'] );
+
 			$site_email = sanitize_text_field( $pirate_forms_options['pirateformsopt_email'] );
 			if ( ! empty( $pirate_forms_contact_name ) ) :
 				$site_name = $pirate_forms_contact_name;
