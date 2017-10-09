@@ -57,6 +57,10 @@ jQuery(document).ready(function() {
     }
 
     function cwpTopUpdateForm() {
+        if(jQuery("#pirateformsopt_recaptcha_fieldyes").is(":checked") && (jQuery("#pirateformsopt_recaptcha_sitekey").val() === '' || jQuery("#pirateformsopt_recaptcha_secretkey").val() === '')){
+            alert(cwp_top_ajaxload.i10n.recaptcha);
+            return;
+        }
 
         startAjaxIntro();
 
