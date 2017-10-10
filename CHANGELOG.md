@@ -1,4 +1,10 @@
 
+ ### v2.2.1 - 2017-10-10 
+ **Changes:** 
+ * Fix issue for multiple forms on the same page.
+* Fix issue with reCAPTCHA keys.
+* Capture failure reasons and corrected email status.
+ 
  ### v2.2.0 - 2017-09-27 
  **Changes:** 
  * Adds integration with Akismet for spam block.
