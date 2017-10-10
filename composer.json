@@ -5,12 +5,6 @@
     "wordpress",
     "forms"
   ],
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/Codeinwp/themeisle-sdk"
-    }
-  ],
   "homepage": "https://themeisle.com/plugins/pirate-forms/",
   "license": "GPL-2.0+",
   "authors": [
