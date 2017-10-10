@@ -201,7 +201,7 @@ class PirateForms_Util {
 	 */
 	public static function get_form_options( $id = null ) {
 		if ( empty( $id ) ) {
-			$id	= null;
+			$id = null;
 		}
 		$pirate_forms_options = self::get_option();
 		return apply_filters( 'pirateformpro_get_form_attributes', $pirate_forms_options, $id );
@@ -210,7 +210,6 @@ class PirateForms_Util {
 
 	/**
 	 * Start sessing if it does not exist.
-	 *
 	 */
 	public static function session_start() {
 		if ( session_id() === '' ) {
@@ -222,10 +221,9 @@ class PirateForms_Util {
 
 	/**
 	 * Seed the session variable that contains the error(s).
-	 *
 	 */
 	public static function save_error( $error_key, $new_error_key ) {
-		$array		= $_SESSION[ $error_key ];
+		$array      = $_SESSION[ $error_key ];
 		$_SESSION[ 'error' . $new_error_key ] = $array;
 		unset( $_SESSION[ $error_key ] );
 		return false;

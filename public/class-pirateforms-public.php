@@ -123,7 +123,7 @@ class PirateForms_Public {
 			), $atts
 		);
 
-		$form_id	= isset( $atts['id'] ) && ! empty( $atts['id'] ) ? intval( $atts['id'] ) : 0;
+		$form_id    = isset( $atts['id'] ) && ! empty( $atts['id'] ) ? intval( $atts['id'] ) : 0;
 		$from_widget = ! empty( $atts['from'] );
 		$elements    = array();
 		$pirate_form = new PirateForms_PhpFormBuilder();
@@ -397,11 +397,11 @@ class PirateForms_Public {
 
 		do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'displaying elements %s', print_r( $elements, true ) ), 'debug', __FILE__, __LINE__ );
 
-		$output	= $pirate_form->build_form( apply_filters( 'pirate_forms_public_controls', $elements, $pirate_forms_options, $from_widget ), $pirate_forms_options, $from_widget );
+		$output = $pirate_form->build_form( apply_filters( 'pirate_forms_public_controls', $elements, $pirate_forms_options, $from_widget ), $pirate_forms_options, $from_widget );
 
 		unset( $_SESSION[ 'success' . $nonce_append . '.' . $form_id ] );
 		unset( $_SESSION[ 'error' . $nonce_append . '.' . $form_id ] );
-		
+
 		return $output;
 	}
 
@@ -528,7 +528,7 @@ class PirateForms_Public {
 			return PirateForms_Util::save_error( $error_key, $nonce_append . '.' . $form_id );
 		}
 
-		$form_id			  = isset( $_POST['pirate_forms_form_id'] ) ? $_POST['pirate_forms_form_id'] : 0;
+		$form_id              = isset( $_POST['pirate_forms_form_id'] ) ? $_POST['pirate_forms_form_id'] : 0;
 		$pirate_forms_options = PirateForms_Util::get_form_options( $form_id );
 
 		if ( ! $this->validate_spam( $error_key, $pirate_forms_options ) ) {
@@ -712,14 +712,14 @@ class PirateForms_Public {
 					), array( $pirate_forms_current_theme->name, $pirate_forms_current_theme->parent_theme )
 				);
 
-				$redirect_to		= null;
+				$redirect_to        = null;
 
 				/* If a Thank you page is selected, redirect to that page */
 				if ( $pirate_forms_options['pirateformsopt_thank_you_url'] ) {
 					$redirect_id = intval( $pirate_forms_options['pirateformsopt_thank_you_url'] );
 					$redirect    = get_permalink( $redirect_id );
 					if ( ! empty( $redirect ) ) {
-						$redirect_to	= $redirect;
+						$redirect_to    = $redirect;
 					}
 				} elseif ( $is_our_theme ) {
 					// the fragment identifier should always be the last argument, otherwise the thank you message will not show.
