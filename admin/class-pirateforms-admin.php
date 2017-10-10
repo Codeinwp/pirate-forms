@@ -72,6 +72,9 @@ class PirateForms_Admin {
 				'pirateforms_scripts_admin', 'cwp_top_ajaxload', array(
 					'ajaxurl'   => admin_url( 'admin-ajax.php' ),
 					'nonce'     => wp_create_nonce( PIRATEFORMS_SLUG ),
+					'i10n'      => array(
+						'recaptcha' => __( 'Please specify the Site Key and Secret Key.', 'pirate-forms' ),
+					),
 				)
 			);
 		}
@@ -935,7 +938,15 @@ class PirateForms_Admin {
 		switch ( $column ) {
 			case 'pf_mailstatus':
 				$response   = get_post_meta( $id, PIRATEFORMS_SLUG . 'mail-status', true );
-				echo empty( $response ) ? __( 'Status not captured', 'pirate-forms' ) : ( $response ? __( 'Mail sent successfully!', 'pirate-forms' ) : __( 'Mail sending failed!', 'pirate-forms' ) );
+				$failed     = $response == 'false';
+				echo empty( $response ) ? __( 'Status not captured', 'pirate-forms' ) : ( $failed ? __( 'Mail sending failed!', 'pirate-forms' ) : __( 'Mail sent successfully!', 'pirate-forms' ) );
+
+				if ( $failed ) {
+					$reason     = get_post_meta( $id, PIRATEFORMS_SLUG . 'mail-status-reason', true );
+					if ( ! empty( $reason ) ) {
+						echo '<br>(' . $reason . ')';
+					}
+				}
 				break;
 		}
 	}
