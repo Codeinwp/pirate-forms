@@ -206,4 +206,28 @@ class PirateForms_Util {
 		$pirate_forms_options = self::get_option();
 		return apply_filters( 'pirateformpro_get_form_attributes', $pirate_forms_options, $id );
 	}
+
+
+	/**
+	 * Start sessing if it does not exist.
+	 *
+	 */
+	public static function session_start() {
+		if ( session_id() === '' ) {
+			// @codingStandardsIgnoreStart
+			@session_start();
+			// @codingStandardsIgnoreEnd
+		}
+	}
+
+	/**
+	 * Seed the session variable that contains the error(s).
+	 *
+	 */
+	public static function save_error( $error_key, $new_error_key ) {
+		$array		= $_SESSION[ $error_key ];
+		$_SESSION[ 'error' . $new_error_key ] = $array;
+		unset( $_SESSION[ $error_key ] );
+		return false;
+	}
 }
