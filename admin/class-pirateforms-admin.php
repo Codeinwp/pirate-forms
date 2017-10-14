@@ -947,6 +947,8 @@ class PirateForms_Admin {
 						echo '<br>(' . $reason . ')';
 					}
 				}
+
+				do_action( 'pirate_forms_display_mail_status_message', $id );
 				break;
 		}
 	}
