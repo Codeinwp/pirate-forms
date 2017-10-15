@@ -944,13 +944,14 @@ class PirateForms_Admin {
 				if ( $failed ) {
 					$reason     = get_post_meta( $id, PIRATEFORMS_SLUG . 'mail-status-reason', true );
 					if ( ! empty( $reason ) ) {
-						echo '<br>(' . $reason . ')';
+						echo ' (' . $reason . ')';
 					}
 				}
-
-				do_action( 'pirate_forms_display_mail_status_message', $id );
 				break;
 		}
+
+		do_action( 'pirate_forms_display_mail_status_message', $column, $id );
+
 	}
 
 	/**
