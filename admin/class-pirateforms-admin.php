@@ -950,7 +950,7 @@ class PirateForms_Admin {
 				break;
 		}
 
-		do_action( 'pirate_forms_display_mail_status_message', $column, $id );
+		do_action( 'pirate_forms_listing_display', $column, $id );
 
 	}
 
