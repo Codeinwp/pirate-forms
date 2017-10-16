@@ -1,15 +1,15 @@
-=== Contact Form & SMTP Plugin for WordPress by PirateForms ===
-Contributors: themeisle, codeinwp, rodicaelena, hardeepasrani, pirateforms, rozroz
-Tags:  contact form, contact form plugin, forms, smtp, custom form, subscribe form, feedback form, wordpress contact form
-Requires at least: 3.0
-Tested up to: 4.8
-Stable tag: trunk
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+# Contact Form & SMTP Plugin for WordPress by PirateForms #
+**Contributors:** [themeisle](https://profiles.wordpress.org/themeisle), [codeinwp](https://profiles.wordpress.org/codeinwp), [rodicaelena](https://profiles.wordpress.org/rodicaelena), [hardeepasrani](https://profiles.wordpress.org/hardeepasrani), [pirateforms](https://profiles.wordpress.org/pirateforms), [rozroz](https://profiles.wordpress.org/rozroz)  
+**Tags:**  contact form, contact form plugin, forms, smtp, custom form, subscribe form, feedback form, wordpress contact form  
+**Requires at least:** 3.0  
+**Tested up to:** 4.8  
+**Stable tag:** trunk  
+**License:** GPLv2 or later  
+**License URI:** http://www.gnu.org/licenses/gpl-2.0.html  
 
 A simple and effective WordPress contact form & SMTP plugin. Compatible with best themes out there, is both a secure and responsive contact form plugin.
 
-== Description ==
+## Description ##
 
 Stay in touch with your visitors very easily. <a href="https://themeisle.com/plugins/pirate-forms/" rel="nofollow">Pirate Contact Forms</a> offers you a great and friendly contact form for your website.
 This is an easy-to-use WordPress contact form with captcha plugin. To create a contact form you just need to use the [pirate_forms] shortcode or use the WordPress contact form widget.
@@ -84,36 +84,36 @@ If are you looking for other alternatives check-out our article on <a href="http
 
 This plugin started as a fork of https://wordpress.org/plugins/proper-contact-form/.
 
-== Frequently Asked Questions ==
+## Frequently Asked Questions ##
 
-= How I can get support for this contact form plugin ? =
+### How I can get support for this contact form plugin ? ###
 
 You can learn more about PirateForms and ask for help by <a href="https://themeisle.com/contact/"  >visiting ThemeIsle website</a>.
 
-= What can i do with this plugin =
+### What can i do with this plugin ###
 
 You can follow the full documentation [here](http://docs.themeisle.com/article/436-pirate-forms-documentation)
 
-= How to Change Pirate Forms Submit Button Color =
+### How to Change Pirate Forms Submit Button Color ###
 
 [http://docs.themeisle.com/article/423-how-to-change-pirate-forms-submit-button-color](http://docs.themeisle.com/article/423-how-to-change-pirate-forms-submit-button-color)
 
-= How to Center the Send Message button for Pirate Forms =
+### How to Center the Send Message button for Pirate Forms ###
 [http://docs.themeisle.com/article/427-how-to-center-the-send-message-button-for-pirate-forms](http://docs.themeisle.com/article/427-how-to-center-the-send-message-button-for-pirate-forms)
 
-= How to change font in Pirate Forms =
+### How to change font in Pirate Forms ###
 [http://docs.themeisle.com/article/431-how-to-change-font-in-pirate-forms](http://docs.themeisle.com/article/431-how-to-change-font-in-pirate-forms)
 
 
-= How you can overwrite the default form template in Pirate Forms =
+### How you can overwrite the default form template in Pirate Forms ###
 [http://docs.themeisle.com/article/664-how-you-can-overwrite-the-default-form-template-in-pirate-forms](http://docs.themeisle.com/article/664-how-you-can-overwrite-the-default-form-template-in-pirate-forms)
 
 
-= What actions and filters are available in Pirate Forms =
+### What actions and filters are available in Pirate Forms ###
 [http://docs.themeisle.com/article/663-what-actions-and-filters-are-available-in-pirate-forms](http://docs.themeisle.com/article/663-what-actions-and-filters-are-available-in-pirate-forms)
 
 
-== Installation ==
+## Installation ##
 
 Activating the Pirate Contact Form plugin is just like any other plugin. If you've uploaded the plugin package to your server already, skip to step 5 below:
 
@@ -126,22 +126,22 @@ Activating the Pirate Contact Form plugin is just like any other plugin. If you'
 7. To add this form to any page or post, just copy/paste or type "[pirate_forms]" into the page or post content and save. The form should appear on that page
 
 
-== Screenshots ==
+## Screenshots ##
 
 1. Screenshot 1. How to use contact form in posts/pages
 2. Screenshot 2. How to customize contact form labels
 3. Screenshot 3. How to use reCaptcha
 4. Screenshot 4. Enabling SMTP
 
-== Changelog ==
-= 2.2.1 - 2017-10-10  = 
+## Changelog ##
+### 2.2.1 - 2017-10-10  ###
 
 * Fix issue for multiple forms on the same page.
 * Fix issue with reCAPTCHA keys.
 * Capture failure reasons and corrected email status.
 
 
-= 2.2.0 - 2017-09-27  = 
+### 2.2.0 - 2017-09-27  ###
 
 * Adds integration with Akismet for spam block.
 * Adds another spam tramp mechanism, independent from Google reCAPTCHA.
@@ -149,7 +149,7 @@ Activating the Pirate Contact Form plugin is just like any other plugin. If you'
 * Improvements for compatibility with the pro version.
 
 
-= 2.1.0 - 2017-08-26  = 
+### 2.1.0 - 2017-08-26  ###
 
 * Improved compatibility with the pro version.
 * Fixed broken form layout on certain themes.
@@ -157,39 +157,39 @@ Activating the Pirate Contact Form plugin is just like any other plugin. If you'
 * Added test email functionality.
 
 
-= 2.0.5 - 2017-08-16  = 
+### 2.0.5 - 2017-08-16  ###
 
 * Fixed compatibility with the pro version for multiple fields. 
 * Fixed default consistency between forms.
 
 
-= 2.0.4 - 2017-08-14  = 
+### 2.0.4 - 2017-08-14  ###
 
 * All fields are now optional.
 * Fixed redirect after form submission.
 * Added more flexibility for changing the layout via dynamic CSS classes.
 
 
-= 2.0.3 - 2017-08-10  = 
+### 2.0.3 - 2017-08-10  ###
 
 * Fixed fatal errors on some environments because of anonymous functions usage.
 * Fixed thank you message when nonces are disabled.
 * Added compatibility with pro version.
 
 
-= 2.0.2 - 2017-08-07  = 
+### 2.0.2 - 2017-08-07  ###
 
 * Fixed none option for thank you page.
 * Fixed various issues with form layout.
 * Added support for future pro version.
 
 
-= 2.0.1 - 2017-08-01  = 
+### 2.0.1 - 2017-08-01  ###
 
 * Fixed backwards compatibility with Zerif themes
 
 
-= 2.0.0 - 2017-08-01  = 
+### 2.0.0 - 2017-08-01  ###
 
 * Major code refactor ( Please TEST BEFORE updating).
 * Added multiple filters and hooks to be easily extended by developers. 
@@ -199,24 +199,24 @@ Activating the Pirate Contact Form plugin is just like any other plugin. If you'
 
 
 
-= 1.2.0 =
+### 1.2.0 ###
 
 * Fixed security error when upload field was active.
 
-= 1.1.3 =
+### 1.1.3 ###
 
 * Added integration with custom emails plugin
 * Fixed text domains errors
 
-= 1.1.0 =
+### 1.1.0 ###
 * Escape form fields ( Thanks to Gabriel Avramescu gabriel.avramescu@ituniversity.ro )
 
-= 1.0.18 =
+### 1.0.18 ###
 * Fixed php strict standards error
 * Update tags
 * Tested up to WordPress 4.6
 
-= 1.0.17 =
+### 1.0.17 ###
 * Fixed IP issue when using web server behind a reverse proxy
 * Fixed W3C compatibility issues
 * Remove pcf=1#contact from url when theme is different then Zerif
@@ -226,33 +226,33 @@ Activating the Pirate Contact Form plugin is just like any other plugin. If you'
 * New thank you URL option
 * New option to make the nonce optional
 
-= 1.0.16 =
+### 1.0.16 ###
 * textarea field not saving
 
-= 1.0.15 =
+### 1.0.15 ###
 * Update screenshots
 * Added a clearfix after the Pirate Forms widget to avoid messed layout
 * Update compatible WordPress version number
 
-= 1.0.14 =
+### 1.0.14 ###
 * Fix issues with checkboxes not saving data
 * Redo the layout of the plugin's admin area
 
-= 1.0.13 =
+### 1.0.13 ###
 * Fix issues with multiple forms on same page
 * Update readme.txt
 
-= 1.0.12 =
+### 1.0.12 ###
 * Update contributors names
 * Option to change recaptcha language
 
-= 1.0.11 =
+### 1.0.11 ###
 * Fixed #55 Recaptcha too down
 
-= 1.0.9 =
+### 1.0.9 ###
 * Fixed layout issues #52
 
-= 1.0.8 =
+### 1.0.8 ###
 * Update readme.txt
 * Update translations files
 * #42, translation issues fixed
