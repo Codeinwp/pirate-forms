@@ -35,7 +35,7 @@ class PirateForms_PhpFormBuilder {
 
 		$classes    = array();
 		$classes[]  = $from_widget ? 'widget-on' : '';
-		$form_start = '<form method="post" enctype="' . $pirate_forms_enctype . '" action="" class="pirate_forms ';
+		$form_start = '<form method="post" enctype="' . $pirate_forms_enctype . '" class="pirate_forms ';
 
 		$html_helper        = new PirateForms_HTML();
 		$form_end           = '';
@@ -57,7 +57,19 @@ class PirateForms_PhpFormBuilder {
 
 		$this->set_element( 'custom_fields', $custom_fields );
 
-		$form_start .= implode( ' ', $classes ) . '">';
+		$form_attributes	= array_filter( apply_filters( 'pirate_forms_form_attributes', array( 'action' => '' ) ) );
+		// if additiona classes are provided, add them to our classes.
+		if ( $form_attributes && array_key_exists( 'class', $form_attributes ) ) {
+			$form_classes	= explode( ' ', $form_attributes['class'] );
+			$classes		= array_merge( $classes, $form_classes );
+			unset( $form_attributes['class'] );
+		}
+
+		$form_start .= implode( ' ', $classes ) . '"';
+		foreach ( $form_attributes as $k => $v ) {
+			$form_start	.= " $k=$v";
+		}
+		$form_start	.= '>';
 		$this->set_element( 'form_start', $form_start );
 
 		$form_end .= '</form>';
