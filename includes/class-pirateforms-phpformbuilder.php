@@ -57,12 +57,12 @@ class PirateForms_PhpFormBuilder {
 
 		$this->set_element( 'custom_fields', $custom_fields );
 
-		$form_attributes	= array_filter( apply_filters( 'pirate_forms_form_attributes', array( 'action' => '' ) ) );
+		$form_attributes    = array_filter( apply_filters( 'pirate_forms_form_attributes', array( 'action' => '' ) ) );
 		if ( $form_attributes ) {
 			// if additiona classes are provided, add them to our classes.
 			if ( array_key_exists( 'class', $form_attributes ) ) {
-				$form_classes	= explode( ' ', $form_attributes['class'] );
-				$classes		= array_merge( $classes, $form_classes );
+				$form_classes   = explode( ' ', $form_attributes['class'] );
+				$classes        = array_merge( $classes, $form_classes );
 				unset( $form_attributes['class'] );
 			}
 
@@ -78,10 +78,10 @@ class PirateForms_PhpFormBuilder {
 		$form_start .= implode( ' ', $classes ) . '"';
 		if ( $form_attributes ) {
 			foreach ( $form_attributes as $k => $v ) {
-				$form_start	.= " $k=$v";
+				$form_start .= " $k=$v";
 			}
 		}
-		$form_start	.= '>';
+		$form_start .= '>';
 		$this->set_element( 'form_start', $form_start );
 
 		$form_end .= '</form>';
