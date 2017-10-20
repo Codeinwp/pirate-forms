@@ -192,7 +192,7 @@ class PirateForms_HTML {
 			unset( $args['required_msg'] );
 		}
 
-		$html       = '<div class="pirate-forms-file-upload-wrapper"><input type="file" ' . $this->get_common( $args, array( 'value' ) ) . ' style="position: absolute; left: -9999px;" tabindex="-1"><button type="button" class="pirate-forms-file-upload-button" tabindex="-1">' . ( isset( $args['label']['value'] ) ? esc_attr( $args['label']['value'] ) : '' ) . '</button><input type="text" ' . $this->get_common( $text_args ) . ' />';
+		$html       = '<div class="pirate-forms-file-upload-wrapper"><input type="file" ' . $this->get_common( $args, array( 'value' ) ) . ' style="position: absolute; left: -9999px;" tabindex="-1"><button type="button" class="pirate-forms-file-upload-button" tabindex="-1">' . ( isset( $args['label']['value'] ) ? esc_attr( $args['label']['value'] ) : '' ) . '</button><input type="text" ' . $this->get_common( $text_args ) . ' /></div>';
 
 		return $this->get_wrap( $args, $html );
 	}
