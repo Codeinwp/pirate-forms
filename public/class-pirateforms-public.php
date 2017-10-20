@@ -76,7 +76,7 @@ class PirateForms_Public {
 		/* style for frontpage contact */
 		wp_enqueue_style( 'pirate_forms_front_styles', PIRATEFORMS_URL . 'public/css/front.css', array(), $this->version );
 		/* recaptcha js */
-		$deps		= array( 'jquery' );
+		$deps       = array( 'jquery' );
 		$pirate_forms_options = get_option( 'pirate_forms_settings_array' );
 		if ( ! empty( $pirate_forms_options ) ) :
 			if ( ! empty( $pirate_forms_options['pirateformsopt_recaptcha_secretkey'] ) && ! empty( $pirate_forms_options['pirateformsopt_recaptcha_sitekey'] ) && 'yes' === $pirate_forms_options['pirateformsopt_recaptcha_field'] ) :
