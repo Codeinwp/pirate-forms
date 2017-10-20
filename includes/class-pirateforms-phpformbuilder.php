@@ -58,16 +58,28 @@ class PirateForms_PhpFormBuilder {
 		$this->set_element( 'custom_fields', $custom_fields );
 
 		$form_attributes	= array_filter( apply_filters( 'pirate_forms_form_attributes', array( 'action' => '' ) ) );
-		// if additiona classes are provided, add them to our classes.
-		if ( $form_attributes && array_key_exists( 'class', $form_attributes ) ) {
-			$form_classes	= explode( ' ', $form_attributes['class'] );
-			$classes		= array_merge( $classes, $form_classes );
-			unset( $form_attributes['class'] );
+		if ( $form_attributes ) {
+			// if additiona classes are provided, add them to our classes.
+			if ( array_key_exists( 'class', $form_attributes ) ) {
+				$form_classes	= explode( ' ', $form_attributes['class'] );
+				$classes		= array_merge( $classes, $form_classes );
+				unset( $form_attributes['class'] );
+			}
+
+			// don't allow overriding of method or enctype.
+			if ( array_key_exists( 'method', $form_attributes ) ) {
+				unset( $form_attributes['method'] );
+			}
+			if ( array_key_exists( 'enctype', $form_attributes ) ) {
+				unset( $form_attributes['enctype'] );
+			}
 		}
 
 		$form_start .= implode( ' ', $classes ) . '"';
-		foreach ( $form_attributes as $k => $v ) {
-			$form_start	.= " $k=$v";
+		if ( $form_attributes ) {
+			foreach ( $form_attributes as $k => $v ) {
+				$form_start	.= " $k=$v";
+			}
 		}
 		$form_start	.= '>';
 		$this->set_element( 'form_start', $form_start );
