@@ -134,6 +134,14 @@ Activating the Pirate Contact Form plugin is just like any other plugin. If you'
 4. Screenshot 4. Enabling SMTP
 
 == Changelog ==
+= 2.2.2 - 2017-10-20  = 
+
+* Hide email entries in frontend queries.
+* Adds filter for form attributes.
+* Fix issue with attachment fields not working when spam trap is active. 
+* Adds support for more integrations in the pro version.
+
+
 = 2.2.1 - 2017-10-10  = 
 
 * Fix issue for multiple forms on the same page.
