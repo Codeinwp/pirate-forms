@@ -189,7 +189,7 @@ class PirateForms_Public {
 			if ( ! empty( $field ) && ! empty( $label ) ) :
 				$required     = $field === 'req' ? true : false;
 				$wrap_classes = array(
-					( ! empty ( $subjectField ) ? 'col-xs-12 col-sm-4' : 'col-xs-12 col-sm-6' ) . ' contact_name_wrap pirate_forms_three_inputs form_field_wrap',
+					( ! empty( $subjectField ) ? 'col-xs-12 col-sm-4' : 'col-xs-12 col-sm-6' ) . ' contact_name_wrap pirate_forms_three_inputs form_field_wrap',
 				);
 				// If this field was submitted with invalid data
 				if ( isset( $_SESSION[ $error_key ]['contact-name'] ) ) {
@@ -218,7 +218,7 @@ class PirateForms_Public {
 			if ( ! empty( $field ) && ! empty( $label ) ) :
 				$required     = $field === 'req' ? true : false;
 				$wrap_classes = array(
-					( ! empty ( $subjectField ) ? 'col-xs-12 col-sm-4' : 'col-xs-12 col-sm-6' ) . ' contact_email_wrap pirate_forms_three_inputs form_field_wrap',
+					( ! empty( $subjectField ) ? 'col-xs-12 col-sm-4' : 'col-xs-12 col-sm-6' ) . ' contact_email_wrap pirate_forms_three_inputs form_field_wrap',
 				);
 				// If this field was submitted with invalid data
 				if ( isset( $_SESSION[ $error_key ]['contact-email'] ) ) {
@@ -476,7 +476,7 @@ class PirateForms_Public {
 	public function render_thankyou( $form_builder ) {
 		if ( ! empty( $form_builder->thank_you_message ) ) {
 			echo '<div class="col-xs-12 pirate_forms_thankyou_wrap"><p>' . $form_builder->thank_you_message
-			     . '</p></div>';
+				 . '</p></div>';
 		}
 	}
 

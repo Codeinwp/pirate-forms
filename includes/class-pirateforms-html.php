@@ -68,7 +68,12 @@ class PirateForms_HTML {
 	private function get_label( $args ) {
 		$html       = '';
 		if ( isset( $args['label'] ) ) {
-			$html   .= '<label for="' . esc_attr( $args['id'] ) . '">';
+			$html   .= '<label for="' . esc_attr( $args['id'] ) . '"';
+
+			if ( isset( $args['label']['class'] ) ) {
+				$html .= 'class="' . esc_attr( $args['label']['class'] ) . '"';
+			}
+			$html   .= '>';
 			if ( isset( $args['label']['value'] ) ) {
 				$html   .= esc_html( $args['label']['value'] );
 			}
