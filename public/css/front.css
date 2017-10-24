@@ -1,5 +1,5 @@
 /*
-Version: 2.2.2
+Version: 2.2.3
  */
 .pirate_forms_wrap .form_field_wrap {
 	margin-bottom: 20px;
@@ -49,49 +49,48 @@ Version: 2.2.2
 }
 
 .pirate-forms-file-upload-hidden {
-  display: none;
-  visibility: hidden;
-  position: absolute;
-  left: -9999px;
+	display: none;
+	visibility: hidden;
+	position: absolute;
+	left: -9999px;
 }
 
 .pirate-forms-file-upload {
-  display: block;
-  width: auto;
+	display: block;
+	width: auto;
 }
+
 .pirate-forms-file-upload label {
-  display: block;
-  margin-bottom: 5px;
+	display: block;
+	margin-bottom: 5px;
 }
 
 .pirate-forms-file-upload-wrapper {
-  position: relative;
-  margin-bottom: 5px;
+	position: relative;
+	margin-bottom: 5px;
 }
 
 .pirate-forms-file-upload-input {
-  width: 70% !important;
-  outline: none !important;
-  border: none !important;
-  -moz-transition: all 0.2s ease-in;
-  -o-transition: all 0.2s ease-in;
-  -webkit-transition: all 0.2s ease-in;
-  transition: all 0.2s ease-in;
-  float: left;
-  /* IE 9 Fix */
+	float: left;
+	width: 70% !important;
+	border: none !important;
+	outline: none !important;
+	-webkit-transition: all 0.2s ease-in;
+	transition: all 0.2s ease-in;
+	/* IE 9 Fix */
 }
-.pirate-forms-file-upload-input:hover, .pirate-forms-file-upload-input:focus {
-  outline: none;
+
+.pirate-forms-file-upload-input:hover,
+.pirate-forms-file-upload-input:focus {
+	outline: none;
 }
 
 .pirate-forms-file-upload-button {
-  cursor: pointer;
-  display: inline-block;
-  margin-left: -1px;
-  float: left;
-  /* IE 9 Fix */
-  -moz-transition: all 0.2s ease-in;
-  -o-transition: all 0.2s ease-in;
-  -webkit-transition: all 0.2s ease-in;
-  transition: all 0.2s ease-in;
+	display: inline-block;
+	float: left;
+	margin-left: -1px;
+	cursor: pointer;
+	/* IE 9 Fix */
+	-webkit-transition: all 0.2s ease-in;
+	transition: all 0.2s ease-in;
 }
