@@ -1,4 +1,9 @@
 
+ ### v2.2.3 - 2017-10-24 
+ **Changes:** 
+ * Improves compatibility with Hestia theme.
+* Adds option to set form label classes.
+ 
  ### v2.2.2 - 2017-10-20 
  **Changes:** 
  * Hide email entries in frontend queries.

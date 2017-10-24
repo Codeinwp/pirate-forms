@@ -134,6 +134,12 @@ Activating the Pirate Contact Form plugin is just like any other plugin. If you'
 4. Screenshot 4. Enabling SMTP
 
 == Changelog ==
+= 2.2.3 - 2017-10-24  = 
+
+* Improves compatibility with Hestia theme.
+* Adds option to set form label classes.
+
+
 = 2.2.2 - 2017-10-20  = 
 
 * Hide email entries in frontend queries.
