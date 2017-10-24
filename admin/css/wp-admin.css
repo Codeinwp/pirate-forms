@@ -1,5 +1,4 @@
 .pirate-forms-nav-tabs a {
-	-webkit-box-shadow: none !important;
 	box-shadow: none !important;
 }
 
@@ -283,7 +282,6 @@ div.pirate_dashicons > form > div > label {
 }
 
 .pirate-custom-emails a:hover {
-	-webkit-box-shadow: none;
 	box-shadow: none;
 	-webkit-transform: translateY(4px);
 	-ms-transform: translateY(4px);
@@ -298,7 +296,6 @@ div.pirate_dashicons > form > div > label {
 	border-radius: 3px;
 	color: #fff;
 	background: #ff7f65;
-	-webkit-box-shadow: 0 4px 0 #da6f5a;
 	box-shadow: 0 4px 0 #da6f5a;
 	font-size: 12px;
 	font-weight: 700;
@@ -361,11 +358,13 @@ div.pirate_dashicons > form > div > label {
 .pirate-forms-test-button {
 	margin-left: 10px;
 }
-input#save.pirate-forms-save-button{
-	margin-right:10px;
-}
-.pirate-forms-grouped input[type=radio]{
-	margin-top: 0px;
-	margin-left:5px;
+
+input#save.pirate-forms-save-button {
 	margin-right: 10px;
+}
+
+.pirate-forms-grouped input[type=radio] {
+	margin-top: 0;
+	margin-right: 10px;
+	margin-left: 5px;
 }
