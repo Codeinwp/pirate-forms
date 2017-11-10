@@ -207,7 +207,7 @@ class PirateForms_Admin {
 		if ( isset( $zerif_contactus_recaptcha_show ) && ( $zerif_contactus_recaptcha_show == '1' ) ) :
 			$pirate_forms_contactus_recaptcha_show = '';
 		else :
-			$pirate_forms_contactus_recaptcha_show = 'yes';
+			$pirate_forms_contactus_recaptcha_show = 'custom';
 		endif;
 		$zerif_contactus_button_label = get_theme_mod( 'zerif_contactus_button_label', __( 'Send Message', 'pirate-forms' ) );
 		if ( ! empty( $zerif_contactus_button_label ) ) :
@@ -881,7 +881,7 @@ class PirateForms_Admin {
 				if ( isset( $params['pirateformsopt_email_recipients'] ) ) :
 					$pirate_forms_zerif_lite_mods['zerif_contactus_email'] = $params['pirateformsopt_email_recipients'];
 				endif;
-				if ( isset( $params['pirateformsopt_recaptcha_field'] ) && ( $params['pirateformsopt_recaptcha_field'] == 'yes' ) ) :
+				if ( isset( $params['pirateformsopt_recaptcha_field'] ) && ( $params['pirateformsopt_recaptcha_field'] == 'custom' ) ) :
 					$pirate_forms_zerif_lite_mods['zerif_contactus_recaptcha_show'] = 0;
 				else :
 					$pirate_forms_zerif_lite_mods['zerif_contactus_recaptcha_show'] = 1;
