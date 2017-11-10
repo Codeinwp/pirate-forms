@@ -74,7 +74,7 @@ class PirateForms_Public {
 	public function enqueue_styles_and_scripts() {
 
 		/* style for frontpage contact */
-		wp_enqueue_style( 'pirate_forms_front_styles', PIRATEFORMS_URL . 'public/css/front.css', array(), $this->version );
+		wp_register_style( 'pirate_forms_front_styles', PIRATEFORMS_URL . 'public/css/front.css', array(), $this->version );
 		/* recaptcha js */
 		$deps       = array( 'jquery' );
 		$pirate_forms_options = get_option( 'pirate_forms_settings_array' );
@@ -85,14 +85,14 @@ class PirateForms_Public {
 				} else {
 					$pirate_forms_contactus_language = get_locale();
 				}
-				wp_enqueue_script( 'recaptcha', 'https://www.google.com/recaptcha/api.js?hl=' . $pirate_forms_contactus_language . '' );
+				wp_register_script( 'recaptcha', 'https://www.google.com/recaptcha/api.js?hl=' . $pirate_forms_contactus_language . '' );
 				$deps[] = 'recaptcha';
 			endif;
 		endif;
 
-		wp_enqueue_script( 'pirate_forms_scripts', PIRATEFORMS_URL . 'public/js/scripts.js', $deps, $this->version );
+		wp_register_script( 'pirate_forms_scripts', PIRATEFORMS_URL . 'public/js/scripts.js', $deps, $this->version );
 
-		wp_enqueue_script( 'pirate_forms_scripts_general', PIRATEFORMS_URL . 'public/js/scripts-general.js', array( 'jquery' ), $this->version );
+		wp_register_script( 'pirate_forms_scripts_general', PIRATEFORMS_URL . 'public/js/scripts-general.js', array( 'jquery' ), $this->version );
 		$pirate_forms_errors = '';
 		if ( ! empty( $_SESSION['pirate_forms_contact_errors'] ) ) :
 			$pirate_forms_errors = $_SESSION['pirate_forms_contact_errors'];
@@ -114,6 +114,10 @@ class PirateForms_Public {
 	 * @since    1.0.0
 	 */
 	public function display_form( $atts, $content = null ) {
+		wp_enqueue_script( 'pirate_forms_scripts' );
+		wp_enqueue_script( 'pirate_forms_scripts_general' );
+		wp_enqueue_style( 'pirate_forms_front_styles' );
+
 		PirateForms_Util::session_start();
 		$atts = shortcode_atts(
 			array(
