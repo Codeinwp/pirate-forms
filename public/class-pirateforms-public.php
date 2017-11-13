@@ -794,7 +794,7 @@ class PirateForms_Public {
 				$captcha = $_POST['g-recaptcha-response'];
 			}
 			if ( ! $captcha ) {
-				$_SESSION[ $error_key ]['pirate-forms-captcha'] = __( 'Wrong reCAPTCHA', 'pirate-forms' );
+				$_SESSION[ $error_key ]['pirate-forms-captcha'] = __( 'Invalid CAPTCHA', 'pirate-forms' );
 
 				return false;
 			}
@@ -806,7 +806,7 @@ class PirateForms_Public {
 				$result = json_decode( $response_body, true );
 			endif;
 			if ( isset( $result['success'] ) && ( $result['success'] == false ) ) {
-				$_SESSION[ $error_key ]['pirate-forms-captcha'] = __( 'Wrong reCAPTCHA', 'pirate-forms' );
+				$_SESSION[ $error_key ]['pirate-forms-captcha'] = __( 'Incorrect CAPTCHA', 'pirate-forms' );
 
 				return false;
 			}
