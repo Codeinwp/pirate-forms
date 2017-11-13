@@ -13,7 +13,7 @@ matrix:
   - php: "5.6"
     install: true
     before_script: chmod +x bin/wraith.sh
-    env: TEST_SUITE=Wraith_Visual_Regression_Testing WRAITH_FAIL=2
+    env: TEST_SUITE=Wraith_Visual_Regression_Testing WRAITH_FAIL=3
     script:  ./bin/wraith.sh
   - php: '5.3'
     dist: precise

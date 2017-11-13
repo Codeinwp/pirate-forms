@@ -1,12 +1,8 @@
 /*
-Version: 2.2.3
+Version: 2.2.4
  */
 .pirate_forms_wrap .form_field_wrap {
 	margin-bottom: 20px;
-}
-
-.pirate-forms-g-recaptcha {
-	display: none;
 }
 
 .pirate_forms_wrap {
