@@ -26,7 +26,7 @@ Layout For Upsell Page of Pirate forms
 		</div>
 		<div class="pro-feature">
 			<div class="pro-feature-features">
-				<h2>Multiple Integratons</h2>
+				<h2>Multiple Integrations</h2>
 				<p>Send your visitors details directly to MailChimp, GetResponse, Aweber or Sendinblue and connect with them via various emailing campaigns.
 				</p>
 			</div>
