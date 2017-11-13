@@ -113,7 +113,7 @@ function initAll(){
 
     // add visibility toggle to password type fields
     jQuery('.pirate-forms-password-toggle').append('<span class="dashicons dashicons-visibility"></span>');
-    jQuery('.pirate-forms-password-toggle span').on('click', function(e){
+    jQuery('.pirate-forms-password-toggle span').on('click', function(){
         var span = jQuery(this);
         if(span.hasClass('dashicons-visibility')){
             span.parent().find('input[type="password"]').attr('type', 'text');
