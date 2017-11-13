@@ -134,6 +134,15 @@ Activating the Pirate Contact Form plugin is just like any other plugin. If you'
 4. Screenshot 4. Enabling SMTP
 
 ## Changelog ##
+### 2.2.4 - 2017-11-13  ###
+
+* Improved assets loading, loading them only they are necessary. 
+* Remove hide/show effect for reCaptcha.
+* Add toggle for password field.
+* Add new docs, keeping them in sync with HelpScout . 
+* Adds more integration with the pro version.
+
+
 ### 2.2.3 - 2017-10-24  ###
 
 * Improves compatibility with Hestia theme.
