@@ -330,7 +330,7 @@ class PirateForms_Public {
 				$elements[]                         = array(
 					'placeholder' => stripslashes( sanitize_text_field( $label ) ),
 					'type'        => 'div',
-					'class'       => 'g-recaptcha pirate-forms-g-recaptcha',
+					'class'       => 'g-recaptcha pirate-forms-google-recaptcha',
 					'custom'      => array( 'data-sitekey' => $pirateformsopt_recaptcha_sitekey ),
 					'id'          => 'pirate-forms-captcha',
 					'wrap'        => array(
