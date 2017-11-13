@@ -532,7 +532,7 @@ class PirateForms_Admin {
 								'value'   => PirateForms_Util::get_option( 'pirateformsopt_recaptcha_secretkey' ),
 								'wrap'    => array(
 									'type'  => 'div',
-									'class' => 'pirate-forms-grouped pirateformsopt_recaptcha',
+									'class' => 'pirate-forms-grouped pirateformsopt_recaptcha pirate-forms-password-toggle',
 								),
 							),
 						)

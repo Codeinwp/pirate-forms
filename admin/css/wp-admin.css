@@ -368,3 +368,7 @@ input#save.pirate-forms-save-button {
 	margin-right: 10px;
 	margin-left: 5px;
 }
+
+.pirate-forms-password-toggle span.dashicons {
+	cursor: pointer;
+}
