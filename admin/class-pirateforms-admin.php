@@ -808,7 +808,7 @@ class PirateForms_Admin {
 								'value' => PirateForms_Util::get_option( 'pirateformsopt_smtp_password' ),
 								'wrap'  => array(
 									'type'  => 'div',
-									'class' => 'pirate-forms-grouped',
+									'class' => 'pirate-forms-grouped pirate-forms-password-toggle',
 								),
 							),
 						)
