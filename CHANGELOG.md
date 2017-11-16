@@ -1,4 +1,12 @@
 
+ ### v2.2.4 - 2017-11-13 
+ **Changes:** 
+ * Improved assets loading, loading them only they are necessary. 
+* Remove hide/show effect for reCaptcha.
+* Add toggle for password field.
+* Add new docs, keeping them in sync with HelpScout . 
+* Adds more integration with the pro version.
+ 
  ### v2.2.3 - 2017-10-24 
  **Changes:** 
  * Improves compatibility with Hestia theme.
