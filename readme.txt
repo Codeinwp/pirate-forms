@@ -177,6 +177,12 @@ Activating the Pirate Contact Form plugin is just like any other plugin. If you'
 4. Screenshot 4. Enabling SMTP
 
 == Changelog ==
+= 2.2.5 - 2017-11-16  = 
+
+* Adds compatibility with WordPress 4.9
+* Minor improvement for toggle the password in the admin form fields.
+
+
 = 2.2.4 - 2017-11-13  = 
 
 * Improved assets loading, loading them only they are necessary. 
