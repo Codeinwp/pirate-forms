@@ -1,5 +1,6 @@
 /* global cwp_top_ajaxload */
 /* global console */
+/* global tinyMCE */
 
 jQuery(document).ready(function() {
     initAll();
