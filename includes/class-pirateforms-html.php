@@ -379,7 +379,7 @@ class PirateForms_HTML {
 	 */
 	private function wysiwyg( $args ) {
 		$html       = $this->get_label( $args );
-		$content	= isset( $args['value'] ) && ! empty( $args['value'] ) ? $args['value'] : $args['default'];
+		$content    = isset( $args['value'] ) && ! empty( $args['value'] ) ? $args['value'] : $args['default'];
 		ob_start();
 		wp_editor( $content, $args['id'], $args['wysiwyg'] );
 		$html .= ob_get_clean();

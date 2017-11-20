@@ -576,13 +576,13 @@ class PirateForms_Public {
 
 		// Sanitize and prepare referrer;
 		if ( ! empty( $_POST['pirate-forms-contact-referrer'] ) ) {
-			$page												= sanitize_text_field( $_POST['pirate-forms-contact-referrer'] );
-			$body['body'][ __( 'Came from', 'pirate-forms' ) ]	= $page;
+			$page                                               = sanitize_text_field( $_POST['pirate-forms-contact-referrer'] );
+			$body['body'][ __( 'Came from', 'pirate-forms' ) ]  = $page;
 			$body['magic_tags'] += array( 'referer' => $page );
 		}
 
 		// Show the page this contact form was submitted on
-		$permalink												= get_permalink( get_the_id() );
+		$permalink                                              = get_permalink( get_the_id() );
 		$body['body'][ __( 'Sent from page', 'pirate-forms' ) ] = $permalink;
 		$body['magic_tags'] += array( 'permalink' => $permalink );
 
