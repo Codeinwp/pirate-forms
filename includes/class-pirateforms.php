@@ -129,8 +129,8 @@ class PirateForms {
 	 */
 	private function define_common_hooks() {
 		$this->loader->add_action( 'init', $this, 'register_content_type', 10 );
+		$this->loader->add_filter( 'pirate_forms_version_supports', $this, 'version_supports' );
 	}
-
 
 	/**
 	 * Register all of the hooks related to the admin area functionality
@@ -276,5 +276,12 @@ class PirateForms {
 
 		);
 		register_post_type( 'pf_contact', $args );
+	}
+
+	/**
+	 * Return the new features that have been introduced so that the pro plugin can take an action on the basis of that.
+	 */
+	public function version_supports( $null = null ) {
+		return array( 'wysiwyg' );
 	}
 }

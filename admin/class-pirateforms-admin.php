@@ -538,7 +538,7 @@ class PirateForms_Admin {
 						)
 					),
 				),
-				'pirate_labels'                   => array(
+				'pirate_labels pirate_dashicons'	=> array(
 					'heading'  => __( 'Fields Labels', 'pirate-forms' ),
 					'controls' => apply_filters(
 						'pirate_forms_admin_controls_for_field_labels', array(
@@ -605,6 +605,29 @@ class PirateForms_Admin {
 								'wrap'    => array(
 									'type'  => 'div',
 									'class' => 'pirate-forms-grouped',
+								),
+							),
+							array(
+								'id'      => 'pirateformsopt_email_content',
+								'type'    => 'wysiwyg',
+								'label'   => array(
+									'value' => __( 'Email content', 'pirate-forms' ),
+									'html'  => '<span class="dashicons dashicons-editor-help"></span>',
+									'desc'  => array(
+										'value' => PirateForms_Util::get_magic_tags(),
+										'class' => 'pirate_forms_option_description',
+									),
+								),
+								'default' => PirateForms_Util::get_default_email_content(),
+								'value'   => PirateForms_Util::get_option( 'pirateformsopt_email_content' ),
+								'wrap'    => array(
+									'type'  => 'div',
+									'class' => 'pirate-forms-grouped',
+								),
+								'wysiwyg'	=> array(
+									'quicktags'			=> false,
+									'editor_class'		=> 'pirate-forms-wysiwyg',
+									'editor_height'		=> 500,
 								),
 							),
 						)

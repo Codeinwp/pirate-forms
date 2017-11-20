@@ -17,6 +17,7 @@ function initAll(){
 
     jQuery('.pirate-forms-save-button').click(function (e) {
         e.preventDefault();
+        tinyMCE.triggerSave();
         cwpTopUpdateForm();
         return false;
     });
