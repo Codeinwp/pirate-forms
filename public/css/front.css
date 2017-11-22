@@ -89,3 +89,7 @@ Version: 2.2.5
 	-webkit-transition: all 0.2s ease-in;
 	transition: all 0.2s ease-in;
 }
+
+.pirate-forms-maps-custom span {
+	margin-left: 10px;
+}
