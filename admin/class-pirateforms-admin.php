@@ -187,7 +187,7 @@ class PirateForms_Admin {
 	function get_theme_options() {
 		$recaptcha_show = '';
 		$button_label   = __( 'Send Message', 'pirate-forms' );
-		$email          = '';
+		$email          = get_bloginfo( 'admin_email' );
 
 		$theme      = strtolower( wp_get_theme()->__get( 'name' ) );
 
@@ -211,8 +211,6 @@ class PirateForms_Admin {
 				$email = $zerif_contactus_email;
 			} elseif ( ! empty( $zerif_email ) ) {
 				$email = $zerif_email;
-			} else {
-				$email = get_bloginfo( 'admin_email' );
 			}
 		}
 
