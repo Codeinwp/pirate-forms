@@ -185,11 +185,11 @@ class PirateForms_Admin {
 	 *  Get any options that might be configured through the theme.
 	 */
 	function get_theme_options() {
-		$recaptcha_show	= '';
-		$button_label	= __( 'Send Message', 'pirate-forms' );
-		$email			= '';
+		$recaptcha_show = '';
+		$button_label   = __( 'Send Message', 'pirate-forms' );
+		$email          = '';
 
-		$theme		= strtolower( wp_get_theme()->__get('name') );
+		$theme      = strtolower( wp_get_theme()->__get( 'name' ) );
 
 		// Default values from Zerif Lite.
 		if ( strpos( $theme, 'zerif' ) === 0 ) {
@@ -204,7 +204,7 @@ class PirateForms_Admin {
 			if ( ! empty( $zerif_contactus_button_label ) ) {
 				$button_label = $zerif_contactus_button_label;
 			}
-				
+
 			$zerif_contactus_email        = get_theme_mod( 'zerif_contactus_email' );
 			$zerif_email                  = get_theme_mod( 'zerif_email' );
 			if ( ! empty( $zerif_contactus_email ) ) {
@@ -237,8 +237,6 @@ class PirateForms_Admin {
 			$pirate_forms_contactus_button_label,
 			$pirate_forms_contactus_email
 		) = $this->get_theme_options();
-
-error_log("pirate_forms_contactus_recaptcha_show = $pirate_forms_contactus_recaptcha_show");
 
 		// check if akismet is installed
 		$akismet_status = false;
