@@ -47,8 +47,12 @@ class PirateForms_PhpFormBuilder {
 				$classes[]      = $val['id'] . '-on';
 			} else {
 				$element    = $html_helper->add( $val, false );
-				if ( 'form_honeypot' === $val['id'] || in_array( $val['type'], array( 'hidden', 'div' ) ) ) {
+				if ( ( 'form_honeypot' === $val['id'] || in_array( $val['type'], array( 'hidden', 'div' ) ) ) && $val['id'] !== 'pirate-forms-maps-custom'
+				) {
 					$form_end .= $element;
+				}
+				if ( $val['id'] === 'pirate-forms-maps-custom' ) {
+					$this->set_element( 'captcha', $element );
 				}
 				$this->set_element( $val['id'], $element );
 				$classes[]      = $val['id'] . '-on';

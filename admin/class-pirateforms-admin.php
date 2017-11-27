@@ -70,9 +70,9 @@ class PirateForms_Admin {
 			wp_enqueue_script( 'pirateforms_scripts_admin', PIRATEFORMS_URL . 'admin/js/scripts-admin.js', array( 'jquery' ), $this->version );
 			wp_localize_script(
 				'pirateforms_scripts_admin', 'cwp_top_ajaxload', array(
-					'ajaxurl'   => admin_url( 'admin-ajax.php' ),
-					'nonce'     => wp_create_nonce( PIRATEFORMS_SLUG ),
-					'i10n'      => array(
+					'ajaxurl' => admin_url( 'admin-ajax.php' ),
+					'nonce'   => wp_create_nonce( PIRATEFORMS_SLUG ),
+					'i10n'    => array(
 						'recaptcha' => __( 'Please specify the Site Key and Secret Key.', 'pirate-forms' ),
 					),
 				)
@@ -177,9 +177,50 @@ class PirateForms_Admin {
 	function settings() {
 		global $current_user;
 		$pirate_forms_options = PirateForms_Util::get_option();
-		$plugin_options       = $this->pirate_forms_plugin_options();
+		$plugin_options       = $this->get_plugin_options();
 		include_once PIRATEFORMS_DIR . 'admin/partials/pirateforms-settings-display.php';
 	}
+
+	/**
+	 *  Get any options that might be configured through the theme.
+	 */
+	function get_theme_options() {
+		$recaptcha_show = '';
+		$button_label   = __( 'Send Message', 'pirate-forms' );
+		$email          = get_bloginfo( 'admin_email' );
+
+		$theme      = strtolower( wp_get_theme()->__get( 'name' ) );
+
+		// Default values from Zerif Lite.
+		if ( strpos( $theme, 'zerif' ) === 0 ) {
+			$zerif_contactus_recaptcha_show = get_theme_mod( 'zerif_contactus_recaptcha_show' );
+			if ( isset( $zerif_contactus_recaptcha_show ) && ( $zerif_contactus_recaptcha_show == '1' ) ) {
+				$recaptcha_show = '';
+			} else {
+				$recaptcha_show = 'custom';
+			}
+
+			$zerif_contactus_button_label = get_theme_mod( 'zerif_contactus_button_label', __( 'Send Message', 'pirate-forms' ) );
+			if ( ! empty( $zerif_contactus_button_label ) ) {
+				$button_label = $zerif_contactus_button_label;
+			}
+
+			$zerif_contactus_email        = get_theme_mod( 'zerif_contactus_email' );
+			$zerif_email                  = get_theme_mod( 'zerif_email' );
+			if ( ! empty( $zerif_contactus_email ) ) {
+				$email = $zerif_contactus_email;
+			} elseif ( ! empty( $zerif_email ) ) {
+				$email = $zerif_email;
+			}
+		}
+
+		return array(
+			$recaptcha_show,
+			$button_label,
+			$email,
+		);
+	}
+
 
 	/**
 	 *
@@ -188,56 +229,25 @@ class PirateForms_Admin {
 	 * @since 1.0.0
 	 * name; id; desc; type; default; options
 	 */
-	function pirate_forms_plugin_options() {
-		/**
-		 **********  Default values from Zerif Lite */
-		$zerif_contactus_sitekey = get_theme_mod( 'zerif_contactus_sitekey' );
-		if ( ! empty( $zerif_contactus_sitekey ) ) :
-			$pirate_forms_contactus_sitekey = $zerif_contactus_sitekey;
-		else :
-			$pirate_forms_contactus_sitekey = '';
-		endif;
-		$zerif_contactus_secretkey = get_theme_mod( 'zerif_contactus_secretkey' );
-		if ( ! empty( $zerif_contactus_secretkey ) ) :
-			$pirate_forms_contactus_secretkey = $zerif_contactus_secretkey;
-		else :
-			$pirate_forms_contactus_secretkey = '';
-		endif;
-		$zerif_contactus_recaptcha_show = get_theme_mod( 'zerif_contactus_recaptcha_show' );
-		if ( isset( $zerif_contactus_recaptcha_show ) && ( $zerif_contactus_recaptcha_show == '1' ) ) :
-			$pirate_forms_contactus_recaptcha_show = '';
-		else :
-			$pirate_forms_contactus_recaptcha_show = 'custom';
-		endif;
-		$zerif_contactus_button_label = get_theme_mod( 'zerif_contactus_button_label', __( 'Send Message', 'pirate-forms' ) );
-		if ( ! empty( $zerif_contactus_button_label ) ) :
-			$pirate_forms_contactus_button_label = $zerif_contactus_button_label;
-		else :
-			$pirate_forms_contactus_button_label = __( 'Send Message', 'pirate-forms' );
-		endif;
-		$zerif_contactus_email        = get_theme_mod( 'zerif_contactus_email' );
-		$zerif_email                  = get_theme_mod( 'zerif_email' );
-		$pirate_forms_contactus_email = '';
-		if ( ! empty( $zerif_contactus_email ) ) :
-			$pirate_forms_contactus_email = $zerif_contactus_email;
-		elseif ( ! empty( $zerif_email ) ) :
-			$pirate_forms_contactus_email = $zerif_email;
-		else :
-			$pirate_forms_contactus_email = get_bloginfo( 'admin_email' );
-		endif;
+	function get_plugin_options() {
+		list(
+			$pirate_forms_contactus_recaptcha_show,
+			$pirate_forms_contactus_button_label,
+			$pirate_forms_contactus_email
+		) = $this->get_theme_options();
 
 		// check if akismet is installed
 		$akismet_status = false;
 		if ( is_plugin_active( 'akismet/akismet.php' ) ) {
-			$akismet_key    = get_option( 'wordpress_api_key' );
+			$akismet_key = get_option( 'wordpress_api_key' );
 			if ( ! empty( $akismet_key ) ) {
 				$akismet_status = true;
 			}
 		}
 
-		$akismet_msg    = '';
+		$akismet_msg = '';
 		if ( ! $akismet_status ) {
-			$akismet_msg    = __( 'To use this option, please ensure Akismet is activated with a valid key.', 'pirate-forms' );
+			$akismet_msg = __( 'To use this option, please ensure Akismet is activated with a valid key.', 'pirate-forms' );
 		}
 
 		// the key(s) will be added to the div as class names
@@ -362,9 +372,9 @@ class PirateForms_Admin {
 								'options' => PirateForms_Util::get_thank_you_pages(),
 							),
 							array(
-								'id'      => 'pirateformsopt_akismet',
-								'type'    => 'checkbox',
-								'label'   => array(
+								'id'       => 'pirateformsopt_akismet',
+								'type'     => 'checkbox',
+								'label'    => array(
 									'value' => __( 'Integrate with Akismet?', 'pirate-forms' ),
 									'html'  => '<span class="dashicons dashicons-editor-help"></span>',
 									'desc'  => array(
@@ -372,12 +382,12 @@ class PirateForms_Admin {
 										'class' => 'pirate_forms_option_description',
 									),
 								),
-								'value'   => PirateForms_Util::get_option( 'pirateformsopt_akismet' ),
-								'wrap'    => array(
+								'value'    => PirateForms_Util::get_option( 'pirateformsopt_akismet' ),
+								'wrap'     => array(
 									'type'  => 'div',
 									'class' => 'pirate-forms-grouped',
 								),
-								'options' => array(
+								'options'  => array(
 									'yes' => __( 'Yes', 'pirate-forms' ),
 								),
 								'disabled' => ! empty( $akismet_msg ),
@@ -497,9 +507,9 @@ class PirateForms_Admin {
 									'class' => 'pirate-forms-grouped',
 								),
 								'options' => array(
-									'' => __( 'No', 'pirate-forms' ),
+									''       => __( 'No', 'pirate-forms' ),
 									'custom' => __( 'Custom', 'pirate-forms' ),
-									'yes' => __( 'Google reCAPTCHA', 'pirate-forms' ),
+									'yes'    => __( 'Google reCAPTCHA', 'pirate-forms' ),
 								),
 							),
 							/* Site key */
@@ -514,7 +524,6 @@ class PirateForms_Admin {
 										'class' => 'pirate_forms_option_description',
 									),
 								),
-								'default' => $pirate_forms_contactus_sitekey,
 								'value'   => PirateForms_Util::get_option( 'pirateformsopt_recaptcha_sitekey' ),
 								'wrap'    => array(
 									'type'  => 'div',
@@ -528,7 +537,6 @@ class PirateForms_Admin {
 								'label'   => array(
 									'value' => __( 'Secret key', 'pirate-forms' ),
 								),
-								'default' => $pirate_forms_contactus_secretkey,
 								'value'   => PirateForms_Util::get_option( 'pirateformsopt_recaptcha_secretkey' ),
 								'wrap'    => array(
 									'type'  => 'div',
@@ -538,7 +546,7 @@ class PirateForms_Admin {
 						)
 					),
 				),
-				'pirate_labels'                   => array(
+				'pirate_labels pirate_dashicons'  => array(
 					'heading'  => __( 'Fields Labels', 'pirate-forms' ),
 					'controls' => apply_filters(
 						'pirate_forms_admin_controls_for_field_labels', array(
@@ -605,6 +613,25 @@ class PirateForms_Admin {
 								'wrap'    => array(
 									'type'  => 'div',
 									'class' => 'pirate-forms-grouped',
+								),
+							),
+							array(
+								'id'      => 'pirateformsopt_email_content',
+								'type'    => 'wysiwyg',
+								'label'   => array(
+									'value' => __( 'Email content', 'pirate-forms' ),
+									'html'  => '<br/><br/>' . esc_attr( __( 'You can use the next magic tags:', 'pirate-forms' ) ) . '<br/>' . PirateForms_Util::get_magic_tags(),
+								),
+								'default' => PirateForms_Util::get_default_email_content(),
+								'value'   => PirateForms_Util::get_option( 'pirateformsopt_email_content' ),
+								'wrap'    => array(
+									'type'  => 'div',
+									'class' => 'pirate-forms-grouped',
+								),
+								'wysiwyg' => array(
+									'quicktags'     => false,
+									'editor_class'  => 'pirate-forms-wysiwyg',
+									'editor_height' => 500,
 								),
 							),
 						)
@@ -823,7 +850,7 @@ class PirateForms_Admin {
 	public function settings_init() {
 		if ( ! PirateForms_Util::get_option() ) {
 			$new_opt = array();
-			foreach ( $this->pirate_forms_plugin_options() as $tab => $array ) {
+			foreach ( $this->get_plugin_options() as $tab => $array ) {
 				foreach ( $array['controls'] as $controls ) {
 					$new_opt[ $controls['id'] ] = isset( $controls['default'] ) ? $controls['default'] : '';
 				}
@@ -937,12 +964,12 @@ class PirateForms_Admin {
 	public function manage_contact_posts_custom_column( $column, $id ) {
 		switch ( $column ) {
 			case 'pf_mailstatus':
-				$response   = get_post_meta( $id, PIRATEFORMS_SLUG . 'mail-status', true );
-				$failed     = $response == 'false';
+				$response = get_post_meta( $id, PIRATEFORMS_SLUG . 'mail-status', true );
+				$failed   = $response == 'false';
 				echo empty( $response ) ? __( 'Status not captured', 'pirate-forms' ) : ( $failed ? __( 'Mail sending failed!', 'pirate-forms' ) : __( 'Mail sent successfully!', 'pirate-forms' ) );
 
 				if ( $failed ) {
-					$reason     = get_post_meta( $id, PIRATEFORMS_SLUG . 'mail-status-reason', true );
+					$reason = get_post_meta( $id, PIRATEFORMS_SLUG . 'mail-status-reason', true );
 					if ( ! empty( $reason ) ) {
 						echo ' (' . $reason . ')';
 					}
@@ -960,15 +987,15 @@ class PirateForms_Admin {
 	public function test_email() {
 		check_ajax_referer( PIRATEFORMS_SLUG, 'security' );
 		add_filter( 'pirateformpro_get_form_attributes', array( $this, 'test_configuration' ), 999, 2 );
-		add_action( 'pirate_forms_after_processing', array( $this, 'test_result'), 10, 1 );
-		add_filter( 'pirate_forms_validate_request', array( $this, 'test_alter_session'), 10, 3 );
-		$_POST  = array(
-			'honeypot'                      => '',
-			'pirate_forms_form_id'          => isset( $_POST['pirate_forms_form_id'] ) ? $_POST['pirate_forms_form_id'] : '',
-			'pirate-forms-contact-name'     => 'Test Name',
-			'pirate-forms-contact-email'    => get_bloginfo( 'admin_email' ),
-			'pirate-forms-contact-subject'  => 'Test Email',
-			'pirate-forms-contact-message'  => 'This is a test.',
+		add_action( 'pirate_forms_after_processing', array( $this, 'test_result' ), 10, 1 );
+		add_filter( 'pirate_forms_validate_request', array( $this, 'test_alter_session' ), 10, 3 );
+		$_POST = array(
+			'honeypot'                     => '',
+			'pirate_forms_form_id'         => isset( $_POST['pirate_forms_form_id'] ) ? $_POST['pirate_forms_form_id'] : '',
+			'pirate-forms-contact-name'    => 'Test Name',
+			'pirate-forms-contact-email'   => get_bloginfo( 'admin_email' ),
+			'pirate-forms-contact-subject' => 'Test Email',
+			'pirate-forms-contact-message' => 'This is a test.',
 		);
 		do_action( 'pirate_forms_send_email', true );
 	}
@@ -978,9 +1005,10 @@ class PirateForms_Admin {
 	 */
 	public function test_configuration( $options, $id ) {
 		// disable captcha
-		$options['pirateformsopt_recaptcha_field']  = 'no';
+		$options['pirateformsopt_recaptcha_field'] = 'no';
 		// disable attachments
 		$options['pirateformsopt_attachment_field'] = 'no';
+
 		return $options;
 	}
 
@@ -996,6 +1024,7 @@ class PirateForms_Admin {
 	 */
 	public function test_alter_session( $body, $error_key, $pirate_forms_options ) {
 		$_SESSION[ $error_key ] = '';
+
 		return $body;
 	}
 }

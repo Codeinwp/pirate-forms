@@ -377,7 +377,7 @@ class PirateForms_Public {
 		if ( ! empty( $_SERVER['HTTP_REFERER'] ) ) {
 			$elements[] = array(
 				'type'  => 'hidden',
-				'id'    => 'contact-referrer',
+				'id'    => 'pirate-forms-contact-referrer',
 				'value' => $_SERVER['HTTP_REFERER'],
 			);
 		}
@@ -544,6 +544,9 @@ class PirateForms_Public {
 		$body            = array();
 		$body['heading'] = sprintf( __( 'Contact form submission from %s', 'pirate-forms' ), get_bloginfo( 'name' ) . ' (' . site_url() . ')' );
 		$body['body']    = array();
+		// lets collect the values for ALL potential magic tags in the form $tag_name => $tag_value e.g. 'name' => 'some name'.
+		// the tag name should be without the curly braces.
+		$body['magic_tags'] = array();
 
 		list( $pirate_forms_contact_email, $pirate_forms_contact_name, $pirate_forms_contact_subject, $msg ) = $this->validate_request( $error_key, $pirate_forms_options, $body );
 
@@ -568,15 +571,20 @@ class PirateForms_Public {
 		if ( ! empty( $contact_ip ) ) {
 			$body['body'][ __( 'IP address', 'pirate-forms' ) ] = $contact_ip;
 			$body['body'][ __( 'IP search', 'pirate-forms' ) ]  = "http://whatismyipaddress.com/ip/$contact_ip";
+			$body['magic_tags'] += array( 'ip' => $contact_ip );
 		}
 
 		// Sanitize and prepare referrer;
 		if ( ! empty( $_POST['pirate-forms-contact-referrer'] ) ) {
-			$body['body'][ __( 'Came from', 'pirate-forms' ) ] = sanitize_text_field( $_POST['pirate-forms-contact-referrer'] );
+			$page                                               = sanitize_text_field( $_POST['pirate-forms-contact-referrer'] );
+			$body['body'][ __( 'Came from', 'pirate-forms' ) ]  = $page;
+			$body['magic_tags'] += array( 'referer' => $page );
 		}
 
 		// Show the page this contact form was submitted on
-		$body['body'][ __( 'Sent from page', 'pirate-forms' ) ] = get_permalink( get_the_id() );
+		$permalink                                              = get_permalink( get_the_id() );
+		$body['body'][ __( 'Sent from page', 'pirate-forms' ) ] = $permalink;
+		$body['magic_tags'] += array( 'permalink' => $permalink );
 
 		// Check the blacklist
 		$blocked = PirateForms_Util::is_blacklisted( $error_key, $pirate_forms_contact_email, $contact_ip );
@@ -636,10 +644,8 @@ class PirateForms_Public {
 				$subject = $pirate_forms_contact_subject;
 			}
 
-			$mail_body = apply_filters( 'pirate_forms_get_mail_body', $body );
-			if ( is_array( $mail_body ) ) {
-				$mail_body = PirateForms_Util::get_table( $mail_body );
-			}
+			$mail_body = ! empty( $pirate_forms_options['pirateformsopt_email_content'] ) ? $pirate_forms_options['pirateformsopt_email_content'] : PirateForms_Util::get_default_email_content( true, $form_id );
+			$mail_body = PirateForms_Util::replace_magic_tags( $mail_body, $body );
 
 			do_action( 'pirate_forms_before_sending', $pirate_forms_contact_email, $site_recipients, $subject, $mail_body, $headers, $attachments );
 			do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'before sending email to = %s, subject = %s, body = %s, headers = %s, attachments = %s', $site_recipients, $subject, $mail_body, $headers, print_r( $attachments, true ) ), 'debug', __FILE__, __LINE__ );
@@ -839,6 +845,7 @@ class PirateForms_Public {
 
 		foreach ( $fields as $field ) {
 			$value = isset( $_POST[ 'pirate-forms-contact-' . $field ] ) ? sanitize_text_field( trim( $_POST[ 'pirate-forms-contact-' . $field ] ) ) : '';
+			$body['magic_tags'] += array( $field => $value );
 			if ( 'req' === $pirate_forms_options[ 'pirateformsopt_' . $field . '_field' ] && empty( $value ) ) {
 				$_SESSION[ $error_key ][ 'pirate-forms-contact-' . $field ] = $pirate_forms_options[ 'pirateformsopt_label_err_' . $field ];
 			} elseif ( ! empty( $value ) ) {
@@ -982,6 +989,7 @@ class PirateForms_Public {
 				$files[] = basename( $file );
 			}
 			$body['body'][ __( 'Attachment', 'pirate-forms' ) ] = implode( ',', $files );
+			$body['magic_tags'] += array( 'attachments' => implode( ',', $files ) );
 		}
 		do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'finally attaching attachment(s): %s', print_r( $attachments, true ) ), 'info', __FILE__, __LINE__ );
 

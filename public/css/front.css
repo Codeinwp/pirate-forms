@@ -1,12 +1,11 @@
 /*
-Version: 2.2.5
+Version: 2.3.0
  */
 .pirate_forms_wrap .form_field_wrap {
 	margin-bottom: 20px;
 }
 
 .pirate_forms_wrap {
-	float: left;
 	width: 100%;
 }
 
@@ -89,4 +88,8 @@ Version: 2.2.5
 	/* IE 9 Fix */
 	-webkit-transition: all 0.2s ease-in;
 	transition: all 0.2s ease-in;
+}
+
+.pirate-forms-maps-custom span {
+	margin-left: 5px;
 }
