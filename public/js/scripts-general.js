@@ -12,7 +12,7 @@ jQuery(document).ready(function() {
     }
 	
     if(jQuery('.pirate-forms-maps-custom').length > 0){
-        jQuery('.pirate-forms-maps-custom').html(jQuery('<input name="xobkcehc" type="' + 'xobkcehc'.split('').reverse().join('') + '" value="' + pirateFormsObject.spam.value + '"><span>' + pirateFormsObject.spam.label + '</span>'));
+        jQuery('.pirate-forms-maps-custom').html(jQuery('<input id="xobkcehc" name="xobkcehc" type="' + 'xobkcehc'.split('').reverse().join('') + '" value="' + pirateFormsObject.spam.value + '"><label for="xobkcehc"><span>' + pirateFormsObject.spam.label + '</span></label>'));
     }
 
 });
