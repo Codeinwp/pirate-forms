@@ -52,7 +52,7 @@ class PirateForms_PhpFormBuilder {
 					$form_end .= $element;
 				}
 				if ( $val['id'] === 'pirate-forms-maps-custom' ) {
-					$this->set_element( 'captcha',$element );
+					$this->set_element( 'captcha', $element );
 				}
 				$this->set_element( $val['id'], $element );
 				$classes[]      = $val['id'] . '-on';
