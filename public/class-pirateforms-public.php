@@ -367,7 +367,7 @@ class PirateForms_Public {
 				'class' => 'pirate-forms-submit-button btn btn-primary',
 				'wrap'  => array(
 					'type'  => 'div',
-					'class' => implode( ' ', apply_filters( 'pirateform_wrap_classes_submit', array( 'col-xs-12 form_field_wrap contact_submit_wrap' ) ) ),
+					'class' => implode( ' ', apply_filters( 'pirateform_wrap_classes_submit', array( 'col-xs-12 col-sm-6 form_field_wrap contact_submit_wrap' ) ) ),
 				),
 				'value' => $pirateformsopt_label_submit_btn,
 			);
