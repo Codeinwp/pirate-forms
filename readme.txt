@@ -17,7 +17,7 @@ This is an easy-to-use WordPress contact form with captcha plugin. To create a c
 > **Time-saving features available in the FULL version:**
 >
 > * Create multiple forms
-> * Mailchimp Integration
+> * Mailchimp, GetResponse, Aweber, Sendinblue Integration
 > * Custom fields
 > * Developer friendly
 > * 12 months Support & Updates
