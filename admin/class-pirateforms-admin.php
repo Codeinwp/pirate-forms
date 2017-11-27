@@ -177,9 +177,50 @@ class PirateForms_Admin {
 	function settings() {
 		global $current_user;
 		$pirate_forms_options = PirateForms_Util::get_option();
-		$plugin_options       = $this->pirate_forms_plugin_options();
+		$plugin_options       = $this->get_plugin_options();
 		include_once PIRATEFORMS_DIR . 'admin/partials/pirateforms-settings-display.php';
 	}
+
+	/**
+	 *  Get any options that might be configured through the theme.
+	 */
+	function get_theme_options() {
+		$recaptcha_show = '';
+		$button_label   = __( 'Send Message', 'pirate-forms' );
+		$email          = get_bloginfo( 'admin_email' );
+
+		$theme      = strtolower( wp_get_theme()->__get( 'name' ) );
+
+		// Default values from Zerif Lite.
+		if ( strpos( $theme, 'zerif' ) === 0 ) {
+			$zerif_contactus_recaptcha_show = get_theme_mod( 'zerif_contactus_recaptcha_show' );
+			if ( isset( $zerif_contactus_recaptcha_show ) && ( $zerif_contactus_recaptcha_show == '1' ) ) {
+				$recaptcha_show = '';
+			} else {
+				$recaptcha_show = 'custom';
+			}
+
+			$zerif_contactus_button_label = get_theme_mod( 'zerif_contactus_button_label', __( 'Send Message', 'pirate-forms' ) );
+			if ( ! empty( $zerif_contactus_button_label ) ) {
+				$button_label = $zerif_contactus_button_label;
+			}
+
+			$zerif_contactus_email        = get_theme_mod( 'zerif_contactus_email' );
+			$zerif_email                  = get_theme_mod( 'zerif_email' );
+			if ( ! empty( $zerif_contactus_email ) ) {
+				$email = $zerif_contactus_email;
+			} elseif ( ! empty( $zerif_email ) ) {
+				$email = $zerif_email;
+			}
+		}
+
+		return array(
+			$recaptcha_show,
+			$button_label,
+			$email,
+		);
+	}
+
 
 	/**
 	 *
@@ -188,43 +229,12 @@ class PirateForms_Admin {
 	 * @since 1.0.0
 	 * name; id; desc; type; default; options
 	 */
-	function pirate_forms_plugin_options() {
-		/**
-		 **********  Default values from Zerif Lite */
-		$zerif_contactus_sitekey = get_theme_mod( 'zerif_contactus_sitekey' );
-		if ( ! empty( $zerif_contactus_sitekey ) ) :
-			$pirate_forms_contactus_sitekey = $zerif_contactus_sitekey;
-		else :
-			$pirate_forms_contactus_sitekey = '';
-		endif;
-		$zerif_contactus_secretkey = get_theme_mod( 'zerif_contactus_secretkey' );
-		if ( ! empty( $zerif_contactus_secretkey ) ) :
-			$pirate_forms_contactus_secretkey = $zerif_contactus_secretkey;
-		else :
-			$pirate_forms_contactus_secretkey = '';
-		endif;
-		$zerif_contactus_recaptcha_show = get_theme_mod( 'zerif_contactus_recaptcha_show' );
-		if ( isset( $zerif_contactus_recaptcha_show ) && ( $zerif_contactus_recaptcha_show == '1' ) ) :
-			$pirate_forms_contactus_recaptcha_show = '';
-		else :
-			$pirate_forms_contactus_recaptcha_show = 'custom';
-		endif;
-		$zerif_contactus_button_label = get_theme_mod( 'zerif_contactus_button_label', __( 'Send Message', 'pirate-forms' ) );
-		if ( ! empty( $zerif_contactus_button_label ) ) :
-			$pirate_forms_contactus_button_label = $zerif_contactus_button_label;
-		else :
-			$pirate_forms_contactus_button_label = __( 'Send Message', 'pirate-forms' );
-		endif;
-		$zerif_contactus_email        = get_theme_mod( 'zerif_contactus_email' );
-		$zerif_email                  = get_theme_mod( 'zerif_email' );
-		$pirate_forms_contactus_email = '';
-		if ( ! empty( $zerif_contactus_email ) ) :
-			$pirate_forms_contactus_email = $zerif_contactus_email;
-		elseif ( ! empty( $zerif_email ) ) :
-			$pirate_forms_contactus_email = $zerif_email;
-		else :
-			$pirate_forms_contactus_email = get_bloginfo( 'admin_email' );
-		endif;
+	function get_plugin_options() {
+		list(
+			$pirate_forms_contactus_recaptcha_show,
+			$pirate_forms_contactus_button_label,
+			$pirate_forms_contactus_email
+		) = $this->get_theme_options();
 
 		// check if akismet is installed
 		$akismet_status = false;
@@ -514,7 +524,6 @@ class PirateForms_Admin {
 										'class' => 'pirate_forms_option_description',
 									),
 								),
-								'default' => $pirate_forms_contactus_sitekey,
 								'value'   => PirateForms_Util::get_option( 'pirateformsopt_recaptcha_sitekey' ),
 								'wrap'    => array(
 									'type'  => 'div',
@@ -528,7 +537,6 @@ class PirateForms_Admin {
 								'label'   => array(
 									'value' => __( 'Secret key', 'pirate-forms' ),
 								),
-								'default' => $pirate_forms_contactus_secretkey,
 								'value'   => PirateForms_Util::get_option( 'pirateformsopt_recaptcha_secretkey' ),
 								'wrap'    => array(
 									'type'  => 'div',
@@ -842,7 +850,7 @@ class PirateForms_Admin {
 	public function settings_init() {
 		if ( ! PirateForms_Util::get_option() ) {
 			$new_opt = array();
-			foreach ( $this->pirate_forms_plugin_options() as $tab => $array ) {
+			foreach ( $this->get_plugin_options() as $tab => $array ) {
 				foreach ( $array['controls'] as $controls ) {
 					$new_opt[ $controls['id'] ] = isset( $controls['default'] ) ? $controls['default'] : '';
 				}
