@@ -7,6 +7,9 @@
  */
 class PirateForms_Util {
 
+	const MAGIC_TAG_PREFIX      = '{';
+	const MAGIC_TAG_POSTFIX     = '}';
+
 	/**
 	 * Return the table.
 	 *
@@ -227,5 +230,112 @@ class PirateForms_Util {
 		$_SESSION[ 'error' . $new_error_key ] = $array;
 		unset( $_SESSION[ $error_key ] );
 		return false;
+	}
+
+	/**
+	 * The default email content.
+	 */
+	public static function get_default_email_content( $html = true, $id = null ) {
+		$body               = array();
+		$body['heading']    = sprintf( __( 'Contact form submission from %s', 'pirate-forms' ), get_bloginfo( 'name' ) . ' (' . site_url() . ')' );
+		$body['body']       = array();
+		$pirate_forms_options = PirateForms_Util::get_form_options( $id );
+
+		$elements           = array( 'name', 'email', 'subject', 'message' );
+		foreach ( $elements as $k ) {
+			$display        = $pirate_forms_options[ 'pirateformsopt_' . $k . '_field' ];
+			if ( empty( $display ) ) {
+				continue;
+			}
+			$val            = $pirate_forms_options[ 'pirateformsopt_label_' . $k ];
+			if ( empty( $val ) ) {
+				$val        = ucwords( $k );
+			}
+			$body['body'][ $val ] = self::MAGIC_TAG_PREFIX . $k . self::MAGIC_TAG_POSTFIX;
+		}
+		$body['body'][ __( 'IP address', 'pirate-forms' ) ] = self::MAGIC_TAG_PREFIX . 'ip' . self::MAGIC_TAG_POSTFIX;
+		$body['body'][ __( 'IP search', 'pirate-forms' ) ]  = 'http://whatismyipaddress.com/ip/' . self::MAGIC_TAG_PREFIX . 'ip' . self::MAGIC_TAG_POSTFIX;
+		$body['body'][ __( 'Came from', 'pirate-forms' ) ]  = self::MAGIC_TAG_PREFIX . 'referer' . self::MAGIC_TAG_POSTFIX;
+		$body['body'][ __( 'Sent from page', 'pirate-forms' ) ] = self::MAGIC_TAG_PREFIX . 'permalink' . self::MAGIC_TAG_POSTFIX;
+
+		if ( ! empty( $id ) ) {
+			$fields     = self::get_post_meta( $id, 'custom' );
+			if ( $fields ) {
+				foreach ( $fields[0] as $custom ) {
+					if ( empty( $custom['label'] ) || empty( $custom['display'] ) ) {
+						continue;
+					}
+					// replace . and space with _ (PHP does not like dots in variable names so it automatically converts them to _).
+					$field = strtolower( str_replace( array( ' ', '.' ), '_', stripslashes( sanitize_text_field( $custom['label'] ) ) ) );
+					$body['body'][ stripslashes( $custom['label'] ) ] = self::MAGIC_TAG_PREFIX . stripslashes( $custom['label'] ) . self::MAGIC_TAG_POSTFIX;
+				}
+			}
+		}
+
+		if ( $html ) {
+			return self::get_table( $body );
+		}
+
+		return $body;
+	}
+
+	/**
+	 * Replace the magic tags with their values.
+	 */
+	public static function get_magic_tags( $id = null ) {
+		$pirate_forms_options = PirateForms_Util::get_form_options( $id );
+
+		$elements           = array( 'name', 'email', 'subject', 'message' );
+		foreach ( $elements as $k ) {
+			$val            = $pirate_forms_options[ 'pirateformsopt_label_' . $k ];
+			if ( empty( $val ) ) {
+				$val        = ucwords( $k );
+			}
+			$tags[ $k ]     = $val;
+		}
+
+		$tags   += array(
+			'ip'        => __( 'IP address', 'pirate-forms' ),
+			'referer'   => __( 'Came from', 'pirate-forms' ),
+			'permalink' => __( 'Sent from page', 'pirate-forms' ),
+		);
+		if ( ! empty( $id ) ) {
+			$fields     = self::get_post_meta( $id, 'custom' );
+			if ( $fields ) {
+				foreach ( $fields[0] as $custom ) {
+					if ( empty( $custom['label'] ) ) {
+						continue;
+					}
+					// replace . and space with _ (PHP does not like dots in variable names so it automatically converts them to _).
+					$field = strtolower( str_replace( array( ' ', '.' ), '_', stripslashes( sanitize_text_field( $custom['label'] ) ) ) );
+					$tags[ $field ] = stripslashes( $custom['label'] );
+				}
+			}
+		}
+
+		$tags   = apply_filters( 'pirate_forms_register_magic_tags', $tags );
+		$html   = '';
+		foreach ( $tags as $k => $v ) {
+			$html   .= '<b>' . self::MAGIC_TAG_PREFIX . $k . self::MAGIC_TAG_POSTFIX . '</b>: ' . $v . '<br/>';
+		}
+		return $html;
+	}
+
+	/**
+	 * Replace the magic tags with their values.
+	 */
+	public static function replace_magic_tags( $content, $body ) {
+		$html           = $content;
+		foreach ( $body['magic_tags'] as $tag => $value ) {
+			$html       = str_replace( self::MAGIC_TAG_PREFIX . $tag . self::MAGIC_TAG_POSTFIX, $value, $html );
+		}
+
+		$html           = apply_filters( 'pirate_forms_replace_magic_tags', $html, $body['magic_tags'] );
+
+		// any tags that are left, should be replaced with an empty string.
+		$html       = preg_replace( '/\{.+\}/', '', $html );
+
+		do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'replace tags in %s with %s to finally give %s', $content, print_r( $body['magic_tags'], true ), $html ), 'debug', __FILE__, __LINE__ );
+		return $html;
 	}
 }

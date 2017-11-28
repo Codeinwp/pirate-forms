@@ -85,7 +85,7 @@ class PirateForms_HTML {
 				if ( isset( $args['label']['desc']['class'] ) ) {
 					$html   .= ' class="' . esc_attr( $args['label']['desc']['class'] ) . '"';
 				}
-				$html   .= '>' . esc_html( $args['label']['desc']['value'] ) . '</div>';
+				$html   .= '>' . $args['label']['desc']['value'] . '</div>';
 			}
 			$html   .= '</label>';
 		}
@@ -371,6 +371,18 @@ class PirateForms_HTML {
 	private function button( $args ) {
 		$html       = '<button type="submit" ' . $this->get_common( $args ) . '>' . ( isset( $args['value'] ) ? $args['value'] : '' ) . '</button>';
 
+		return $this->get_wrap( $args, $html );
+	}
+
+	/**
+	 * The WYSIWYG element.
+	 */
+	private function wysiwyg( $args ) {
+		$html       = $this->get_label( $args );
+		$content    = isset( $args['value'] ) && ! empty( $args['value'] ) ? $args['value'] : $args['default'];
+		ob_start();
+		wp_editor( $content, $args['id'], $args['wysiwyg'] );
+		$html .= ob_get_clean();
 		return $this->get_wrap( $args, $html );
 	}
 

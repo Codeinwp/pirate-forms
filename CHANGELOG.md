@@ -1,4 +1,9 @@
 
+ ### v2.2.5 - 2017-11-16 
+ **Changes:** 
+ * Adds compatibility with WordPress 4.9
+* Minor improvement for toggle the password in the admin form fields.
+ 
  ### v2.2.4 - 2017-11-13 
  **Changes:** 
  * Improved assets loading, loading them only they are necessary. 

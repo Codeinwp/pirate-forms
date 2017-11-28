@@ -6,6 +6,9 @@ if ( ! defined( 'PIRATEFORMSPRO_BASEFILE' ) ) :
 	<ul>
 		<li>Multiple forms builder</li>
 		<li>MailChimp integration</li>
+		<li>Aweber integration</li>
+		<li>GetResponse integration</li>
+		<li>Sendinblue integration</li>
 		<li>Developer friendly</li>
 		<li>Custom fields</li>
 		<li>12 months Support & Updates</li>
