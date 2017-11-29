@@ -1,4 +1,9 @@
 
+ ### v2.3.0 - 2017-11-27 
+ **Changes:** 
+ * Adds email content wysiwyg editor. 
+* Improves layout for custom spam trap.
+ 
  ### v2.2.5 - 2017-11-16 
  **Changes:** 
  * Adds compatibility with WordPress 4.9
