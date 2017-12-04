@@ -267,7 +267,7 @@ class PirateForms_Util {
 					}
 					// replace . and space with _ (PHP does not like dots in variable names so it automatically converts them to _).
 					$field = strtolower( str_replace( array( ' ', '.' ), '_', stripslashes( sanitize_text_field( $custom['label'] ) ) ) );
-					$body['body'][ stripslashes( $custom['label'] ) ] = self::MAGIC_TAG_PREFIX . stripslashes( $custom['label'] ) . self::MAGIC_TAG_POSTFIX;
+					$body['body'][ stripslashes( $custom['label'] ) ] = self::MAGIC_TAG_PREFIX . $field . self::MAGIC_TAG_POSTFIX;
 				}
 			}
 		}
