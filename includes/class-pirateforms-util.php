@@ -327,7 +327,7 @@ class PirateForms_Util {
 	public static function replace_magic_tags( $content, $body ) {
 		$html           = $content;
 		foreach ( $body['magic_tags'] as $tag => $value ) {
-			$html       = str_replace( self::MAGIC_TAG_PREFIX . $tag . self::MAGIC_TAG_POSTFIX, $value, $html );
+			$html       = str_replace( htmlspecialchars( self::MAGIC_TAG_PREFIX . $tag . self::MAGIC_TAG_POSTFIX ), $value, $html );
 		}
 
 		$html           = apply_filters( 'pirate_forms_replace_magic_tags', $html, $body['magic_tags'] );
