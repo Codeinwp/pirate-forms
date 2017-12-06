@@ -67,7 +67,7 @@ class PirateForms_Admin {
 			 && isset( $_GET['page'] ) && $_GET['page'] == 'pirateforms-admin'
 		) {
 			wp_enqueue_style( 'pirateforms_admin_styles', PIRATEFORMS_URL . 'admin/css/wp-admin.css', array(), $this->version );
-			wp_enqueue_script( 'pirateforms_scripts_admin', PIRATEFORMS_URL . 'admin/js/scripts-admin.js', array( 'jquery' ), $this->version );
+			wp_enqueue_script( 'pirateforms_scripts_admin', PIRATEFORMS_URL . 'admin/js/scripts-admin.js', array( 'jquery', 'jquery-ui-tooltip' ), $this->version );
 			wp_localize_script(
 				'pirateforms_scripts_admin', 'cwp_top_ajaxload', array(
 					'ajaxurl' => admin_url( 'admin-ajax.php' ),
@@ -251,10 +251,10 @@ class PirateForms_Admin {
 		}
 
 		// the key(s) will be added to the div as class names
-		// to enable tooltip popup add 'pirate_dashicons'
+		// to enable tooltip popup add 'pirate_tooltip'
 		return apply_filters(
 			'pirate_forms_admin_controls', array(
-				'pirate_options pirate_dashicons' => array(
+				'pirate_options pirate_tooltip' => array(
 					'heading'  => __( 'Form processing options', 'pirate-forms' ),
 					'controls' => apply_filters(
 						'pirate_forms_admin_controls_for_options', array(
@@ -395,7 +395,7 @@ class PirateForms_Admin {
 						)
 					),
 				),
-				'pirate_fields pirate_dashicons'  => array(
+				'pirate_fields pirate_tooltip'  => array(
 					'heading'  => __( 'Fields Settings', 'pirate-forms' ),
 					'controls' => apply_filters(
 						'pirate_forms_admin_controls_for_fields', array(
@@ -546,7 +546,7 @@ class PirateForms_Admin {
 						)
 					),
 				),
-				'pirate_labels pirate_dashicons'  => array(
+				'pirate_labels pirate_tooltip'  => array(
 					'heading'  => __( 'Fields Labels', 'pirate-forms' ),
 					'controls' => apply_filters(
 						'pirate_forms_admin_controls_for_field_labels', array(
@@ -637,7 +637,7 @@ class PirateForms_Admin {
 						)
 					),
 				),
-				'pirate_alerts pirate_dashicons'  => array(
+				'pirate_alerts pirate_tooltip'  => array(
 					'heading'  => __( 'Alert Messages', 'pirate-forms' ),
 					'controls' => apply_filters(
 						'pirate_forms_admin_controls_for_alerts', array(
@@ -727,7 +727,7 @@ class PirateForms_Admin {
 						)
 					),
 				),
-				'pirate_smtp pirate_dashicons'    => array(
+				'pirate_smtp pirate_tooltip'    => array(
 					'heading'  => __( 'SMTP Options', 'pirate-forms' ),
 					'controls' => apply_filters(
 						'pirate_forms_admin_controls_for_smtp', array(

@@ -125,4 +125,13 @@ function initAll(){
             span.removeClass('dashicons-hidden').addClass('dashicons-visibility');
         }
     });
+
+    // tootips in settings.
+    jQuery( document ).tooltip({
+        items: '.dashicons-editor-help',
+        hide: 2000,
+        content: function(){
+            return jQuery(this).find('div').html();
+        }
+    });
 }
