@@ -17,7 +17,7 @@ This is an easy-to-use WordPress contact form with captcha plugin. To create a c
 > **Time-saving features available in the FULL version:**
 >
 > * Create multiple forms
-> * Mailchimp Integration
+> * Mailchimp, GetResponse, Aweber, Sendinblue Integration
 > * Custom fields
 > * Developer friendly
 > * 12 months Support & Updates
@@ -177,6 +177,12 @@ Activating the Pirate Contact Form plugin is just like any other plugin. If you'
 4. Screenshot 4. Enabling SMTP
 
 ## Changelog ##
+### 2.3.0 - 2017-11-27  ###
+
+* Adds email content wysiwyg editor. 
+* Improves layout for custom spam trap.
+
+
 ### 2.2.5 - 2017-11-16  ###
 
 * Adds compatibility with WordPress 4.9

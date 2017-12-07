@@ -267,7 +267,7 @@ class PirateForms_Util {
 					}
 					// replace . and space with _ (PHP does not like dots in variable names so it automatically converts them to _).
 					$field = strtolower( str_replace( array( ' ', '.' ), '_', stripslashes( sanitize_text_field( $custom['label'] ) ) ) );
-					$body['body'][ stripslashes( $custom['label'] ) ] = self::MAGIC_TAG_PREFIX . stripslashes( $custom['label'] ) . self::MAGIC_TAG_POSTFIX;
+					$body['body'][ stripslashes( $custom['label'] ) ] = self::MAGIC_TAG_PREFIX . $field . self::MAGIC_TAG_POSTFIX;
 				}
 			}
 		}
@@ -327,7 +327,9 @@ class PirateForms_Util {
 	public static function replace_magic_tags( $content, $body ) {
 		$html           = $content;
 		foreach ( $body['magic_tags'] as $tag => $value ) {
-			$html       = str_replace( self::MAGIC_TAG_PREFIX . $tag . self::MAGIC_TAG_POSTFIX, $value, $html );
+			$from       = htmlspecialchars( self::MAGIC_TAG_PREFIX . $tag . self::MAGIC_TAG_POSTFIX );
+			do_action( 'themeisle_log_event', PIRATEFORMS_NAME, "replacing $from with $value", 'debug', __FILE__, __LINE__ );
+			$html       = str_replace( $from, $value, $html );
 		}
 
 		$html           = apply_filters( 'pirate_forms_replace_magic_tags', $html, $body['magic_tags'] );
