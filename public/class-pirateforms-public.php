@@ -415,7 +415,7 @@ class PirateForms_Public {
 	 * @param PirateForms_PhpFormBuilder $form_builder The form builder object.
 	 */
 	public function render_fields( $form_builder ) {
-		echo '<div class="pirate_forms_three_inputs_wrap">';
+		echo '<div class="pirate-forms-fields-container"><div class="pirate_forms_three_inputs_wrap">';
 
 		if ( isset( $form_builder->contact_name ) ) {
 			echo $form_builder->contact_name;
@@ -448,6 +448,8 @@ class PirateForms_Public {
 		}
 
 		echo $form_builder->contact_submit;
+
+		echo '</div>';
 	}
 
 	/**
