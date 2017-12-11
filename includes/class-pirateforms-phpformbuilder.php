@@ -26,13 +26,13 @@ class PirateForms_PhpFormBuilder {
 	 */
 	function build_form( $elements, $pirate_forms_options, $from_widget ) {
 		$this->pirate_forms_options = $pirate_forms_options;
-		$this->container_class		= apply_filters( 'pirate_forms_container_class', $from_widget ? 'widget-yes' : 'widget-no', $this->pirate_forms_options );
+		$this->container_class      = apply_filters( 'pirate_forms_container_class', $from_widget ? 'widget-yes' : 'widget-no', $this->pirate_forms_options );
 
 		$classes    = array();
 		$classes[]  = $from_widget ? 'widget-on' : '';
 
 		$html_helper        = new PirateForms_HTML();
-		$hidden				= '';
+		$hidden             = '';
 		$custom_fields      = '';
 		foreach ( $elements as $val ) {
 			if ( isset( $val['is_custom'] ) && $val['is_custom'] ) {
@@ -73,9 +73,9 @@ class PirateForms_PhpFormBuilder {
 			}
 		}
 
-		$this->form_classes		= apply_filters( 'pirate_forms_form_classes', $classes, $this );
-		$this->form_attributes	= $form_attributes;
-		$this->form_hidden		= $hidden;
+		$this->form_classes     = apply_filters( 'pirate_forms_form_classes', $classes, $this );
+		$this->form_attributes  = $form_attributes;
+		$this->form_hidden      = $hidden;
 
 		$output = $this->load_theme();
 		return $output;
@@ -88,9 +88,9 @@ class PirateForms_PhpFormBuilder {
 	 */
 	public function set_element( $element_name, $output ) {
 		$name           = str_replace( array( 'pirate-forms-', '-' ), array( '', '_' ), $element_name );
-		$final			= apply_filters( "pirate_forms_before_{$name}", '', $this->pirate_forms_options );
-		$final			.= $output;
-		$final			.= apply_filters( "pirate_forms_after_{$name}", '', $this->pirate_forms_options );
+		$final          = apply_filters( "pirate_forms_before_{$name}", '', $this->pirate_forms_options );
+		$final          .= $output;
+		$final          .= apply_filters( "pirate_forms_after_{$name}", '', $this->pirate_forms_options );
 
 		$this->$name    = $final;
 	}

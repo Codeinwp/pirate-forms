@@ -15,7 +15,7 @@ class PirateForms_HTML {
 	 */
 	public function add( $args, $echo = true ) {
 		if ( isset( $args['front_end'] ) && $args['front_end'] ) {
-			$html	= $this->front_end( $args );
+			$html   = $this->front_end( $args );
 			if ( ! $echo ) {
 				return $html;
 			}
@@ -397,6 +397,8 @@ class PirateForms_HTML {
 
 	/**
 	 * Elements on the front end.
+	 *
+	 * @throws Exception If method is not defined.
 	 */
 	private function front_end( $args ) {
 		$type       = $args['type'];
@@ -405,7 +407,7 @@ class PirateForms_HTML {
 		WP_Filesystem();
 		global $wp_filesystem;
 		$plugin_path    = str_replace( ABSPATH, $wp_filesystem->abspath(), PIRATEFORMS_DIR );
-		$template	    = trailingslashit( $plugin_path ) . "/public/partials/fields/{$type}.php";
+		$template       = trailingslashit( $plugin_path ) . "/public/partials/fields/{$type}.php";
 		if ( ! $wp_filesystem->is_readable( $template ) ) {
 			throw new Exception( "Template for $type not defined" );
 		}
@@ -414,7 +416,7 @@ class PirateForms_HTML {
 			$args['name']   = $args['id'];
 		}
 
-		$name		= str_replace( array( 'pirate-forms-contact-', 'pirate-forms-' ), '', $args['name'] );
+		$name       = str_replace( array( 'pirate-forms-contact-', 'pirate-forms-' ), '', $args['name'] );
 
 		$args       = apply_filters( "pirate_forms_front_end_{$type}_args", $args, $name );
 

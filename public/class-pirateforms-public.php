@@ -192,7 +192,7 @@ class PirateForms_Public {
 			 ******  Name field */
 			if ( ! empty( $field ) && ! empty( $label ) ) {
 				$elements[] = array(
-					'front_end'		=> true,
+					'front_end'     => true,
 					'placeholder'  => stripslashes( sanitize_text_field( $label ) ),
 					'required'     => $field === 'req' ? true : false,
 					'required_msg' => $pirate_forms_options['pirateformsopt_label_err_name'],
@@ -210,7 +210,7 @@ class PirateForms_Public {
 			 ******  Email field */
 			if ( ! empty( $field ) && ! empty( $label ) ) {
 				$elements[] = array(
-					'front_end'		=> true,
+					'front_end'     => true,
 					'placeholder'  => stripslashes( sanitize_text_field( $label ) ),
 					'required'     => $field === 'req' ? true : false,
 					'required_msg' => $pirate_forms_options['pirateformsopt_label_err_email'],
@@ -221,7 +221,6 @@ class PirateForms_Public {
 				);
 			}
 
-
 			$field = $pirate_forms_options['pirateformsopt_subject_field'];
 			$label = $pirate_forms_options['pirateformsopt_label_subject'];
 
@@ -229,7 +228,7 @@ class PirateForms_Public {
 			 ******  Subject field */
 			if ( ! empty( $field ) && ! empty( $label ) ) {
 				$elements[] = array(
-					'front_end'		=> true,
+					'front_end'     => true,
 					'placeholder'  => stripslashes( sanitize_text_field( $label ) ),
 					'required'     => $field === 'req' ? true : false,
 					'required_msg' => $pirate_forms_options['pirateformsopt_label_err_subject'],
@@ -247,7 +246,7 @@ class PirateForms_Public {
 			 ******  Message field */
 			if ( ! empty( $field ) && ! empty( $label ) ) {
 				$elements[] = array(
-					'front_end'		=> true,
+					'front_end'     => true,
 					'placeholder'  => stripslashes( sanitize_text_field( $label ) ),
 					'required'     => $field === 'req' ? true : false,
 					'required_msg' => $pirate_forms_options['pirateformsopt_label_err_no_content'],
@@ -264,11 +263,11 @@ class PirateForms_Public {
 			 ******  Attachment field */
 			if ( ! empty( $field ) && 'no' !== $field ) {
 				$elements[] = array(
-					'front_end'		=> true,
+					'front_end'     => true,
 					'required'     => $field === 'req' ? true : false,
 					'required_msg' => $pirate_forms_options['pirateformsopt_label_err_no_attachment'],
 					'type'         => 'file',
-					'title'		   => __( 'Upload file', 'pirate-forms' ),
+					'title'        => __( 'Upload file', 'pirate-forms' ),
 					'id'           => 'pirate-forms-attachment',
 					'wrap_class'   => isset( $_SESSION[ $error_key ]['contact-attachment'] ) ? 'error' : '',
 				);
@@ -280,7 +279,7 @@ class PirateForms_Public {
 				$pirateformsopt_recaptcha_sitekey   = $pirate_forms_options['pirateformsopt_recaptcha_sitekey'];
 				$pirateformsopt_recaptcha_secretkey = $pirate_forms_options['pirateformsopt_recaptcha_secretkey'];
 				$elements[]                         = array(
-					'front_end'	  => true,
+					'front_end'   => true,
 					'id'          => 'pirate-forms-captcha',
 					'placeholder' => stripslashes( sanitize_text_field( $label ) ),
 					'type'        => 'captcha',
@@ -1043,8 +1042,8 @@ class PirateForms_Public {
 		if ( function_exists( 'zerif_setup' ) ) {
 			foreach ( $elements as $k => $element ) {
 				$id = str_replace( 'pirate-forms-contact-', '', $element['id'] );
-				add_filter( "pirateform_wrap_classes_{$id}", array( $this, "zerif_customization_wrap" ), 10, 3 );
-				add_filter( "pirateform_field_classes_{$id}", array( $this, "zerif_customization_field" ), 10, 3 );
+				add_filter( "pirateform_wrap_classes_{$id}", array( $this, 'zerif_customization_wrap' ), 10, 3 );
+				add_filter( "pirateform_field_classes_{$id}", array( $this, 'zerif_customization_field' ), 10, 3 );
 			}
 		}
 
@@ -1069,10 +1068,10 @@ class PirateForms_Public {
 			case 'number':
 				// fall-through.
 			case 'textarea':
-				$classes	= 'form-control input';
+				$classes    = 'form-control input';
 				break;
 			case 'button':
-				$classes	= 'btn btn-primary custom-button red-btn pirate-forms-submit-button';
+				$classes    = 'btn btn-primary custom-button red-btn pirate-forms-submit-button';
 				break;
 		}
 
@@ -1086,7 +1085,7 @@ class PirateForms_Public {
 	/**
 	 * Alter wrap classes of form elements for compatibility reasons with different themes.
 	 *
-	 * @param array $classes The classes.
+	 * @param array  $classes The classes.
 	 * @param string $name The name of the element.
 	 * @param string $type The type of the element.
 	 *
@@ -1103,10 +1102,10 @@ class PirateForms_Public {
 			case 'email':
 				// fall-through.
 			case 'subject':
-				$classes	= array( 'col-lg-4 col-sm-4 form_field_wrap' );
+				$classes    = array( 'col-lg-4 col-sm-4 form_field_wrap' );
 				break;
 			case 'message':
-				$classes	= array( 'col-lg-12 col-sm-12 form_field_wrap' );
+				$classes    = array( 'col-lg-12 col-sm-12 form_field_wrap' );
 				break;
 		}
 		return $classes;

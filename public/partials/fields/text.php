@@ -20,5 +20,5 @@
 ?>
 
 <div class="<?php echo implode( ' ', apply_filters( "pirateform_wrap_classes_{$name}", $wrap_classes, $name, $args['type'] ) ); ?>">
-	<input type="text" class="<?php echo apply_filters( "pirateform_field_classes_{$name}", '', $name, $args['type'] );?>" <?php echo $this->get_common( $args, array( 'value' ) ); ?> >
+	<input type="text" class="<?php echo apply_filters( "pirateform_field_classes_{$name}", '', $name, $args['type'] ); ?>" <?php echo $this->get_common( $args, array( 'value' ) ); ?> >
 </div>

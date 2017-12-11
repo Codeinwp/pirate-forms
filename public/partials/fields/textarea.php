@@ -23,5 +23,5 @@
 ?>
 
 <div class="<?php echo implode( ' ', apply_filters( "pirateform_wrap_classes_{$name}", $wrap_classes, $name, $args['type'] ) ); ?>">
-	<textarea rows="<?php echo $rows; ?>" cols="<?php echo $cols; ?>" class="<?php echo apply_filters( "pirateform_field_classes_{$name}", '', $name, $args['type'] );?>" <?php echo $this->get_common( $args ); ?> ><?php echo isset( $args['value'] ) ? esc_attr( $args['value'] ) : '' ;?></textarea>
+	<textarea rows="<?php echo $rows; ?>" cols="<?php echo $cols; ?>" class="<?php echo apply_filters( "pirateform_field_classes_{$name}", '', $name, $args['type'] ); ?>" <?php echo $this->get_common( $args ); ?> ><?php echo isset( $args['value'] ) ? esc_attr( $args['value'] ) : ''; ?></textarea>
 </div>

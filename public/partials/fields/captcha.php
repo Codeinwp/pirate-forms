@@ -16,7 +16,7 @@
 		"form_{$name}_wrap",
 	);
 
-	$attributes	= '';
+	$attributes = '';
 	if ( isset( $args['custom'] ) ) {
 		foreach ( $args['custom'] as $key => $val ) {
 			$attributes   .= ' ' . $key . '="' . esc_attr( $val ) . '"';
@@ -26,6 +26,6 @@
 ?>
 
 <div class="<?php echo implode( ' ', apply_filters( "pirateform_wrap_classes_{$name}", $wrap_classes, $name, $args['type'] ) ); ?>">
-	<div id="<?php echo $args['id'];?>" class="<?php echo apply_filters( "pirateform_field_classes_{$name}", 'g-recaptcha pirate-forms-google-recaptcha', $name, $args['type'] );?>" <?php echo $attributes; ?>>
+	<div id="<?php echo $args['id']; ?>" class="<?php echo apply_filters( "pirateform_field_classes_{$name}", 'g-recaptcha pirate-forms-google-recaptcha', $name, $args['type'] ); ?>" <?php echo $attributes; ?>>
 	</div>
 </div>
