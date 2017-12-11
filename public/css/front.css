@@ -39,58 +39,6 @@ Version: 2.3.0
 	text-align: right;
 }
 
-.pirate-forms-file-upload-hidden {
-	display: none;
-	visibility: hidden;
-	position: absolute;
-	left: -9999px;
-}
-
-.pirate-forms-file-upload {
-	display: block;
-	width: auto;
-}
-
-.pirate-forms-file-upload label {
-	display: block;
-	margin-bottom: 5px;
-}
-
-.pirate-forms-file-upload-wrapper {
-	position: relative;
-}
-
-.pirate-forms-file-upload-input,
-.pirate_forms_three_inputs_wrap .form_field_wrap input.pirate-forms-file-upload-input {
-	float: left;
-	width: 70%;
-	-webkit-transition: all 0.2s ease-in;
-	transition: all 0.2s ease-in;
-}
-
-.pirate-forms-file-upload-input:hover,
-.pirate-forms-file-upload-input:focus {
-	outline: none;
-}
-
-.pirate-forms-file-upload-button {
-	display: inline-block;
-	float: left;
-	width: 30%;
-	margin-right: 0;
-	margin-left: 0;
-	text-align: center;
-	white-space: nowrap;
-	cursor: pointer;
-	-webkit-transition: all 0.2s ease-in;
-	transition: all 0.2s ease-in;
-}
-
-.widget .pirate_forms_three_inputs_wrap .form_field_wrap input.pirate-forms-file-upload-input,
-.widget .pirate-forms-file-upload-button {
-	width: 50%;
-}
-
 .pirate-forms-maps-custom label {
 	display: inline-block;
 	cursor: pointer;
@@ -115,6 +63,7 @@ Version: 2.3.0
 	box-sizing: border-box;
 	width: 100%;
 	margin: 0;
+    max-width: 100%;
 }
 
 .pirate-forms-fields-container .form_field_wrap textarea {
@@ -132,11 +81,5 @@ Version: 2.3.0
 @media (max-width: 480px) {
 	.pirate_forms_wrap .form_field_wrap .pirate-forms-submit-button {
 		width: 100%;
-	}
-
-	.pirate-forms-file-upload-input,
-	.pirate_forms_three_inputs_wrap .form_field_wrap input.pirate-forms-file-upload-input,
-	.pirate-forms-file-upload-button {
-		width: 50%;
 	}
 }
