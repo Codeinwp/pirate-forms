@@ -1032,7 +1032,7 @@ class PirateForms_Public {
 	}
 
 	/**
-	 * Alter classes and wrapper of form elements for compatibility reasons with differen themes.
+	 * Alter classes and wrapper of form elements for compatibility reasons with different themes.
 	 *
 	 * @param array $elements The form elements.
 	 *
@@ -1042,8 +1042,6 @@ class PirateForms_Public {
 		$theme		= null;
 		if ( function_exists( 'zerif_setup' ) ) {
 			$theme	= 'zerif';
-		} elseif ( function_exists( 'hestia_setup_theme' ) ) {
-			$theme	= 'hestia';
 		}
 
 		if ( $theme ) {
@@ -1113,51 +1111,6 @@ class PirateForms_Public {
 				break;
 			case 'message':
 				$classes    = array( 'col-lg-12 col-sm-12 form_field_wrap' );
-				break;
-		}
-		return $classes;
-	}
-
-	/**
-	 * Alter classes of form elements for compatibility reasons with Hestia.
-	 *
-	 * @param string $classes The classes.
-	 * @param string $name The name of the element.
-	 * @param string $type The type of the element.
-	 *
-	 * @return string The classes to apply.
-	 */
-	public function hestia_customization_field( $classes, $name, $type ) {
-		switch ( $type ) {
-			// empty.
-		}
-
-		switch ( $name ) {
-			// empty.
-		}
-
-		return $classes;
-	}
-
-	/**
-	 * Alter wrap classes of form elements for compatibility reasons with Hestia.
-	 *
-	 * @param array  $classes The classes.
-	 * @param string $name The name of the element.
-	 * @param string $type The type of the element.
-	 *
-	 * @return array The classes to apply.
-	 */
-	public function hestia_customization_wrap( $classes, $name, $type ) {
-		switch ( $type ) {
-			// empty.
-		}
-
-		switch ( $name ) {
-			case 'name':
-				// fall-through.
-			case 'email':
-				$classes    = array( 'col-xs-12 col-sm-6 form_field_wrap' );
 				break;
 		}
 		return $classes;

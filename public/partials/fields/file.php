@@ -11,11 +11,13 @@
 ?>
 
 <?php
-	$wrap_classes = array(
-		'col-xs-12 form_field_wrap',
-		"contact_{$name}_wrap",
-		isset( $args['wrap_class'] ) ? $args['wrap_class'] : '',
-	);
+	if ( is_null( $wrap_classes ) ) {
+		$wrap_classes = array(
+			'col-xs-12 form_field_wrap',
+			"contact_{$name}_wrap",
+			isset( $args['wrap_class'] ) ? $args['wrap_class'] : '',
+		);
+	}
 
 	// since the file field is going to be non-focussable, let's put the required attributes (if available) on the text field
 	$text_args      = array(

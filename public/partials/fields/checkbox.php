@@ -11,12 +11,14 @@
 ?>
 
 <?php
-	$wrap_classes = array(
-		'col-xs-12',
-		'pirate_forms_three_inputs form_field_wrap',
-		"contact_{$name}_wrap",
-		isset( $args['wrap_class'] ) ? $args['wrap_class'] : '',
-	);
+	if ( is_null( $wrap_classes ) ) {
+		$wrap_classes = array(
+			'col-xs-12',
+			'pirate_forms_three_inputs form_field_wrap',
+			"contact_{$name}_wrap",
+			isset( $args['wrap_class'] ) ? $args['wrap_class'] : '',
+		);
+	}
 
 	$options    = apply_filters( 'pirate_forms_checkbox_options', $args['options'], $name );
 	if ( count( $options ) > 1 ) {

@@ -420,6 +420,16 @@ class PirateForms_HTML {
 
 		$args       = apply_filters( "pirate_forms_front_end_{$type}_args", $args, $name );
 
+		// backward compatibility
+		$wrap_classes		= null;
+		if ( isset( $args['wrap']['class'] ) ) {
+			$wrap_classes	= array( $args['wrap']['class'] );
+		}
+		$label				= null;
+		if ( isset( $args['label'] ) ) {
+			$label			= $this->get_label( $args );
+		}
+
 		ob_start();
 		include $template;
 		return ob_get_clean();
