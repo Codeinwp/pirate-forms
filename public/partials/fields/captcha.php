@@ -11,19 +11,19 @@
 ?>
 
 <?php
-	if ( is_null( $wrap_classes ) ) {
-		$wrap_classes = array(
-			'col-xs-12 col-sm-6 form_field_wrap',
-			"form_{$name}_wrap",
-		);
-	}
+if ( is_null( $wrap_classes ) ) {
+	$wrap_classes = array(
+		'col-xs-12 col-sm-6 form_field_wrap',
+		"form_{$name}_wrap",
+	);
+}
 
 	$attributes = '';
-	if ( isset( $args['custom'] ) ) {
-		foreach ( $args['custom'] as $key => $val ) {
-			$attributes   .= ' ' . $key . '="' . esc_attr( $val ) . '"';
-		}
+if ( isset( $args['custom'] ) ) {
+	foreach ( $args['custom'] as $key => $val ) {
+		$attributes   .= ' ' . $key . '="' . esc_attr( $val ) . '"';
 	}
+}
 
 ?>
 

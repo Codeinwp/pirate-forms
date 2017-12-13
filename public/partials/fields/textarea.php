@@ -11,13 +11,13 @@
 ?>
 
 <?php
-	if ( is_null( $wrap_classes ) ) {
-		$wrap_classes = array(
-			'col-xs-12 form_field_wrap',
-			"contact_{$name}_wrap",
-			isset( $args['wrap_class'] ) ? $args['wrap_class'] : '',
-		);
-	}
+if ( is_null( $wrap_classes ) ) {
+	$wrap_classes = array(
+		'col-xs-12 form_field_wrap',
+		"contact_{$name}_wrap",
+		isset( $args['wrap_class'] ) ? $args['wrap_class'] : '',
+	);
+}
 
 	$cols       = isset( $args['cols'] ) ? $args['cols'] : 30;
 	$rows       = isset( $args['rows'] ) ? $args['rows'] : 5;

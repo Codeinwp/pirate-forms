@@ -11,14 +11,14 @@
 ?>
 
 <?php
-	if ( is_null( $wrap_classes ) ) {
-		$wrap_classes = array(
-			'col-xs-12',
-			'pirate_forms_three_inputs form_field_wrap',
-			"contact_{$name}_wrap",
-			isset( $args['wrap_class'] ) ? $args['wrap_class'] : '',
-		);
-	}
+if ( is_null( $wrap_classes ) ) {
+	$wrap_classes = array(
+		'col-xs-12',
+		'pirate_forms_three_inputs form_field_wrap',
+		"contact_{$name}_wrap",
+		isset( $args['wrap_class'] ) ? $args['wrap_class'] : '',
+	);
+}
 
 	$min    = isset( $args['min'] ) ? $args['min'] : 0;
 	$max    = isset( $args['max'] ) ? $args['max'] : PHP_INT_MAX;

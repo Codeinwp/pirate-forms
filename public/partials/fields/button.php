@@ -12,14 +12,14 @@
 
 <?php
 
-	$name   = 'submit';
+$name   = 'submit';
 
-	if ( is_null( $wrap_classes ) ) {
-		$wrap_classes = array(
-			'col-xs-12 col-sm-6 form_field_wrap',
-			"contact_{$name}_wrap",
-		);
-	}
+if ( is_null( $wrap_classes ) ) {
+	$wrap_classes = array(
+		'col-xs-12 col-sm-6 form_field_wrap',
+		"contact_{$name}_wrap",
+	);
+}
 ?>
 
 <div class="<?php echo implode( ' ', apply_filters( "pirateform_wrap_classes_{$name}", $wrap_classes, $name, $args['type'] ) ); ?>">

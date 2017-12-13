@@ -1039,9 +1039,9 @@ class PirateForms_Public {
 	 * @return array The form elements.
 	 */
 	public function compatibility_class( $elements ) {
-		$theme		= null;
+		$theme      = null;
 		if ( function_exists( 'zerif_setup' ) ) {
-			$theme	= 'zerif';
+			$theme  = 'zerif';
 		}
 
 		if ( $theme ) {

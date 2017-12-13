@@ -420,14 +420,14 @@ class PirateForms_HTML {
 
 		$args       = apply_filters( "pirate_forms_front_end_{$type}_args", $args, $name );
 
-		// backward compatibility
-		$wrap_classes		= null;
+		// themes might have overriden some attributes, so we need to extract them in a backward-compatible way.
+		$wrap_classes       = null;
 		if ( isset( $args['wrap']['class'] ) ) {
-			$wrap_classes	= array( $args['wrap']['class'] );
+			$wrap_classes   = array( $args['wrap']['class'] );
 		}
-		$label				= null;
+		$label              = null;
 		if ( isset( $args['label'] ) ) {
-			$label			= $this->get_label( $args );
+			$label          = $this->get_label( $args );
 		}
 
 		ob_start();
