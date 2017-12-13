@@ -83,7 +83,7 @@
 		<form
 			method="post"
 			enctype="<?php echo $enctype; ?>"
-			class="<?php echo implode( ' ', $this->form_classes ); ?>"
+			class="pirate_forms <?php echo implode( ' ', $this->form_classes ); ?>"
 			<?php echo $attributes; ?>
 		>
 			<div class="pirate_forms_three_inputs_wrap <?php echo apply_filters( 'pirate_forms_wrap_classes', '', $this->pirate_forms_options ); ?>">
