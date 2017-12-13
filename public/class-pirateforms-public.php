@@ -79,7 +79,7 @@ class PirateForms_Public {
 		$deps       = array( 'jquery' );
 		$pirate_forms_options = get_option( 'pirate_forms_settings_array' );
 		if ( ! empty( $pirate_forms_options ) ) {
-			if ( ! empty( $pirate_forms_options['pirateformsopt_recaptcha_secretkey'] ) && ! empty( $pirate_forms_options['pirateformsopt_recaptcha_sitekey'] ) && 'yes' === $pirate_forms_options['pirateformsopt_recaptcha_field'] ) {
+			if ( ! empty( $pirate_forms_options['pirateformsopt_recaptcha_secretkey'] ) && ! empty( $pirate_forms_options['pirateformsopt_recaptcha_sitekey'] ) && ! empty( $pirate_forms_options['pirateformsopt_recaptcha_field'] ) && 'yes' === $pirate_forms_options['pirateformsopt_recaptcha_field'] ) {
 				if ( defined( 'POLYLANG_VERSION' ) && function_exists( 'pll_current_language' ) ) {
 					$pirate_forms_contactus_language = pll_current_language();
 				} else {
@@ -275,7 +275,7 @@ class PirateForms_Public {
 
 			/**
 			 ******* ReCaptcha */
-			if ( ! empty( $pirate_forms_options['pirateformsopt_recaptcha_secretkey'] ) && ! empty( $pirate_forms_options['pirateformsopt_recaptcha_sitekey'] ) && 'yes' === $pirate_forms_options['pirateformsopt_recaptcha_field'] ) {
+			if ( ! empty( $pirate_forms_options['pirateformsopt_recaptcha_secretkey'] ) && ! empty( $pirate_forms_options['pirateformsopt_recaptcha_sitekey'] ) && ! empty( $pirate_forms_options['pirateformsopt_recaptcha_field'] ) && 'yes' === $pirate_forms_options['pirateformsopt_recaptcha_field'] ) {
 				$pirateformsopt_recaptcha_sitekey   = $pirate_forms_options['pirateformsopt_recaptcha_sitekey'];
 				$pirateformsopt_recaptcha_secretkey = $pirate_forms_options['pirateformsopt_recaptcha_secretkey'];
 				$elements[]                         = array(
@@ -287,7 +287,7 @@ class PirateForms_Public {
 				);
 			}
 
-			if ( 'custom' === $pirate_forms_options['pirateformsopt_recaptcha_field'] ) {
+			if ( ! empty( $pirate_forms_options['pirateformsopt_recaptcha_field'] ) && 'custom' === $pirate_forms_options['pirateformsopt_recaptcha_field'] ) {
 				$elements[] = array(
 					'front_end' => true,
 					'type'  => 'spam',
