@@ -1039,11 +1039,18 @@ class PirateForms_Public {
 	 * @return array The form elements.
 	 */
 	public function compatibility_class( $elements ) {
+		$theme		= null;
 		if ( function_exists( 'zerif_setup' ) ) {
+			$theme	= 'zerif';
+		} elseif ( function_exists( 'hestia_setup_theme' ) ) {
+			$theme	= 'hestia';
+		}
+
+		if ( $theme ) {
 			foreach ( $elements as $k => $element ) {
 				$id = str_replace( 'pirate-forms-contact-', '', $element['id'] );
-				add_filter( "pirateform_wrap_classes_{$id}", array( $this, 'zerif_customization_wrap' ), 10, 3 );
-				add_filter( "pirateform_field_classes_{$id}", array( $this, 'zerif_customization_field' ), 10, 3 );
+				add_filter( "pirateform_wrap_classes_{$id}", array( $this, "{$theme}_customization_wrap" ), 10, 3 );
+				add_filter( "pirateform_field_classes_{$id}", array( $this, "{$theme}_customization_field" ), 10, 3 );
 			}
 		}
 
@@ -1051,7 +1058,7 @@ class PirateForms_Public {
 	}
 
 	/**
-	 * Alter classes of form elements for compatibility reasons with different themes.
+	 * Alter classes of form elements for compatibility reasons with Zerif.
 	 *
 	 * @param string $classes The classes.
 	 * @param string $name The name of the element.
@@ -1083,7 +1090,7 @@ class PirateForms_Public {
 	}
 
 	/**
-	 * Alter wrap classes of form elements for compatibility reasons with different themes.
+	 * Alter wrap classes of form elements for compatibility reasons with Zerif.
 	 *
 	 * @param array  $classes The classes.
 	 * @param string $name The name of the element.
@@ -1106,6 +1113,51 @@ class PirateForms_Public {
 				break;
 			case 'message':
 				$classes    = array( 'col-lg-12 col-sm-12 form_field_wrap' );
+				break;
+		}
+		return $classes;
+	}
+
+	/**
+	 * Alter classes of form elements for compatibility reasons with Hestia.
+	 *
+	 * @param string $classes The classes.
+	 * @param string $name The name of the element.
+	 * @param string $type The type of the element.
+	 *
+	 * @return string The classes to apply.
+	 */
+	public function hestia_customization_field( $classes, $name, $type ) {
+		switch ( $type ) {
+			// empty.
+		}
+
+		switch ( $name ) {
+			// empty.
+		}
+
+		return $classes;
+	}
+
+	/**
+	 * Alter wrap classes of form elements for compatibility reasons with Hestia.
+	 *
+	 * @param array  $classes The classes.
+	 * @param string $name The name of the element.
+	 * @param string $type The type of the element.
+	 *
+	 * @return array The classes to apply.
+	 */
+	public function hestia_customization_wrap( $classes, $name, $type ) {
+		switch ( $type ) {
+			// empty.
+		}
+
+		switch ( $name ) {
+			case 'name':
+				// fall-through.
+			case 'email':
+				$classes    = array( 'col-xs-12 col-sm-6 form_field_wrap' );
 				break;
 		}
 		return $classes;
