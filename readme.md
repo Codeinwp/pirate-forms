@@ -87,6 +87,7 @@ This plugin started as a fork of https://wordpress.org/plugins/proper-contact-fo
 ## Frequently Asked Questions ##
 
 
+
 ### How I can get support for this contact form plugin ? ###
 
 You can learn more about PirateForms and ask for help by <a href="https://themeisle.com/contact/"  >visiting ThemeIsle website</a>.
@@ -156,6 +157,15 @@ You can follow the full documentation [here](http://docs.themeisle.com/article/4
  = How to add attributes to form in Pirate Forms = 
  [http://docs.themeisle.com/article/752-how-to-add-attributes-to-form-in-pirate-forms](http://docs.themeisle.com/article/752-how-to-add-attributes-to-form-in-pirate-forms) 
 
+ = How to change default email content in Pirate forms = 
+ [http://docs.themeisle.com/article/779-how-to-change-default-email-content-in-pirate-forms](http://docs.themeisle.com/article/779-how-to-change-default-email-content-in-pirate-forms) 
+
+ = How to change default email content per form in Pirate forms = 
+ [http://docs.themeisle.com/article/780-how-to-change-default-email-content-per-form-in-pirate-forms](http://docs.themeisle.com/article/780-how-to-change-default-email-content-per-form-in-pirate-forms) 
+
+ = How to install and use extended version of Pirate Forms = 
+ [http://docs.themeisle.com/article/787-how-to-install-and-use-extended-version-of-pirate-forms](http://docs.themeisle.com/article/787-how-to-install-and-use-extended-version-of-pirate-forms) 
+
  == Installation ==
 
 Activating the Pirate Contact Form plugin is just like any other plugin. If you've uploaded the plugin package to your server already, skip to step 5 below:
@@ -177,6 +187,11 @@ Activating the Pirate Contact Form plugin is just like any other plugin. If you'
 4. Screenshot 4. Enabling SMTP
 
 ## Changelog ##
+### 2.3.2 - 2017-12-28  ###
+
+* Fix for tooltip admin behavior.
+
+
 ### 2.3.1 - 2017-12-28  ###
 
 * Improves layout and compatibility with various themes.

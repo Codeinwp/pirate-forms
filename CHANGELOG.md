@@ -1,4 +1,8 @@
 
+ ### v2.3.2 - 2017-12-28 
+ **Changes:** 
+ * Fix for tooltip admin behavior.
+ 
  ### v2.3.1 - 2017-12-28 
  **Changes:** 
  * Improves layout and compatibility with various themes.
