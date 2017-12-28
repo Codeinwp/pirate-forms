@@ -193,7 +193,7 @@ class PirateForms_Public {
 			if ( ! empty( $field ) && ! empty( $label ) ) :
 				$required     = $field === 'req' ? true : false;
 				$wrap_classes = array(
-					( ! empty( $subjectField ) ? 'col-xs-12 col-sm-4' : 'col-xs-12 col-sm-6' ) . ' contact_name_wrap pirate_forms_three_inputs form_field_wrap',
+					( ! empty( $subjectField ) ? 'col-xs-12 col-sm-6' : 'col-xs-12' ) . ' contact_name_wrap pirate_forms_three_inputs form_field_wrap',
 				);
 				// If this field was submitted with invalid data
 				if ( isset( $_SESSION[ $error_key ]['contact-name'] ) ) {
@@ -222,7 +222,7 @@ class PirateForms_Public {
 			if ( ! empty( $field ) && ! empty( $label ) ) :
 				$required     = $field === 'req' ? true : false;
 				$wrap_classes = array(
-					( ! empty( $subjectField ) ? 'col-xs-12 col-sm-4' : 'col-xs-12 col-sm-6' ) . ' contact_email_wrap pirate_forms_three_inputs form_field_wrap',
+					( ! empty( $subjectField ) ? 'col-xs-12 col-sm-6' : 'col-xs-12' ) . ' contact_email_wrap pirate_forms_three_inputs form_field_wrap',
 				);
 				// If this field was submitted with invalid data
 				if ( isset( $_SESSION[ $error_key ]['contact-email'] ) ) {
@@ -251,7 +251,7 @@ class PirateForms_Public {
 			if ( ! empty( $field ) && ! empty( $label ) ) :
 				$required     = $field === 'req' ? true : false;
 				$wrap_classes = array(
-					'col-xs-12 col-sm-4 contact_subject_wrap pirate_forms_three_inputs form_field_wrap',
+					'col-xs-12 contact_subject_wrap pirate_forms_three_inputs form_field_wrap',
 				);
 				// If this field was submitted with invalid data
 				if ( isset( $_SESSION[ $error_key ]['contact-subject'] ) ) {
@@ -335,7 +335,7 @@ class PirateForms_Public {
 					'id'          => 'pirate-forms-captcha',
 					'wrap'        => array(
 						'type'  => 'div',
-						'class' => implode( ' ', apply_filters( 'pirateform_wrap_classes_captcha', array( 'col-xs-12 col-sm-6 form_field_wrap form_captcha_wrap' ) ) ),
+						'class' => implode( ' ', apply_filters( 'pirateform_wrap_classes_captcha', array( 'col-xs-12 ' . ( $pirate_forms_options['pirateformsopt_recaptcha_field'] !== 'yes' ? 'col-sm-6 ' : '' ) . 'form_field_wrap form_captcha_wrap' ) ) ),
 					),
 				);
 			endif;
@@ -367,7 +367,7 @@ class PirateForms_Public {
 				'class' => 'pirate-forms-submit-button btn btn-primary',
 				'wrap'  => array(
 					'type'  => 'div',
-					'class' => implode( ' ', apply_filters( 'pirateform_wrap_classes_submit', array( 'col-xs-12 col-sm-6 form_field_wrap contact_submit_wrap' ) ) ),
+					'class' => implode( ' ', apply_filters( 'pirateform_wrap_classes_submit', array( 'col-xs-12 ' . ( ! empty( $pirate_forms_options['pirateformsopt_recaptcha_field'] && $pirate_forms_options['pirateformsopt_recaptcha_field'] !== 'yes' ) ? 'col-sm-6 ' : '' ) . 'form_field_wrap contact_submit_wrap' ) ) ),
 				),
 				'value' => $pirateformsopt_label_submit_btn,
 			);
@@ -415,7 +415,7 @@ class PirateForms_Public {
 	 * @param PirateForms_PhpFormBuilder $form_builder The form builder object.
 	 */
 	public function render_fields( $form_builder ) {
-		echo '<div class="pirate_forms_three_inputs_wrap">';
+		echo '<div class="pirate-forms-fields-container"><div class="pirate_forms_three_inputs_wrap">';
 
 		if ( isset( $form_builder->contact_name ) ) {
 			echo $form_builder->contact_name;
@@ -448,6 +448,8 @@ class PirateForms_Public {
 		}
 
 		echo $form_builder->contact_submit;
+
+		echo '</div>';
 	}
 
 	/**
