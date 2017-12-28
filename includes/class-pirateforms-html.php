@@ -78,7 +78,14 @@ class PirateForms_HTML {
 				$html   .= esc_html( $args['label']['value'] );
 			}
 			if ( isset( $args['label']['html'] ) ) {
-				$html   .= $args['label']['html'];
+				$span   = $args['label']['html'];
+				if ( strpos( $span, 'dashicons-editor-help' ) !== false && isset( $args['label']['desc'] ) && isset( $args['label']['desc']['value'] ) ) {
+					$class  = isset( $args['label']['desc']['class'] ) ? $args['label']['desc']['class'] : '';
+					$span   = str_replace( '></', '><div style="display: none" class="' . $class . '">' . $args['label']['desc']['value'] . '</div></', $span );
+					unset( $args['label']['desc'] );
+					unset( $args['label']['desc']['value'] );
+				}
+				$html   .= $span;
 			}
 			if ( isset( $args['label']['desc'] ) ) {
 				$html   .= '<div';
