@@ -1,4 +1,10 @@
 
+ ### v2.3.1 - 2017-12-28 
+ **Changes:** 
+ * Improves layout and compatibility with various themes.
+* Improves form default email format.
+* Fix issues with various special characters in the magic tag fields.
+ 
  ### v2.3.0 - 2017-11-27 
  **Changes:** 
  * Adds email content wysiwyg editor. 
