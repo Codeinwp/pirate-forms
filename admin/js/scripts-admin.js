@@ -130,7 +130,7 @@ function initAll(){
 	jQuery(document).tooltip({
 		items: '.dashicons-editor-help',
 		hide: 200,
-		position: {within: "#pirate-forms-main"},
+		position: {within: '#pirate-forms-main'},
 
 		content: function () {
 			return jQuery(this).find('div').html();
@@ -139,12 +139,12 @@ function initAll(){
 		close: function (event, ui) {
 			ui.tooltip.hover(
 				function () {
-					$(this).stop(true).fadeTo(400, 1);
+					jQuery(this).stop(true).fadeTo(400, 1);
 				},
 				function () {
-					$(this).fadeOut("400", function () {
-						$(this).remove();
-					})
+					jQuery(this).fadeOut('400', function () {
+						jQuery(this).remove();
+					});
 				});
 		}
 	});
