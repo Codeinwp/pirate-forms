@@ -235,7 +235,7 @@ class PirateForms_Util {
 	/**
 	 * The default email content.
 	 */
-	public static function get_default_email_content( $html = true, $id = null ) {
+	public static function get_default_email_content( $html = true, $id = null, $first_time = false ) {
 		$body               = array();
 		$body['heading']    = sprintf( __( 'Contact form submission from %s', 'pirate-forms' ), get_bloginfo( 'name' ) . ' (' . site_url() . ')' );
 		$body['body']       = array();
@@ -244,7 +244,7 @@ class PirateForms_Util {
 		$elements           = array( 'name', 'email', 'subject', 'message' );
 		foreach ( $elements as $k ) {
 			$display        = $pirate_forms_options[ 'pirateformsopt_' . $k . '_field' ];
-			if ( empty( $display ) ) {
+			if ( ! $first_time && empty( $display ) ) {
 				continue;
 			}
 			$val            = $pirate_forms_options[ 'pirateformsopt_label_' . $k ];
