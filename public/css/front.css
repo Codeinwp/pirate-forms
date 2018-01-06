@@ -1,5 +1,5 @@
 /*
-Version: 2.3.2
+Version: 2.3.3
  */
 .pirate_forms_wrap .form_field_wrap,
 .widget .pirate_forms_wrap .form_field_wrap {
@@ -78,8 +78,28 @@ Version: 2.3.2
 	max-width: 100%;
 }
 
+.pirate_forms_wrap .pirate-forms-footer {
+	display: table;
+	float: left;
+	width: 100%;
+}
+
+.pirate_forms_wrap .pirate-forms-footer .form_field_wrap {
+	display: table-cell;
+	float: none;
+	margin: 0;
+	vertical-align: middle;
+}
+
 @media (max-width: 480px) {
+	.pirate_forms_wrap .pirate-forms-footer .form_field_wrap,
 	.pirate_forms_wrap .form_field_wrap .pirate-forms-submit-button {
+		display: block;
 		width: 100%;
+	}
+
+	.pirate_forms_wrap .pirate-forms-footer .pirateform_wrap_classes_spam_wrap,
+	.pirate_forms_wrap .pirate-forms-footer .form_captcha_wrap {
+		margin-bottom: 20px;
 	}
 }

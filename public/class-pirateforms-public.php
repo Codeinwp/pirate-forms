@@ -443,13 +443,15 @@ class PirateForms_Public {
 			echo $form_builder->attachment;
 		}
 
+		echo '<div class="pirate-forms-footer">';
+
 		if ( isset( $form_builder->captcha ) ) {
 			echo $form_builder->captcha;
 		}
 
 		echo $form_builder->contact_submit;
 
-		echo '</div>';
+		echo '</div></div>';
 	}
 
 	/**
