@@ -1,4 +1,9 @@
 
+ ### v2.3.3 - 2018-01-06 
+ **Changes:** 
+ * Fix double reCAPTCHA box bug.
+* Fix custom spam trap alignement error.
+ 
  ### v2.3.2 - 2017-12-28 
  **Changes:** 
  * Fix for tooltip admin behavior.

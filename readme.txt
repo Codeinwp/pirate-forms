@@ -187,6 +187,12 @@ Activating the Pirate Contact Form plugin is just like any other plugin. If you'
 4. Screenshot 4. Enabling SMTP
 
 == Changelog ==
+= 2.3.3 - 2018-01-06  = 
+
+* Fix double reCAPTCHA box bug.
+* Fix custom spam trap alignement error.
+
+
 = 2.3.2 - 2017-12-28  = 
 
 * Fix for tooltip admin behavior.
