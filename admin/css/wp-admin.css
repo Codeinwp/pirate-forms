@@ -331,10 +331,11 @@ input#save.pirate-forms-save-button {
 .pirate-forms-password-toggle span.dashicons {
 	cursor: pointer;
 }
-.toplevel_page_pirateforms-admin .ui-tooltip{
-	background: #333;
-	color:#fff;
-	padding:5px;
-	width:300px;
+
+.toplevel_page_pirateforms-admin .ui-tooltip {
+	width: 300px;
+	padding: 5px;
 	border-radius: 5px;
+	color: #fff;
+	background: #333;
 }
