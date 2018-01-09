@@ -26,7 +26,7 @@ endif;
 	<div class="pirate-forms-subscribe-content">
 		<?php
 		if ( ! empty( $_POST['pirate_forms_mail'] ) ) {
-			require( PIRATE_FORMS_PATH . 'mailin.php' );
+			require( plugin_dir_path( __DIR__ ) . 'mailin.php' );
 			$user_info = get_userdata( 1 );
 			$mailin    = new Mailin( 'https://api.sendinblue.com/v2.0', 'cHW5sxZnzE7mhaYb' );
 			$data      = array(
