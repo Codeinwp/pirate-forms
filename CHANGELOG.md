@@ -1,4 +1,19 @@
 
+ ### v2.3.3 - 2018-01-06 
+ **Changes:** 
+ * Fix double reCAPTCHA box bug.
+* Fix custom spam trap alignement error.
+ 
+ ### v2.3.2 - 2017-12-28 
+ **Changes:** 
+ * Fix for tooltip admin behavior.
+ 
+ ### v2.3.1 - 2017-12-28 
+ **Changes:** 
+ * Improves layout and compatibility with various themes.
+* Improves form default email format.
+* Fix issues with various special characters in the magic tag fields.
+ 
  ### v2.3.0 - 2017-11-27 
  **Changes:** 
  * Adds email content wysiwyg editor. 
