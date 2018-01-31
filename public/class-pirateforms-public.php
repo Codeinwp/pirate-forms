@@ -324,7 +324,7 @@ class PirateForms_Public {
 			endif;
 			/**
 			 ******* ReCaptcha */
-			if ( ! empty( $pirate_forms_options['pirateformsopt_recaptcha_secretkey'] ) && ! empty( $pirate_forms_options['pirateformsopt_recaptcha_sitekey'] ) && 'yes' === $pirate_forms_options['pirateformsopt_recaptcha_field'] ) :
+			if ( ! empty( $pirate_forms_options['pirateformsopt_recaptcha_secretkey'] ) && ! empty( $pirate_forms_options['pirateformsopt_recaptcha_sitekey'] ) &&  ! empty( $pirate_forms_options['pirateformsopt_recaptcha_field'] ) && ( 'yes' === $pirate_forms_options['pirateformsopt_recaptcha_field'] ) ) :
 				$pirateformsopt_recaptcha_sitekey   = $pirate_forms_options['pirateformsopt_recaptcha_sitekey'];
 				$pirateformsopt_recaptcha_secretkey = $pirate_forms_options['pirateformsopt_recaptcha_secretkey'];
 				$elements[]                         = array(
@@ -340,7 +340,7 @@ class PirateForms_Public {
 				);
 			endif;
 
-			if ( 'custom' === $pirate_forms_options['pirateformsopt_recaptcha_field'] ) :
+			if (  ! empty( $pirate_forms_options['pirateformsopt_recaptcha_field'] ) && ( 'custom' === $pirate_forms_options['pirateformsopt_recaptcha_field'] ) ) :
 				$elements[] = array(
 					'type'  => 'div',
 					'class' => 'pirate-forms-maps-custom',    // spam.reverse() = maps
