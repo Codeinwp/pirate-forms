@@ -26,7 +26,7 @@ endif;
 	<div class="pirate-forms-subscribe-content">
 		<?php
 		if ( ! empty( $_POST['pirate_forms_mail'] ) ) {
-			if ( ! class_exists('Mailin') ) {
+			if ( ! class_exists( 'Mailin' ) ) {
 				require_once PIRATEFORMS_DIR . 'vendor/mailin-api/mailin-api-php/V2.0/Mailin.php';
 			}
 			$user_info = get_userdata( 1 );
