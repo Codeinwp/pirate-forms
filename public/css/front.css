@@ -39,18 +39,22 @@ Version: 2.3.3
 	text-align: right;
 }
 
+.pirate-forms-maps-custom {
+	min-width: 150px;
+}
+
+.pirate-forms-maps-custom input {
+	display: inline;
+	width: auto;
+}
+
 .pirate-forms-maps-custom label {
-	display: inline-block;
+	display: inline;
 	cursor: pointer;
 }
 
 .pirate-forms-maps-custom span {
 	margin-left: 5px;
-}
-
-.pirate-forms-fields-container {
-	margin-right: -15px;
-	margin-left: -15px;
 }
 
 .pirate-forms-fields-container .form_field_wrap {
@@ -75,7 +79,6 @@ Version: 2.3.3
 .pirate_forms_wrap .form_field_wrap .pirate-forms-submit-button {
 	display: inline-block;
 	width: auto;
-	max-width: 100%;
 }
 
 .pirate_forms_wrap .pirate-forms-footer {
@@ -85,10 +88,12 @@ Version: 2.3.3
 }
 
 .pirate_forms_wrap .pirate-forms-footer .form_field_wrap {
+	width: auto;
 	display: table-cell;
 	float: none;
 	margin: 0;
 	vertical-align: middle;
+	padding-bottom: 10px;
 }
 
 @media (max-width: 480px) {
