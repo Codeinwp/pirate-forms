@@ -125,4 +125,27 @@ function initAll(){
             span.removeClass('dashicons-hidden').addClass('dashicons-visibility');
         }
     });
+
+	// tootips in settings.
+	jQuery(document).tooltip({
+		items: '.dashicons-editor-help',
+		hide: 200,
+		position: {within: '#pirate-forms-main'},
+
+		content: function () {
+			return jQuery(this).find('div').html();
+		},
+		show: null,
+		close: function (event, ui) {
+			ui.tooltip.hover(
+				function () {
+					jQuery(this).stop(true).fadeTo(400, 1);
+				},
+				function () {
+					jQuery(this).fadeOut('400', function () {
+						jQuery(this).remove();
+					});
+				});
+		}
+	});
 }

@@ -1,2 +1,2 @@
-deploy:
+pre_deploy:
   - 'faq_builder'

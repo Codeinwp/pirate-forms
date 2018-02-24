@@ -170,47 +170,6 @@
 	margin-right: 0;
 }
 
-div.pirate_dashicons > form > div > label > span.dashicons {
-	margin-left: 10px;
-	color: #888;
-}
-
-div.pirate_dashicons > form > div > label > span.dashicons:after {
-	display: none;
-	position: absolute;
-	margin-left: 5px;
-	border-right: 5px solid transparent;
-	border-bottom: 5px solid black;
-	border-left: 5px solid transparent;
-	content: "";
-}
-
-div.pirate_dashicons > form > div > label > .pirate_forms_option_description {
-	display: none;
-	position: absolute;
-	z-index: 999;
-	width: 200px;
-	margin-top: 4px;
-	margin-left: 190px;
-	padding: 15px;
-	border-radius: 5px;
-	color: #fff;
-	background: rgba(0, 0, 0, 0.8);
-	font-size: 11px;
-	line-height: 16px;
-	text-align: left;
-}
-
-div.pirate_dashicons > form > div > label > span.dashicons:hover + .pirate_forms_option_description,
-div.pirate_dashicons > form > div > label > span.dashicons:hover::after {
-	display: block;
-}
-
-div.pirate_dashicons > form > div > label {
-	width: 400px;
-	font-weight: normal;
-}
-
 .pirate_forms_contact_settings h3.title,
 .pirate_forms_welcome_text {
 	margin: 10px 0 30px;
@@ -371,4 +330,12 @@ input#save.pirate-forms-save-button {
 
 .pirate-forms-password-toggle span.dashicons {
 	cursor: pointer;
+}
+
+.toplevel_page_pirateforms-admin .ui-tooltip {
+	width: 300px;
+	padding: 5px;
+	border-radius: 5px;
+	color: #fff;
+	background: #333;
 }
