@@ -187,6 +187,13 @@ Activating the Pirate Contact Form plugin is just like any other plugin. If you'
 4. Screenshot 4. Enabling SMTP
 
 == Changelog ==
+= 2.3.4 - 2018-02-15  = 
+
+* Added missing Loader.gif file
+* Fixed undefined notice
+* Fix submit button leaving form when ReCaptcha is enabled
+
+
 = 2.3.3 - 2018-01-06  = 
 
 * Fix double reCAPTCHA box bug.
