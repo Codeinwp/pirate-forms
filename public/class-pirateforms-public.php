@@ -545,7 +545,7 @@ class PirateForms_Public {
 		}
 
 		// Start the body of the contact email
-		$private_fields	 = array();
+		$private_fields  = array();
 		$body            = array();
 		$body['heading'] = sprintf( __( 'Contact form submission from %s', 'pirate-forms' ), get_bloginfo( 'name' ) . ' (' . site_url() . ')' );
 		$body['body']    = array();
@@ -578,8 +578,8 @@ class PirateForms_Public {
 			$body['body'][ __( 'IP search', 'pirate-forms' ) ]  = "http://whatismyipaddress.com/ip/$contact_ip";
 			$body['magic_tags'] += array( 'ip' => $contact_ip );
 
-			$private_fields[]	= __( 'IP address', 'pirate-forms' );
-			$private_fields[]	= __( 'IP search', 'pirate-forms' );
+			$private_fields[]   = __( 'IP address', 'pirate-forms' );
+			$private_fields[]   = __( 'IP search', 'pirate-forms' );
 		}
 
 		// Sanitize and prepare referrer;
@@ -588,7 +588,7 @@ class PirateForms_Public {
 			$body['body'][ __( 'Came from', 'pirate-forms' ) ]  = $page;
 			$body['magic_tags'] += array( 'referer' => $page );
 
-			$private_fields[]	= __( 'Came from', 'pirate-forms' );
+			$private_fields[]   = __( 'Came from', 'pirate-forms' );
 		}
 
 		// Show the page this contact form was submitted on
@@ -596,7 +596,7 @@ class PirateForms_Public {
 		$body['body'][ __( 'Sent from page', 'pirate-forms' ) ] = $permalink;
 		$body['magic_tags'] += array( 'permalink' => $permalink );
 
-		$private_fields[]	= __( 'Sent from page', 'pirate-forms' );
+		$private_fields[]   = __( 'Sent from page', 'pirate-forms' );
 
 		// Check the blacklist
 		$blocked = PirateForms_Util::is_blacklisted( $error_key, $pirate_forms_contact_email, $contact_ip );
@@ -775,12 +775,12 @@ class PirateForms_Public {
 	 * Appends the publicly displayed fields to the confirmation email.
 	 *
 	 * @param string $confirm_body The confirmation body.
-	 * @param array $body The collected body fields.
-	 * @param array $private_fields The private fields that should not be included from the body fields.
+	 * @param array  $body The collected body fields.
+	 * @param array  $private_fields The private fields that should not be included from the body fields.
 	 */
 	private function append_original_email( $confirm_body, $body, $private_fields ) {
-		$lines		= array();
-		$lines[]	= '------ Original Email ------';
+		$lines      = array();
+		$lines[]    = '------ Original Email ------';
 
 		foreach ( $body['body'] as $field => $value ) {
 			if ( in_array( $field, $private_fields ) ) {
