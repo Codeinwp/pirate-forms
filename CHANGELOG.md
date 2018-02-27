@@ -1,4 +1,10 @@
 
+ ### v2.3.4 - 2018-02-15 
+ **Changes:** 
+ * Added missing Loader.gif file
+* Fixed undefined notice
+* Fix submit button leaving form when ReCaptcha is enabled
+ 
  ### v2.3.3 - 2018-01-06 
  **Changes:** 
  * Fix double reCAPTCHA box bug.
