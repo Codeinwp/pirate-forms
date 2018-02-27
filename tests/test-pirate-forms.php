@@ -62,6 +62,44 @@ class Test_Pirate_Forms extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Testing confirmation mail.
+	 *
+	 * @access public
+	 */
+	public function test_confirmation_mail() {
+		do_action( 'admin_head' );
+
+		$settings   = PirateForms_Util::get_option();
+		$this->assertEquals( 'yes', $settings['pirateformsopt_nonce'] );
+
+		$settings['pirateformsopt_nonce']   = 'no';
+		$settings['pirateformsopt_recaptcha_field']   = 'no';
+		$settings['pirateformsopt_store']   = 'no';
+		$settings['pirateformsopt_confirm_email']   = 'yoyoyoyoyoyo';
+		$settings['pirateformsopt_copy_email']   = 'yes';
+		$settings['pirateformsopt_email_content']   = '<h2>Contact form submission from Test Blog (http://example.org)</h2><table><tr><th>Your Name:</th><td>{name}</td></tr><tr><th>Your Email:</th><td>{email}</td></tr><tr><th>Subject:</th><td>{subject}</td></tr><tr><th>Your message:</th><td>{message}</td></tr><tr><th>IP address:</th><td>{ip}</td></tr><tr><th>IP search:</th><td>http://whatismyipaddress.com/ip/{ip}</td></tr><tr><th>Sent from page:</th><td>{permalink}</td></tr></table>';
+
+		PirateForms_Util::set_option( $settings );
+
+		$settings   = PirateForms_Util::get_option();
+
+		$this->assertEquals( 'no', $settings['pirateformsopt_nonce'] );
+		$this->assertEquals( 'no', $settings['pirateformsopt_store'] );
+		$this->assertEquals( 'yoyoyoyoyoyo', $settings['pirateformsopt_confirm_email'] );
+		$this->assertEquals( 'yes', $settings['pirateformsopt_copy_email'] );
+
+		$_POST  = array(
+			'honeypot'                  => '',
+			'pirate-forms-contact-name' => 'x',
+			'pirate-forms-contact-email' => 'x@x.com',
+			'pirate-forms-contact-subject' => 'x',
+			'pirate-forms-contact-message' => 'x',
+		);
+		add_action( 'phpmailer_init', array( $this, 'phpmailer_confirmation_mail' ), 999 );
+		do_action( 'pirate_unittesting_template_redirect' );
+	}
+
+	/**
 	 * Testing SMTP
 	 *
 	 * @access public
@@ -115,6 +153,23 @@ class Test_Pirate_Forms extends WP_UnitTestCase {
 
 		$this->assertEquals( 1, count( $posts ) );
 
+	}
+
+	/**
+	 * Checking phpmailer for confirmation mail.
+	 *
+	 * @access public
+	 */
+	public function phpmailer_confirmation_mail( $phpmailer ) {
+		// we want to check the email body only for the confirmation email.
+		if ( 1 === did_action( 'pirate_forms_before_sending_confirm' ) ) {
+			$this->assertContains( 'yoyoyoyoyoyo', $phpmailer->Body );
+			$this->assertContains( 'Original Email', $phpmailer->Body );
+			$this->assertContains( 'Your Name : x', $phpmailer->Body );
+			$this->assertContains( 'Your Email : x@x.com', $phpmailer->Body );
+			$this->assertContains( 'Subject : x', $phpmailer->Body );
+			$this->assertContains( 'Your message : x', $phpmailer->Body );
+		}
 	}
 
 	/**
