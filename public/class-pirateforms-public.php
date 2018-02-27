@@ -731,7 +731,7 @@ class PirateForms_Public {
 				);
 
 				$redirect_to        = null;
-				$scroll_to			= isset( $_POST['pirate_forms_from_form'] ) ? $_POST['pirate_forms_from_form'] : '';
+				$scroll_to          = isset( $_POST['pirate_forms_from_form'] ) ? $_POST['pirate_forms_from_form'] : '';
 
 				/* If a Thank you page is selected, redirect to that page */
 				if ( $pirate_forms_options['pirateformsopt_thank_you_url'] ) {
@@ -742,6 +742,7 @@ class PirateForms_Public {
 					}
 				} elseif ( $is_our_theme ) {
 					// the fragment identifier should always be the last argument, otherwise the thank you message will not show.
+					// the fragment identifier is called pcf here so that the URL can tell us if our theme was recognized.
 					$redirect_to = add_query_arg(
 						array(
 							'done' => 'done',
@@ -749,10 +750,11 @@ class PirateForms_Public {
 						), $_SERVER['HTTP_REFERER']
 					);
 				} elseif ( isset( $_SERVER['HTTP_REFERER'] ) ) {
+					// the fragment identifier is called pf here so that the URL can tell us if this is a not-our theme case.
 					$redirect_to = add_query_arg(
 						array(
 							'done' => 'done',
-							'pf'	=> "#$scroll_to",
+							'pf'    => "#$scroll_to",
 						), $_SERVER['HTTP_REFERER']
 					);
 				}

@@ -37,7 +37,7 @@ class PirateForms_PhpFormBuilder {
 		$classes[]  = $from_widget ? 'widget-on' : '';
 
 		// we will add an id to the form so that we can scroll to it.
-		$id			= wp_create_nonce( sprintf( 'pf-%s-%s', $from_widget ? 1 : 0, isset( $pirate_forms_options['id'] ) ? $pirate_forms_options['id'] : 0 ) );
+		$id         = wp_create_nonce( sprintf( 'pf-%s-%s', $from_widget ? 1 : 0, isset( $pirate_forms_options['id'] ) ? $pirate_forms_options['id'] : 0 ) );
 		$elements[] = array(
 			'type'  => 'hidden',
 			'id'    => 'pirate_forms_from_form',
