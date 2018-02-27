@@ -161,8 +161,8 @@ class Test_Pirate_Forms extends WP_UnitTestCase {
 	 * @access public
 	 */
 	public function phpmailer_confirmation_mail( $phpmailer ) {
-		// we want to check the email body only for the confirmation email.
-		if ( 1 === did_action( 'pirate_forms_before_sending_confirm' ) ) {
+		// we want to check the email body only for the confirmation email, so we need to check if this is second time 'phpmailer_init' is being fired.
+		if ( 2 === did_action( 'phpmailer_init' ) ) {
 			$this->assertContains( 'yoyoyoyoyoyo', $phpmailer->Body );
 			$this->assertContains( 'Original Email', $phpmailer->Body );
 			$this->assertContains( 'Your Name : x', $phpmailer->Body );
