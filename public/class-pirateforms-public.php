@@ -41,6 +41,45 @@ class PirateForms_Public {
 	private $version;
 
 	/**
+	 * The file types allowed to be uploaded.
+	 *
+	 * @access   private
+	 * @var      array $_file_types_allowed The file types allowed to be uploaded.
+	 */
+	private static $_file_types_allowed = array(
+		'3g2',
+		'3gp',
+		'avi',
+		'doc',
+		'docx',
+		'gif',
+		'jpeg',
+		'jpg',
+		'key',
+		'm4a',
+		'm4v',
+		'mov',
+		'mp3',
+		'mp4',
+		'mpg',
+		'odt',
+		'ogg',
+		'ogv',
+		'pdf',
+		'png',
+		'pps',
+		'ppsx',
+		'ppt',
+		'pptx',
+		'txt',
+		'wav',
+		'wmv',
+		'xls',
+		'xlsx',
+		'zip',
+	);
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
@@ -640,6 +679,7 @@ class PirateForms_Public {
 
 			$attachments = $this->get_attachments( $error_key, $pirate_forms_options, $body );
 			if ( is_bool( $attachments ) ) {
+				PirateForms_Util::save_error( $error_key, $nonce_append . '.' . $form_id );
 				return false;
 			}
 
@@ -947,13 +987,10 @@ class PirateForms_Public {
 					continue;
 				}
 				/* Validate file type */
-				$file_types_allowed              = implode( '|', apply_filters( 'pirate_forms_allowed_file_types', explode( '|', 'jpg|jpeg|png|gif|pdf|doc|docx|ppt|pptx|odt|avi|ogg|m4a|mov|mp3|mp4|mpg|wav|wmv|xls|xlsx|txt' ) ) );
-				$pirate_forms_file_types_allowed = $file_types_allowed;
-				$pirate_forms_file_types_allowed = trim( $pirate_forms_file_types_allowed, '|' );
-				$pirate_forms_file_types_allowed = '(' . $pirate_forms_file_types_allowed . ')';
-				$pirate_forms_file_types_allowed = '/\.' . $pirate_forms_file_types_allowed . '$/i';
+				$allowed = implode( '|', apply_filters( 'pirate_forms_allowed_file_types', self::$_file_types_allowed ) );
+				$pirate_forms_file_types_allowed = '/\.(' . trim( $allowed, '|' ) . ')$/i';
 				if ( ! preg_match( $pirate_forms_file_types_allowed, $file['name'] ) ) {
-					do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'file invalid: expected %s got %s', $file_types_allowed, $file['name'] ), 'error', __FILE__, __LINE__ );
+					do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'file invalid: expected %s got %s', $allowed, $file['name'] ), 'error', __FILE__, __LINE__ );
 					$_SESSION[ $error_key ]['pirate-forms-upload-failed-type'] = sprintf( __( 'Uploaded file type is not allowed for %s', 'pirate-forms' ), $file['name'] );
 
 					return false;
