@@ -303,7 +303,7 @@ class PirateForms_HTML {
 	private function select( $args ) {
 		$html       = $this->get_label( $args );
 
-		$extra		= '';
+		$extra      = '';
 		if ( isset( $args['required'] ) && $args['required'] && isset( $args['required_msg'] ) ) {
 			$extra   = ( isset( $args['required'] ) && $args['required'] ? 'required' : '' ) . ' oninvalid="this.setCustomValidity(\'' . esc_attr( $args['required_msg'] ) . '\')" onchange="this.setCustomValidity(\'\')"';
 		}
