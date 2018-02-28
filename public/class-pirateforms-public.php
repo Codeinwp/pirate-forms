@@ -41,7 +41,7 @@ class PirateForms_Public {
 	private $version;
 
 	/**
-	 * The file types allowed to be uploaded.
+	 * The file types allowed to be uploaded. Can take a look at https://en.support.wordpress.com/accepted-filetypes/ for inspiration.
 	 *
 	 * @access   private
 	 * @var      array $_file_types_allowed The file types allowed to be uploaded.
