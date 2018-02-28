@@ -303,10 +303,15 @@ class PirateForms_HTML {
 	private function select( $args ) {
 		$html       = $this->get_label( $args );
 
-		$html       .= '<select id="' . esc_attr( $args['id'] ) . '" name="' . esc_attr( $args['name'] ) . '" class="' . ( isset( $args['class'] ) ? esc_attr( $args['class'] ) : '' ) . '">';
+		$extra		= '';
+		if ( isset( $args['required'] ) && $args['required'] && isset( $args['required_msg'] ) ) {
+			$extra   = ( isset( $args['required'] ) && $args['required'] ? 'required' : '' ) . ' oninvalid="this.setCustomValidity(\'' . esc_attr( $args['required_msg'] ) . '\')" onchange="this.setCustomValidity(\'\')"';
+		}
+
+		$html       .= '<select id="' . esc_attr( $args['id'] ) . '" name="' . esc_attr( $args['name'] ) . '" class="' . ( isset( $args['class'] ) ? esc_attr( $args['class'] ) : '' ) . '" ' . $extra . '>';
 		if ( isset( $args['options'] ) && is_array( $args['options'] ) ) {
 			foreach ( $args['options'] as $key => $val ) {
-				$extra  = $key == $args['value'] ? 'selected' : '';
+				$extra  = isset( $args['value'] ) && $key == $args['value'] ? 'selected' : '';
 				$html   .= '<option value="' . esc_attr( $key ) . '" ' . $extra . '>' . esc_html( $val ) . '</option>';
 			}
 		}
