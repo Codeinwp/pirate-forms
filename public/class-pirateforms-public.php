@@ -643,7 +643,7 @@ class PirateForms_Public {
 				return false;
 			}
 
-			$subject = 'Contact on ' . htmlspecialchars_decode( get_bloginfo( 'name' ) );
+			$subject = apply_filters( 'pirate_forms_subject', 'Contact on ' . htmlspecialchars_decode( get_bloginfo( 'name' ) ) );
 			if ( ! empty( $pirate_forms_contact_subject ) ) {
 				$subject = $pirate_forms_contact_subject;
 			}
