@@ -545,6 +545,7 @@ class PirateForms_Public {
 		}
 
 		// Start the body of the contact email
+		$private_fields  = array();
 		$body            = array();
 		$body['heading'] = sprintf( __( 'Contact form submission from %s', 'pirate-forms' ), get_bloginfo( 'name' ) . ' (' . site_url() . ')' );
 		$body['body']    = array();
@@ -576,6 +577,9 @@ class PirateForms_Public {
 			$body['body'][ __( 'IP address', 'pirate-forms' ) ] = $contact_ip;
 			$body['body'][ __( 'IP search', 'pirate-forms' ) ]  = "http://whatismyipaddress.com/ip/$contact_ip";
 			$body['magic_tags'] += array( 'ip' => $contact_ip );
+
+			$private_fields[]   = __( 'IP address', 'pirate-forms' );
+			$private_fields[]   = __( 'IP search', 'pirate-forms' );
 		}
 
 		// Sanitize and prepare referrer;
@@ -583,12 +587,16 @@ class PirateForms_Public {
 			$page                                               = sanitize_text_field( $_POST['pirate-forms-contact-referrer'] );
 			$body['body'][ __( 'Came from', 'pirate-forms' ) ]  = $page;
 			$body['magic_tags'] += array( 'referer' => $page );
+
+			$private_fields[]   = __( 'Came from', 'pirate-forms' );
 		}
 
 		// Show the page this contact form was submitted on
 		$permalink                                              = get_permalink( get_the_id() );
 		$body['body'][ __( 'Sent from page', 'pirate-forms' ) ] = $permalink;
 		$body['magic_tags'] += array( 'permalink' => $permalink );
+
+		$private_fields[]   = __( 'Sent from page', 'pirate-forms' );
 
 		// Check the blacklist
 		$blocked = PirateForms_Util::is_blacklisted( $error_key, $pirate_forms_contact_email, $contact_ip );
@@ -598,7 +606,7 @@ class PirateForms_Public {
 		}
 
 		if ( $this->is_spam( $pirate_forms_options, $contact_ip, get_permalink( get_the_id() ), $msg ) ) {
-			$_SESSION[ $error_key ]['honeypot'] = __( 'Form submission failed!', 'pirate-forms' );
+			$_SESSION[ $error_key ]['honeypot'] = __( 'Form submission failed!!', 'pirate-forms' );
 		}
 
 		if ( ! empty( $_SESSION[ $error_key ] ) ) {
@@ -684,6 +692,10 @@ class PirateForms_Public {
 				$headers = "From: $site_name <$send_from>\r\nReply-To: $site_name <$send_from>";
 				$subject = $pirate_forms_options['pirateformsopt_label_submit'] . ' - ' . $site_name;
 
+				if ( isset( $pirate_forms_options['pirateformsopt_copy_email'] ) && 'yes' === $pirate_forms_options['pirateformsopt_copy_email'] ) {
+					$confirm_body = $this->append_original_email( $confirm_body, $body, $private_fields );
+				}
+
 				do_action( 'pirate_forms_before_sending_confirm', $pirate_forms_contact_email, $pirate_forms_contact_email, $subject, $confirm_body, $headers );
 				do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'before sending confirm email to = %s, subject = %s, body = %s, headers = %s', $pirate_forms_contact_email, $subject, $confirm_body, $headers ), 'debug', __FILE__, __LINE__ );
 				$response_confirm = $this->finally_send_mail( $pirate_forms_contact_email, $subject, $confirm_body, $headers, null, false );
@@ -757,6 +769,27 @@ class PirateForms_Public {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Appends the publicly displayed fields to the confirmation email.
+	 *
+	 * @param string $confirm_body The confirmation body.
+	 * @param array  $body The collected body fields.
+	 * @param array  $private_fields The private fields that should not be included from the body fields.
+	 */
+	private function append_original_email( $confirm_body, $body, $private_fields ) {
+		$lines      = array();
+		$lines[]    = '------ Original Email ------';
+
+		foreach ( $body['body'] as $field => $value ) {
+			if ( in_array( $field, $private_fields ) ) {
+				continue;
+			}
+			$lines[] = "$field : $value";
+		}
+
+		return $confirm_body . implode( '<br/>', $lines );
 	}
 
 	/**
@@ -888,6 +921,10 @@ class PirateForms_Public {
 	 * Check with akismet if the message is spam.
 	 */
 	function is_spam( $pirate_forms_options, $ip, $page_url, $msg ) {
+		if ( 'yes' !== PirateForms_Util::get_option( 'pirateformsopt_akismet' ) ) {
+			return false;
+		}
+
 		// check if akismet is installed and key provided
 		$key = get_option( 'wordpress_api_key' );
 		if ( empty( $key ) ) {
