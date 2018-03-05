@@ -187,6 +187,15 @@ Activating the Pirate Contact Form plugin is just like any other plugin. If you'
 4. Screenshot 4. Enabling SMTP
 
 ## Changelog ##
+### 2.3.5 - 2018-03-05  ###
+
+* Fix characters encoding issue in the subject field.
+* Fix issue with spam label with two forms on the page.
+* Allows zip files to be attached in forms.
+* Adds a filter to dynamically change the subject.
+* Adds options to send a copy of the email to the sender.
+
+
 ### 2.3.4 - 2018-02-15  ###
 
 * Added missing Loader.gif file

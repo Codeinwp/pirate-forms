@@ -1,4 +1,12 @@
 
+ ### v2.3.5 - 2018-03-05 
+ **Changes:** 
+ * Fix characters encoding issue in the subject field.
+* Fix issue with spam label with two forms on the page.
+* Allows zip files to be attached in forms.
+* Adds a filter to dynamically change the subject.
+* Adds options to send a copy of the email to the sender.
+ 
  ### v2.3.4 - 2018-02-15 
  **Changes:** 
  * Added missing Loader.gif file
