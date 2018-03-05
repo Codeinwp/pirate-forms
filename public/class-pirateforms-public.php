@@ -41,6 +41,45 @@ class PirateForms_Public {
 	private $version;
 
 	/**
+	 * The file types allowed to be uploaded. Can take a look at https://en.support.wordpress.com/accepted-filetypes/ for inspiration.
+	 *
+	 * @access   private
+	 * @var      array $_file_types_allowed The file types allowed to be uploaded.
+	 */
+	private static $_file_types_allowed = array(
+		'3g2',
+		'3gp',
+		'avi',
+		'doc',
+		'docx',
+		'gif',
+		'jpeg',
+		'jpg',
+		'key',
+		'm4a',
+		'm4v',
+		'mov',
+		'mp3',
+		'mp4',
+		'mpg',
+		'odt',
+		'ogg',
+		'ogv',
+		'pdf',
+		'png',
+		'pps',
+		'ppsx',
+		'ppt',
+		'pptx',
+		'txt',
+		'wav',
+		'wmv',
+		'xls',
+		'xlsx',
+		'zip',
+	);
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
@@ -545,6 +584,7 @@ class PirateForms_Public {
 		}
 
 		// Start the body of the contact email
+		$private_fields  = array();
 		$body            = array();
 		$body['heading'] = sprintf( __( 'Contact form submission from %s', 'pirate-forms' ), get_bloginfo( 'name' ) . ' (' . site_url() . ')' );
 		$body['body']    = array();
@@ -576,6 +616,9 @@ class PirateForms_Public {
 			$body['body'][ __( 'IP address', 'pirate-forms' ) ] = $contact_ip;
 			$body['body'][ __( 'IP search', 'pirate-forms' ) ]  = "http://whatismyipaddress.com/ip/$contact_ip";
 			$body['magic_tags'] += array( 'ip' => $contact_ip );
+
+			$private_fields[]   = __( 'IP address', 'pirate-forms' );
+			$private_fields[]   = __( 'IP search', 'pirate-forms' );
 		}
 
 		// Sanitize and prepare referrer;
@@ -583,12 +626,16 @@ class PirateForms_Public {
 			$page                                               = sanitize_text_field( $_POST['pirate-forms-contact-referrer'] );
 			$body['body'][ __( 'Came from', 'pirate-forms' ) ]  = $page;
 			$body['magic_tags'] += array( 'referer' => $page );
+
+			$private_fields[]   = __( 'Came from', 'pirate-forms' );
 		}
 
 		// Show the page this contact form was submitted on
 		$permalink                                              = get_permalink( get_the_id() );
 		$body['body'][ __( 'Sent from page', 'pirate-forms' ) ] = $permalink;
 		$body['magic_tags'] += array( 'permalink' => $permalink );
+
+		$private_fields[]   = __( 'Sent from page', 'pirate-forms' );
 
 		// Check the blacklist
 		$blocked = PirateForms_Util::is_blacklisted( $error_key, $pirate_forms_contact_email, $contact_ip );
@@ -598,7 +645,7 @@ class PirateForms_Public {
 		}
 
 		if ( $this->is_spam( $pirate_forms_options, $contact_ip, get_permalink( get_the_id() ), $msg ) ) {
-			$_SESSION[ $error_key ]['honeypot'] = __( 'Form submission failed!', 'pirate-forms' );
+			$_SESSION[ $error_key ]['honeypot'] = __( 'Form submission failed!!', 'pirate-forms' );
 		}
 
 		if ( ! empty( $_SESSION[ $error_key ] ) ) {
@@ -640,10 +687,11 @@ class PirateForms_Public {
 
 			$attachments = $this->get_attachments( $error_key, $pirate_forms_options, $body );
 			if ( is_bool( $attachments ) ) {
+				PirateForms_Util::save_error( $error_key, $nonce_append . '.' . $form_id );
 				return false;
 			}
 
-			$subject = 'Contact on ' . htmlspecialchars_decode( get_bloginfo( 'name' ) );
+			$subject = apply_filters( 'pirate_forms_subject', 'Contact on ' . htmlspecialchars_decode( get_bloginfo( 'name' ) ) );
 			if ( ! empty( $pirate_forms_contact_subject ) ) {
 				$subject = $pirate_forms_contact_subject;
 			}
@@ -683,6 +731,10 @@ class PirateForms_Public {
 
 				$headers = "From: $site_name <$send_from>\r\nReply-To: $site_name <$send_from>";
 				$subject = $pirate_forms_options['pirateformsopt_label_submit'] . ' - ' . $site_name;
+
+				if ( isset( $pirate_forms_options['pirateformsopt_copy_email'] ) && 'yes' === $pirate_forms_options['pirateformsopt_copy_email'] ) {
+					$confirm_body = $this->append_original_email( $confirm_body, $body, $private_fields );
+				}
 
 				do_action( 'pirate_forms_before_sending_confirm', $pirate_forms_contact_email, $pirate_forms_contact_email, $subject, $confirm_body, $headers );
 				do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'before sending confirm email to = %s, subject = %s, body = %s, headers = %s', $pirate_forms_contact_email, $subject, $confirm_body, $headers ), 'debug', __FILE__, __LINE__ );
@@ -731,6 +783,7 @@ class PirateForms_Public {
 				);
 
 				$redirect_to        = null;
+				$scroll_to          = isset( $_POST['pirate_forms_from_form'] ) ? $_POST['pirate_forms_from_form'] : '';
 
 				/* If a Thank you page is selected, redirect to that page */
 				if ( $pirate_forms_options['pirateformsopt_thank_you_url'] ) {
@@ -741,14 +794,21 @@ class PirateForms_Public {
 					}
 				} elseif ( $is_our_theme ) {
 					// the fragment identifier should always be the last argument, otherwise the thank you message will not show.
+					// the fragment identifier is called pcf here so that the URL can tell us if our theme was recognized.
 					$redirect_to = add_query_arg(
 						array(
 							'done' => 'done',
-							'pcf'  => '1#contact',
+							'pcf'  => "#$scroll_to",
 						), $_SERVER['HTTP_REFERER']
 					);
 				} elseif ( isset( $_SERVER['HTTP_REFERER'] ) ) {
-					$redirect_to = add_query_arg( array( 'done' => 'done' ), $_SERVER['HTTP_REFERER'] );
+					// the fragment identifier is called pf here so that the URL can tell us if this is a not-our theme case.
+					$redirect_to = add_query_arg(
+						array(
+							'done' => 'done',
+							'pf'    => "#$scroll_to",
+						), $_SERVER['HTTP_REFERER']
+					);
 				}
 
 				if ( $redirect_to ) {
@@ -757,6 +817,27 @@ class PirateForms_Public {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Appends the publicly displayed fields to the confirmation email.
+	 *
+	 * @param string $confirm_body The confirmation body.
+	 * @param array  $body The collected body fields.
+	 * @param array  $private_fields The private fields that should not be included from the body fields.
+	 */
+	private function append_original_email( $confirm_body, $body, $private_fields ) {
+		$lines      = array();
+		$lines[]    = '------ Original Email ------';
+
+		foreach ( $body['body'] as $field => $value ) {
+			if ( in_array( $field, $private_fields ) ) {
+				continue;
+			}
+			$lines[] = "$field : $value";
+		}
+
+		return $confirm_body . implode( '<br/>', $lines );
 	}
 
 	/**
@@ -888,6 +969,10 @@ class PirateForms_Public {
 	 * Check with akismet if the message is spam.
 	 */
 	function is_spam( $pirate_forms_options, $ip, $page_url, $msg ) {
+		if ( 'yes' !== PirateForms_Util::get_option( 'pirateformsopt_akismet' ) ) {
+			return false;
+		}
+
 		// check if akismet is installed and key provided
 		$key = get_option( 'wordpress_api_key' );
 		if ( empty( $key ) ) {
@@ -947,13 +1032,10 @@ class PirateForms_Public {
 					continue;
 				}
 				/* Validate file type */
-				$file_types_allowed              = implode( '|', apply_filters( 'pirate_forms_allowed_file_types', explode( '|', 'jpg|jpeg|png|gif|pdf|doc|docx|ppt|pptx|odt|avi|ogg|m4a|mov|mp3|mp4|mpg|wav|wmv|xls|xlsx|txt' ) ) );
-				$pirate_forms_file_types_allowed = $file_types_allowed;
-				$pirate_forms_file_types_allowed = trim( $pirate_forms_file_types_allowed, '|' );
-				$pirate_forms_file_types_allowed = '(' . $pirate_forms_file_types_allowed . ')';
-				$pirate_forms_file_types_allowed = '/\.' . $pirate_forms_file_types_allowed . '$/i';
+				$allowed = implode( '|', apply_filters( 'pirate_forms_allowed_file_types', self::$_file_types_allowed ) );
+				$pirate_forms_file_types_allowed = '/\.(' . trim( $allowed, '|' ) . ')$/i';
 				if ( ! preg_match( $pirate_forms_file_types_allowed, $file['name'] ) ) {
-					do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'file invalid: expected %s got %s', $file_types_allowed, $file['name'] ), 'error', __FILE__, __LINE__ );
+					do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'file invalid: expected %s got %s', $allowed, $file['name'] ), 'error', __FILE__, __LINE__ );
 					$_SESSION[ $error_key ]['pirate-forms-upload-failed-type'] = sprintf( __( 'Uploaded file type is not allowed for %s', 'pirate-forms' ), $file['name'] );
 
 					return false;
