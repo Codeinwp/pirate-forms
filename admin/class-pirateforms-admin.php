@@ -319,7 +319,7 @@ class PirateForms_Admin {
 								'id'      => 'pirateformsopt_nonce',
 								'type'    => 'checkbox',
 								'label'   => array(
-									'value' => __( 'Add a nonce to the contact form:', 'pirate-forms' ),
+									'value' => __( 'Add a nonce to the contact form', 'pirate-forms' ),
 									'html'  => '<span class="dashicons dashicons-editor-help"></span>',
 									'desc'  => array(
 										'value' => __( 'Should the form use a WordPress nonce? This helps reduce spam by ensuring that the form submittor is on the site when submitting the form rather than submitting remotely. This could, however, cause problems with sites using a page caching plugin. Turn this off if you are getting complaints about forms not being able to be submitted with an error of "Nonce failed!"', 'pirate-forms' ),
@@ -352,6 +352,25 @@ class PirateForms_Admin {
 								),
 								'cols'  => 70,
 								'rows'  => 5,
+							),
+							array(
+								'id'      => 'pirateformsopt_copy_email',
+								'type'    => 'checkbox',
+								'label'   => array(
+									'value' => __( 'Add copy of mail to confirmation email', 'pirate-forms' ),
+									'html'  => '<span class="dashicons dashicons-editor-help"></span>',
+									'desc'  => array(
+										'value' => __( 'Should a copy of the email be appended to the confirmation email? Only the fields that are being displayed will be sent to the sender. Please note that this will only be appended if confirmation email text is provided above.', 'pirate-forms' ),
+										'class' => 'pirate_forms_option_description',
+									),
+								),
+								'default' => '',
+								'value'   => PirateForms_Util::get_option( 'pirateformsopt_copy_email' ),
+								'wrap'    => array(
+									'type'  => 'div',
+									'class' => 'pirate-forms-grouped',
+								),
+								'options' => array( 'yes' => __( 'Yes', 'pirate-forms' ) ),
 							),
 							array(
 								'id'      => 'pirateformsopt_thank_you_url',
