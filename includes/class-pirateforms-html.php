@@ -29,7 +29,7 @@ class PirateForms_HTML {
 			// @codingStandardsIgnoreStart
 			$msg	= sprintf( 'Field type "%s" not defined. Have you upgraded to the latest version of %s?', $type, PIRATEFORMS_NAME );
 			error_log( $msg );
-			return;
+			$html	= $msg;
 			// @codingStandardsIgnoreEnd
 		}
 		if ( ! $echo ) {
