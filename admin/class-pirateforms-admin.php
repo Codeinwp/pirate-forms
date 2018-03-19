@@ -648,7 +648,6 @@ class PirateForms_Admin {
 									'class' => 'pirate-forms-grouped',
 								),
 								'wysiwyg' => array(
-									'quicktags'     => false,
 									'editor_class'  => 'pirate-forms-wysiwyg',
 									'editor_height' => 500,
 								),
