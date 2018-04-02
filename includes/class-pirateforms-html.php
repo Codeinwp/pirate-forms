@@ -25,7 +25,12 @@ class PirateForms_HTML {
 			}
 			$html   = $this->$type( $args );
 		} else {
-			throw new Exception( "Method for $type not defined" );
+			// let's not throw an ugly exception. Let's instead inform the user that they might need to upgrade.
+			// @codingStandardsIgnoreStart
+			$msg	= sprintf( 'Field type "%s" not defined. Have you upgraded to the latest version of %s?', $type, PIRATEFORMS_NAME );
+			error_log( $msg );
+			$html	= $msg;
+			// @codingStandardsIgnoreEnd
 		}
 		if ( ! $echo ) {
 			return $html;
@@ -401,6 +406,14 @@ class PirateForms_HTML {
 		ob_start();
 		wp_editor( $content, $args['id'], $args['wysiwyg'] );
 		$html .= ob_get_clean();
+		return $this->get_wrap( $args, $html );
+	}
+
+	/**
+	 * The label element.
+	 */
+	private function label( $args ) {
+		$html = $args['placeholder'];
 		return $this->get_wrap( $args, $html );
 	}
 
