@@ -50,6 +50,9 @@ class PirateForms_PhpFormBuilder {
 		$form_end           = '';
 		$custom_fields      = '';
 		foreach ( $elements as $val ) {
+			if ( 'form_honeypot' !== $val['id'] && ! in_array( $val['type'], array( 'hidden', 'div' ) ) ) {
+				$val['class']   = apply_filters( 'pirate_forms_field_class', $val['class'], $val['id'] );
+			}
 			if ( isset( $val['is_custom'] ) && $val['is_custom'] ) {
 				// we will combine the HTML for all the custom fields and save it under one element name.
 				$custom_fields  .= $html_helper->add( $val, false );
