@@ -18,7 +18,7 @@ matrix:
   - php: '5.3'
     dist: precise
   allow_failures:
-    - env: TEST_SUITE=Wraith_Visual_Regression_Testing WRAITH_FAIL=3
+    - env: TEST_SUITE=Wraith_Visual_Regression_Testing WRAITH_FAIL=5
 branches:
   except:
   - "/^*-v[0-9]/"
