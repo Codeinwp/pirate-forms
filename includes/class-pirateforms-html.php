@@ -368,10 +368,9 @@ class PirateForms_HTML {
 			}
 			foreach ( $args['options'] as $key => $val ) {
 				$extra  = isset( $args['value'] ) && $key == $args['value'] ? 'checked' : '';
-				$html   .= '<input type="checkbox" ' . $extra . ' ' . $this->get_common( $args ) . ' value="' . esc_attr( $key ) . '">' . esc_attr( $val );
+				$html   .= '<input type="checkbox" ' . $extra . ' ' . $this->get_common( $args ) . ' value="' . esc_attr( $key ) . '"><label for="' . esc_attr( $args['id'] ) . '" class="pf-checkbox-label"><span>' . esc_attr( $val ) . '</span></label>';
 			}
 		}
-
 		return $this->get_wrap( $args, $html );
 	}
 

@@ -70,7 +70,8 @@ Version: 2.3.5
 	margin: 0;
 }
 
-.pirate-forms-fields-container .form_field_wrap textarea {
+.pirate-forms-fields-container .form_field_wrap textarea,
+.pirate-forms-fields-container .form_field_wrap select {
 	width: 100%;
 	max-width: 100%;
 	margin: 0;
@@ -94,6 +95,21 @@ Version: 2.3.5
 	margin: 0;
 	vertical-align: middle;
 	padding-bottom: 10px;
+}
+
+.pirate_forms_wrap .pirate_forms_three_inputs_wrap input[type=checkbox] {
+	display: inline-block;
+	width: auto;
+	height: inherit;
+}
+
+.pf-checkbox-label {
+	display: inline;
+	cursor: pointer;
+}
+
+.pf-checkbox-label span {
+	margin-left: 5px;
 }
 
 @media (max-width: 480px) {
