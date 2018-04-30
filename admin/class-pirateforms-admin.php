@@ -654,7 +654,7 @@ class PirateForms_Admin {
 							),
 							array(
 								'id'      => 'pirateformsopt_label_checkbox',
-								'type'    => 'text',
+								'type'    => 'wysiwyg',
 								'label'   => array(
 									'value' => __( 'Checkbox', 'pirate-forms' ),
 								),
@@ -662,6 +662,12 @@ class PirateForms_Admin {
 								'wrap'    => array(
 									'type'  => 'div',
 									'class' => 'pirate-forms-grouped',
+								),
+								'wysiwyg' => array(
+									'editor_class'  => 'pirate-forms-wysiwyg',
+									'quicktags' => false,
+									'teeny' => true,
+									'media_buttons' => false,
 								),
 							),
 							array(
