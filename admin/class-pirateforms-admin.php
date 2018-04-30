@@ -303,17 +303,18 @@ class PirateForms_Admin {
 									'value' => __( 'Store submissions in the database', 'pirate-forms' ),
 									'html'  => '<span class="dashicons dashicons-editor-help"></span>',
 									'desc'  => array(
-										'value' => __( 'Should the submissions be stored in the admin area? If chosen, contact form submissions will be saved under "All Entries" on the left (appears after this option is activated).', 'pirate-forms' ),
+										'value' => sprintf( '%s<br>%s', __( 'Should the submissions be stored in the admin area? If chosen, contact form submissions will be saved under "All Entries" on the left (appears after this option is activated).', 'pirate-forms' ), __( 'According to GDPR we recommend you to ask for consent in order to store user data', 'pirate-forms' ) ),
 										'class' => 'pirate_forms_option_description',
 									),
 								),
-								'default' => 'yes',
+								'default' => 'no',
 								'value'   => PirateForms_Util::get_option( 'pirateformsopt_store' ),
 								'wrap'    => array(
 									'type'  => 'div',
 									'class' => 'pirate-forms-grouped',
 								),
 								'options' => array( 'yes' => __( 'Yes', 'pirate-forms' ) ),
+								'title'	=> __('According to GDPR we recommend you to ask for consent in order to store user data', 'pirate-forms' ),
 							),
 							array(
 								'id'      => 'pirateformsopt_nonce',
@@ -512,6 +513,23 @@ class PirateForms_Admin {
 									'req' => __( 'Required', 'pirate-forms' ),
 								),
 							),
+							array(
+								'id'      => 'pirateformsopt_checkbox_field',
+								'type'    => 'select',
+								'label'   => array(
+									'value' => __( 'Checkbox', 'pirate-forms' ),
+								),
+								'value'   => PirateForms_Util::get_option( 'pirateformsopt_checkbox_field' ),
+								'wrap'    => array(
+									'type'  => 'div',
+									'class' => 'pirate-forms-grouped pirateformsopt_checkbox',
+								),
+								'options' => array(
+									''    => __( 'Do not display', 'pirate-forms' ),
+									'yes' => __( 'Display but not required', 'pirate-forms' ),
+									'req' => __( 'Required', 'pirate-forms' ),
+								),
+							),
 							/* Recaptcha */
 							array(
 								'id'      => 'pirateformsopt_recaptcha_field',
@@ -635,6 +653,18 @@ class PirateForms_Admin {
 								),
 							),
 							array(
+								'id'      => 'pirateformsopt_label_checkbox',
+								'type'    => 'text',
+								'label'   => array(
+									'value' => __( 'Checkbox', 'pirate-forms' ),
+								),
+								'value'   => PirateForms_Util::get_option( 'pirateformsopt_label_checkbox' ),
+								'wrap'    => array(
+									'type'  => 'div',
+									'class' => 'pirate-forms-grouped',
+								),
+							),
+							array(
 								'id'      => 'pirateformsopt_email_content',
 								'type'    => 'wysiwyg',
 								'label'   => array(
@@ -719,6 +749,19 @@ class PirateForms_Admin {
 								),
 								'default' => __( 'Please add an attachment', 'pirate-forms' ),
 								'value'   => PirateForms_Util::get_option( 'pirateformsopt_label_err_no_attachment' ),
+								'wrap'    => array(
+									'type'  => 'div',
+									'class' => 'pirate-forms-grouped',
+								),
+							),
+							array(
+								'id'      => 'pirateformsopt_label_err_no_checkbox',
+								'type'    => 'text',
+								'label'   => array(
+									'value' => __( 'Checkbox is not checked', 'pirate-forms' ),
+								),
+								'default' => __( 'Please select the checkbox', 'pirate-forms' ),
+								'value'   => PirateForms_Util::get_option( 'pirateformsopt_label_err_no_checkbox' ),
 								'wrap'    => array(
 									'type'  => 'div',
 									'class' => 'pirate-forms-grouped',
@@ -1028,6 +1071,34 @@ class PirateForms_Admin {
 		$options['pirateformsopt_attachment_field'] = 'no';
 
 		return $options;
+	}
+
+	/**
+	 * Show admin notices.
+	 */
+	public function admin_notices() {
+		$screen = get_current_screen();
+		if ( empty( $screen ) ) {
+			return;
+		}
+		if ( ! isset( $screen->base ) ) {
+			return;
+		}
+
+		if ( ! in_array( $screen->id, array( 'toplevel_page_pirateforms-admin' ) ) ) {
+			return;
+		}
+
+		$options = PirateForms_Util::get_option();
+
+		// check if store submissions is enabled without having a checkbox.
+		if ( 'yes' !== $options['pirateformsopt_store'] ) {
+			return;
+		}
+
+		if ( empty( $options['pirateformsopt_checkbox_field'] ) ) {
+			echo sprintf( '<div class="notice notice-warning pirateforms-notice pirateforms-notice-checkbox"><p>%s</p></div>', __( 'According to GDPR we recommend you to ask for consent in order to store user data', 'pirate-forms' ) );
+		}
 	}
 
 	/**
