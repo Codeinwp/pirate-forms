@@ -314,7 +314,7 @@ class PirateForms_Admin {
 									'class' => 'pirate-forms-grouped',
 								),
 								'options' => array( 'yes' => __( 'Yes', 'pirate-forms' ) ),
-								'title'	=> __('According to GDPR we recommend you to ask for consent in order to store user data', 'pirate-forms' ),
+								'title' => __( 'According to GDPR we recommend you to ask for consent in order to store user data', 'pirate-forms' ),
 							),
 							array(
 								'id'      => 'pirateformsopt_nonce',

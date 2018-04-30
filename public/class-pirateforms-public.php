@@ -385,8 +385,8 @@ class PirateForms_Public {
 						'class' => implode( ' ', apply_filters( 'pirateform_wrap_classes_message', $wrap_classes ) ),
 					),
 					'value'        => isset( $_REQUEST['pirate-forms-contact-checkbox'] ) ? $_REQUEST['pirate-forms-contact-checkbox'] : '',
-					'options'		=> array(
-						'yes'		=> stripslashes( sanitize_text_field( $label ) ),
+					'options'       => array(
+						'yes'       => stripslashes( sanitize_text_field( $label ) ),
 					),
 				);
 			endif;

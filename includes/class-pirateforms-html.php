@@ -124,7 +124,7 @@ class PirateForms_HTML {
 			$html       .= ' disabled';
 		}
 
-		if ( isset( $args['title'] ) && !empty ( $args['title'] ) ) {
+		if ( isset( $args['title'] ) && ! empty( $args['title'] ) ) {
 			$html       .= ' title="' . esc_attr( $args['title'] ) . '"';
 		}
 
