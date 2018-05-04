@@ -1103,7 +1103,7 @@ class PirateForms_Admin {
 		}
 
 		if ( empty( $options['pirateformsopt_checkbox_field'] ) ) {
-			echo sprintf( '<div class="notice notice-warning pirateforms-notice pirateforms-notice-checkbox"><p>%s</p></div>', __( 'According to GDPR we recommend you to ask for consent in order to store user data', 'pirate-forms' ) );
+			echo sprintf( '<div class="notice notice-warning pirateforms-notice pirateforms-notice-checkbox is-dismissible"><p>%s</p></div>', __( 'According to GDPR we recommend you to ask for consent in order to store user data', 'pirate-forms' ) );
 		}
 	}
 
