@@ -13,7 +13,7 @@
 <?php
 if ( is_null( $wrap_classes ) ) {
 	$wrap_classes = array(
-		'col-xs-12 col-sm-4',
+		'col-xs-12',
 		'pirate_forms_three_inputs form_field_wrap',
 		"contact_{$name}_wrap",
 		isset( $args['wrap_class'] ) ? $args['wrap_class'] : '',
