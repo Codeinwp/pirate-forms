@@ -386,7 +386,7 @@ class PirateForms_Public {
 					),
 					'value'        => isset( $_REQUEST['pirate-forms-contact-checkbox'] ) ? $_REQUEST['pirate-forms-contact-checkbox'] : '',
 					'options'       => array(
-						'yes'       => stripslashes( sanitize_text_field( $label ) ),
+						'yes'       => stripslashes( $label ),
 					),
 				);
 			endif;
