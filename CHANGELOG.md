@@ -1,4 +1,11 @@
 
+ ### v2.4.0 - 2018-04-02 
+ **Changes:** 
+ * Improves compatibility with various themes.
+* Adds support for two new custom fields.
+* Adds filter for custom classes into form fields.
+* Adds visual/text switch to form wyiwyg editor.
+ 
  ### v2.3.5 - 2018-03-05 
  **Changes:** 
  * Fix characters encoding issue in the subject field.
