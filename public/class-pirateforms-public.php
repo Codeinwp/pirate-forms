@@ -362,34 +362,36 @@ class PirateForms_Public {
 				);
 			endif;
 
-			$field = $pirate_forms_options['pirateformsopt_checkbox_field'];
-			$label = $pirate_forms_options['pirateformsopt_label_checkbox'];
+			if ( array_key_exists( 'pirateformsopt_checkbox_field', $pirate_forms_options ) ) {
+				$field = $pirate_forms_options['pirateformsopt_checkbox_field'];
+				$label = $pirate_forms_options['pirateformsopt_label_checkbox'];
 
-			/**
-			 ******  Message field */
-			if ( ! empty( $field ) && ! empty( $label ) ) :
-				$required     = $field === 'req' ? true : false;
-				$wrap_classes = array( 'col-xs-12 form_field_wrap contact_checkbox_wrap  ' );
-				// If this field was submitted with invalid data
-				if ( isset( $_SESSION[ $error_key ]['contact-checkbox'] ) ) {
-					$wrap_classes[] = 'error';
-				}
-				$elements[] = array(
-					'required'     => $required,
-					'required_msg' => $pirate_forms_options['pirateformsopt_label_err_no_checkbox'],
-					'type'         => 'checkbox',
-					'class'        => 'form-control',
-					'id'           => 'pirate-forms-contact-checkbox',
-					'wrap'         => array(
-						'type'  => 'div',
-						'class' => implode( ' ', apply_filters( 'pirateform_wrap_classes_message', $wrap_classes ) ),
-					),
-					'value'        => isset( $_REQUEST['pirate-forms-contact-checkbox'] ) ? $_REQUEST['pirate-forms-contact-checkbox'] : '',
-					'options'       => array(
-						'yes'       => stripslashes( $label ),
-					),
-				);
-			endif;
+				/**
+				 ******  checkbox field */
+				if ( ! empty( $field ) && ! empty( $label ) ) :
+					$required     = $field === 'req' ? true : false;
+					$wrap_classes = array( 'col-xs-12 form_field_wrap contact_checkbox_wrap  ' );
+					// If this field was submitted with invalid data
+					if ( isset( $_SESSION[ $error_key ]['contact-checkbox'] ) ) {
+						$wrap_classes[] = 'error';
+					}
+					$elements[] = array(
+						'required'     => $required,
+						'required_msg' => $pirate_forms_options['pirateformsopt_label_err_no_checkbox'],
+						'type'         => 'checkbox',
+						'class'        => 'form-control',
+						'id'           => 'pirate-forms-contact-checkbox',
+						'wrap'         => array(
+							'type'  => 'div',
+							'class' => implode( ' ', apply_filters( 'pirateform_wrap_classes_checkbox', $wrap_classes ) ),
+						),
+						'value'        => isset( $_REQUEST['pirate-forms-contact-checkbox'] ) ? $_REQUEST['pirate-forms-contact-checkbox'] : '',
+						'options'       => array(
+							'yes'       => stripslashes( $label ),
+						),
+					);
+				endif;
+			}
 
 			/**
 			 ******* ReCaptcha */
