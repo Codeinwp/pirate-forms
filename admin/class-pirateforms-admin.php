@@ -315,7 +315,7 @@ class PirateForms_Admin {
 									'class' => 'pirate-forms-grouped',
 								),
 								'options' => array( 'yes' => __( 'Yes', 'pirate-forms' ) ),
-								'title' => __( 'According to GDPR we recommend you to ask for consent in order to store user data', 'pirate-forms' ),
+								'title' => __( 'According to GDPR, we recommend you to ask for consent in order to store user data.', 'pirate-forms' ),
 							),
 							array(
 								'id'      => 'pirateformsopt_nonce',
@@ -1104,7 +1104,7 @@ class PirateForms_Admin {
 		}
 
 		if ( empty( $options['pirateformsopt_checkbox_field'] ) && false === ( $x = get_transient( 'pirate_forms_gdpr_notice0' ) ) ) {
-			echo sprintf( '<div data-dismissible="0" class="notice notice-warning pirateforms-notice pirateforms-notice-checkbox pirateforms-notice-gdpr is-dismissible"><p>%s</p></div>', __( 'According to GDPR we recommend you to ask for consent in order to store user data', 'pirate-forms' ) );
+			echo sprintf( '<div data-dismissible="0" class="notice notice-warning pirateforms-notice pirateforms-notice-checkbox pirateforms-notice-gdpr is-dismissible"><p><strong>%s</strong></p></div>', __( 'According to GDPR we recommend you to ask for consent in order to store user data', 'pirate-forms' ) );
 		}
 	}
 
