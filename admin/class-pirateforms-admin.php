@@ -63,15 +63,16 @@ class PirateForms_Admin {
 	public function enqueue_styles_and_scripts() {
 		global $pagenow;
 
-		if ( ! empty( $pagenow ) && ( $pagenow == 'options-general.php' || $pagenow == 'admin.php' )
-			 && isset( $_GET['page'] ) && $_GET['page'] == 'pirateforms-admin'
-		) {
+		$allowed    = array( 'options-general.php', 'admin.php', 'edit.php', 'post.php' );
+
+		if ( ( ! empty( $pagenow ) && in_array( $pagenow, $allowed ) ) || ( isset( $_GET['page'] ) && $_GET['page'] == 'pirateforms-admin' ) ) {
 			wp_enqueue_style( 'pirateforms_admin_styles', PIRATEFORMS_URL . 'admin/css/wp-admin.css', array(), $this->version );
 			wp_enqueue_script( 'pirateforms_scripts_admin', PIRATEFORMS_URL . 'admin/js/scripts-admin.js', array( 'jquery', 'jquery-ui-tooltip' ), $this->version );
 			wp_localize_script(
 				'pirateforms_scripts_admin', 'cwp_top_ajaxload', array(
 					'ajaxurl' => admin_url( 'admin-ajax.php' ),
 					'nonce'   => wp_create_nonce( PIRATEFORMS_SLUG ),
+					'slug'    => PIRATEFORMS_SLUG,
 					'i10n'    => array(
 						'recaptcha' => __( 'Please specify the Site Key and Secret Key.', 'pirate-forms' ),
 					),
@@ -1102,9 +1103,23 @@ class PirateForms_Admin {
 			return;
 		}
 
-		if ( empty( $options['pirateformsopt_checkbox_field'] ) ) {
-			echo sprintf( '<div class="notice notice-warning pirateforms-notice pirateforms-notice-checkbox is-dismissible"><p>%s</p></div>', __( 'According to GDPR we recommend you to ask for consent in order to store user data', 'pirate-forms' ) );
+		if ( empty( $options['pirateformsopt_checkbox_field'] ) && false === ( $x = get_transient( 'pirate_forms_gdpr_notice0' ) ) ) {
+			echo sprintf( '<div data-dismissible="0" class="notice notice-warning pirateforms-notice pirateforms-notice-checkbox pirateforms-notice-gdpr is-dismissible"><p>%s</p></div>', __( 'According to GDPR we recommend you to ask for consent in order to store user data', 'pirate-forms' ) );
 		}
+	}
+
+	/**
+	 * Generic ajax handler.
+	 */
+	public function ajax() {
+		check_ajax_referer( PIRATEFORMS_SLUG, 'security' );
+
+		switch ( $_POST['_action'] ) {
+			case 'dismiss-notice':
+				set_transient( 'pirate_forms_gdpr_notice' . $_POST['id'], 'yes' );
+				break;
+		}
+		wp_die();
 	}
 
 	/**
