@@ -148,4 +148,17 @@ function initAll(){
 				});
 		}
 	});
+
+    jQuery('.pirateforms-notice-gdpr.is-dismissible').on('click', '.notice-dismiss', function(){
+        jQuery.ajax({
+            url         : cwp_top_ajaxload.ajaxurl,
+            type        : 'POST',
+            data        : {
+                id          : jQuery(this).parent().attr('data-dismissible'),
+                _action     : 'dismiss-notice',
+                security    : cwp_top_ajaxload.nonce,
+                action      : cwp_top_ajaxload.slug
+            }
+       });
+    });
 }

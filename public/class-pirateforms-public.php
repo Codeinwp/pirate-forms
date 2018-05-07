@@ -341,7 +341,7 @@ class PirateForms_Public {
 			$field = $pirate_forms_options['pirateformsopt_attachment_field'];
 
 			/**
-			 ******  Message field */
+			 ******  Attachment field */
 			if ( ! empty( $field ) && 'no' !== $field ) :
 				$required     = $field === 'req' ? true : false;
 				$wrap_classes = array( 'col-xs-12 form_field_wrap contact_attachment_wrap' );
@@ -361,6 +361,38 @@ class PirateForms_Public {
 					),
 				);
 			endif;
+
+			if ( array_key_exists( 'pirateformsopt_checkbox_field', $pirate_forms_options ) ) {
+				$field = $pirate_forms_options['pirateformsopt_checkbox_field'];
+				$label = $pirate_forms_options['pirateformsopt_label_checkbox'];
+
+				/**
+				 ******  checkbox field */
+				if ( ! empty( $field ) && ! empty( $label ) ) :
+					$required     = $field === 'req' ? true : false;
+					$wrap_classes = array( 'col-xs-12 form_field_wrap contact_checkbox_wrap  ' );
+					// If this field was submitted with invalid data
+					if ( isset( $_SESSION[ $error_key ]['contact-checkbox'] ) ) {
+						$wrap_classes[] = 'error';
+					}
+					$elements[] = array(
+						'required'     => $required,
+						'required_msg' => $pirate_forms_options['pirateformsopt_label_err_no_checkbox'],
+						'type'         => 'checkbox',
+						'class'        => 'form-control',
+						'id'           => 'pirate-forms-contact-checkbox',
+						'wrap'         => array(
+							'type'  => 'div',
+							'class' => implode( ' ', apply_filters( 'pirateform_wrap_classes_checkbox', $wrap_classes ) ),
+						),
+						'value'        => isset( $_REQUEST['pirate-forms-contact-checkbox'] ) ? $_REQUEST['pirate-forms-contact-checkbox'] : '',
+						'options'       => array(
+							'yes'       => stripslashes( $label ),
+						),
+					);
+				endif;
+			}
+
 			/**
 			 ******* ReCaptcha */
 			if ( ! empty( $pirate_forms_options['pirateformsopt_recaptcha_secretkey'] ) && ! empty( $pirate_forms_options['pirateformsopt_recaptcha_sitekey'] ) && ! empty( $pirate_forms_options['pirateformsopt_recaptcha_field'] ) && ( 'yes' === $pirate_forms_options['pirateformsopt_recaptcha_field'] ) ) :
@@ -480,6 +512,10 @@ class PirateForms_Public {
 
 		if ( isset( $form_builder->attachment ) ) {
 			echo $form_builder->attachment;
+		}
+
+		if ( isset( $form_builder->contact_checkbox ) ) {
+			echo $form_builder->contact_checkbox;
 		}
 
 		echo '<div class="pirate-forms-footer">';
