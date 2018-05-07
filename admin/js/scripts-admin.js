@@ -149,9 +149,9 @@ function initAll(){
 		}
 	});
 
-    jQuery('.pirateforms-notice-gdpr.is-dismissible').on('click', '.notice-dismiss', function(e){
+    jQuery('.pirateforms-notice-gdpr.is-dismissible').on('click', '.notice-dismiss', function(){
         jQuery.ajax({
-            url         : ajaxurl,
+            url         : cwp_top_ajaxload.ajaxurl,
             type        : 'POST',
             data        : {
                 id          : jQuery(this).parent().attr('data-dismissible'),
