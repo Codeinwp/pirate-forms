@@ -111,6 +111,13 @@ function pirate_forms_autoload( $class ) {
 
 				return true;
 			}
+
+			$filename = PIRATEFORMS_DIR . 'gutenberg/' . $class1 . '.php';
+			if ( is_readable( $filename ) ) {
+				require_once $filename;
+
+				return true;
+			}
 		}
 
 		$filename = PIRATEFORMS_DIR . 'includes/class-pirateforms-widget.php';
