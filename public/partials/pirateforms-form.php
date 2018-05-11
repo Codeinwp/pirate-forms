@@ -115,6 +115,10 @@
 		echo $this->attachment;
 	}
 
+	if ( isset( $this->contact_checkbox ) ) {
+		echo $this->contact_checkbox;
+	}
+
 	if ( isset( $this->captcha ) ) {
 		echo $this->captcha;
 	}

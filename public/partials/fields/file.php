@@ -23,6 +23,7 @@ if ( is_null( $wrap_classes ) ) {
 	$text_args      = array(
 		'id'        => '',
 		'name'      => '',
+		'class'     => 'pirate-forms-file-upload-input',
 	);
 	if ( isset( $args['required'] ) && $args['required'] && isset( $args['required_msg'] ) ) {
 		$text_args['required']      = $args['required'];
@@ -35,8 +36,6 @@ if ( is_null( $wrap_classes ) ) {
 
 <div class="<?php echo implode( ' ', apply_filters( "pirateform_wrap_classes_{$name}", $wrap_classes, $name, $args['type'] ) ); ?>">
 	<div class="pirate-forms-file-upload-wrapper">
-		<input type="file" <?php echo $this->get_common( $args, array( 'value' ) ); ?> style="position: absolute; left: -9999px;" tabindex="-1">
-		<button type="button" class="pirate-forms-file-upload-button" tabindex="-1"><?php echo $args['title']; ?></button>
-		<input type="text" class="pirate-forms-file-upload-input" <?php echo $this->get_common( $text_args ); ?> />
+		<div class="pirate-forms-file-upload-wrapper"><input type="file" <?php echo $this->get_common( $text_args, array( 'value' ) ); ?>  tabindex="-1"></div>
 	</div>
 </div>

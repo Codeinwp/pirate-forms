@@ -31,10 +31,21 @@ class PirateForms_PhpFormBuilder {
 		$classes    = array();
 		$classes[]  = $from_widget ? 'widget-on' : '';
 
+		// we will add an id to the form so that we can scroll to it.
+		$id         = wp_create_nonce( sprintf( 'pf-%s-%s', $from_widget ? 1 : 0, isset( $pirate_forms_options['id'] ) ? $pirate_forms_options['id'] : 0 ) );
+		$elements[] = array(
+			'type'  => 'hidden',
+			'id'    => 'pirate_forms_from_form',
+			'value' => $id,
+		);
+
 		$html_helper        = new PirateForms_HTML();
 		$hidden             = '';
 		$custom_fields      = '';
 		foreach ( $elements as $val ) {
+			if ( 'form_honeypot' !== $val['id'] && ! in_array( $val['type'], array( 'hidden', 'div' ) ) && array_key_exists( 'class', $val ) ) {
+				$val['class']   = apply_filters( 'pirate_forms_field_class', $val['class'], $val['id'] );
+			}
 			if ( isset( $val['is_custom'] ) && $val['is_custom'] ) {
 				// we will combine the HTML for all the custom fields and save it under one element name.
 				$custom_fields  .= $html_helper->add( $val, false );
