@@ -246,7 +246,7 @@ class PirateForms_Public {
 					'type'         => 'text',
 					'id'           => 'pirate-forms-contact-name',
 					'value'        => empty( $thank_you_message ) && isset( $_REQUEST['pirate-forms-contact-name'] ) ? $_REQUEST['pirate-forms-contact-name'] : '',
-					'wrap_class'   => isset( $_SESSION[ $error_key ]['contact-name'] ) ? 'error' : '',
+					'wrap_class'   => implode( ' ', $wrap_classes ),
 				);
 			}
 
@@ -272,7 +272,7 @@ class PirateForms_Public {
 					'type'         => 'email',
 					'id'           => 'pirate-forms-contact-email',
 					'value'        => empty( $thank_you_message ) && isset( $_REQUEST['pirate-forms-contact-email'] ) ? $_REQUEST['pirate-forms-contact-email'] : '',
-					'wrap_class'   => isset( $_SESSION[ $error_key ]['contact-email'] ) ? 'error' : '',
+					'wrap_class'   => implode( ' ', $wrap_classes ),
 				);
 			}
 
@@ -298,7 +298,7 @@ class PirateForms_Public {
 					'type'         => 'text',
 					'id'           => 'pirate-forms-contact-subject',
 					'value'        => empty( $thank_you_message ) && isset( $_REQUEST['pirate-forms-contact-subject'] ) ? $_REQUEST['pirate-forms-contact-subject'] : '',
-					'wrap_class'   => isset( $_SESSION[ $error_key ]['contact-subject'] ) ? 'error' : '',
+					'wrap_class'   => implode( ' ', $wrap_classes ),
 				);
 			}
 
@@ -316,7 +316,7 @@ class PirateForms_Public {
 					'type'         => 'textarea',
 					'id'           => 'pirate-forms-contact-message',
 					'value'        => empty( $thank_you_message ) && isset( $_REQUEST['pirate-forms-contact-message'] ) ? $_REQUEST['pirate-forms-contact-message'] : '',
-					'wrap_class'   => isset( $_SESSION[ $error_key ]['contact-message'] ) ? 'error' : '',
+					'wrap_class'   => implode( ' ', $wrap_classes ),
 				);
 			}
 
@@ -338,7 +338,7 @@ class PirateForms_Public {
 					'type'         => 'file',
 					'title'        => __( 'Upload file', 'pirate-forms' ),
 					'id'           => 'pirate-forms-attachment',
-					'wrap_class'   => isset( $_SESSION[ $error_key ]['contact-attachment'] ) ? 'error' : '',
+					'wrap_class'   => implode( ' ', $wrap_classes ),
 				);
 			}
 
@@ -1194,13 +1194,20 @@ class PirateForms_Public {
 		$theme      = null;
 		if ( function_exists( 'zerif_setup' ) ) {
 			$theme  = 'zerif';
+		} else {
+			$current_theme  = wp_get_theme();
+			$theme          = sanitize_key( $current_theme->get( 'Name' ) );
 		}
 
 		if ( $theme ) {
 			foreach ( $elements as $k => $element ) {
 				$id = str_replace( 'pirate-forms-contact-', '', $element['id'] );
-				add_filter( "pirateform_wrap_classes_{$id}", array( $this, "{$theme}_customization_wrap" ), 10, 3 );
-				add_filter( "pirateform_field_classes_{$id}", array( $this, "{$theme}_customization_field" ), 10, 3 );
+				if ( method_exists( $this, "{$theme}_customization_wrap" ) ) {
+					add_filter( "pirateform_wrap_classes_{$id}", array( $this, "{$theme}_customization_wrap" ), 10, 3 );
+				}
+				if ( method_exists( $this, "{$theme}_customization_field" ) ) {
+					add_filter( "pirateform_field_classes_{$id}", array( $this, "{$theme}_customization_field" ), 10, 3 );
+				}
 			}
 		}
 
@@ -1267,4 +1274,5 @@ class PirateForms_Public {
 		}
 		return $classes;
 	}
+
 }
