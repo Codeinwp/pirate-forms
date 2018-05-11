@@ -308,6 +308,15 @@ class PirateForms_Public {
 			/**
 			 ******  Message field */
 			if ( ! empty( $field ) && ! empty( $label ) ) {
+				$required     = $field === 'req' ? true : false;
+				$wrap_classes = array(
+					'col-xs-12 contact_message_wrap pirate_forms_three_inputs form_field_wrap',
+				);
+				// If this field was submitted with invalid data
+				if ( isset( $_SESSION[ $error_key ]['contact-message'] ) ) {
+					$wrap_classes[] = 'error';
+				}
+
 				$elements[] = array(
 					'front_end'     => true,
 					'placeholder'  => stripslashes( sanitize_text_field( $label ) ),
@@ -356,6 +365,7 @@ class PirateForms_Public {
 						$wrap_classes[] = 'error';
 					}
 					$elements[] = array(
+						'front_end'     => true,
 						'required'     => $required,
 						'required_msg' => $pirate_forms_options['pirateformsopt_label_err_no_checkbox'],
 						'type'         => 'checkbox',
@@ -1257,7 +1267,9 @@ class PirateForms_Public {
 	 */
 	public function zerif_customization_wrap( $classes, $name, $type ) {
 		switch ( $type ) {
-			// empty.
+			case 'checkbox':
+				$classes[] = 'pirate_forms_three_inputs_wrap';
+				break;
 		}
 
 		switch ( $name ) {
