@@ -359,7 +359,6 @@ class PirateForms_Public {
 						'required'     => $required,
 						'required_msg' => $pirate_forms_options['pirateformsopt_label_err_no_checkbox'],
 						'type'         => 'checkbox',
-						'class'        => 'form-control',
 						'id'           => 'pirate-forms-contact-checkbox',
 						'wrap'         => array(
 							'type'  => 'div',
