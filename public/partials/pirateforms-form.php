@@ -100,7 +100,7 @@
 		echo $this->contact_subject;
 	}
 
-	if ( isset( $this->custom_fields ) ) {
+	if ( isset( $this->custom_fields ) && ! apply_filters( 'pirate_forms_show_custom_fields_last', false ) ) {
 		echo $this->custom_fields;
 	}
 	?>
@@ -117,6 +117,16 @@
 
 	if ( isset( $this->contact_checkbox ) ) {
 		echo $this->contact_checkbox;
+	}
+
+	if ( isset( $this->custom_fields ) && apply_filters( 'pirate_forms_show_custom_fields_last', false ) ) {
+	?>
+		<div class="pirate_forms_three_inputs_wrap <?php echo apply_filters( 'pirate_forms_wrap_classes', '', $this->pirate_forms_options ); ?>">
+	<?php
+		echo $this->custom_fields;
+	?>
+		</div>
+	<?php
 	}
 
 	if ( isset( $this->captcha ) ) {
