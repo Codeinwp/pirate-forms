@@ -124,6 +124,10 @@ class PirateForms_HTML {
 			$html       .= ' disabled';
 		}
 
+		if ( isset( $args['title'] ) && ! empty( $args['title'] ) ) {
+			$html       .= ' title="' . esc_attr( $args['title'] ) . '"';
+		}
+
 		return $html;
 	}
 
@@ -368,7 +372,8 @@ class PirateForms_HTML {
 			}
 			foreach ( $args['options'] as $key => $val ) {
 				$extra  = isset( $args['value'] ) && $key == $args['value'] ? 'checked' : '';
-				$html   .= '<input type="checkbox" ' . $extra . ' ' . $this->get_common( $args ) . ' value="' . esc_attr( $key ) . '"><label for="' . esc_attr( $args['id'] ) . '" class="pf-checkbox-label"><span>' . esc_attr( $val ) . '</span></label>';
+				// DO NOT escape $val because it can also have HTML markup.
+				$html   .= '<input type="checkbox" ' . $extra . ' ' . $this->get_common( $args ) . ' value="' . esc_attr( $key ) . '"><label for="' . esc_attr( $args['id'] ) . '" class="pf-checkbox-label"><span>' . $val . '</span></label>';
 			}
 		}
 		return $this->get_wrap( $args, $html );
