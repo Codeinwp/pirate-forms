@@ -61,11 +61,13 @@ class PirateForms_Admin {
 	 * @since    1.0.0
 	 */
 	public function enqueue_styles_and_scripts() {
-		global $pagenow;
+		$current_screen = get_current_screen();
 
-		if ( ! empty( $pagenow ) && ( $pagenow == 'options-general.php' || $pagenow == 'admin.php' )
-			 && isset( $_GET['page'] ) && $_GET['page'] == 'pirateforms-admin'
-		) {
+		if ( ! isset( $current_screen->id ) ) {
+			return;
+		}
+
+		if ( in_array( $current_screen->id, array( 'edit-pf_contact', 'edit-pf_form', 'pf_form', 'toplevel_page_pirateforms-admin' ) ) ) {
 			wp_enqueue_style( 'pirateforms_admin_styles', PIRATEFORMS_URL . 'admin/css/wp-admin.css', array(), $this->version );
 			wp_enqueue_script( 'pirateforms_scripts_admin', PIRATEFORMS_URL . 'admin/js/scripts-admin.js', array( 'jquery', 'jquery-ui-tooltip' ), $this->version );
 			wp_localize_script(
@@ -78,8 +80,8 @@ class PirateForms_Admin {
 				)
 			);
 		}
-		if ( isset( $_GET['page'] ) && $_GET['page'] == 'pf_more_features' ) {
 
+		if ( isset( $_GET['page'] ) && $_GET['page'] == 'pf_more_features' ) {
 			wp_enqueue_style( 'pirateforms_upsell_styles', PIRATEFORMS_URL . 'admin/css/upsell.css', array(), $this->version );
 		}
 	}
