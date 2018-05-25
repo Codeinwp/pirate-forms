@@ -70,6 +70,8 @@ class PirateForms_Gutenberg {
 				'html'  => $this->render_block(),
 			)
 		);
+
+		wp_enqueue_style( 'pirate-forms-block-css', PIRATEFORMS_URL . 'public/css/front.css' );
 	}
 
 	/**
