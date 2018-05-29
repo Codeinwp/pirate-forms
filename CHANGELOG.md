@@ -1,4 +1,8 @@
 
+ ### v2.4.1 - 2018-05-07 
+ **Changes:** 
+ * GDPR compliance
+ 
  ### v2.4.0 - 2018-04-02 
  **Changes:** 
  * Improves compatibility with various themes.
