@@ -189,7 +189,6 @@ class PirateForms_Public {
 		}
 		wp_enqueue_script( 'pirate_forms_scripts' );
 
-
 		$ajax       = 'yes' === $atts['ajax'];
 		$elements[] = array(
 			'type' => 'hidden',
