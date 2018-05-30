@@ -59,6 +59,10 @@ class pirate_forms_contact_widget extends WP_Widget {
 		}
 
 		$attributes = array( 'from' => 'widget' );
+		if ( isset( $instance['pirate_forms_widget_ajax'] ) && $instance['pirate_forms_widget_ajax'] ) {
+			$attributes['ajax'] = 'yes';
+		}
+
 		$attributes = apply_filters( 'pirate_forms_widget_attributes', $attributes, $instance );
 
 		$shortcode = '[pirate_forms';
@@ -82,6 +86,7 @@ class pirate_forms_contact_widget extends WP_Widget {
 		// Storing widget title as inputted option or category name
 		$instance['pirate_forms_widget_title']   = apply_filters( 'widget_title', sanitize_text_field( $new_instance['pirate_forms_widget_title'] ) );
 		$instance['pirate_forms_widget_subtext'] = $new_instance['pirate_forms_widget_subtext'];
+		$instance['pirate_forms_widget_ajax'] = ( isset( $new_instance['pirate_forms_widget_ajax'] ) ) ? (bool) $new_instance['pirate_forms_widget_ajax'] : false;
 
 		$instance = apply_filters( 'pirate_forms_widget_update', $instance, $new_instance );
 
@@ -96,6 +101,7 @@ class pirate_forms_contact_widget extends WP_Widget {
 	function form( $instance ) {
 		$pirate_forms_widget_title   = ! empty( $instance['pirate_forms_widget_title'] ) ? $instance['pirate_forms_widget_title'] : __( 'Title', 'pirate-forms' );
 		$pirate_forms_widget_subtext = ! empty( $instance['pirate_forms_widget_subtext'] ) ? $instance['pirate_forms_widget_subtext'] : __( 'Text above form', 'pirate-forms' );
+		$pirate_forms_widget_ajax   = ! empty( $instance['pirate_forms_widget_ajax'] ) && intval( $instance['pirate_forms_widget_ajax'] ) === 1 ? 'checked' : '';
 		?>
 		<p>
 			<label for="<?php echo $this->get_field_id( 'pirate_forms_widget_title' ); ?>"><?php _e( 'Title:', 'pirate-forms' ); ?></label>
@@ -107,6 +113,10 @@ class pirate_forms_contact_widget extends WP_Widget {
 			<label for="<?php echo $this->get_field_id( 'pirate_forms_widget_subtext' ); ?>"><?php _e( 'Subtext:', 'pirate-forms' ); ?></label>
 			<textarea class="widefat" id="<?php echo $this->get_field_id( 'pirate_forms_widget_subtext' ); ?>"
 					  name="<?php echo $this->get_field_name( 'pirate_forms_widget_subtext' ); ?>"><?php echo esc_attr( $pirate_forms_widget_subtext ); ?></textarea>
+		</p>
+		<p>
+			<label for="<?php echo $this->get_field_id( 'pirate_forms_widget_ajax' ); ?>"><?php _e( 'Submit form using Ajax:', 'pirate-forms' ); ?></label>
+			<input type="checkbox" id="<?php echo $this->get_field_id( 'pirate_forms_widget_ajax' ); ?>" name="<?php echo $this->get_field_name( 'pirate_forms_widget_ajax' ); ?>" value="1" <?php echo $pirate_forms_widget_ajax; ?>>
 		</p>
 		<?php
 		echo apply_filters( 'pirate_forms_widget_form', sprintf( '<p>%s</p>', sprintf( __( 'Need more forms ? Check our <a href="%s" target="_blank">extended</a> version for more features', 'pirate-forms' ), PIRATEFORMS_USELL_LINK ) ), $instance, $this );
