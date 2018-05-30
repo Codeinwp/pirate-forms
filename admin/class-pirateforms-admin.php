@@ -61,25 +61,28 @@ class PirateForms_Admin {
 	 * @since    1.0.0
 	 */
 	public function enqueue_styles_and_scripts() {
-		global $pagenow;
+		$current_screen = get_current_screen();
 
-		if ( ! empty( $pagenow ) && ( $pagenow == 'options-general.php' || $pagenow == 'admin.php' )
-			 && isset( $_GET['page'] ) && $_GET['page'] == 'pirateforms-admin'
-		) {
+		if ( ! isset( $current_screen->id ) ) {
+			return;
+		}
+
+		if ( in_array( $current_screen->id, array( 'edit-pf_contact', 'edit-pf_form', 'pf_form', 'toplevel_page_pirateforms-admin' ) ) ) {
 			wp_enqueue_style( 'pirateforms_admin_styles', PIRATEFORMS_URL . 'admin/css/wp-admin.css', array(), $this->version );
 			wp_enqueue_script( 'pirateforms_scripts_admin', PIRATEFORMS_URL . 'admin/js/scripts-admin.js', array( 'jquery', 'jquery-ui-tooltip' ), $this->version );
 			wp_localize_script(
 				'pirateforms_scripts_admin', 'cwp_top_ajaxload', array(
 					'ajaxurl' => admin_url( 'admin-ajax.php' ),
 					'nonce'   => wp_create_nonce( PIRATEFORMS_SLUG ),
+					'slug'    => PIRATEFORMS_SLUG,
 					'i10n'    => array(
 						'recaptcha' => __( 'Please specify the Site Key and Secret Key.', 'pirate-forms' ),
 					),
 				)
 			);
 		}
-		if ( isset( $_GET['page'] ) && $_GET['page'] == 'pf_more_features' ) {
 
+		if ( isset( $_GET['page'] ) && $_GET['page'] == 'pf_more_features' ) {
 			wp_enqueue_style( 'pirateforms_upsell_styles', PIRATEFORMS_URL . 'admin/css/upsell.css', array(), $this->version );
 		}
 	}
@@ -303,17 +306,18 @@ class PirateForms_Admin {
 									'value' => __( 'Store submissions in the database', 'pirate-forms' ),
 									'html'  => '<span class="dashicons dashicons-editor-help"></span>',
 									'desc'  => array(
-										'value' => __( 'Should the submissions be stored in the admin area? If chosen, contact form submissions will be saved under "All Entries" on the left (appears after this option is activated).', 'pirate-forms' ),
+										'value' => sprintf( '%s<br>%s', __( 'Should the submissions be stored in the admin area? If chosen, contact form submissions will be saved under "All Entries" on the left (appears after this option is activated).', 'pirate-forms' ), __( 'According to GDPR we recommend you to ask for consent in order to store user data', 'pirate-forms' ) ),
 										'class' => 'pirate_forms_option_description',
 									),
 								),
-								'default' => 'yes',
+								'default' => 'no',
 								'value'   => PirateForms_Util::get_option( 'pirateformsopt_store' ),
 								'wrap'    => array(
 									'type'  => 'div',
 									'class' => 'pirate-forms-grouped',
 								),
 								'options' => array( 'yes' => __( 'Yes', 'pirate-forms' ) ),
+								'title' => __( 'According to GDPR, we recommend you to ask for consent in order to store user data.', 'pirate-forms' ),
 							),
 							array(
 								'id'      => 'pirateformsopt_nonce',
@@ -512,6 +516,23 @@ class PirateForms_Admin {
 									'req' => __( 'Required', 'pirate-forms' ),
 								),
 							),
+							array(
+								'id'      => 'pirateformsopt_checkbox_field',
+								'type'    => 'select',
+								'label'   => array(
+									'value' => __( 'Checkbox', 'pirate-forms' ),
+								),
+								'value'   => PirateForms_Util::get_option( 'pirateformsopt_checkbox_field' ),
+								'wrap'    => array(
+									'type'  => 'div',
+									'class' => 'pirate-forms-grouped pirateformsopt_checkbox',
+								),
+								'options' => array(
+									''    => __( 'Do not display', 'pirate-forms' ),
+									'yes' => __( 'Display but not required', 'pirate-forms' ),
+									'req' => __( 'Required', 'pirate-forms' ),
+								),
+							),
 							/* Recaptcha */
 							array(
 								'id'      => 'pirateformsopt_recaptcha_field',
@@ -635,6 +656,24 @@ class PirateForms_Admin {
 								),
 							),
 							array(
+								'id'      => 'pirateformsopt_label_checkbox',
+								'type'    => 'wysiwyg',
+								'label'   => array(
+									'value' => __( 'Checkbox', 'pirate-forms' ),
+								),
+								'value'   => PirateForms_Util::get_option( 'pirateformsopt_label_checkbox' ),
+								'wrap'    => array(
+									'type'  => 'div',
+									'class' => 'pirate-forms-grouped',
+								),
+								'wysiwyg' => array(
+									'editor_class'  => 'pirate-forms-wysiwyg',
+									'quicktags' => false,
+									'teeny' => true,
+									'media_buttons' => false,
+								),
+							),
+							array(
 								'id'      => 'pirateformsopt_email_content',
 								'type'    => 'wysiwyg',
 								'label'   => array(
@@ -719,6 +758,19 @@ class PirateForms_Admin {
 								),
 								'default' => __( 'Please add an attachment', 'pirate-forms' ),
 								'value'   => PirateForms_Util::get_option( 'pirateformsopt_label_err_no_attachment' ),
+								'wrap'    => array(
+									'type'  => 'div',
+									'class' => 'pirate-forms-grouped',
+								),
+							),
+							array(
+								'id'      => 'pirateformsopt_label_err_no_checkbox',
+								'type'    => 'text',
+								'label'   => array(
+									'value' => __( 'Checkbox is not checked', 'pirate-forms' ),
+								),
+								'default' => __( 'Please select the checkbox', 'pirate-forms' ),
+								'value'   => PirateForms_Util::get_option( 'pirateformsopt_label_err_no_checkbox' ),
 								'wrap'    => array(
 									'type'  => 'div',
 									'class' => 'pirate-forms-grouped',
@@ -1028,6 +1080,48 @@ class PirateForms_Admin {
 		$options['pirateformsopt_attachment_field'] = 'no';
 
 		return $options;
+	}
+
+	/**
+	 * Show admin notices.
+	 */
+	public function admin_notices() {
+		$screen = get_current_screen();
+		if ( empty( $screen ) ) {
+			return;
+		}
+		if ( ! isset( $screen->base ) ) {
+			return;
+		}
+
+		if ( ! in_array( $screen->id, array( 'toplevel_page_pirateforms-admin' ) ) ) {
+			return;
+		}
+
+		$options = PirateForms_Util::get_option();
+
+		// check if store submissions is enabled without having a checkbox.
+		if ( 'yes' !== $options['pirateformsopt_store'] ) {
+			return;
+		}
+
+		if ( empty( $options['pirateformsopt_checkbox_field'] ) && false === ( $x = get_transient( 'pirate_forms_gdpr_notice0' ) ) ) {
+			echo sprintf( '<div data-dismissible="0" class="notice notice-warning pirateforms-notice pirateforms-notice-checkbox pirateforms-notice-gdpr is-dismissible"><p><strong>%s</strong></p></div>', __( 'According to GDPR we recommend you to ask for consent in order to store user data', 'pirate-forms' ) );
+		}
+	}
+
+	/**
+	 * Generic ajax handler.
+	 */
+	public function ajax() {
+		check_ajax_referer( PIRATEFORMS_SLUG, 'security' );
+
+		switch ( $_POST['_action'] ) {
+			case 'dismiss-notice':
+				set_transient( 'pirate_forms_gdpr_notice' . $_POST['id'], 'yes' );
+				break;
+		}
+		wp_die();
 	}
 
 	/**

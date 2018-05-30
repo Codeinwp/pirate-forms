@@ -90,6 +90,7 @@ This plugin started as a fork of https://wordpress.org/plugins/proper-contact-fo
 
 
 
+
 = How I can get support for this contact form plugin ? =
 
 You can learn more about PirateForms and ask for help by <a href="https://themeisle.com/contact/"  >visiting ThemeIsle website</a>.
@@ -246,6 +247,12 @@ You can follow the full documentation [here](http://docs.themeisle.com/article/4
  = How to send a copy of the sent email to the sender. = 
  [https://docs.themeisle.com/article/837-how-to-send-a-copy-of-the-sent-email-to-the-sender](https://docs.themeisle.com/article/837-how-to-send-a-copy-of-the-sent-email-to-the-sender) 
 
+ = How to add a multiple choice field in a form = 
+ [https://docs.themeisle.com/article/866-how-to-add-a-multiple-choice-field-in-a-form](https://docs.themeisle.com/article/866-how-to-add-a-multiple-choice-field-in-a-form) 
+
+ = How to add a select field in a form = 
+ [https://docs.themeisle.com/article/867-how-to-add-a-select-field-in-a-form](https://docs.themeisle.com/article/867-how-to-add-a-select-field-in-a-form) 
+
  == Installation ==
 
 Activating the Pirate Contact Form plugin is just like any other plugin. If you've uploaded the plugin package to your server already, skip to step 5 below:
@@ -267,6 +274,11 @@ Activating the Pirate Contact Form plugin is just like any other plugin. If you'
 4. Screenshot 4. Enabling SMTP
 
 == Changelog ==
+= 2.4.1 - 2018-05-07  = 
+
+* GDPR compliance
+
+
 = 2.4.0 - 2018-04-02  = 
 
 * Improves compatibility with various themes.
