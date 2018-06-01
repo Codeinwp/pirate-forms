@@ -128,6 +128,7 @@ class Test_Pirate_Forms extends WP_UnitTestCase {
 	 */
 	public function phpmailer_gdpr_mail_not_checked( $phpmailer ) {
 		$this->assertEquals( 'wowowowo: **', $phpmailer->Body );
+	}
 
 	/**
 	 * Testing WP mail
