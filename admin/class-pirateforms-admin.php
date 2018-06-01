@@ -318,6 +318,26 @@ class PirateForms_Admin {
 								'title' => __( 'According to GDPR, we recommend you to ask for consent in order to store user data.', 'pirate-forms' ),
 							),
 							array(
+								'id'      => 'pirateformsopt_store_ip',
+								'type'    => 'checkbox',
+								'label'   => array(
+									'value' => __( 'Store IP of user', 'pirate-forms' ),
+									'html'  => '<span class="dashicons dashicons-editor-help"></span>',
+									'desc'  => array(
+										'value' => sprintf( '%s<br>%s', __( 'Should the IP of the customer be stored and displayed in the email content?', 'pirate-forms' ), __( 'According to GDPR we recommend you to ask for consent in order to store user data', 'pirate-forms' ) ),
+										'class' => 'pirate_forms_option_description',
+									),
+								),
+								'default' => 'no',
+								'value'   => PirateForms_Util::get_option( 'pirateformsopt_store_ip' ),
+								'wrap'    => array(
+									'type'  => 'div',
+									'class' => 'pirate-forms-grouped',
+								),
+								'options' => array( 'yes' => __( 'Yes', 'pirate-forms' ) ),
+								'title' => __( 'According to GDPR, we recommend you to ask for consent in order to store user data.', 'pirate-forms' ),
+							),
+							array(
 								'id'      => 'pirateformsopt_nonce',
 								'type'    => 'checkbox',
 								'label'   => array(
