@@ -10,7 +10,13 @@ class PirateForms_Util {
 	const MAGIC_TAG_PREFIX      = '{';
 	const MAGIC_TAG_POSTFIX     = '}';
 
-	private static $DEFAULT_FIELDS		= array( 'name', 'email', 'subject', 'message', 'checkbox' );
+	/**
+	 * The default fields used by the plugin.
+	 *
+	 * @access   private
+	 * @var      array    $DEFAULT_FIELDS    The default fields used by the plugin.
+	 */
+	private static $DEFAULT_FIELDS      = array( 'name', 'email', 'subject', 'message', 'checkbox' );
 
 	/**
 	 * Return the table.
