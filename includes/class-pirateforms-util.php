@@ -251,6 +251,9 @@ class PirateForms_Util {
 
 		$elements           = self::$DEFAULT_FIELDS;
 		foreach ( $elements as $k ) {
+			if ( ! array_key_exists( 'pirateformsopt_' . $k . '_field', $pirate_forms_options ) ) {
+				continue;
+			}
 			$display        = $pirate_forms_options[ 'pirateformsopt_' . $k . '_field' ];
 			if ( ! $first_time && empty( $display ) ) {
 				continue;
@@ -295,6 +298,9 @@ class PirateForms_Util {
 
 		$elements           = self::$DEFAULT_FIELDS;
 		foreach ( $elements as $k ) {
+			if ( ! array_key_exists( 'pirateformsopt_label_' . $k, $pirate_forms_options ) ) {
+				continue;
+			}
 			$val            = $pirate_forms_options[ 'pirateformsopt_label_' . $k ];
 			if ( empty( $val ) ) {
 				$val        = ucwords( $k );
