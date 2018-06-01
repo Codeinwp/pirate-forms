@@ -10,6 +10,8 @@ class PirateForms_Util {
 	const MAGIC_TAG_PREFIX      = '{';
 	const MAGIC_TAG_POSTFIX     = '}';
 
+	private static $DEFAULT_FIELDS		= array( 'name', 'email', 'subject', 'message', 'checkbox' );
+
 	/**
 	 * Return the table.
 	 *
@@ -241,7 +243,7 @@ class PirateForms_Util {
 		$body['body']       = array();
 		$pirate_forms_options = PirateForms_Util::get_form_options( $id );
 
-		$elements           = array( 'name', 'email', 'subject', 'message' );
+		$elements           = self::$DEFAULT_FIELDS;
 		foreach ( $elements as $k ) {
 			$display        = $pirate_forms_options[ 'pirateformsopt_' . $k . '_field' ];
 			if ( ! $first_time && empty( $display ) ) {
@@ -285,7 +287,7 @@ class PirateForms_Util {
 	public static function get_magic_tags( $id = null ) {
 		$pirate_forms_options = PirateForms_Util::get_form_options( $id );
 
-		$elements           = array( 'name', 'email', 'subject', 'message' );
+		$elements           = self::$DEFAULT_FIELDS;
 		foreach ( $elements as $k ) {
 			$val            = $pirate_forms_options[ 'pirateformsopt_label_' . $k ];
 			if ( empty( $val ) ) {

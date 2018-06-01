@@ -962,7 +962,7 @@ class PirateForms_Public {
 		$contact_name    = null;
 		$contact_subject = null;
 		$message         = null;
-		$fields          = array( 'name', 'email', 'subject', 'message' );
+		$fields          = array( 'name', 'email', 'subject', 'message', 'checkbox' );
 
 		foreach ( $fields as $field ) {
 			$value = isset( $_POST[ 'pirate-forms-contact-' . $field ] ) ? sanitize_text_field( trim( $_POST[ 'pirate-forms-contact-' . $field ] ) ) : '';
