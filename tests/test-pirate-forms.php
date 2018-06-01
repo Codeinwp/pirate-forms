@@ -19,6 +19,121 @@ class Test_Pirate_Forms extends WP_UnitTestCase {
 	 *
 	 * @access public
 	 */
+	public function test_gdpr_checkbox_checked() {
+		do_action( 'admin_head' );
+
+		$settings   = PirateForms_Util::get_option();
+
+		$settings['pirateformsopt_nonce']   = 'no';
+		$settings['pirateformsopt_recaptcha_field']   = 'no';
+		$settings['pirateformsopt_store']   = 'yes';
+		$settings['pirateformsopt_checkbox_field']   = 'yes';
+		$settings['pirateformsopt_label_checkbox']   = 'wowowowo';
+		$settings['pirateformsopt_email_content']   = 'wowowowo: *{checkbox}*';
+
+		PirateForms_Util::set_option( $settings );
+
+		$settings   = PirateForms_Util::get_option();
+
+		$this->assertEquals( 'yes', $settings['pirateformsopt_store'] );
+		$this->assertEquals( 'yes', $settings['pirateformsopt_checkbox_field'] );
+
+		$_POST  = array(
+			'honeypot'                  => '',
+			'pirate-forms-contact-name' => 'x',
+			'pirate-forms-contact-email' => 'x@x.com',
+			'pirate-forms-contact-subject' => 'x',
+			'pirate-forms-contact-message' => 'x',
+			'pirate-forms-contact-checkbox' => 'yes',
+		);
+		add_action( 'phpmailer_init', array( $this, 'phpmailer_gdpr_mail_checked' ), 999 );
+		do_action( 'pirate_unittesting_template_redirect' );
+
+		$posts  = get_posts(
+			array(
+				'post_type'     => 'pf_contact',
+				'post_author'  => 1,
+				'post_status'  => 'private',
+				'numberposts'   => 1,
+				'fields'        => 'ids',
+			)
+		);
+
+		$this->assertEquals( 1, count( $posts ) );
+
+	}
+
+	/**
+	 * Testing WP mail
+	 *
+	 * @access public
+	 */
+	public function test_gdpr_checkbox_not_checked() {
+		do_action( 'admin_head' );
+
+		$settings   = PirateForms_Util::get_option();
+
+		$settings['pirateformsopt_nonce']   = 'no';
+		$settings['pirateformsopt_recaptcha_field']   = 'no';
+		$settings['pirateformsopt_store']   = 'yes';
+		$settings['pirateformsopt_checkbox_field']   = 'yes';
+		$settings['pirateformsopt_label_checkbox']   = 'wowowowo';
+		$settings['pirateformsopt_email_content']   = 'wowowowo: *{checkbox}*';
+
+		PirateForms_Util::set_option( $settings );
+
+		$settings   = PirateForms_Util::get_option();
+
+		$this->assertEquals( 'yes', $settings['pirateformsopt_store'] );
+		$this->assertEquals( 'yes', $settings['pirateformsopt_checkbox_field'] );
+
+		$_POST  = array(
+			'honeypot'                  => '',
+			'pirate-forms-contact-name' => 'x',
+			'pirate-forms-contact-email' => 'x@x.com',
+			'pirate-forms-contact-subject' => 'x',
+			'pirate-forms-contact-message' => 'x',
+			'pirate-forms-contact-checkbox' => '',
+		);
+		add_action( 'phpmailer_init', array( $this, 'phpmailer_gdpr_mail_not_checked' ), 999 );
+		do_action( 'pirate_unittesting_template_redirect' );
+
+		$posts  = get_posts(
+			array(
+				'post_type'     => 'pf_contact',
+				'post_author'  => 1,
+				'post_status'  => 'private',
+				'numberposts'   => 1,
+				'fields'        => 'ids',
+			)
+		);
+
+		$this->assertEquals( 1, count( $posts ) );
+
+	}
+
+	/**
+	 * Checking phpmailer for GDPR when checkbox is checked.
+	 *
+	 * @access public
+	 */
+	public function phpmailer_gdpr_mail_checked( $phpmailer ) {
+		$this->assertEquals( 'wowowowo: *yes*', $phpmailer->Body );
+	}
+
+	/**
+	 * Checking phpmailer for GDPR when checkbox is not checked.
+	 *
+	 * @access public
+	 */
+	public function phpmailer_gdpr_mail_not_checked( $phpmailer ) {
+		$this->assertEquals( 'wowowowo: **', $phpmailer->Body );
+
+	/**
+	 * Testing WP mail
+	 *
+	 * @access public
+	 */
 	public function test_wp_mail() {
 		do_action( 'admin_head' );
 
