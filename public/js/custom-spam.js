@@ -28,7 +28,7 @@
     function onWindowLoad() {
         // fired when a saved form is loaded in gutenberg.
         if(pf.spam.gutenberg === 1){
-            jQuery('.pirate-forms-maps-custom').each(function(i, o){
+            jQuery('.pirate-forms-maps-custom').each(function(i){
                 addCustomSpam(i, jQuery(this));
             });
         }
