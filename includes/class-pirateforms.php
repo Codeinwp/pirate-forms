@@ -92,6 +92,7 @@ class PirateForms {
 
 		$this->loader->add_action( 'enqueue_block_editor_assets', $gutenberg, 'enqueue_block_editor_assets' );
 		$this->loader->add_action( 'init', $gutenberg, 'register_block' );
+		$this->loader->add_action( 'rest_api_init', $gutenberg, 'register_endpoints' );
 	}
 
 	/**
