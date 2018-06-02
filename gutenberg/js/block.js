@@ -9,6 +9,7 @@ const {
 } = wp.editor;
 
 const { 
+    ToggleControl,
     SelectControl,
     Spinner,
 } = wp.components;
@@ -20,7 +21,7 @@ registerBlockType( 'pirate-forms/form', {
 	icon: 'index-card',
 	category: 'common',
 	supports: {
-		html: true,
+		html: false,
 	},
     attributes: {
             // contains the html of the form.
@@ -31,6 +32,11 @@ registerBlockType( 'pirate-forms/form', {
             form_id: {
                 type: 'number',
                 default: -1,
+            },
+            // indicates whether this is an ajax form.
+            ajax: {
+                type: 'string',
+                default: 'no',
             },
             // the label to show in gutenberg.
             label: {
@@ -54,6 +60,13 @@ registerBlockType( 'pirate-forms/form', {
                         }
                         props.setAttributes( { html: data.html, label: '', spinner: 'pf-form-spinner' } );
                         jQuery('.pirate-forms-maps-custom').trigger('addCustomSpam');
+                        
+                        // when the form is just added, captcha will not show.
+                        jQuery('.pirate-forms-google-recaptcha').each(function(){
+                            if(jQuery(this).html().length === 0){
+                                jQuery(this).html(__('Save and reload the page to see the CAPTCHA'));
+                            }
+                        });
                     }
                 );
         };
@@ -67,6 +80,11 @@ registerBlockType( 'pirate-forms/form', {
             if(value > -1){
                 getFormHTML(value);
             }
+            return null;
+        }
+
+        const onChangeAjax = value => {
+            props.setAttributes( { ajax: ( value === true ? 'yes' : 'no' ) } );
             return null;
         }
 
@@ -84,6 +102,11 @@ registerBlockType( 'pirate-forms/form', {
                         options={pfjs.forms}
                         value={props.attributes.form_id}
                         onChange={ onChangeForm }
+                    />
+                    <ToggleControl
+                        label={__('Use Ajax to submit form')}
+                        checked={props.attributes.ajax == 'yes'}
+                        onChange={ onChangeAjax }
                     />
                     <div className={props.attributes.spinner}>
                         <Spinner />

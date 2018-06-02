@@ -76,12 +76,18 @@ class PirateForms_Gutenberg {
 		wp_localize_script(
 			'pirate-forms-custom-spam', 'pf', array(
 				'spam'   => array(
-					'label' => __( 'I\'m human!', 'pirate-forms' ),
+					'label' => apply_filters( 'pirate_forms_custom_spam_label', __( 'I\'m human!', 'pirate-forms' ) ),
 					'value' => wp_create_nonce( PIRATEFORMS_NAME ),
 					'gutenberg' => 1,
 				),
 			)
 		);
+
+		$language = get_locale();
+		if ( defined( 'POLYLANG_VERSION' ) && function_exists( 'pll_current_language' ) ) {
+			$language = pll_current_language();
+		}
+		wp_enqueue_script( 'recaptcha', "https://www.google.com/recaptcha/api.js?hl=$language" );
 
 		wp_enqueue_style( 'pirate-forms-front-css', PIRATEFORMS_URL . 'public/css/front.css' );
 		wp_enqueue_style( 'pirate-forms-block-css', PIRATEFORMS_URL . 'gutenberg/css/block.css' );
@@ -99,15 +105,29 @@ class PirateForms_Gutenberg {
 	}
 
 	/**
-	 * Render the default pirate form block.
+	 * Render the pirate form block.
 	 */
 	function render_block( $atts = null ) {
-		$id         = $atts;
-		if ( is_array( $atts ) && $atts && array_key_exists( 'form_id', $atts ) ) {
-			$id     = $atts['form_id'];
+		$arributes  = array();
+		if ( is_array( $atts ) && $atts ) {
+			if ( array_key_exists( 'form_id', $atts ) ) {
+				$attributes['id'] = $atts['form_id'];
+			}
+			if ( array_key_exists( 'ajax', $atts ) ) {
+				$attributes['ajax'] = $atts['ajax'];
+			}
+		} else {
+			$attributes['id'] = $atts;
 		}
-		$shortcode  = '[pirate_forms ' . ( $id ? "id=$id" : '' ) . ']';
-		return do_shortcode( $shortcode );
+
+		$params     = '';
+		if ( $attributes ) {
+			foreach ( $attributes as $key => $value ) {
+				$params .= " $key=$value";
+			}
+		}
+
+		return do_shortcode( "[pirate_forms $params]" );
 	}
 
 	/**

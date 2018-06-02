@@ -75,6 +75,7 @@ var _wp$blocks = wp.blocks,
     Editable = _wp$blocks.Editable;
 var InspectorControls = wp.editor.InspectorControls;
 var _wp$components = wp.components,
+    ToggleControl = _wp$components.ToggleControl,
     SelectControl = _wp$components.SelectControl,
     Spinner = _wp$components.Spinner;
 
@@ -86,24 +87,29 @@ registerBlockType('pirate-forms/form', {
     icon: 'index-card',
     category: 'common',
     supports: {
-        html: true
+        html: false
     },
     attributes: {
+        // contains the html of the form.
         html: {
             type: 'string'
         },
-        status: {
-            type: 'string',
-            default: 'block-selected'
-        },
+        // contains the form id of the form.
         form_id: {
             type: 'number',
             default: -1
         },
+        // indicates whether this is an ajax form.
+        ajax: {
+            type: 'string',
+            default: 'no'
+        },
+        // the label to show in gutenberg.
         label: {
             type: 'string',
             default: __('Loading Form') + '...'
         },
+        // the class of the spinner container.
         spinner: {
             type: 'string',
             default: 'pf-form-spinner'
@@ -111,13 +117,20 @@ registerBlockType('pirate-forms/form', {
     },
     edit: function edit(props) {
         var getFormHTML = function getFormHTML($id) {
-            props.setAttributes({ status: 'html-pending', spinner: 'pf-form-spinner pf-form-loading' });
+            props.setAttributes({ spinner: 'pf-form-spinner pf-form-loading' });
             wp.apiRequest({ path: pfjs.url.replace('#', $id) }).then(function (data) {
                 if (_this.unmounting) {
                     return data;
                 }
-                props.setAttributes({ html: data.html, status: 'html-received', label: '', spinner: 'pf-form-spinner' });
+                props.setAttributes({ html: data.html, label: '', spinner: 'pf-form-spinner' });
                 jQuery('.pirate-forms-maps-custom').trigger('addCustomSpam');
+
+                // when the form is just added, captcha will not show.
+                jQuery('.pirate-forms-google-recaptcha').each(function () {
+                    if (jQuery(this).html().length === 0) {
+                        jQuery(this).html(__('Save and reload the page to see the CAPTCHA'));
+                    }
+                });
             });
         };
 
@@ -130,6 +143,11 @@ registerBlockType('pirate-forms/form', {
             if (value > -1) {
                 getFormHTML(value);
             }
+            return null;
+        };
+
+        var onChangeAjax = function onChangeAjax(value) {
+            props.setAttributes({ ajax: value === true ? 'yes' : 'no' });
             return null;
         };
 
@@ -150,6 +168,11 @@ registerBlockType('pirate-forms/form', {
                 options: pfjs.forms,
                 value: props.attributes.form_id,
                 onChange: onChangeForm
+            }),
+            wp.element.createElement(ToggleControl, {
+                label: __('Use Ajax to submit form'),
+                checked: props.attributes.ajax == 'yes',
+                onChange: onChangeAjax
             }),
             wp.element.createElement(
                 'div',
