@@ -113,16 +113,29 @@ registerBlockType('pirate-forms/form', {
         spinner: {
             type: 'string',
             default: 'pf-form-spinner'
+        },
+        // link to settings - name of the link.
+        link: {
+            type: 'string',
+            default: ''
+        },
+        // link to settings.
+        url: {
+            type: 'string',
+            default: ''
         }
     },
     edit: function edit(props) {
         var getFormHTML = function getFormHTML($id) {
-            props.setAttributes({ spinner: 'pf-form-spinner pf-form-loading' });
+            props.setAttributes({ spinner: 'pf-form-spinner pf-form-loading', link: '' });
             wp.apiRequest({ path: pfjs.url.replace('#', $id) }).then(function (data) {
                 if (_this.unmounting) {
                     return data;
                 }
-                props.setAttributes({ html: data.html, label: '', spinner: 'pf-form-spinner' });
+
+                var $url = $id == 0 ? pfjs.settings.default : pfjs.settings.form.replace('#', $id);
+
+                props.setAttributes({ html: data.html, label: '', spinner: 'pf-form-spinner', url: $url, link: __('Modify Settings') });
                 jQuery('.pirate-forms-maps-custom').trigger('addCustomSpam');
 
                 // when the form is just added, captcha will not show.
@@ -174,6 +187,15 @@ registerBlockType('pirate-forms/form', {
                 checked: props.attributes.ajax == 'yes',
                 onChange: onChangeAjax
             }),
+            wp.element.createElement(
+                'div',
+                null,
+                wp.element.createElement(
+                    'a',
+                    { href: props.attributes.url, target: '_new' },
+                    props.attributes.link
+                )
+            ),
             wp.element.createElement(
                 'div',
                 { className: props.attributes.spinner },

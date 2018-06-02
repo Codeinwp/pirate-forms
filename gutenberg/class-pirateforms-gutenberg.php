@@ -69,6 +69,10 @@ class PirateForms_Gutenberg {
 			'pirate-forms-block', 'pfjs', array(
 				'url'  => PIRATEFORMS_SLUG . '/v' . intval( PIRATEFORMS_API_VERSION ) . '/get_form/#/',
 				'forms' => $this->get_forms( true ),
+				'settings'  => array(
+					'default'   => admin_url( 'admin.php?page=pirateforms-admin' ),
+					'form'      => admin_url( 'post.php?post=#&action=edit' ),
+				),
 			)
 		);
 
