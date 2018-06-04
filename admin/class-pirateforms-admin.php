@@ -1137,4 +1137,112 @@ class PirateForms_Admin {
 
 		return $body;
 	}
+
+	/**
+	 * Register the private data exporter.
+	 */
+	public function register_private_data_exporter( $exporters ) {
+		$exporters[ PIRATEFORMS_SLUG ] = array(
+			'exporter_friendly_name' => PIRATEFORMS_NAME,
+			'callback' => array( $this, 'private_data_exporter' ),
+		);
+		return $exporters;
+	}
+
+	/**
+	 * Export the private data.
+	 */
+	public function private_data_exporter( $email_address, $page = 1 ) {
+		$export_items = array();
+		$query  = new WP_Query(
+			array(
+				'post_type'     => 'pf_contact',
+				'numberposts'   => 300,
+				'post_status'   => array( 'publish', 'private' ),
+				'meta_query'    => array(
+					array(
+						'key'   => 'Contact email',
+						'value' => $email_address,
+					),
+				),
+			)
+		);
+
+		if ( $query->have_posts() ) {
+			while ( $query->have_posts() ) {
+				$query->the_post();
+
+				$data       = array(
+					array(
+						'name'  => __( 'Email content', 'pirate-forms' ),
+						'value' => nl2br( strip_tags( $query->post->post_content ) ),
+					),
+				);
+
+				$export_items[] = array(
+					'group_id' => 'pf_contact',
+					'group_label' => PIRATEFORMS_NAME,
+					'item_id' => "pf_contact-{$query->post->ID}",
+					'data' => $data,
+				);
+			}
+		}
+
+		return array(
+			'data'  => $export_items,
+			'done'  => true,
+		);
+	}
+
+	/**
+	 * Register the private data eraser.
+	 */
+	public function register_private_data_eraser( $erasers ) {
+		$erasers[ PIRATEFORMS_SLUG ] = array(
+			'eraser_friendly_name' => PIRATEFORMS_NAME,
+			'callback' => array( $this, 'private_data_eraser' ),
+		);
+		return $erasers;
+	}
+
+	/**
+	 * Erase the private data.
+	 */
+	public function private_data_eraser( $email_address, $page = 1 ) {
+		$query  = new WP_Query(
+			array(
+				'post_type'     => 'pf_contact',
+				'numberposts'   => 300,
+				'post_status'   => array( 'publish', 'private' ),
+				'fields'        => 'ids',
+				'meta_query'    => array(
+					array(
+						'key'   => 'Contact email',
+						'value' => $email_address,
+					),
+				),
+			)
+		);
+
+		$retained   = array();
+		$removed    = 0;
+
+		if ( $query->have_posts() ) {
+			while ( $query->have_posts() ) {
+				$query->the_post();
+				if ( false !== ( $post_id = wp_delete_post( $query->post, true ) ) ) {
+					$removed++;
+				} else {
+					$retained[] = $query->post;
+				}
+			}
+		}
+
+		return array(
+			'items_removed' => $removed,
+			'items_retained' => ! empty( $retained ) ? count( $retained ) : false,
+			'messages'  => ! empty( $retained ) ? array(sprintf( __( 'Unable to delete post(s) %s', 'pirate-forms' ), print_r( $retained, true ) )) : array(),
+			'done'  => true,
+		);
+	}
 }
