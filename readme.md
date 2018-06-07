@@ -50,10 +50,21 @@ You can keep all the contacts in an archive by saving their e-mail addresses. Pi
 
 A simple to use contact form plugin for creating a clean contact form using the [pirate_forms] shortcode or the 'Pirate Forms' form widget.
 
+- Provides option to allow submitting the form using AJAX
+
+Standard contact forms work just fine, but you can make them nicer by using AJAX to submit the form data in the background.
+
+Pirate Forms allows you to take advantage of this great feature using the [pirate_forms ajax="yes"] shortcode or the 'Submit form using Ajax' option in the Pirate Forms widget.
+
 - What PirateForms isn't for now
 
-
 This is not a form maker or drag & drop builder plugin nor "the best contact form plugin", you cannot add new fields or create multiple forms (subscription forms, payment, order, feedback or quote), there are some great alternatives out there for those like : Caldera Forms or Ninja Forms.
+
+- Privacy Notices
+
+If you activate the "Store submissions in the database" feature in the Pirate Forms, the contact form submitter’s personal data, including their IP address, will be stored in the database.
+
+Thus, confirming the provider’s privacy policy is recommended.
 
  = See how Pirate Forms can integrate with your website  =
 
