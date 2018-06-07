@@ -73,6 +73,14 @@ class PirateForms_Gutenberg {
 					'default'   => admin_url( 'admin.php?page=pirateforms-admin' ),
 					'form'      => admin_url( 'post.php?post=#&action=edit' ),
 				),
+				'i10n'  => array(
+					'captcha'   => __( 'Save and reload the page to see the CAPTCHA', 'pirate-forms' ),
+					'reload'    => __( 'Some forms have changed since the last time this post was saved. We have reloaded those forms. You may need to save the post again.', 'pirate-forms' ),
+					'settings'  => __( 'Modify Settings', 'pirate-forms' ),
+					'select_form'   => __( 'Select Form', 'pirate-forms' ),
+					'select_ajax'   => __( 'Use Ajax to submit form', 'pirate-forms' ),
+					'plugin'    => PIRATEFORMS_NAME,
+				),
 			)
 		);
 
