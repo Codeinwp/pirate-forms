@@ -103,6 +103,7 @@ This plugin started as a fork of https://wordpress.org/plugins/proper-contact-fo
 
 
 
+
 = How I can get support for this contact form plugin ? =
 
 You can learn more about PirateForms and ask for help by <a href="https://themeisle.com/contact/"  >visiting ThemeIsle website</a>.
@@ -265,6 +266,12 @@ You can follow the full documentation [here](http://docs.themeisle.com/article/4
  = How to add a select field in a form = 
  [https://docs.themeisle.com/article/867-how-to-add-a-select-field-in-a-form](https://docs.themeisle.com/article/867-how-to-add-a-select-field-in-a-form) 
 
+ = GDPR and Pirate Forms = 
+ [https://docs.themeisle.com/article/886-gdpr-and-pirate-forms](https://docs.themeisle.com/article/886-gdpr-and-pirate-forms) 
+
+ = How to enable form submission without reloading the page using AJAX = 
+ [https://docs.themeisle.com/article/909-how-to-enable-form-submission-without-reloading-the-page-using-ajax](https://docs.themeisle.com/article/909-how-to-enable-form-submission-without-reloading-the-page-using-ajax) 
+
  == Installation ==
 
 Activating the Pirate Contact Form plugin is just like any other plugin. If you've uploaded the plugin package to your server already, skip to step 5 below:
@@ -286,6 +293,14 @@ Activating the Pirate Contact Form plugin is just like any other plugin. If you'
 4. Screenshot 4. Enabling SMTP
 
 == Changelog ==
+= 2.4.2 - 2018-06-07  = 
+
+* NEW support for submitting Ajax forms with [pirate_forms ajax="yes"]
+* Added compatibility with WordPress 4.9.6 Export and Erase Personal Data options
+* Fixed issue with form caused by the reCaptcha
+* Fixed compatibility issues with the wpDataTables Lite plugin
+
+
 = 2.4.1 - 2018-05-07  = 
 
 * GDPR compliance
