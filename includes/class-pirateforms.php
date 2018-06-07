@@ -69,7 +69,7 @@ class PirateForms {
 	public function __construct() {
 
 		$this->plugin_name = 'pirateforms';
-		$this->version = '2.4.1';
+		$this->version = '2.4.2';
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -130,6 +130,10 @@ class PirateForms {
 	private function define_common_hooks() {
 		$this->loader->add_action( 'init', $this, 'register_content_type', 10 );
 		$this->loader->add_filter( 'pirate_forms_version_supports', $this, 'version_supports' );
+
+		if ( PIRATEFORMS_DEBUG ) {
+			$this->loader->add_action( 'themeisle_log_event', $this, 'themeisle_log_event_debug', 10, 5 );
+		}
 	}
 
 	/**
@@ -160,6 +164,8 @@ class PirateForms {
 
 		$this->loader->add_filter( 'manage_pf_contact_posts_columns', $plugin_admin, 'manage_contact_posts_columns', PHP_INT_MAX );
 		$this->loader->add_filter( 'manage_pf_contact_posts_custom_column', $plugin_admin, 'manage_contact_posts_custom_column', 10, 2 );
+		$this->loader->add_filter( 'wp_privacy_personal_data_exporters', $plugin_admin, 'register_private_data_exporter', 10 );
+		$this->loader->add_filter( 'wp_privacy_personal_data_erasers', $plugin_admin, 'register_private_data_eraser', 10 );
 
 	}
 
@@ -187,6 +193,8 @@ class PirateForms {
 
 		$this->loader->add_filter( 'widget_text', $plugin_public, 'widget_text_filter', 9 );
 		$this->loader->add_filter( 'pirate_forms_public_controls', $plugin_public, 'compatibility_class', 9 );
+
+		$this->loader->add_action( 'rest_api_init', $plugin_public, 'register_endpoint' );
 
 		/**
 		 * SDK tweaks.
@@ -285,5 +293,12 @@ class PirateForms {
 	 */
 	public function version_supports( $null = null ) {
 		return array( 'wysiwyg' );
+	}
+
+	/**
+	 * For local testing, overrides the 'themeisle_log_event' hook and redirects to error.log.
+	 */
+	final function themeisle_log_event_debug( $name, $message, $type, $file, $line ) {
+		error_log( sprintf( '%s (%s): %s in %s:%s', $name, $type, $message, $file, $line ) );
 	}
 }
