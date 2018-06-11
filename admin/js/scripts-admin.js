@@ -2,7 +2,7 @@
 /* global console */
 /* global tinyMCE */
 
-(function($, cwp_top_ajaxload){
+(function($, pf){
 
     $(document).ready(function() {
         initAll();
@@ -48,10 +48,10 @@
             startAjaxIntro();
             $.ajax({
                 type: 'POST',
-                url: cwp_top_ajaxload.ajaxurl,
+                url: pf.ajaxurl,
                 data: {
                     action      : 'pirate_forms_test',
-                    security    : cwp_top_ajaxload.nonce
+                    security    : pf.nonce
                 },
                 success: function (data) {
                     $('.pirate-forms-test-message').html(data.data.message);
@@ -66,7 +66,7 @@
 
         function cwpTopUpdateForm() {
             if($('#pirateformsopt_recaptcha_fieldyes').is(':checked') && ($('#pirateformsopt_recaptcha_sitekey').val() === '' || $('#pirateformsopt_recaptcha_secretkey').val() === '')){
-                window.alert(cwp_top_ajaxload.i10n.recaptcha);
+                window.alert(pf.i10n.recaptcha);
                 return;
             }
 
@@ -76,12 +76,12 @@
 
             $.ajax({
                 type: 'POST',
-                url: cwp_top_ajaxload.ajaxurl,
+                url: pf.ajaxurl,
 
                 data: {
                     action      : 'pirate_forms_save',
                     dataSent    : data,
-                    security    : cwp_top_ajaxload.nonce
+                    security    : pf.nonce
                 },
                 success: function (response) {
                     console.log(response);
@@ -153,13 +153,13 @@
 
         $('.pirateforms-notice-gdpr.is-dismissible').on('click', '.notice-dismiss', function(){
             $.ajax({
-                url         : cwp_top_ajaxload.ajaxurl,
+                url         : pf.ajaxurl,
                 type        : 'POST',
                 data        : {
                     id          : $(this).parent().attr('data-dismissible'),
                     _action     : 'dismiss-notice',
-                    security    : cwp_top_ajaxload.nonce,
-                    action      : cwp_top_ajaxload.slug
+                    security    : pf.nonce,
+                    action      : pf.slug
                 }
            });
         });
