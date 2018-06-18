@@ -11,6 +11,14 @@ class PirateForms_Util {
 	const MAGIC_TAG_POSTFIX     = '}';
 
 	/**
+	 * The default fields used by the plugin.
+	 *
+	 * @access   private
+	 * @var      array    $DEFAULT_FIELDS    The default fields used by the plugin.
+	 */
+	private static $DEFAULT_FIELDS      = array( 'name', 'email', 'subject', 'message', 'checkbox' );
+
+	/**
 	 * Return the table.
 	 *
 	 * @since    1.0.0
@@ -241,8 +249,11 @@ class PirateForms_Util {
 		$body['body']       = array();
 		$pirate_forms_options = PirateForms_Util::get_form_options( $id );
 
-		$elements           = array( 'name', 'email', 'subject', 'message' );
+		$elements           = self::$DEFAULT_FIELDS;
 		foreach ( $elements as $k ) {
+			if ( is_array( $pirate_forms_options ) && ! array_key_exists( 'pirateformsopt_' . $k . '_field', $pirate_forms_options ) ) {
+				continue;
+			}
 			$display        = $pirate_forms_options[ 'pirateformsopt_' . $k . '_field' ];
 			if ( ! $first_time && empty( $display ) ) {
 				continue;
@@ -285,8 +296,11 @@ class PirateForms_Util {
 	public static function get_magic_tags( $id = null ) {
 		$pirate_forms_options = PirateForms_Util::get_form_options( $id );
 
-		$elements           = array( 'name', 'email', 'subject', 'message' );
+		$elements           = self::$DEFAULT_FIELDS;
 		foreach ( $elements as $k ) {
+			if ( is_array( $pirate_forms_options ) && ! array_key_exists( 'pirateformsopt_label_' . $k, $pirate_forms_options ) ) {
+				continue;
+			}
 			$val            = $pirate_forms_options[ 'pirateformsopt_label_' . $k ];
 			if ( empty( $val ) ) {
 				$val        = ucwords( $k );

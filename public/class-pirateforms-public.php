@@ -1025,7 +1025,7 @@ class PirateForms_Public {
 		$contact_name    = null;
 		$contact_subject = null;
 		$message         = null;
-		$fields          = array( 'name', 'email', 'subject', 'message' );
+		$fields          = array( 'name', 'email', 'subject', 'message', 'checkbox' );
 
 		foreach ( $fields as $field ) {
 			$value = isset( $this->_post[ 'pirate-forms-contact-' . $field ] ) ? sanitize_text_field( trim( $this->_post[ 'pirate-forms-contact-' . $field ] ) ) : '';

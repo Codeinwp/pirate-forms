@@ -678,7 +678,7 @@ class PirateForms_Admin {
 								'type'    => 'wysiwyg',
 								'label'   => array(
 									'value' => __( 'Email content', 'pirate-forms' ),
-									'html'  => '<br/><br/>' . esc_attr( __( 'You can use the next magic tags:', 'pirate-forms' ) ) . '<br/>' . PirateForms_Util::get_magic_tags(),
+									'html'  => '<br/><br/>' . esc_attr( __( 'You can use the following magic tags:', 'pirate-forms' ) ) . '<br/>' . PirateForms_Util::get_magic_tags(),
 								),
 								'default' => PirateForms_Util::get_default_email_content( true, null, true ),
 								'value'   => PirateForms_Util::get_option( 'pirateformsopt_email_content' ),
