@@ -50,10 +50,21 @@ You can keep all the contacts in an archive by saving their e-mail addresses. Pi
 
 A simple to use contact form plugin for creating a clean contact form using the [pirate_forms] shortcode or the 'Pirate Forms' form widget.
 
+- Provides option to allow submitting the form using AJAX
+
+Standard contact forms work just fine, but you can make them nicer by using AJAX to submit the form data in the background.
+
+Pirate Forms allows you to take advantage of this great feature using the [pirate_forms ajax="yes"] shortcode or the 'Submit form using Ajax' option in the Pirate Forms widget.
+
 - What PirateForms isn't for now
 
-
 This is not a form maker or drag & drop builder plugin nor "the best contact form plugin", you cannot add new fields or create multiple forms (subscription forms, payment, order, feedback or quote), there are some great alternatives out there for those like : Caldera Forms or Ninja Forms.
+
+- Privacy Notices
+
+If you activate the "Store submissions in the database" feature in the Pirate Forms, the contact form submitter’s personal data, including their IP address, will be stored in the database.
+
+Thus, confirming the provider’s privacy policy is recommended.
 
  = See how Pirate Forms can integrate with your website  =
 
@@ -85,6 +96,7 @@ If are you looking for other alternatives check-out our article on <a href="http
 This plugin started as a fork of https://wordpress.org/plugins/proper-contact-form/.
 
 ## Frequently Asked Questions ##
+
 
 
 
@@ -239,6 +251,12 @@ You can follow the full documentation [here](http://docs.themeisle.com/article/4
  = How to set a success page on successful form submission = 
  [https://docs.themeisle.com/article/836-how-to-set-a-success-page-on-successful-form-submission](https://docs.themeisle.com/article/836-how-to-set-a-success-page-on-successful-form-submission) 
 
+ = Pirate Forms: How to change the default subject of email admin receives = 
+ [https://docs.themeisle.com/article/838-pirate-forms-how-to-change-the-default-subject-of-email-admin-receives](https://docs.themeisle.com/article/838-pirate-forms-how-to-change-the-default-subject-of-email-admin-receives) 
+
+ = How to send a copy of the sent email to the sender. = 
+ [https://docs.themeisle.com/article/837-how-to-send-a-copy-of-the-sent-email-to-the-sender](https://docs.themeisle.com/article/837-how-to-send-a-copy-of-the-sent-email-to-the-sender) 
+
  == Installation ==
 
 Activating the Pirate Contact Form plugin is just like any other plugin. If you've uploaded the plugin package to your server already, skip to step 5 below:
@@ -260,6 +278,11 @@ Activating the Pirate Contact Form plugin is just like any other plugin. If you'
 4. Screenshot 4. Enabling SMTP
 
 ## Changelog ##
+### 2.4.1 - 2018-05-07  ###
+
+* GDPR compliance
+
+
 ### 2.4.0 - 2018-04-02  ###
 
 * Improves compatibility with various themes.

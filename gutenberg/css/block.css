@@ -1,0 +1,11 @@
+.pf-form-spinner {
+	display: none;
+}
+
+.pf-form-spinner.pf-form-loading {
+	display: block;
+}
+
+.pirate-forms-maps-custom input {
+	display: inline-block !important;
+}
