@@ -22,7 +22,7 @@ class Test_GDPR extends WP_Ajax_UnitTestCase {
 	public static function setUpBeforeClass() {
 		require_once ABSPATH . '/wp-admin/includes/ajax-actions.php';
 
-		$actions	= array( 'wp-privacy-export-personal-data', 'wp-privacy-erase-personal-data', );
+		$actions    = array( 'wp-privacy-export-personal-data', 'wp-privacy-erase-personal-data' );
 		// Register the core actions that were forgotten for 4.9.6.
 		foreach ( $actions as $action ) {
 			if ( ! in_array( $action, self::$_core_actions_post ) ) {
@@ -94,17 +94,22 @@ class Test_GDPR extends WP_Ajax_UnitTestCase {
 		$this->assertEquals( 0, count( $posts ) );
 	}
 
+	/**
+	 * Erasing data
+	 *
+	 * @access private
+	 */
 	private function erase( $email ) {
 		$this->_setRole( 'administrator' );
 
 		$GLOBALS['hook_suffix'] = '';
-		$_POST	= array(
-			'action'	=> 'add_remove_personal_data_request',
-			'type_of_action'	=> 'remove_personal_data',
-			'username_or_email_to_export'	=> $email,
-			'_wpnonce'	=> wp_create_nonce( 'personal-data-request' ),
+		$_POST  = array(
+			'action'    => 'add_remove_personal_data_request',
+			'type_of_action'    => 'remove_personal_data',
+			'username_or_email_to_export'   => $email,
+			'_wpnonce'  => wp_create_nonce( 'personal-data-request' ),
 		);
-		$_REQUEST	= $_POST;
+		$_REQUEST   = $_POST;
 
 		ob_start();
 		// we'll have to call this directly as there is no other option.
@@ -112,26 +117,28 @@ class Test_GDPR extends WP_Ajax_UnitTestCase {
 		ob_end_clean();
 
 		// check that the request was saved.
-		$requests	= get_posts(array(
-			'post_type'	=> 'user_request',
-			'posts_per_page' => -1,
-			'post_status'    => 'request-pending',
-			'fields'         => 'ids',
-		));
+		$requests   = get_posts(
+			array(
+				'post_type' => 'user_request',
+				'posts_per_page' => -1,
+				'post_status'    => 'request-pending',
+				'fields'         => 'ids',
+			)
+		);
 
 		$this->assertEquals( 1, count( $requests ) );
 
-		$request_id		= $requests[0];
+		$request_id     = $requests[0];
 		$this->assertGreaterThan( 0, $request_id );
 
-		$nonce			= wp_create_nonce( 'wp-privacy-erase-personal-data-' . $request_id );
-		$erasers		= apply_filters( 'wp_privacy_personal_data_erasers', array() );
+		$nonce          = wp_create_nonce( 'wp-privacy-erase-personal-data-' . $request_id );
+		$erasers        = apply_filters( 'wp_privacy_personal_data_erasers', array() );
 
-		$_POST	= array(
-			'security'	=> $nonce,
-			'id'	=> $request_id,
-			'page'	=> 1,
-			'eraser'	=> count( $erasers ),
+		$_POST  = array(
+			'security'  => $nonce,
+			'id'    => $request_id,
+			'page'  => 1,
+			'eraser'    => count( $erasers ),
 		);
 
 		ob_start();
@@ -145,4 +152,4 @@ class Test_GDPR extends WP_Ajax_UnitTestCase {
 		ob_end_clean();
 	}
 
- }
+}
