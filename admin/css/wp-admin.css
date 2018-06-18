@@ -339,3 +339,6 @@ input#save.pirate-forms-save-button {
 	color: #fff;
 	background: #333;
 }
+#sib_embed_signup .message_area {
+	padding: 8px;
+}
