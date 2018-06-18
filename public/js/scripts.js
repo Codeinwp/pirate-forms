@@ -38,14 +38,6 @@
             }, 'slow');
         }
         
-        // show custom spam trap.
-        if($('.pirate-forms-maps-custom').length > 0){
-            $('.pirate-forms-maps-custom').each(function(i){
-                var $id = 'xobkcehc-' + i;
-                $(this).html($('<input id="' + $id + '" name="xobkcehc" type="' + 'xobkcehc'.split('').reverse().join('') + '" value="' + pf.spam.value + '"><label for="' + $id + '"><span>' + pf.spam.label + '</span></label>'));
-            });
-        }
-
         // support ajax forms.
         $('.pirate-forms-submit-button-ajax').closest('form').submit(function(){
             var form = $(this);

@@ -77,6 +77,22 @@ class PirateForms {
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 
+		if ( function_exists( 'register_block_type' ) ) {
+			$this->define_gutenberg_hooks();
+		}
+	}
+
+	/**
+	 * Load the required gutenberg dependencies for this plugin.
+	 *
+	 * @access   private
+	 */
+	private function define_gutenberg_hooks() {
+		$gutenberg  = new PirateForms_Gutenberg( $this->get_plugin_name(), $this->get_version() );
+
+		$this->loader->add_action( 'enqueue_block_editor_assets', $gutenberg, 'enqueue_block_editor_assets' );
+		$this->loader->add_action( 'init', $gutenberg, 'register_block' );
+		$this->loader->add_action( 'rest_api_init', $gutenberg, 'register_endpoints' );
 	}
 
 	/**

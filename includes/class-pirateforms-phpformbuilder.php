@@ -66,7 +66,13 @@ class PirateForms_PhpFormBuilder {
 					$this->set_element( 'captcha', $element );
 				}
 				$this->set_element( $val['id'], $element );
-				$classes[]      = $val['id'] . '-on';
+				if ( in_array( $val['type'], array( 'hidden') ) ) {
+					if ( ! empty( $val['value'] ) ) {
+						$classes[]      = $val['id'] . '-on';
+					}
+				} else {
+					$classes[]      = $val['id'] . '-on';
+				}
 			}
 		}
 
