@@ -69,7 +69,7 @@ class PirateForms {
 	public function __construct() {
 
 		$this->plugin_name = 'pirateforms';
-		$this->version = '2.3.0';
+		$this->version = '2.4.1';
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -149,9 +149,11 @@ class PirateForms {
 		$this->loader->add_filter( 'plugin_action_links_' . PIRATEFORMS_BASENAME, $plugin_admin, 'add_settings_link' );
 		$this->loader->add_action( 'wp_ajax_pirate_forms_save', $plugin_admin, 'save_callback' );
 		$this->loader->add_action( 'wp_ajax_pirate_forms_test', $plugin_admin, 'test_email' );
+		$this->loader->add_action( 'wp_ajax_' . PIRATEFORMS_SLUG, $plugin_admin, 'ajax' );
 		$this->loader->add_action( 'pirate_forms_load_sidebar', $plugin_admin, 'load_sidebar' );
 		$this->loader->add_action( 'pirate_forms_load_sidebar_theme', $plugin_admin, 'load_sidebar_theme' );
 		$this->loader->add_action( 'pirate_forms_load_sidebar_subscribe', $plugin_admin, 'load_sidebar_subscribe' );
+		$this->loader->add_action( 'admin_notices', $plugin_admin, 'admin_notices' );
 
 		// this informs the pro whether the lite will implement the custom spam checkbox or not.
 		add_filter( 'pirate_forms_support_custom_spam', '__return_true' );
@@ -178,9 +180,6 @@ class PirateForms {
 
 		// ONLY FOR UNIT TESTING: we cannot fire template_redirect without errors, that is why we are creating a manual hook for this
 		$this->loader->add_action( 'pirate_unittesting_template_redirect', $plugin_public, 'template_redirect' );
-		$this->loader->add_action( 'pirate_forms_render_thankyou', $plugin_public, 'render_thankyou' );
-		$this->loader->add_action( 'pirate_forms_render_errors', $plugin_public, 'render_errors' );
-		$this->loader->add_action( 'pirate_forms_render_fields', $plugin_public, 'render_fields' );
 		$this->loader->add_action( 'pirate_forms_send_email', $plugin_public, 'send_email' );
 
 		$this->loader->add_filter( 'widget_text', $plugin_public, 'widget_text_filter', 9 );
