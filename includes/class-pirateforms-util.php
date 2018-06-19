@@ -16,7 +16,7 @@ class PirateForms_Util {
 	 * @access   private
 	 * @var      array    $DEFAULT_FIELDS    The default fields used by the plugin.
 	 */
-	private static $DEFAULT_FIELDS      = array( 'name', 'email', 'subject', 'message', 'checkbox' );
+	public static $DEFAULT_FIELDS      = array( 'name', 'email', 'subject', 'message', 'checkbox' );
 
 	/**
 	 * Return the table.
