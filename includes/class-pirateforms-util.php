@@ -264,7 +264,11 @@ class PirateForms_Util {
 			}
 			$body['body'][ $val ] = self::MAGIC_TAG_PREFIX . $k . self::MAGIC_TAG_POSTFIX;
 		}
-		$body['body'][ __( 'IP address', 'pirate-forms' ) ] = self::MAGIC_TAG_PREFIX . 'ip' . self::MAGIC_TAG_POSTFIX;
+
+		if ( isset( $pirate_forms_options['pirateformsopt_store_ip'] ) && 'yes' === $pirate_forms_options['pirateformsopt_store_ip'] ) {
+			$body['body'][ __( 'IP address', 'pirate-forms' ) ] = self::MAGIC_TAG_PREFIX . 'ip' . self::MAGIC_TAG_POSTFIX;
+		}
+
 		$body['body'][ __( 'IP search', 'pirate-forms' ) ]  = 'http://whatismyipaddress.com/ip/' . self::MAGIC_TAG_PREFIX . 'ip' . self::MAGIC_TAG_POSTFIX;
 		$body['body'][ __( 'Came from', 'pirate-forms' ) ]  = self::MAGIC_TAG_PREFIX . 'referer' . self::MAGIC_TAG_POSTFIX;
 		$body['body'][ __( 'Sent from page', 'pirate-forms' ) ] = self::MAGIC_TAG_PREFIX . 'permalink' . self::MAGIC_TAG_POSTFIX;
@@ -308,8 +312,13 @@ class PirateForms_Util {
 			$tags[ $k ]     = $val;
 		}
 
+		if ( isset( $pirate_forms_options['pirateformsopt_store_ip'] ) && 'yes' === $pirate_forms_options['pirateformsopt_store_ip'] ) {
+			$tags   += array(
+				'ip'        => __( 'IP address', 'pirate-forms' ),
+			);
+		}
+
 		$tags   += array(
-			'ip'        => __( 'IP address', 'pirate-forms' ),
 			'referer'   => __( 'Came from', 'pirate-forms' ),
 			'permalink' => __( 'Sent from page', 'pirate-forms' ),
 		);

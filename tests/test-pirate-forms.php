@@ -144,6 +144,7 @@ class Test_Pirate_Forms extends WP_UnitTestCase {
 		$settings['pirateformsopt_nonce']   = 'no';
 		$settings['pirateformsopt_recaptcha_field']   = 'no';
 		$settings['pirateformsopt_store']   = 'yes';
+		$settings['pirateformsopt_store_ip']   = 'yes';
 		$settings['pirateformsopt_email_content']   = '<h2>Contact form submission from Test Blog (http://example.org)</h2><table><tr><th>Your Name:</th><td>{name}</td></tr><tr><th>Your Email:</th><td>{email}</td></tr><tr><th>Subject:</th><td>{subject}</td></tr><tr><th>Your message:</th><td>{message}</td></tr><tr><th>IP address:</th><td>{ip}</td></tr><tr><th>IP search:</th><td>http://whatismyipaddress.com/ip/{ip}</td></tr><tr><th>Sent from page:</th><td>{permalink}</td></tr></table>';
 
 		PirateForms_Util::set_option( $settings );
@@ -191,6 +192,7 @@ class Test_Pirate_Forms extends WP_UnitTestCase {
 		$settings['pirateformsopt_nonce']   = 'no';
 		$settings['pirateformsopt_recaptcha_field']   = 'no';
 		$settings['pirateformsopt_store']   = 'no';
+		$settings['pirateformsopt_store_ip']   = 'yes';
 		$settings['pirateformsopt_confirm_email']   = 'yoyoyoyoyoyo';
 		$settings['pirateformsopt_copy_email']   = 'yes';
 		$settings['pirateformsopt_email_content']   = '<h2>Contact form submission from Test Blog (http://example.org)</h2><table><tr><th>Your Name:</th><td>{name}</td></tr><tr><th>Your Email:</th><td>{email}</td></tr><tr><th>Subject:</th><td>{subject}</td></tr><tr><th>Your message:</th><td>{message}</td></tr><tr><th>IP address:</th><td>{ip}</td></tr><tr><th>IP search:</th><td>http://whatismyipaddress.com/ip/{ip}</td></tr><tr><th>Sent from page:</th><td>{permalink}</td></tr></table>';
@@ -229,6 +231,7 @@ class Test_Pirate_Forms extends WP_UnitTestCase {
 		$settings['pirateformsopt_nonce']   = 'no';
 		$settings['pirateformsopt_recaptcha_field']   = 'no';
 		$settings['pirateformsopt_store']   = 'yes';
+		$settings['pirateformsopt_store_ip']   = 'yes';
 		$settings['pirateformsopt_use_smtp']   = 'yes';
 		$settings['pirateformsopt_smtp_host']   = $host;
 		$settings['pirateformsopt_smtp_port']   = $port;

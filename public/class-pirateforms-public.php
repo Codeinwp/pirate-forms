@@ -586,19 +586,19 @@ class PirateForms_Public {
 		if ( empty( $site_recipients ) ) {
 			$_SESSION[ $error_key ]['pirate-forms-recipients-email'] = __( 'Please enter one or more Contact submission recipients', 'pirate-forms' );
 		}
-		/**
-		 ******   Sanitize and validate IP  */
-		$contact_ip = filter_var( $_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP );
-		/* for the case of a Web server behind a reverse proxy */
-		if ( array_key_exists( 'HTTP_X_FORWARDED_FOR', $_SERVER ) ) {
-			$contact_ip_tmp = explode( ',', $_SERVER['HTTP_X_FORWARDED_FOR'] );
-			if ( ! empty( $contact_ip_tmp ) ) {
-				$contact_ip = array_pop( $contact_ip_tmp );
-			}
-		}
 
-		// If valid and present, create a link to an IP search
-		if ( ! empty( $contact_ip ) ) {
+		$contact_ip     = null;
+		if ( isset( $pirate_forms_options['pirateformsopt_store_ip'] ) && 'yes' === $pirate_forms_options['pirateformsopt_store_ip'] ) {
+			$contact_ip = filter_var( $_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP );
+			/* for the case of a Web server behind a reverse proxy */
+			if ( array_key_exists( 'HTTP_X_FORWARDED_FOR', $_SERVER ) ) {
+				$contact_ip_tmp = explode( ',', $_SERVER['HTTP_X_FORWARDED_FOR'] );
+				if ( ! empty( $contact_ip_tmp ) ) {
+					$contact_ip = array_pop( $contact_ip_tmp );
+				}
+			}
+
+			// If valid and present, create a link to an IP search
 			$body['body'][ __( 'IP address', 'pirate-forms' ) ] = $contact_ip;
 			$body['body'][ __( 'IP search', 'pirate-forms' ) ]  = "http://whatismyipaddress.com/ip/$contact_ip";
 			$body['magic_tags'] += array( 'ip' => $contact_ip );
