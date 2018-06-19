@@ -56,9 +56,11 @@ function initAll(){
             },
             error: function (MLHttpRequest, textStatus, errorThrown) {
                 console.log('There was an error: ' + errorThrown);
+            },
+            complete: function() {
+                endAjaxIntro();
             }
         });
-        endAjaxIntro();
         return false;
     }
 
@@ -86,10 +88,12 @@ function initAll(){
             },
             error: function (MLHttpRequest, textStatus, errorThrown) {
                 console.log('There was an error: ' + errorThrown);
+            },
+            complete: function(){
+                endAjaxIntro();
             }
         });
-
-        endAjaxIntro();
+        
         return false;
     }
 

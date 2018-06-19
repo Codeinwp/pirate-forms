@@ -202,9 +202,6 @@ class PirateForms {
 
 		// ONLY FOR UNIT TESTING: we cannot fire template_redirect without errors, that is why we are creating a manual hook for this
 		$this->loader->add_action( 'pirate_unittesting_template_redirect', $plugin_public, 'template_redirect' );
-		$this->loader->add_action( 'pirate_forms_render_thankyou', $plugin_public, 'render_thankyou' );
-		$this->loader->add_action( 'pirate_forms_render_errors', $plugin_public, 'render_errors' );
-		$this->loader->add_action( 'pirate_forms_render_fields', $plugin_public, 'render_fields' );
 		$this->loader->add_action( 'pirate_forms_send_email', $plugin_public, 'send_email' );
 
 		$this->loader->add_filter( 'widget_text', $plugin_public, 'widget_text_filter', 9 );
