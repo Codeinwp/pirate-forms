@@ -699,6 +699,7 @@ class PirateForms_Public {
 		}
 
 		$mail_body = ! empty( $pirate_forms_options['pirateformsopt_email_content'] ) ? $pirate_forms_options['pirateformsopt_email_content'] : PirateForms_Util::get_default_email_content( true, $form_id, true );
+
 		$mail_body = PirateForms_Util::replace_magic_tags( $mail_body, $body );
 
 		do_action( 'pirate_forms_before_sending', $pirate_forms_contact_email, $site_recipients, $subject, $mail_body, $headers, $attachments );
@@ -931,7 +932,7 @@ class PirateForms_Public {
 		$contact_name    = null;
 		$contact_subject = null;
 		$message         = null;
-		$fields          = array( 'name', 'email', 'subject', 'message' );
+		$fields          = PirateForms_Util::$DEFAULT_FIELDS;
 
 		foreach ( $fields as $field ) {
 			$value = isset( $this->_post[ 'pirate-forms-contact-' . $field ] ) ? sanitize_text_field( trim( $this->_post[ 'pirate-forms-contact-' . $field ] ) ) : '';
