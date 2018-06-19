@@ -321,10 +321,10 @@ class PirateForms_Admin {
 								'id'      => 'pirateformsopt_store_ip',
 								'type'    => 'checkbox',
 								'label'   => array(
-									'value' => __( 'Store IP of user', 'pirate-forms' ),
+									'value' => __( 'Track and store IP of user', 'pirate-forms' ),
 									'html'  => '<span class="dashicons dashicons-editor-help"></span>',
 									'desc'  => array(
-										'value' => sprintf( '%s<br>%s', __( 'Should the IP of the customer be stored and displayed in the email content?', 'pirate-forms' ), __( 'According to GDPR we recommend you to ask for consent in order to store user data', 'pirate-forms' ) ),
+										'value' => sprintf( '%s<br>%s<br>%s', __( 'Should the IP of the customer be tracked, stored and displayed in the email content?', 'pirate-forms' ), __( 'According to GDPR we recommend you to ask for consent in order to store user data', 'pirate-forms' ), __( 'If this option is not selected, we may not be able to determine whether this is a spam message.', 'pirate-forms' ) ),
 										'class' => 'pirate_forms_option_description',
 									),
 								),
