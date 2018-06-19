@@ -26,12 +26,7 @@ class PirateForms_PhpFormBuilder {
 	 */
 	function build_form( $elements, $pirate_forms_options, $from_widget ) {
 		$this->pirate_forms_options = $pirate_forms_options;
-		$pirateformsopt_attachment_field = $pirate_forms_options['pirateformsopt_attachment_field'];
-		if ( ! empty( $pirateformsopt_attachment_field ) ) {
-			$pirate_forms_enctype = 'multipart/form-data';
-		} else {
-			$pirate_forms_enctype = 'application/x-www-form-urlencoded';
-		}
+		$this->container_class      = apply_filters( 'pirate_forms_container_class', $from_widget ? 'widget-yes' : 'widget-no', $this->pirate_forms_options );
 
 		$classes    = array();
 		$classes[]  = $from_widget ? 'widget-on' : '';
@@ -44,13 +39,11 @@ class PirateForms_PhpFormBuilder {
 			'value' => $id,
 		);
 
-		$form_start = '<form method="post" id="' . $id . '" enctype="' . $pirate_forms_enctype . '" class="pirate_forms ';
-
 		$html_helper        = new PirateForms_HTML();
-		$form_end           = '';
+		$hidden             = '';
 		$custom_fields      = '';
 		foreach ( $elements as $val ) {
-			if ( 'form_honeypot' !== $val['id'] && ! in_array( $val['type'], array( 'hidden', 'div' ) ) ) {
+			if ( 'form_honeypot' !== $val['id'] && ! in_array( $val['type'], array( 'hidden', 'div' ) ) && array_key_exists( 'class', $val ) ) {
 				$val['class']   = apply_filters( 'pirate_forms_field_class', $val['class'], $val['id'] );
 			}
 			if ( isset( $val['is_custom'] ) && $val['is_custom'] ) {
@@ -59,8 +52,9 @@ class PirateForms_PhpFormBuilder {
 				$classes[]      = $val['id'] . '-on';
 			} else {
 				$element    = $html_helper->add( $val, false );
-				if ( ( 'form_honeypot' === $val['id'] || in_array( $val['type'], array( 'hidden', 'div' ) ) ) && ! in_array( $val['id'], array( 'pirate-forms-maps-custom', 'pirate-forms-captcha' ) ) ) {
-					$form_end .= $element;
+				if ( ( 'form_honeypot' === $val['id'] || in_array( $val['type'], array( 'hidden', 'div' ) ) ) && $val['id'] !== 'pirate-forms-maps-custom'
+				) {
+					$hidden .= $element;
 				}
 				if ( $val['id'] === 'pirate-forms-maps-custom' ) {
 					$this->set_element( 'captcha', $element );
@@ -96,17 +90,9 @@ class PirateForms_PhpFormBuilder {
 			}
 		}
 
-		$form_start .= implode( ' ', $classes ) . '"';
-		if ( $form_attributes ) {
-			foreach ( $form_attributes as $k => $v ) {
-				$form_start .= " $k=$v";
-			}
-		}
-		$form_start .= '>';
-		$this->set_element( 'form_start', $form_start );
-
-		$form_end .= '</form>';
-		$this->set_element( 'form_end', $form_end );
+		$this->form_classes     = apply_filters( 'pirate_forms_form_classes', $classes, $this );
+		$this->form_attributes  = $form_attributes;
+		$this->form_hidden      = $hidden;
 
 		$output = $this->load_theme();
 		return $output;
@@ -119,7 +105,11 @@ class PirateForms_PhpFormBuilder {
 	 */
 	public function set_element( $element_name, $output ) {
 		$name           = str_replace( array( 'pirate-forms-', '-' ), array( '', '_' ), $element_name );
-		$this->$name    = $output;
+		$final          = apply_filters( "pirate_forms_before_{$name}", '', $this->pirate_forms_options );
+		$final          .= $output;
+		$final          .= apply_filters( "pirate_forms_after_{$name}", '', $this->pirate_forms_options );
+
+		$this->$name    = $final;
 	}
 
 	/**
