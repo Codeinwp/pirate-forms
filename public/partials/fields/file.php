@@ -36,6 +36,6 @@ if ( is_null( $wrap_classes ) ) {
 
 <div class="<?php echo implode( ' ', apply_filters( "pirateform_wrap_classes_{$name}", $wrap_classes, $name, $args['type'] ) ); ?>">
 	<div class="pirate-forms-file-upload-wrapper">
-		<div class="pirate-forms-file-upload-wrapper"><input type="file" <?php echo $this->get_common( $text_args, array( 'value' ) ); ?>  tabindex="-1"></div>
+		<div class="pirate-forms-file-upload-wrapper"><input type="file" class="<?php echo apply_filters( "pirateform_field_classes_{$name}", 'form-control', $name, $args['type'] ); ?>" <?php echo $this->get_common( $text_args, array( 'value' ) ); ?>  tabindex="-1"></div>
 	</div>
 </div>
