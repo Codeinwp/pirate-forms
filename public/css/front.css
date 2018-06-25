@@ -1,5 +1,5 @@
 /*
-Version: 2.4.2
+Version: 2.4.3
  */
 .pirate_forms_wrap .form_field_wrap,
 .widget .pirate_forms_wrap .form_field_wrap {
@@ -110,6 +110,10 @@ Version: 2.4.2
 
 .pf-checkbox-label span {
 	margin-left: 5px;
+}
+
+.pirate_forms .contact_checkbox_wrap #pirate-forms-contact-checkbox, .pirate_forms .contact_checkbox_wrap p {
+	display: inline-block;
 }
 
 @media (max-width: 480px) {

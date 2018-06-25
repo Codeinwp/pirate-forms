@@ -320,6 +320,26 @@ class PirateForms_Admin {
 								'title' => __( 'According to GDPR, we recommend you to ask for consent in order to store user data.', 'pirate-forms' ),
 							),
 							array(
+								'id'      => 'pirateformsopt_store_ip',
+								'type'    => 'checkbox',
+								'label'   => array(
+									'value' => __( 'Track and store IP of user', 'pirate-forms' ),
+									'html'  => '<span class="dashicons dashicons-editor-help"></span>',
+									'desc'  => array(
+										'value' => sprintf( '%s<br>%s<br>%s', __( 'Should the IP of the customer be tracked, stored and displayed in the email content?', 'pirate-forms' ), __( 'According to GDPR we recommend you to ask for consent in order to store user data', 'pirate-forms' ), __( 'If this option is not selected, we may not be able to determine whether this is a spam message.', 'pirate-forms' ) ),
+										'class' => 'pirate_forms_option_description',
+									),
+								),
+								'default' => 'no',
+								'value'   => PirateForms_Util::get_option( 'pirateformsopt_store_ip' ),
+								'wrap'    => array(
+									'type'  => 'div',
+									'class' => 'pirate-forms-grouped',
+								),
+								'options' => array( 'yes' => __( 'Yes', 'pirate-forms' ) ),
+								'title' => __( 'According to GDPR, we recommend you to ask for consent in order to store user data.', 'pirate-forms' ),
+							),
+							array(
 								'id'      => 'pirateformsopt_nonce',
 								'type'    => 'checkbox',
 								'label'   => array(
@@ -678,7 +698,7 @@ class PirateForms_Admin {
 								'type'    => 'wysiwyg',
 								'label'   => array(
 									'value' => __( 'Email content', 'pirate-forms' ),
-									'html'  => '<br/><br/>' . esc_attr( __( 'You can use the next magic tags:', 'pirate-forms' ) ) . '<br/>' . PirateForms_Util::get_magic_tags(),
+									'html'  => '<br/><br/>' . esc_attr( __( 'You can use the following magic tags:', 'pirate-forms' ) ) . '<br/>' . PirateForms_Util::get_magic_tags(),
 								),
 								'default' => PirateForms_Util::get_default_email_content( true, null, true ),
 								'value'   => PirateForms_Util::get_option( 'pirateformsopt_email_content' ),

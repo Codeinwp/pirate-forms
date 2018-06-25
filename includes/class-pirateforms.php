@@ -69,7 +69,7 @@ class PirateForms {
 	public function __construct() {
 
 		$this->plugin_name = 'pirateforms';
-		$this->version = '2.4.2';
+		$this->version = '2.4.3';
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -77,6 +77,22 @@ class PirateForms {
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 
+		if ( function_exists( 'register_block_type' ) ) {
+			$this->define_gutenberg_hooks();
+		}
+	}
+
+	/**
+	 * Load the required gutenberg dependencies for this plugin.
+	 *
+	 * @access   private
+	 */
+	private function define_gutenberg_hooks() {
+		$gutenberg  = new PirateForms_Gutenberg( $this->get_plugin_name(), $this->get_version() );
+
+		$this->loader->add_action( 'enqueue_block_editor_assets', $gutenberg, 'enqueue_block_editor_assets' );
+		$this->loader->add_action( 'init', $gutenberg, 'register_block' );
+		$this->loader->add_action( 'rest_api_init', $gutenberg, 'register_endpoints' );
 	}
 
 	/**
@@ -186,9 +202,6 @@ class PirateForms {
 
 		// ONLY FOR UNIT TESTING: we cannot fire template_redirect without errors, that is why we are creating a manual hook for this
 		$this->loader->add_action( 'pirate_unittesting_template_redirect', $plugin_public, 'template_redirect' );
-		$this->loader->add_action( 'pirate_forms_render_thankyou', $plugin_public, 'render_thankyou' );
-		$this->loader->add_action( 'pirate_forms_render_errors', $plugin_public, 'render_errors' );
-		$this->loader->add_action( 'pirate_forms_render_fields', $plugin_public, 'render_fields' );
 		$this->loader->add_action( 'pirate_forms_send_email', $plugin_public, 'send_email' );
 
 		$this->loader->add_filter( 'widget_text', $plugin_public, 'widget_text_filter', 9 );
