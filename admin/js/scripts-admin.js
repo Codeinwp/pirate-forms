@@ -31,6 +31,7 @@
             return false;
         });
 
+
         $('input[name="pirateformsopt_recaptcha_field"]').on('click', function(){
             if($(this).val() === 'yes'){
                 $('.pirateformsopt_recaptcha').show();

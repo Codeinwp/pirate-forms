@@ -11,6 +11,14 @@ class PirateForms_Util {
 	const MAGIC_TAG_POSTFIX     = '}';
 
 	/**
+	 * The default fields used by the plugin.
+	 *
+	 * @access   private
+	 * @var      array    $DEFAULT_FIELDS    The default fields used by the plugin.
+	 */
+	public static $DEFAULT_FIELDS      = array( 'name', 'email', 'subject', 'message', 'checkbox' );
+
+	/**
 	 * Return the table.
 	 *
 	 * @since    1.0.0
@@ -241,8 +249,11 @@ class PirateForms_Util {
 		$body['body']       = array();
 		$pirate_forms_options = PirateForms_Util::get_form_options( $id );
 
-		$elements           = array( 'name', 'email', 'subject', 'message' );
+		$elements           = self::$DEFAULT_FIELDS;
 		foreach ( $elements as $k ) {
+			if ( is_array( $pirate_forms_options ) && ! array_key_exists( 'pirateformsopt_' . $k . '_field', $pirate_forms_options ) ) {
+				continue;
+			}
 			$display        = $pirate_forms_options[ 'pirateformsopt_' . $k . '_field' ];
 			if ( ! $first_time && empty( $display ) ) {
 				continue;
@@ -253,7 +264,11 @@ class PirateForms_Util {
 			}
 			$body['body'][ $val ] = self::MAGIC_TAG_PREFIX . $k . self::MAGIC_TAG_POSTFIX;
 		}
-		$body['body'][ __( 'IP address', 'pirate-forms' ) ] = self::MAGIC_TAG_PREFIX . 'ip' . self::MAGIC_TAG_POSTFIX;
+
+		if ( isset( $pirate_forms_options['pirateformsopt_store_ip'] ) && 'yes' === $pirate_forms_options['pirateformsopt_store_ip'] ) {
+			$body['body'][ __( 'IP address', 'pirate-forms' ) ] = self::MAGIC_TAG_PREFIX . 'ip' . self::MAGIC_TAG_POSTFIX;
+		}
+
 		$body['body'][ __( 'IP search', 'pirate-forms' ) ]  = 'http://whatismyipaddress.com/ip/' . self::MAGIC_TAG_PREFIX . 'ip' . self::MAGIC_TAG_POSTFIX;
 		$body['body'][ __( 'Came from', 'pirate-forms' ) ]  = self::MAGIC_TAG_PREFIX . 'referer' . self::MAGIC_TAG_POSTFIX;
 		$body['body'][ __( 'Sent from page', 'pirate-forms' ) ] = self::MAGIC_TAG_PREFIX . 'permalink' . self::MAGIC_TAG_POSTFIX;
@@ -285,8 +300,11 @@ class PirateForms_Util {
 	public static function get_magic_tags( $id = null ) {
 		$pirate_forms_options = PirateForms_Util::get_form_options( $id );
 
-		$elements           = array( 'name', 'email', 'subject', 'message' );
+		$elements           = self::$DEFAULT_FIELDS;
 		foreach ( $elements as $k ) {
+			if ( is_array( $pirate_forms_options ) && ! array_key_exists( 'pirateformsopt_label_' . $k, $pirate_forms_options ) ) {
+				continue;
+			}
 			$val            = $pirate_forms_options[ 'pirateformsopt_label_' . $k ];
 			if ( empty( $val ) ) {
 				$val        = ucwords( $k );
@@ -294,8 +312,13 @@ class PirateForms_Util {
 			$tags[ $k ]     = $val;
 		}
 
+		if ( isset( $pirate_forms_options['pirateformsopt_store_ip'] ) && 'yes' === $pirate_forms_options['pirateformsopt_store_ip'] ) {
+			$tags   += array(
+				'ip'        => __( 'IP address', 'pirate-forms' ),
+			);
+		}
+
 		$tags   += array(
-			'ip'        => __( 'IP address', 'pirate-forms' ),
 			'referer'   => __( 'Came from', 'pirate-forms' ),
 			'permalink' => __( 'Sent from page', 'pirate-forms' ),
 		);

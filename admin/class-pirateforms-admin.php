@@ -61,11 +61,13 @@ class PirateForms_Admin {
 	 * @since    1.0.0
 	 */
 	public function enqueue_styles_and_scripts() {
-		global $pagenow;
+		$current_screen = get_current_screen();
 
-		$allowed    = array( 'options-general.php', 'admin.php', 'edit.php', 'post.php' );
+		if ( ! isset( $current_screen->id ) ) {
+			return;
+		}
 
-		if ( ( ! empty( $pagenow ) && in_array( $pagenow, $allowed ) ) || ( isset( $_GET['page'] ) && $_GET['page'] == 'pirateforms-admin' ) ) {
+		if ( in_array( $current_screen->id, array( 'edit-pf_contact', 'edit-pf_form', 'pf_form', 'toplevel_page_pirateforms-admin' ) ) ) {
 			wp_enqueue_style( 'pirateforms_admin_styles', PIRATEFORMS_URL . 'admin/css/wp-admin.css', array(), $this->version );
 			wp_enqueue_script( 'pirateforms_scripts_admin', PIRATEFORMS_URL . 'admin/js/scripts-admin.js', array( 'jquery', 'jquery-ui-tooltip' ), $this->version );
 			wp_localize_script(
@@ -79,8 +81,8 @@ class PirateForms_Admin {
 				)
 			);
 		}
-		if ( isset( $_GET['page'] ) && $_GET['page'] == 'pf_more_features' ) {
 
+		if ( isset( $_GET['page'] ) && $_GET['page'] == 'pf_more_features' ) {
 			wp_enqueue_style( 'pirateforms_upsell_styles', PIRATEFORMS_URL . 'admin/css/upsell.css', array(), $this->version );
 		}
 	}
@@ -310,6 +312,26 @@ class PirateForms_Admin {
 								),
 								'default' => 'no',
 								'value'   => PirateForms_Util::get_option( 'pirateformsopt_store' ),
+								'wrap'    => array(
+									'type'  => 'div',
+									'class' => 'pirate-forms-grouped',
+								),
+								'options' => array( 'yes' => __( 'Yes', 'pirate-forms' ) ),
+								'title' => __( 'According to GDPR, we recommend you to ask for consent in order to store user data.', 'pirate-forms' ),
+							),
+							array(
+								'id'      => 'pirateformsopt_store_ip',
+								'type'    => 'checkbox',
+								'label'   => array(
+									'value' => __( 'Track and store IP of user', 'pirate-forms' ),
+									'html'  => '<span class="dashicons dashicons-editor-help"></span>',
+									'desc'  => array(
+										'value' => sprintf( '%s<br>%s<br>%s', __( 'Should the IP of the customer be tracked, stored and displayed in the email content?', 'pirate-forms' ), __( 'According to GDPR we recommend you to ask for consent in order to store user data', 'pirate-forms' ), __( 'If this option is not selected, we may not be able to determine whether this is a spam message.', 'pirate-forms' ) ),
+										'class' => 'pirate_forms_option_description',
+									),
+								),
+								'default' => 'no',
+								'value'   => PirateForms_Util::get_option( 'pirateformsopt_store_ip' ),
 								'wrap'    => array(
 									'type'  => 'div',
 									'class' => 'pirate-forms-grouped',
@@ -676,7 +698,7 @@ class PirateForms_Admin {
 								'type'    => 'wysiwyg',
 								'label'   => array(
 									'value' => __( 'Email content', 'pirate-forms' ),
-									'html'  => '<br/><br/>' . esc_attr( __( 'You can use the next magic tags:', 'pirate-forms' ) ) . '<br/>' . PirateForms_Util::get_magic_tags(),
+									'html'  => '<br/><br/>' . esc_attr( __( 'You can use the following magic tags:', 'pirate-forms' ) ) . '<br/>' . PirateForms_Util::get_magic_tags(),
 								),
 								'default' => PirateForms_Util::get_default_email_content( true, null, true ),
 								'value'   => PirateForms_Util::get_option( 'pirateformsopt_email_content' ),
@@ -1136,5 +1158,113 @@ class PirateForms_Admin {
 		$_SESSION[ $error_key ] = '';
 
 		return $body;
+	}
+
+	/**
+	 * Register the private data exporter.
+	 */
+	public function register_private_data_exporter( $exporters ) {
+		$exporters[ PIRATEFORMS_SLUG ] = array(
+			'exporter_friendly_name' => PIRATEFORMS_NAME,
+			'callback' => array( $this, 'private_data_exporter' ),
+		);
+		return $exporters;
+	}
+
+	/**
+	 * Export the private data.
+	 */
+	public function private_data_exporter( $email_address, $page = 1 ) {
+		$export_items = array();
+		$query  = new WP_Query(
+			array(
+				'post_type'     => 'pf_contact',
+				'numberposts'   => 300,
+				'post_status'   => array( 'publish', 'private' ),
+				'meta_query'    => array(
+					array(
+						'key'   => 'Contact email',
+						'value' => $email_address,
+					),
+				),
+			)
+		);
+
+		if ( $query->have_posts() ) {
+			while ( $query->have_posts() ) {
+				$query->the_post();
+
+				$data       = array(
+					array(
+						'name'  => __( 'Email content', 'pirate-forms' ),
+						'value' => nl2br( strip_tags( $query->post->post_content ) ),
+					),
+				);
+
+				$export_items[] = array(
+					'group_id' => 'pf_contact',
+					'group_label' => PIRATEFORMS_NAME,
+					'item_id' => "pf_contact-{$query->post->ID}",
+					'data' => $data,
+				);
+			}
+		}
+
+		return array(
+			'data'  => $export_items,
+			'done'  => true,
+		);
+	}
+
+	/**
+	 * Register the private data eraser.
+	 */
+	public function register_private_data_eraser( $erasers ) {
+		$erasers[ PIRATEFORMS_SLUG ] = array(
+			'eraser_friendly_name' => PIRATEFORMS_NAME,
+			'callback' => array( $this, 'private_data_eraser' ),
+		);
+		return $erasers;
+	}
+
+	/**
+	 * Erase the private data.
+	 */
+	public function private_data_eraser( $email_address, $page = 1 ) {
+		$query  = new WP_Query(
+			array(
+				'post_type'     => 'pf_contact',
+				'numberposts'   => 300,
+				'post_status'   => array( 'publish', 'private' ),
+				'fields'        => 'ids',
+				'meta_query'    => array(
+					array(
+						'key'   => 'Contact email',
+						'value' => $email_address,
+					),
+				),
+			)
+		);
+
+		$retained   = array();
+		$removed    = 0;
+
+		if ( $query->have_posts() ) {
+			while ( $query->have_posts() ) {
+				$query->the_post();
+				if ( false !== ( $post_id = wp_delete_post( $query->post, true ) ) ) {
+					$removed++;
+				} else {
+					$retained[] = $query->post;
+				}
+			}
+		}
+
+		return array(
+			'items_removed' => $removed,
+			'items_retained' => ! empty( $retained ) ? count( $retained ) : false,
+			'messages'  => ! empty( $retained ) ? array(sprintf( __( 'Unable to delete post(s) %s', 'pirate-forms' ), print_r( $retained, true ) )) : array(),
+			'done'  => true,
+		);
 	}
 }
