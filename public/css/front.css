@@ -112,6 +112,10 @@ Version: 2.4.3
 	margin-left: 5px;
 }
 
+.pirate_forms .contact_checkbox_wrap #pirate-forms-contact-checkbox, .pirate_forms .contact_checkbox_wrap p {
+	display: inline-block;
+}
+
 @media (max-width: 480px) {
 	.pirate_forms_wrap .pirate-forms-footer .form_field_wrap,
 	.pirate_forms_wrap .form_field_wrap .pirate-forms-submit-button {
