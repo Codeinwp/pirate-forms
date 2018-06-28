@@ -133,9 +133,13 @@
 		echo $this->captcha;
 	}
 
-			echo $this->contact_submit;
+	if ( isset( $this->contact_submit ) ) {
+		echo $this->contact_submit;
+	}
 
-			echo $this->form_hidden;
+	if ( isset( $this->form_hidden ) ) {
+		echo $this->form_hidden;
+	}
 	?>
 		</form>
 
