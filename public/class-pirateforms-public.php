@@ -185,6 +185,8 @@ class PirateForms_Public {
 			), $atts
 		);
 
+		do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'displaying shortcode %s', print_r( $atts, true ) ), 'debug', __FILE__, __LINE__ );
+
 		$form_id    = isset( $atts['id'] ) && ! empty( $atts['id'] ) ? intval( $atts['id'] ) : 0;
 		$from_widget = ! empty( $atts['from'] );
 		$elements    = array();
@@ -532,7 +534,7 @@ class PirateForms_Public {
 		$this->_files   = $post_files;
 
 		PirateForms_Util::session_start();
-		do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'POST data = %s', print_r( $post_params, true ) ), 'debug', __FILE__, __LINE__ );
+		do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'POST data, FILE data = %s, %s', print_r( $post_params, true ), print_r( $post_files, true ) ), 'debug', __FILE__, __LINE__ );
 
 		// If POST and honeypot are not set, beat it
 		if ( empty( $post_params ) || ! isset( $post_params['honeypot'] ) ) {
@@ -1035,10 +1037,13 @@ class PirateForms_Public {
 
 			$_files     = $this->_files;
 
+			do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'got %d files', count( $_files ) ), 'debug', __FILE__, __LINE__ );
+
 			foreach ( $_files as $label => $file ) {
 				if ( empty( $file['name'] ) ) {
 					continue;
 				}
+				do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'processing %s file', $file['name'] ), 'debug', __FILE__, __LINE__ );
 				/* Validate file type */
 				$allowed = implode( '|', apply_filters( 'pirate_forms_allowed_file_types', self::$_file_types_allowed ) );
 				$pirate_forms_file_types_allowed = '/\.(' . trim( $allowed, '|' ) . ')$/i';

@@ -23,5 +23,5 @@ if ( is_null( $wrap_classes ) ) {
 ?>
 
 <div class="<?php echo implode( ' ', apply_filters( "pirateform_wrap_classes_{$name}", $wrap_classes, $name, $args['type'] ) ); ?>">
-	<button type="submit" class="<?php echo apply_filters( "pirateform_field_classes_{$name}", 'pirate-forms-submit-button btn btn-primary', $name, $args['type'] ); ?>" <?php echo $this->get_common( $args ); ?>><?php echo isset( $args['value'] ) ? $args['value'] : ''; ?></button>
+	<button type="submit" class="<?php echo apply_filters( "pirateform_field_classes_{$name}", $args['class'], $name, $args['type'] ); ?>" <?php echo $this->get_common( $args ); ?>><?php echo isset( $args['value'] ) ? $args['value'] : ''; ?></button>
 </div>
