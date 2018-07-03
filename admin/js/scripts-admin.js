@@ -130,28 +130,42 @@ function initAll(){
         }
     });
 
-	// tootips in settings.
-	jQuery(document).tooltip({
-		items: '.dashicons-editor-help',
-		hide: 200,
-		position: {within: '#pirate-forms-main'},
+    if(jQuery.isFunction(jQuery.fn.tooltip)){
+        // tootips in settings.
+        jQuery(document).tooltip({
+            items: '.dashicons-editor-help',
+            hide: 200,
+            position: {within: '#pirate-forms-main'},
 
-		content: function () {
-			return jQuery(this).find('div').html();
-		},
-		show: null,
-		close: function (event, ui) {
-			ui.tooltip.hover(
-				function () {
-					jQuery(this).stop(true).fadeTo(400, 1);
-				},
-				function () {
-					jQuery(this).fadeOut('400', function () {
-						jQuery(this).remove();
-					});
-				});
-		}
-	});
+            content: function () {
+                return jQuery(this).find('div').html();
+            },
+            show: null,
+            close: function (event, ui) {
+                ui.tooltip.hover(
+                    function () {
+                        jQuery(this).stop(true).fadeTo(400, 1);
+                    },
+                    function () {
+                        jQuery(this).fadeOut('400', function () {
+                            jQuery(this).remove();
+                        });
+                    });
+            }
+        });
+       }else{
+            jQuery('.pirate-forms-grouped').each(function(i, x){
+                var desc = jQuery(x).find('.pirate_forms_option_description');
+                if(desc.length === 0){
+                    return;
+                }
+                var text = desc.html();
+                jQuery('<p class="description" style="margin-bottom: ' + jQuery(x).css('margin-bottom') + '"><span class="dashicons dashicons-editor-help"></span>' + text + '</p>').insertAfter(jQuery(x));
+                jQuery(x).css('margin-bottom', 0);
+                desc.remove();
+                jQuery(x).find('span.dashicons-editor-help').remove();
+            });
+       }
 
     jQuery('.pirateforms-notice-gdpr.is-dismissible').on('click', '.notice-dismiss', function(){
         jQuery.ajax({
