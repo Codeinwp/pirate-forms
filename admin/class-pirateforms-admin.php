@@ -397,6 +397,25 @@ class PirateForms_Admin {
 								'options' => array( 'yes' => __( 'Yes', 'pirate-forms' ) ),
 							),
 							array(
+								'id'      => 'pirateformsopt_save_attachment',
+								'type'    => 'checkbox',
+								'label'   => array(
+									'value' => __( 'Save Attachment?', 'pirate-forms' ),
+									'html'  => '<span class="dashicons dashicons-editor-help"></span>',
+									'desc'  => array(
+										'value' => __( 'Enabling this option will save the attachment(s) otherwise attachments can only be found in the email that is received.', 'pirate-forms' ),
+										'class' => 'pirate_forms_option_description',
+									),
+								),
+								'default' => '',
+								'value'   => PirateForms_Util::get_option( 'pirateformsopt_save_attachment' ),
+								'wrap'    => array(
+									'type'  => 'div',
+									'class' => 'pirate-forms-grouped',
+								),
+								'options' => array( 'yes' => __( 'Yes', 'pirate-forms' ) ),
+							),
+							array(
 								'id'      => 'pirateformsopt_thank_you_url',
 								'type'    => 'select',
 								'label'   => array(

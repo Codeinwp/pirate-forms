@@ -312,6 +312,12 @@ class PirateForms_Util {
 			$tags[ $k ]     = $val;
 		}
 
+		if ( isset( $pirate_forms_options['pirateformsopt_save_attachment'] ) && 'yes' === $pirate_forms_options['pirateformsopt_save_attachment'] ) {
+			$tags   += array(
+				'attachments'        => __( 'Attachment(s)', 'pirate-forms' ),
+			);
+		}
+
 		if ( isset( $pirate_forms_options['pirateformsopt_store_ip'] ) && 'yes' === $pirate_forms_options['pirateformsopt_store_ip'] ) {
 			$tags   += array(
 				'ip'        => __( 'IP address', 'pirate-forms' ),
