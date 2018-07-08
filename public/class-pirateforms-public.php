@@ -457,6 +457,7 @@ class PirateForms_Public {
 				'front_end' => true,
 				'type'  => 'button',
 				'id'    => 'pirate-forms-contact-submit',
+				'name'  => 'pirate-forms-contact-submit',
 				'class' => 'pirate-forms-submit-button btn btn-primary ' . ( $ajax ? 'pirate-forms-submit-button-ajax' : '' ),
 				'wrap'  => array(
 					'type'  => 'div',
@@ -1282,6 +1283,9 @@ class PirateForms_Public {
 
 		if ( $theme ) {
 			foreach ( $elements as $k => $element ) {
+				if ( 'hidden' === $element['type'] ) {
+					continue;
+				}
 				$id = str_replace( 'pirate-forms-contact-', '', $element['id'] );
 				if ( method_exists( $this, "{$theme}_customization_wrap" ) ) {
 					add_filter( "pirateform_wrap_classes_{$id}", array( $this, "{$theme}_customization_wrap" ), 10, 3 );
@@ -1304,24 +1308,22 @@ class PirateForms_Public {
 	 *
 	 * @return string The classes to apply.
 	 */
-	public function zerif_customization_field( $classes, $name, $type ) {
-		switch ( $type ) {
-			case 'text':
-				// fall-through.
-			case 'tel':
-				// fall-through.
-			case 'number':
-				// fall-through.
-			case 'textarea':
-				$classes    = 'form-control input';
-				break;
-			case 'button':
-				$classes    = 'btn btn-primary custom-button red-btn pirate-forms-submit-button';
-				break;
-		}
-
-		switch ( $name ) {
-			// empty.
+	public function zerif_customization_field( $classes, $name = null, $type = null ) {
+		if ( $type ) {
+			switch ( $type ) {
+				case 'text':
+					// fall-through.
+				case 'tel':
+					// fall-through.
+				case 'number':
+					// fall-through.
+				case 'textarea':
+					$classes    = 'form-control input';
+					break;
+				case 'button':
+					$classes    = 'btn btn-primary custom-button red-btn pirate-forms-submit-button';
+					break;
+			}
 		}
 
 		return $classes;
@@ -1336,24 +1338,28 @@ class PirateForms_Public {
 	 *
 	 * @return array The classes to apply.
 	 */
-	public function zerif_customization_wrap( $classes, $name, $type ) {
-		switch ( $type ) {
-			case 'checkbox':
-				$classes[] = 'pirate_forms_three_inputs_wrap';
-				break;
+	public function zerif_customization_wrap( $classes, $name = null, $type = null ) {
+		if ( $type ) {
+			switch ( $type ) {
+				case 'checkbox':
+					$classes[] = 'pirate_forms_three_inputs_wrap';
+					break;
+			}
 		}
 
-		switch ( $name ) {
-			case 'name':
-				// fall-through.
-			case 'email':
-				// fall-through.
-			case 'subject':
-				$classes    = array( 'col-lg-4 col-sm-4 form_field_wrap' );
-				break;
-			case 'message':
-				$classes    = array( 'col-lg-12 col-sm-12 form_field_wrap' );
-				break;
+		if ( $name ) {
+			switch ( $name ) {
+				case 'name':
+					// fall-through.
+				case 'email':
+					// fall-through.
+				case 'subject':
+					$classes    = array( 'col-lg-4 col-sm-4 form_field_wrap' );
+					break;
+				case 'message':
+					$classes    = array( 'col-lg-12 col-sm-12 form_field_wrap' );
+					break;
+			}
 		}
 		return $classes;
 	}
