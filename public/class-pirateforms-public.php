@@ -936,6 +936,11 @@ class PirateForms_Public {
 		foreach ( $fields as $field ) {
 			$value = isset( $this->_post[ 'pirate-forms-contact-' . $field ] ) ? sanitize_text_field( trim( $this->_post[ 'pirate-forms-contact-' . $field ] ) ) : '';
 			$body['magic_tags'] += array( $field => $value );
+
+			if ( ! array_key_exists( 'pirateformsopt_' . $field . '_field', $pirate_forms_options ) ) {
+				continue;
+			}
+
 			if ( 'req' === $pirate_forms_options[ 'pirateformsopt_' . $field . '_field' ] && empty( $value ) ) {
 				$_SESSION[ $error_key ][ 'pirate-forms-contact-' . $field ] = $pirate_forms_options[ 'pirateformsopt_label_err_' . $field ];
 			} elseif ( ! empty( $value ) ) {
@@ -1464,5 +1469,34 @@ class PirateForms_Public {
 		$message    = $this->display_thankyou( sanitize_text_field( $pirate_forms_options['pirateformsopt_label_submit'] ) );
 		do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'thankyou message: %s', $message ), 'debug', __FILE__, __LINE__ );
 		return new WP_REST_Response( array( 'message' => $message ), 200 );
+	}
+
+	/**
+	 * Displays the thank you message relevant to the form
+	 *
+	 * @param string $text The message.
+	 */
+	private function display_thankyou( $text ) {
+		return apply_filters( 'pirate_forms_thankyou', sprintf( '<div class="col-xs-12 pirate_forms_thankyou_wrap"><p>%s</p></div>', $text ), $text );
+	}
+
+	/**
+	 * Displays all the errors relevant to the form
+	 *
+	 * @param Array $errors The error messages.
+	 */
+	private function display_errors( $errors ) {
+		$output = '';
+		if ( ! empty( $errors ) ) {
+			$output .= '<div class="col-xs-12 pirate_forms_error_box">';
+			$output .= '<p>' . __( 'Sorry, an error occured.', 'pirate-forms' ) . '</p>';
+			$output .= '</div>';
+			foreach ( $errors as $err ) {
+				$output .= '<div class="col-xs-12 pirate_forms_error_box">';
+				$output .= "<p>$err</p>";
+				$output .= '</div>';
+			}
+		}
+		return apply_filters( 'pirate_forms_errors', $output, $errors );
 	}
 }
