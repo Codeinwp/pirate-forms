@@ -185,6 +185,8 @@ class PirateForms_Public {
 			), $atts
 		);
 
+		do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'displaying shortcode %s', print_r( $atts, true ) ), 'debug', __FILE__, __LINE__ );
+
 		$form_id    = isset( $atts['id'] ) && ! empty( $atts['id'] ) ? intval( $atts['id'] ) : 0;
 		$from_widget = ! empty( $atts['from'] );
 		$elements    = array();
@@ -533,7 +535,7 @@ class PirateForms_Public {
 		$this->_files   = $post_files;
 
 		PirateForms_Util::session_start();
-		do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'POST data = %s', print_r( $post_params, true ) ), 'debug', __FILE__, __LINE__ );
+		do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'POST data, FILE data = %s, %s', print_r( $post_params, true ), print_r( $post_files, true ) ), 'debug', __FILE__, __LINE__ );
 
 		// If POST and honeypot are not set, beat it
 		if ( empty( $post_params ) || ! isset( $post_params['honeypot'] ) ) {
@@ -689,7 +691,7 @@ class PirateForms_Public {
 		$headers = "From: $send_from_name <$send_from>\r\nReply-To: $pirate_forms_contact_name <$pirate_forms_contact_email>\r\nContent-type: text/html";
 		add_action( 'phpmailer_init', array( $this, 'phpmailer' ) );
 
-		$attachments = $this->get_attachments( $error_key, $pirate_forms_options, $body );
+		list( $attachments, $attachments_relative ) = $this->get_attachments( $error_key, $pirate_forms_options, $form_id, $body );
 		if ( is_bool( $attachments ) ) {
 			return PirateForms_Util::save_error( $error_key, $new_error_key );
 		}
@@ -713,11 +715,7 @@ class PirateForms_Public {
 		do_action( 'pirate_forms_after_sending', $pirate_forms_options, $response, $pirate_forms_contact_email, $site_recipients, $subject, $mail_body, $headers, $attachments );
 		do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'after sending email, response = %s', $response ), 'debug', __FILE__, __LINE__ );
 
-		// delete the tmp directory
-		require_once( ABSPATH . 'wp-admin/includes/file.php' );
-		WP_Filesystem();
-		global $wp_filesystem;
-		$wp_filesystem->delete( $this->get_upload_tmp_dir(), true, 'd' );
+		$this->delete_tmp_dir();
 
 		// Should a confirm email be sent?
 		$confirm_body     = stripslashes( trim( $pirate_forms_options['pirateformsopt_confirm_email'] ) );
@@ -770,6 +768,7 @@ class PirateForms_Public {
 			if ( defined( 'PIRATEFORMS_EMAIL_ERROR' ) ) {
 				add_post_meta( $new_post_id, PIRATEFORMS_SLUG . 'mail-status-reason', PIRATEFORMS_EMAIL_ERROR );
 			}
+			add_post_meta( $new_post_id, PIRATEFORMS_SLUG . 'attachments', $attachments_relative );
 			add_post_meta( $new_post_id, PIRATEFORMS_SLUG . 'confirm-mail-status', $response_confirm ? 'true' : 'false' );
 			do_action( 'pirate_forms_update_contact', $pirate_forms_options, $new_post_id );
 		}
@@ -1023,23 +1022,24 @@ class PirateForms_Public {
 	 *
 	 * @param string $error_key the key for the session object.
 	 * @param array  $pirate_forms_options the array of options for the form.
+	 * @param int    $form_id the form id.
 	 * @param array  $body the body of the mail.
 	 *
 	 * @throws  Exception When file uploading fails.
 	 */
-	private function get_attachments( $error_key, $pirate_forms_options, &$body ) {
+	private function get_attachments( $error_key, $pirate_forms_options, $form_id, &$body ) {
 		$attachments = array();
 		$has_files   = $pirate_forms_options['pirateformsopt_attachment_field'];
 		if ( ! empty( $has_files ) ) {
-			$uploads_dir = $this->get_upload_tmp_dir();
-			$uploads_dir = $this->maybe_add_random_dir( $uploads_dir );
-
 			$_files     = $this->_files;
+
+			do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'got %d files', count( $_files ) ), 'debug', __FILE__, __LINE__ );
 
 			foreach ( $_files as $label => $file ) {
 				if ( empty( $file['name'] ) ) {
 					continue;
 				}
+				do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'processing %s file', $file['name'] ), 'debug', __FILE__, __LINE__ );
 				/* Validate file type */
 				$allowed = implode( '|', apply_filters( 'pirate_forms_allowed_file_types', self::$_file_types_allowed ) );
 				$pirate_forms_file_types_allowed = '/\.(' . trim( $allowed, '|' ) . ')$/i';
@@ -1057,47 +1057,97 @@ class PirateForms_Public {
 
 					return false;
 				}
-				$this->init_uploads();
-				$filename = $file['name'];
-				$filename = $this->canonicalize( $filename );
-				$filename = sanitize_file_name( $filename );
-				$filename = $this->antiscript_file_name( $filename );
-				$filename = wp_unique_filename( $uploads_dir, $filename );
-				$new_file = trailingslashit( $uploads_dir ) . $filename;
-				try {
-					if ( false === move_uploaded_file( $file['tmp_name'], $new_file ) ) {
-						do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'unable to move the uploaded file from %s to %s', $file['tmp_name'], $new_file ), 'error', __FILE__, __LINE__ );
-						throw new Exception( sprintf( __( 'There was an unknown error uploading the file %s', 'pirate-forms' ), $file['name'] ) );
-					}
-				} catch ( Exception $ex ) {
-					do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'unable to move the uploaded file from %s to %s with error %s', $file['tmp_name'], $new_file, $ex->getMessage() ), 'error', __FILE__, __LINE__ );
-					$_SESSION[ $error_key ]['pirate-forms-upload-failed-general'] = $ex->getMessage();
-				}
+				$new_file   = $this->download_file( $error_key, $pirate_forms_options, $form_id, $file );
 				if ( ! empty( $new_file ) ) {
 					$attachments[] = $new_file;
 				}
 			}
 		}
+		$attachment_relative    = array();
 		if ( $attachments ) {
-			$files = array();
 			foreach ( $attachments as $file ) {
-				$files[] = basename( $file );
+				$attachment_relative[] = _wp_relative_upload_path( $file );
 			}
-			$body['body'][ __( 'Attachment', 'pirate-forms' ) ] = implode( ',', $files );
-			$body['magic_tags'] += array( 'attachments' => implode( ',', $files ) );
+			$body['body'][ __( 'Attachment', 'pirate-forms' ) ] = implode( ',', $attachment_relative );
+			$body['magic_tags'] += array( 'attachments' => $this->get_attachment_links( $attachment_relative ) );
 		}
 		do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'finally attaching attachment(s): %s', print_r( $attachments, true ) ), 'info', __FILE__, __LINE__ );
 
-		return $attachments;
+		return array( $attachments, $attachment_relative );
 	}
 
 	/**
-	 * Return the temporary upload dir
+	 * Show the links to download the attachment.
+	 */
+	private function get_attachment_links( $files ) {
+		$urls       = array();
+		foreach ( $files as $file ) {
+			$path   = $this->get_upload_dir( 'dir' ) . "/$file";
+			$url    = $this->get_upload_dir( 'url' ) . "/$file";
+			$urls[] = "<a href='$url'>" . basename( $path ) . '</a>';
+		}
+		return implode( ',', $urls );
+	}
+
+	/**
+	 * Download the attachment.
+	 *
+	 * @throws Exception When file could not be moved.
+	 */
+	private function download_file( $error_key, $pirate_forms_options, $form_id, $file ) {
+		$uploads_dir = $this->get_upload_dir_with_folder( 'tmp' );
+		$uploads_dir = $this->maybe_add_random_dir( $uploads_dir );
+		$save_file   = array_key_exists( 'pirateformsopt_save_attachment', $pirate_forms_options ) && ! empty( $pirate_forms_options['pirateformsopt_save_attachment'] );
+		do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'saving file = *%s*', $save_file ), 'debug', __FILE__, __LINE__ );
+		if ( $save_file ) {
+			// change uploads directory to /saved instead of /tmp.
+			$dir_new = $this->get_upload_dir_with_folder( "saved/$form_id" );
+			if ( ! wp_mkdir_p( $dir_new ) ) {
+				do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'unable to create directory %s; saving in %s', $dir_new, $uploads_dir ), 'error', __FILE__, __LINE__ );
+			} else {
+				$save_dir = $this->maybe_add_random_dir( $dir_new );
+				$uploads_dir = $save_dir;
+				do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'saving file in %s', $uploads_dir ), 'debug', __FILE__, __LINE__ );
+			}
+		}
+
+		$this->init_uploads();
+		$filename = $file['name'];
+		$filename = $this->canonicalize( $filename );
+		$filename = sanitize_file_name( $filename );
+		$filename = $this->antiscript_file_name( $filename );
+		$filename = wp_unique_filename( $uploads_dir, $filename );
+		$new_file = trailingslashit( $uploads_dir ) . $filename;
+		try {
+			if ( false === move_uploaded_file( $file['tmp_name'], $new_file ) ) {
+				do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'unable to move the uploaded file from %s to %s', $file['tmp_name'], $new_file ), 'error', __FILE__, __LINE__ );
+				throw new Exception( sprintf( __( 'There was an unknown error uploading the file %s', 'pirate-forms' ), $file['name'] ) );
+			}
+		} catch ( Exception $ex ) {
+			do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'unable to move the uploaded file from %s to %s with error %s', $file['tmp_name'], $new_file, $ex->getMessage() ), 'error', __FILE__, __LINE__ );
+			$_SESSION[ $error_key ]['pirate-forms-upload-failed-general'] = $ex->getMessage();
+		}
+		return $new_file;
+	}
+
+	/**
+	 * Delete the temporary upload dir
+	 */
+	private function delete_tmp_dir() {
+		// delete the tmp directory
+		require_once( ABSPATH . 'wp-admin/includes/file.php' );
+		WP_Filesystem();
+		global $wp_filesystem;
+		$wp_filesystem->delete( $this->get_upload_dir_with_folder( 'tmp' ), true, 'd' );
+	}
+
+	/**
+	 * Return the temporary/permanent upload dir
 	 *
 	 * @since    1.0.0
 	 */
-	function get_upload_tmp_dir() {
-		return $this->get_upload_dir( 'dir' ) . '/pirate_forms_uploads';
+	function get_upload_dir_with_folder( $folder ) {
+		return $this->get_upload_dir( 'dir' ) . "/pirate-forms/$folder";
 	}
 
 	/**
@@ -1137,6 +1187,7 @@ class PirateForms_Public {
 		if ( wp_mkdir_p( $dir_new ) ) {
 			return $dir_new;
 		}
+		do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'unable to create random tmp directory %s', $dir_new ), 'error', __FILE__, __LINE__ );
 
 		return $dir;
 	}
@@ -1148,8 +1199,11 @@ class PirateForms_Public {
 	 * @throws   Exception When file could not be opened.
 	 */
 	function init_uploads() {
-		$dir = $this->get_upload_tmp_dir();
-		wp_mkdir_p( $dir );
+		$dir = $this->get_upload_dir_with_folder( 'tmp' );
+		if ( ! wp_mkdir_p( $dir ) ) {
+			do_action( 'themeisle_log_event', PIRATEFORMS_NAME, sprintf( 'unable to create parent directories of %s', $dir ), 'error', __FILE__, __LINE__ );
+		}
+
 		$htaccess_file = trailingslashit( $dir ) . '.htaccess';
 		if ( file_exists( $htaccess_file ) ) {
 			return;

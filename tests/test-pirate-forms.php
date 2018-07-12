@@ -15,6 +15,64 @@
 class Test_Pirate_Forms extends WP_UnitTestCase {
 
 	/**
+	 * Save attachments.
+	 *
+	 * @dataProvider fileUploadProvider
+	 * @access public
+	 */
+	public function test_save_attachments( $file ) {
+		do_action( 'admin_head' );
+
+		$settings   = PirateForms_Util::get_option();
+
+		$settings['pirateformsopt_nonce']   = 'no';
+		$settings['pirateformsopt_recaptcha_field']   = 'no';
+		$settings['pirateformsopt_store']   = 'yes';
+		$settings['pirateformsopt_attachment_field']   = 'yes';
+		$settings['pirateformsopt_save_attachment']   = 'yes';
+		$settings['pirateformsopt_email_content']   = 'wowowowo: *{attachments}*';
+
+		PirateForms_Util::set_option( $settings );
+
+		$settings   = PirateForms_Util::get_option();
+
+		$this->assertEquals( 'yes', $settings['pirateformsopt_save_attachment'] );
+		$this->assertEquals( 'yes', $settings['pirateformsopt_store'] );
+
+		$_POST  = array(
+			'honeypot'                  => '',
+			'pirate-forms-contact-name' => 'x',
+			'pirate-forms-contact-email' => 'x@x.com',
+			'pirate-forms-contact-subject' => 'x',
+			'pirate-forms-contact-message' => 'x',
+			'pirate-forms-contact-checkbox' => '',
+		);
+		$_FILES = array(
+			'local_data' => array(
+				'name' => basename( $file ),
+				'tmp_name' => $file,
+				'error'    => 0,
+				'size'    => filesize( $file ),
+			),
+		);
+		add_action( 'phpmailer_init', array( $this, 'phpmailer_save_attachments' ), 999 );
+		do_action( 'pirate_unittesting_template_redirect' );
+
+		$posts  = get_posts(
+			array(
+				'post_type'     => 'pf_contact',
+				'post_author'  => 1,
+				'post_status'  => 'private',
+				'numberposts'   => 1,
+				'fields'        => 'ids',
+			)
+		);
+
+		$this->assertEquals( 1, count( $posts ) );
+
+	}
+
+	/**
 	 * Testing WP mail
 	 *
 	 * @access public
@@ -64,6 +122,20 @@ class Test_Pirate_Forms extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Provide the fileURL for uploading the file.
+	 *
+	 * @access public
+	 */
+	public function fileUploadProvider() {
+		$file = dirname( __FILE__ ) . '/assets/bar.txt';
+
+		return array(
+			array( $file ),
+		);
+	}
+
+
+	/**
 	 * Testing WP mail
 	 *
 	 * @access public
@@ -110,6 +182,15 @@ class Test_Pirate_Forms extends WP_UnitTestCase {
 
 		$this->assertEquals( 1, count( $posts ) );
 
+	}
+
+	/**
+	 * Checking phpmailer when saving attachments is enabled.
+	 *
+	 * @access public
+	 */
+	public function phpmailer_save_attachments( $phpmailer ) {
+		$this->assertContains( 'pirate-forms/saved/0', $phpmailer->Body );
 	}
 
 	/**
