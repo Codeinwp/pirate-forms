@@ -44,66 +44,41 @@
             $('.pirateformsopt_recaptcha').hide();
         }
 
-        function cwpSendTestEmail() {
-            $('.pirate-forms-test-message').html('');
-            startAjaxIntro();
-            $.ajax({
-                type: 'POST',
-                url: pf.ajaxurl,
-                data: {
-                    action      : 'pirate_forms_test',
-                    security    : pf.nonce
+        if(jQuery.isFunction(jQuery.fn.tooltip)){
+            // tootips in settings.
+            jQuery(document).tooltip({
+                items: '.dashicons-editor-help',
+                hide: 200,
+                position: {within: '#pirate-forms-main'},
+
+                content: function () {
+                    return jQuery(this).find('div').html();
                 },
-                success: function (data) {
-                    $('.pirate-forms-test-message').html(data.data.message);
-                },
-                error: function (MLHttpRequest, textStatus, errorThrown) {
-                    console.log('There was an error: ' + errorThrown);
+                show: null,
+                close: function (event, ui) {
+                    ui.tooltip.hover(
+                        function () {
+                            jQuery(this).stop(true).fadeTo(400, 1);
+                        },
+                        function () {
+                            jQuery(this).fadeOut('400', function () {
+                                jQuery(this).remove();
+                            });
+                        });
                 }
             });
-            endAjaxIntro();
-            return false;
-        }
-
-        function cwpTopUpdateForm() {
-            if($('#pirateformsopt_recaptcha_fieldyes').is(':checked') && ($('#pirateformsopt_recaptcha_sitekey').val() === '' || $('#pirateformsopt_recaptcha_secretkey').val() === '')){
-                window.alert(pf.i10n.recaptcha);
-                return;
-            }
-
-            startAjaxIntro();
-
-            var data = $('.pirate_forms_contact_settings').serialize();
-
-            $.ajax({
-                type: 'POST',
-                url: pf.ajaxurl,
-
-                data: {
-                    action      : 'pirate_forms_save',
-                    dataSent    : data,
-                    security    : pf.nonce
-                },
-                success: function (response) {
-                    console.log(response);
-                },
-                error: function (MLHttpRequest, textStatus, errorThrown) {
-                    console.log('There was an error: ' + errorThrown);
-                }
-            });
-
-            endAjaxIntro();
-            return false;
-        }
-
-        // Starting the AJAX intro animation
-        function startAjaxIntro() {
-            $('.ajaxAnimation').fadeIn();
-        }
-
-        // Ending the AJAX intro animation
-        function endAjaxIntro() {
-            $('.ajaxAnimation').fadeOut();
+        }else{
+                jQuery('.pirate-forms-grouped').each(function(i, x){
+                    var desc = jQuery(x).find('.pirate_forms_option_description');
+                    if(desc.length === 0){
+                        return;
+                    }
+                    var text = desc.html();
+                    jQuery('<p class="description" style="margin-bottom: ' + jQuery(x).css('margin-bottom') + '"><span class="dashicons dashicons-editor-help"></span>' + text + '</p>').insertAfter(jQuery(x));
+                    jQuery(x).css('margin-bottom', 0);
+                    desc.remove();
+                    jQuery(x).find('span.dashicons-editor-help').remove();
+                });
         }
 
         /* Recaptcha site key and secret key should appear only when Add a recaptcha is selected */
@@ -129,29 +104,6 @@
             }
         });
 
-        // tootips in settings.
-        $(document).tooltip({
-            items: '.dashicons-editor-help',
-            hide: 200,
-            position: {within: '#pirate-forms-main'},
-
-            content: function () {
-                return $(this).find('div').html();
-            },
-            show: null,
-            close: function (event, ui) {
-                ui.tooltip.hover(
-                    function () {
-                        $(this).stop(true).fadeTo(400, 1);
-                    },
-                    function () {
-                        $(this).fadeOut('400', function () {
-                            $(this).remove();
-                        });
-                    });
-            }
-        });
-
         $('.pirateforms-notice-gdpr.is-dismissible').on('click', '.notice-dismiss', function(){
             $.ajax({
                 url         : pf.ajaxurl,
@@ -165,4 +117,67 @@
            });
         });
     }
+
+    function cwpSendTestEmail() {
+        $('.pirate-forms-test-message').html('');
+        startAjaxIntro();
+        $.ajax({
+            type: 'POST',
+            url: pf.ajaxurl,
+            data: {
+                action      : 'pirate_forms_test',
+                security    : pf.nonce
+            },
+            success: function (data) {
+                $('.pirate-forms-test-message').html(data.data.message);
+            },
+            error: function (MLHttpRequest, textStatus, errorThrown) {
+                console.log('There was an error: ' + errorThrown);
+            }
+        });
+        endAjaxIntro();
+        return false;
+    }
+
+    function cwpTopUpdateForm() {
+        if($('#pirateformsopt_recaptcha_fieldyes').is(':checked') && ($('#pirateformsopt_recaptcha_sitekey').val() === '' || $('#pirateformsopt_recaptcha_secretkey').val() === '')){
+            window.alert(pf.i10n.recaptcha);
+            return;
+        }
+
+        startAjaxIntro();
+
+        var data = $('.pirate_forms_contact_settings').serialize();
+
+        $.ajax({
+            type: 'POST',
+            url: pf.ajaxurl,
+
+            data: {
+                action      : 'pirate_forms_save',
+                dataSent    : data,
+                security    : pf.nonce
+            },
+            success: function (response) {
+                console.log(response);
+            },
+            error: function (MLHttpRequest, textStatus, errorThrown) {
+                console.log('There was an error: ' + errorThrown);
+            }
+        });
+
+        endAjaxIntro();
+        return false;
+    }
+
+    // Starting the AJAX intro animation
+    function startAjaxIntro() {
+        $('.ajaxAnimation').fadeIn();
+    }
+
+    // Ending the AJAX intro animation
+    function endAjaxIntro() {
+        $('.ajaxAnimation').fadeOut();
+    }
+
 })(jQuery, cwp_top_ajaxload);
