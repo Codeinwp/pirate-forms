@@ -21,8 +21,8 @@ if ( is_null( $wrap_classes ) ) {
 
 	// since the file field is going to be non-focussable, let's put the required attributes (if available) on the text field
 	$text_args      = array(
-		'id'        => '',
-		'name'      => '',
+		'id'        => $args['id'],
+		'name'      => $args['name'],
 		'class'     => 'pirate-forms-file-upload-input',
 	);
 	if ( isset( $args['required'] ) && $args['required'] && isset( $args['required_msg'] ) ) {

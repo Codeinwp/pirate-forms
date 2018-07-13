@@ -1,5 +1,5 @@
 /*
-Version: 2.4.3
+Version: 2.4.4
  */
 .pirate_forms_wrap .form_field_wrap,
 .widget .pirate_forms_wrap .form_field_wrap {
@@ -126,5 +126,13 @@ Version: 2.4.3
 	.pirate_forms_wrap .pirate-forms-footer .pirateform_wrap_classes_spam_wrap,
 	.pirate_forms_wrap .pirate-forms-footer .form_captcha_wrap {
 		margin-bottom: 20px;
+	}
+
+	.pirate_forms_wrap .form_captcha_wrap {
+		padding: 0;
+	}
+	.pirate_forms_wrap .form_captcha_wrap > div > div {
+		transform: scale(0.8);
+		overflow: visible;
 	}
 }

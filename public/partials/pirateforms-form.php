@@ -63,22 +63,22 @@
 	?>
 
 	<!-- form -->
-	<?php
-		$enctype        = 'application/x-www-form-urlencoded';
-		$pirateformsopt_attachment_field = $this->pirate_forms_options['pirateformsopt_attachment_field'];
-	if ( ! empty( $pirateformsopt_attachment_field ) ) {
-		$pirate_forms_enctype = 'multipart/form-data';
-	}
+<?php
+	$enctype        = 'application/x-www-form-urlencoded';
+	$pirateformsopt_attachment_field = $this->pirate_forms_options['pirateformsopt_attachment_field'];
+if ( ! empty( $pirateformsopt_attachment_field ) ) {
+	$enctype = 'multipart/form-data';
+}
 
-		$attributes         = '';
-	if ( $this->form_attributes ) {
-		foreach ( $this->form_attributes as $k => $v ) {
-			$attributes .= " $k=$v";
-		}
+	$attributes         = '';
+if ( $this->form_attributes ) {
+	foreach ( $this->form_attributes as $k => $v ) {
+		$attributes .= " $k=$v";
 	}
+}
 
-		do_action( 'pirate_forms_before_form', $this );
-	?>
+	do_action( 'pirate_forms_before_form', $this );
+?>
 
 		<form
 			method="post"
@@ -133,9 +133,13 @@
 		echo $this->captcha;
 	}
 
-			echo $this->contact_submit;
+	if ( isset( $this->contact_submit ) ) {
+		echo $this->contact_submit;
+	}
 
-			echo $this->form_hidden;
+	if ( isset( $this->form_hidden ) ) {
+		echo $this->form_hidden;
+	}
 	?>
 		</form>
 

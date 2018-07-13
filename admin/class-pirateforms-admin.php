@@ -397,6 +397,25 @@ class PirateForms_Admin {
 								'options' => array( 'yes' => __( 'Yes', 'pirate-forms' ) ),
 							),
 							array(
+								'id'      => 'pirateformsopt_save_attachment',
+								'type'    => 'checkbox',
+								'label'   => array(
+									'value' => __( 'Save Attachment?', 'pirate-forms' ),
+									'html'  => '<span class="dashicons dashicons-editor-help"></span>',
+									'desc'  => array(
+										'value' => __( 'Enabling this option will save the attachment(s) otherwise attachments can only be found in the email that is received.', 'pirate-forms' ),
+										'class' => 'pirate_forms_option_description',
+									),
+								),
+								'default' => '',
+								'value'   => PirateForms_Util::get_option( 'pirateformsopt_save_attachment' ),
+								'wrap'    => array(
+									'type'  => 'div',
+									'class' => 'pirate-forms-grouped',
+								),
+								'options' => array( 'yes' => __( 'Yes', 'pirate-forms' ) ),
+							),
+							array(
 								'id'      => 'pirateformsopt_thank_you_url',
 								'type'    => 'select',
 								'label'   => array(
@@ -1190,16 +1209,19 @@ class PirateForms_Admin {
 			)
 		);
 
+		$pirate_forms_options = PirateForms_Util::get_option();
+
 		if ( $query->have_posts() ) {
 			while ( $query->have_posts() ) {
 				$query->the_post();
 
-				$data       = array(
-					array(
-						'name'  => __( 'Email content', 'pirate-forms' ),
-						'value' => nl2br( strip_tags( $query->post->post_content ) ),
-					),
+				$data       = array();
+				$data[]     = array(
+					'name'  => __( 'Email content', 'pirate-forms' ),
+					'value' => nl2br( strip_tags( $query->post->post_content ) ),
 				);
+
+				$data       = apply_filters( 'pirate_forms_private_data_exporter', $data, $query->post->ID, $email_address, $page, $pirate_forms_options );
 
 				$export_items[] = array(
 					'group_id' => 'pf_contact',
@@ -1248,10 +1270,15 @@ class PirateForms_Admin {
 
 		$retained   = array();
 		$removed    = 0;
+		$pirate_forms_options = PirateForms_Util::get_option();
 
 		if ( $query->have_posts() ) {
 			while ( $query->have_posts() ) {
 				$query->the_post();
+
+				list( $retained, $removed ) = apply_filters( 'pirate_forms_private_data_eraser', array( $retained, $removed ), $query->post, $email_address, $page, $pirate_forms_options );
+
+				// delete the post last so that all dependent operations are complete.
 				if ( false !== ( $post_id = wp_delete_post( $query->post, true ) ) ) {
 					$removed++;
 				} else {
@@ -1263,7 +1290,7 @@ class PirateForms_Admin {
 		return array(
 			'items_removed' => $removed,
 			'items_retained' => ! empty( $retained ) ? count( $retained ) : false,
-			'messages'  => ! empty( $retained ) ? array(sprintf( __( 'Unable to delete post(s) %s', 'pirate-forms' ), print_r( $retained, true ) )) : array(),
+			'messages'  => ! empty( $retained ) ? array(sprintf( __( 'Unable to delete %d entries', 'pirate-forms' ), count( $retained ) )) : array(),
 			'done'  => true,
 		);
 	}
