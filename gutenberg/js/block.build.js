@@ -82,6 +82,15 @@ var _wp$components = wp.components,
 
 var el = wp.element.createElement;
 
+var consoleLog = function consoleLog(msg) {
+    console.log(msg);
+};
+
+// return true if the saved html form needs to be compared with the actual shortcode form (and reloaded).
+var checkIfSavedFormHasChanged = function checkIfSavedFormHasChanged() {
+    return true;
+};
+
 registerBlockType('pirate-forms/form', {
     title: pfjs.i10n.plugin,
     icon: 'index-card',
@@ -98,7 +107,11 @@ registerBlockType('pirate-forms/form', {
         // tracks if html has changed from the saved html.
         html_changed: {
             type: 'number',
-            default: 1
+            default: -1
+        },
+        is_form_loading: {
+            type: 'number',
+            default: 0
         },
         // contains the form id of the form.
         form_id: {
@@ -113,7 +126,7 @@ registerBlockType('pirate-forms/form', {
         // the label to show in gutenberg.
         label: {
             type: 'string',
-            default: __('Loading Form') + '...'
+            default: pfjs.i10n.loading_form
         },
         // the class of the spinner container.
         spinner: {
@@ -133,26 +146,25 @@ registerBlockType('pirate-forms/form', {
     },
     edit: function edit(props) {
         var getFormHTML = function getFormHTML($id) {
-            props.setAttributes({ spinner: 'pf-form-spinner pf-form-loading', link: '' });
+            if (props.attributes.is_form_loading === 1) {
+                return;
+            }
+            props.setAttributes({ is_form_loading: 1, spinner: 'pf-form-spinner pf-form-loading', link: '' });
             wp.apiRequest({ path: pfjs.url.replace('#', $id) }).then(function (data) {
-                props.setAttributes({ spinner: 'pf-form-spinner' });
+                consoleLog('inside api for getFormHTML');
                 if (_this.unmounting) {
+                    consoleLog('unmounting');
+                    props.setAttributes({ spinner: 'pf-form-spinner', html_changed: 0 });
                     return data;
                 }
 
-                // check if the new html is different from what was previously saved.
-                if (props.attributes.html === data.html) {
-                    props.setAttributes({ html_changed: 0 });
-                    return;
-                }
-
-                if (props.attributes.html !== '') {
-                    alert(pfjs.i10n.reload);
-                }
+                var $show_alert = props.attributes.html !== '' && props.attributes.html != data.html;
+                var $html_changed = $show_alert ? 1 : 0;
 
                 var $url = $id == 0 ? pfjs.settings.default : pfjs.settings.form.replace('#', $id);
 
-                props.setAttributes({ html: data.html, label: '', spinner: 'pf-form-spinner', url: $url, link: pfjs.i10n.settings, html_changed: 0 });
+                props.setAttributes({ html: data.html, label: '', spinner: 'pf-form-spinner', url: $url, link: pfjs.i10n.settings, html_changed: $html_changed, is_form_loading: 0 });
+                consoleLog('changed html_changed to ' + $html_changed);
                 jQuery('.pirate-forms-maps-custom').trigger('addCustomSpam');
 
                 // when the form is just added, captcha will not show.
@@ -161,6 +173,11 @@ registerBlockType('pirate-forms/form', {
                         jQuery(this).html(pfjs.i10n.captcha);
                     }
                 });
+
+                if ($show_alert) {
+                    //alert(pfjs.i10n.reload);
+                    consoleLog(pfjs.i10n.reload);
+                }
             });
         };
 
@@ -171,6 +188,7 @@ registerBlockType('pirate-forms/form', {
         var onChangeForm = function onChangeForm(value) {
             props.setAttributes({ form_id: value });
             if (value > -1) {
+                consoleLog('calling getFormHTML from onChangeForm');
                 getFormHTML(value);
             }
             return null;
@@ -241,12 +259,23 @@ registerBlockType('pirate-forms/form', {
             return null;
         };
 
-        // load default by default.
-        if (props.attributes.form_id == -1) {
-            onChangeForm(0);
-        } else if (props.attributes.html_changed === 1) {
-            props.setAttributes({ html_changed: 0 });
-            getFormHTML(props.attributes.form_id);
+        if (props.attributes.form_id === -1) {
+            // new block.
+            if (pfjs.forms.length === 1) {
+                // default.
+                consoleLog('calling onChangeForm');
+                onChangeForm(0);
+            } else {
+                // prompt user to select form.
+                props.setAttributes({ label: pfjs.i10n.multiple_forms });
+            }
+        } else if (checkIfSavedFormHasChanged() && props.attributes.is_form_loading === 0 && props.attributes.html_changed === -1) {
+            // THIS IS THE PROBLEMATIC PORTION WHERE html_changed BECOMES -1 AND THIS PORTION IS FIRED REPEATEDLY.
+            // html_changed BECOMES 0 FOR AN INSTANT BEFORE save AGAIN MAKES IT -1 THUS REPEATING THE LOOP.
+            // existing block.
+            props.setAttributes({ is_form_loading: 1 });
+            consoleLog('calling onChangeForm from main with value of props.attributes.is_form_loading = ' + props.attributes.is_form_loading);
+            onChangeForm(props.attributes.form_id);
         }
 
         return [wp.element.createElement(
@@ -256,7 +285,8 @@ registerBlockType('pirate-forms/form', {
         ), getInspectorControls(), wp.element.createElement('div', { className: props.className, dangerouslySetInnerHTML: innerHTML() })];
     },
     save: function save(props) {
-        props.attributes.html_changed = 1;
+        consoleLog("saving");
+        props.attributes.html_changed = -1;
         return null;
     }
 });
