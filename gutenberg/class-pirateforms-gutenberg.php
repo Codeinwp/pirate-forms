@@ -79,8 +79,8 @@ class PirateForms_Gutenberg {
 					'settings'  => __( 'Modify Settings', 'pirate-forms' ),
 					'select_form'   => __( 'Select Form', 'pirate-forms' ),
 					'select_ajax'   => __( 'Use Ajax to submit form', 'pirate-forms' ),
-					'loading_form'	=> __( 'Loading Form', 'pirate-forms' ) . '...',
-					'multiple_forms'	=> __( 'Please select the appropriate form.', 'pirate-forms' ) . '...',
+					'loading_form'  => __( 'Loading Form', 'pirate-forms' ) . '...',
+					'multiple_forms'    => __( 'Please select the appropriate form.', 'pirate-forms' ) . '...',
 					'plugin'    => PIRATEFORMS_NAME,
 				),
 			)
