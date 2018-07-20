@@ -25,7 +25,12 @@ class PirateForms_HTML {
 			}
 			$html   = $this->$type( $args );
 		} else {
-			throw new Exception( "Method for $type not defined" );
+			// let's not throw an ugly exception. Let's instead inform the user that they might need to upgrade.
+			// @codingStandardsIgnoreStart
+			$msg	= sprintf( 'Field type "%s" not defined. Have you upgraded to the latest version of %s?', $type, PIRATEFORMS_NAME );
+			error_log( $msg );
+			$html	= $msg;
+			// @codingStandardsIgnoreEnd
 		}
 		if ( ! $echo ) {
 			return $html;
@@ -78,14 +83,21 @@ class PirateForms_HTML {
 				$html   .= esc_html( $args['label']['value'] );
 			}
 			if ( isset( $args['label']['html'] ) ) {
-				$html   .= $args['label']['html'];
+				$span   = $args['label']['html'];
+				if ( strpos( $span, 'dashicons-editor-help' ) !== false && isset( $args['label']['desc'] ) && isset( $args['label']['desc']['value'] ) ) {
+					$class  = isset( $args['label']['desc']['class'] ) ? $args['label']['desc']['class'] : '';
+					$span   = str_replace( '></', '><div style="display: none" class="' . $class . '">' . $args['label']['desc']['value'] . '</div></', $span );
+					unset( $args['label']['desc'] );
+					unset( $args['label']['desc']['value'] );
+				}
+				$html   .= $span;
 			}
 			if ( isset( $args['label']['desc'] ) ) {
 				$html   .= '<div';
 				if ( isset( $args['label']['desc']['class'] ) ) {
 					$html   .= ' class="' . esc_attr( $args['label']['desc']['class'] ) . '"';
 				}
-				$html   .= '>' . esc_html( $args['label']['desc']['value'] ) . '</div>';
+				$html   .= '>' . $args['label']['desc']['value'] . '</div>';
 			}
 			$html   .= '</label>';
 		}
@@ -110,6 +122,10 @@ class PirateForms_HTML {
 
 		if ( isset( $args['disabled'] ) && $args['disabled'] ) {
 			$html       .= ' disabled';
+		}
+
+		if ( isset( $args['title'] ) && ! empty( $args['title'] ) ) {
+			$html       .= ' title="' . esc_attr( $args['title'] ) . '"';
 		}
 
 		return $html;
@@ -197,7 +213,7 @@ class PirateForms_HTML {
 			unset( $args['required_msg'] );
 		}
 
-		$html       = '<div class="pirate-forms-file-upload-wrapper"><input type="file" ' . $this->get_common( $args, array( 'value' ) ) . ' style="position: absolute; left: -9999px;" tabindex="-1"><button type="button" class="pirate-forms-file-upload-button" tabindex="-1">' . ( isset( $args['label']['value'] ) ? esc_attr( $args['label']['value'] ) : '' ) . '</button><input type="text" ' . $this->get_common( $text_args ) . ' /></div>';
+		$html       = '<div class="pirate-forms-file-upload-wrapper"><input type="file" ' . $this->get_common( $args, array( 'value' ) ) . ' tabindex="-1"></div>';
 
 		return $this->get_wrap( $args, $html );
 	}
@@ -296,10 +312,21 @@ class PirateForms_HTML {
 	private function select( $args ) {
 		$html       = $this->get_label( $args );
 
-		$html       .= '<select id="' . esc_attr( $args['id'] ) . '" name="' . esc_attr( $args['name'] ) . '" class="' . ( isset( $args['class'] ) ? esc_attr( $args['class'] ) : '' ) . '">';
+		$extra      = ' ';
+		if ( isset( $args['sub_type'] ) ) {
+			$extra .= $args['sub_type'] . ' ';
+		}
+		if ( isset( $args['required'] ) && $args['required'] ) {
+			$extra .= 'required ';
+		}
+		if ( isset( $args['required'] ) && $args['required'] && isset( $args['required_msg'] ) ) {
+			$extra  .= 'oninvalid="this.setCustomValidity(\'' . esc_attr( $args['required_msg'] ) . '\')" onchange="this.setCustomValidity(\'\')" ';
+		}
+
+		$html       .= '<select id="' . esc_attr( $args['id'] ) . '" name="' . esc_attr( $args['name'] ) . '" class="' . ( isset( $args['class'] ) ? esc_attr( $args['class'] ) : '' ) . '" ' . $extra . '>';
 		if ( isset( $args['options'] ) && is_array( $args['options'] ) ) {
 			foreach ( $args['options'] as $key => $val ) {
-				$extra  = $key == $args['value'] ? 'selected' : '';
+				$extra  = isset( $args['value'] ) && $key == $args['value'] ? 'selected' : '';
 				$html   .= '<option value="' . esc_attr( $key ) . '" ' . $extra . '>' . esc_html( $val ) . '</option>';
 			}
 		}
@@ -345,10 +372,10 @@ class PirateForms_HTML {
 			}
 			foreach ( $args['options'] as $key => $val ) {
 				$extra  = isset( $args['value'] ) && $key == $args['value'] ? 'checked' : '';
-				$html   .= '<input type="checkbox" ' . $extra . ' ' . $this->get_common( $args ) . ' value="' . esc_attr( $key ) . '">' . esc_attr( $val );
+				// DO NOT escape $val because it can also have HTML markup.
+				$html   .= '<input type="checkbox" ' . $extra . ' ' . $this->get_common( $args ) . ' value="' . esc_attr( $key ) . '"><label for="' . esc_attr( $args['id'] ) . '" class="pf-checkbox-label"><span>' . $val . '</span></label>';
 			}
 		}
-
 		return $this->get_wrap( $args, $html );
 	}
 
@@ -371,6 +398,26 @@ class PirateForms_HTML {
 	private function button( $args ) {
 		$html       = '<button type="submit" ' . $this->get_common( $args ) . '>' . ( isset( $args['value'] ) ? $args['value'] : '' ) . '</button>';
 
+		return $this->get_wrap( $args, $html );
+	}
+
+	/**
+	 * The WYSIWYG element.
+	 */
+	private function wysiwyg( $args ) {
+		$html       = $this->get_label( $args );
+		$content    = isset( $args['value'] ) && ! empty( $args['value'] ) ? $args['value'] : $args['default'];
+		ob_start();
+		wp_editor( $content, $args['id'], $args['wysiwyg'] );
+		$html .= ob_get_clean();
+		return $this->get_wrap( $args, $html );
+	}
+
+	/**
+	 * The label element.
+	 */
+	private function label( $args ) {
+		$html = $args['placeholder'];
 		return $this->get_wrap( $args, $html );
 	}
 

@@ -1,38 +1,116 @@
 /* global jQuery */
-jQuery(document).ready(function() {
+/* global pirateFormsObject */
 
-    /* show/hide reCaptcha */
+(function($, pf){
 
-    var thisOpen = false;
-    jQuery('.pirate_forms .form-control').each(function(){
-        if ( jQuery(this).val().length > 0 ){
-            thisOpen = true;
-            jQuery('.zerif-g-recaptcha').css('display','block').delay(1000).css('opacity','1');
+    $( document ).ready( function () {
+        onDocumentReady();
+    });
+
+    $( window ).load( function () {
+        onWindowLoad();
+    });
+
+    function onDocumentReady() {
+        'use strict';
+
+        // file upload behavior.
+        $( '.pirate-forms-file-upload-button' ).on( 'click', function () {
+            var $button = $( this );
+            $button.parent().find( 'input[type=file]' ).on( 'change', function () {
+                $button.parent().find( 'input[type=text]' ).val( $( this ).val() ).change();
+            } );
+            $button.parent().find( 'input[type=file]' ).focus().click();
+        } );
+
+        $( '.pirate-forms-file-upload-input' ).on( 'click', function () {
+            $( this ).parent().find( '.pirate-forms-file-upload-button' ).trigger( 'click' );
+        } );
+        $( '.pirate-forms-file-upload-input' ).on( 'focus', function () {
+            $( this ).blur();
+        } );
+
+        // show errors.
+        var session_var = pf.errors;
+        if( (typeof session_var !== 'undefined') && (session_var !== '') && (typeof $('#contact') !== 'undefined') && (typeof $('#contact').offset() !== 'undefined') ) {
+            $('html, body').animate({
+                scrollTop: $('#contact').offset().top
+            }, 'slow');
+        }
+        
+        // support ajax forms.
+        $('.pirate-forms-submit-button-ajax').closest('form').submit(function(){
+            var form = $(this);
+            var formData = new FormData(form[0]);
+            ajaxStart( form );
+
+            // remove the dynamic containers.
+            $('div.pirate-forms-ajax').remove();
+
+            $.ajax({
+                url: pf.rest.submit.url,
+                data: formData,
+                type: 'POST',
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                beforeSend: function ( xhr ) {
+                    xhr.setRequestHeader( 'X-WP-Nonce', pf.rest.nonce );
+                },
+                success: function(data){
+                    //console.log("success");
+                    //console.log(data);
+                    form.find('input').val('');
+                    form.find('select').val('');
+                    form.find('input[type="checkbox"]').removeAttr('checked');
+                    form.find('input[type="radio"]').removeAttr('checked');
+                    var $time = new Date().getTime();
+
+                    if(data.message){
+                        form.closest('.pirate_forms_wrap').before('<div id="' + $time + '" class="pirate-forms-ajax pirate-forms-ajax-thankyou"></div>');
+                        $('#' + $time).append(data.message);
+                    }else if(data.redirect){
+                        location.href = data.redirect;
+                    }
+                },
+                error: function(data){
+                    //console.log("no");
+                    //console.log(data);
+                    if(data.responseJSON){
+                        var $time = new Date().getTime();
+                        form.closest('.pirate_forms_wrap').prepend('<div id="' + $time + '" class="pirate-forms-ajax pirate-forms-ajax-errors"></div>');
+                        $('#' + $time).append(data.responseJSON.error);
+                    }
+                },
+                complete: function(){
+                    ajaxStop( form );
+                }
+            });
+            
             return false;
-        }
-    });
-    if ( thisOpen === false && (typeof jQuery('.pirate_forms textarea').val() !== 'undefined') && (jQuery('.pirate_forms textarea').val().length > 0) ) {
-        thisOpen = true;
-        jQuery('.pirate-forms-g-recaptcha').css('display','block').delay(1000).css('opacity','1');
-    }
-    jQuery('.pirate_forms input, .pirate_forms textarea').focus(function(){
-        if ( !jQuery('.pirate-forms-g-recaptcha').hasClass('recaptcha-display') ) {
-            jQuery('.pirate-forms-g-recaptcha').css('display','block').delay(1000).css('opacity','1');
-        }
-    });
-
-    jQuery('.pirate-forms-file-upload-button').on('click', function () {
-        var $button = jQuery(this);
-        $button.parent().find('input[type=file]').on('change', function(){
-            $button.parent().find('input[type=text]').val(jQuery(this).val()).change();
         });
-	    $button.parent().find('input[type=file]').focus().click();
-    });
 
-    jQuery('.pirate-forms-file-upload-input').on('click', function(){
-        jQuery(this).parent().find('.pirate-forms-file-upload-button').trigger('click');
-    });
-    jQuery('.pirate-forms-file-upload-input').on('focus', function(){
-        jQuery(this).blur();
-    });
-});
+    }
+    
+    function onWindowLoad() {
+        'use strict';
+        if ( $( '.pirate_forms_wrap' ).length ) {
+            $( '.pirate_forms_wrap' ).each( function () {
+                var formWidth = $( this ).innerWidth();
+                var footerWidth = $( this ).find( '.pirate-forms-footer' ).innerWidth();
+                if ( footerWidth > formWidth ) {
+                    $( this ).find( '.contact_submit_wrap, .form_captcha_wrap, .pirateform_wrap_classes_spam_wrap' ).css( {'text-align' : 'left', 'display' : 'block' } );
+                }
+            } );
+        }
+    }
+
+    function ajaxStart(element) {
+        $(element).fadeTo( 'slow', 0.5 );
+    }
+
+    function ajaxStop(element) {
+        $(element).fadeTo( 'fast', 1 );
+    }
+
+})(jQuery, pirateFormsObject);

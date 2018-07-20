@@ -1,0 +1,19 @@
+.pf-form-spinner {
+	display: none;
+}
+
+.pf-form-spinner.pf-form-loading {
+	display: block;
+}
+
+.pirate-forms-maps-custom input {
+	display: inline-block !important;
+}
+
+.wp-block-pirate-forms-form .pirate_forms_wrap input,
+.wp-block-pirate-forms-form .pirate_forms_wrap textarea,
+.wp-block-pirate-forms-form .pirate_forms_wrap select,
+.wp-block-pirate-forms-form .pirate_forms_wrap button {
+	cursor: not-allowed;
+	pointer-events: none;
+}

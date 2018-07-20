@@ -35,23 +35,44 @@ class PirateForms_PhpFormBuilder {
 
 		$classes    = array();
 		$classes[]  = $from_widget ? 'widget-on' : '';
-		$form_start = '<form method="post" enctype="' . $pirate_forms_enctype . '" class="pirate_forms ';
+
+		// we will add an id to the form so that we can scroll to it.
+		$id         = wp_create_nonce( sprintf( 'pf-%s-%s', $from_widget ? 1 : 0, isset( $pirate_forms_options['id'] ) ? $pirate_forms_options['id'] : 0 ) );
+		$elements[] = array(
+			'type'  => 'hidden',
+			'id'    => 'pirate_forms_from_form',
+			'value' => $id,
+		);
+
+		$form_start = '<form method="post" id="' . $id . '" enctype="' . $pirate_forms_enctype . '" class="pirate_forms ';
 
 		$html_helper        = new PirateForms_HTML();
 		$form_end           = '';
 		$custom_fields      = '';
 		foreach ( $elements as $val ) {
+			if ( 'form_honeypot' !== $val['id'] && ! in_array( $val['type'], array( 'hidden', 'div' ) ) ) {
+				$val['class']   = apply_filters( 'pirate_forms_field_class', $val['class'], $val['id'] );
+			}
 			if ( isset( $val['is_custom'] ) && $val['is_custom'] ) {
 				// we will combine the HTML for all the custom fields and save it under one element name.
 				$custom_fields  .= $html_helper->add( $val, false );
 				$classes[]      = $val['id'] . '-on';
 			} else {
 				$element    = $html_helper->add( $val, false );
-				if ( 'form_honeypot' === $val['id'] || in_array( $val['type'], array( 'hidden', 'div' ) ) ) {
+				if ( ( 'form_honeypot' === $val['id'] || in_array( $val['type'], array( 'hidden', 'div' ) ) ) && ! in_array( $val['id'], array( 'pirate-forms-maps-custom', 'pirate-forms-captcha' ) ) ) {
 					$form_end .= $element;
 				}
+				if ( $val['id'] === 'pirate-forms-maps-custom' ) {
+					$this->set_element( 'captcha', $element );
+				}
 				$this->set_element( $val['id'], $element );
-				$classes[]      = $val['id'] . '-on';
+				if ( in_array( $val['type'], array( 'hidden') ) ) {
+					if ( ! empty( $val['value'] ) ) {
+						$classes[]      = $val['id'] . '-on';
+					}
+				} else {
+					$classes[]      = $val['id'] . '-on';
+				}
 			}
 		}
 
