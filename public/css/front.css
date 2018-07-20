@@ -89,12 +89,12 @@ Version: 2.4.1
 }
 
 .pirate_forms_wrap .pirate-forms-footer .form_field_wrap {
-	width: auto;
 	display: table-cell;
 	float: none;
+	width: auto;
 	margin: 0;
-	vertical-align: middle;
 	padding-bottom: 10px;
+	vertical-align: middle;
 }
 
 .pirate_forms_wrap .pirate_forms_three_inputs_wrap input[type=checkbox] {

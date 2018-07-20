@@ -17,7 +17,7 @@ const {
 var el = wp.element.createElement;
 
 const consoleLog = msg => {
-    console.log(msg);
+    //console.log(msg);
 }
 
 // return true if the saved html form needs to be compared with the actual shortcode form (and reloaded).
@@ -87,9 +87,9 @@ registerBlockType( 'pirate-forms/form', {
             wp.apiRequest( { path: pfjs.url.replace('#', $id)} )
                 .then(
                     (data) => {
-            consoleLog('inside api for getFormHTML');
+                        consoleLog('inside api for getFormHTML');
                         if ( this.unmounting ) {
-            consoleLog('unmounting');
+                        consoleLog('unmounting');
                             props.setAttributes( { spinner: 'pf-form-spinner', html_changed: 0 } );
                             return data;
                         }
@@ -100,7 +100,7 @@ registerBlockType( 'pirate-forms/form', {
                         var $url = $id == 0 ? pfjs.settings.default : pfjs.settings.form.replace('#', $id);
 
                         props.setAttributes( { html: data.html, label: '', spinner: 'pf-form-spinner', url: $url, link: pfjs.i10n.settings, html_changed: $html_changed, is_form_loading: 0 } );
-            consoleLog('changed html_changed to ' + $html_changed);
+                        consoleLog('changed html_changed to ' + $html_changed);
                         jQuery('.pirate-forms-maps-custom').trigger('addCustomSpam');
                         
                         // when the form is just added, captcha will not show.
@@ -110,9 +110,9 @@ registerBlockType( 'pirate-forms/form', {
                             }
                         });
 
-                        if($show_alert){
-                            //alert(pfjs.i10n.reload);
+                        if($show_alert && checkIfSavedFormHasChanged()){
                             consoleLog(pfjs.i10n.reload);
+                            alert(pfjs.i10n.reload);
                         }
                     }
                 );
