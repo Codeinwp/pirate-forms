@@ -72,7 +72,7 @@ class PirateForms_PhpFormBuilder {
 
 		$this->set_element( 'custom_fields', $custom_fields );
 
-		$form_attributes    = array_filter( apply_filters( 'pirate_forms_form_attributes', array( 'action' => '' ) ) );
+		$form_attributes    = array_filter( apply_filters( 'pirate_forms_form_attributes', array( 'action' => '', 'id' => $id ) ) );
 		if ( $form_attributes ) {
 			// if additiona classes are provided, add them to our classes.
 			if ( array_key_exists( 'class', $form_attributes ) ) {
