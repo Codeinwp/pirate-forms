@@ -1,4 +1,11 @@
 
+ ### v2.4.4 - 2018-07-13 
+ **Changes:** 
+ * Fixed compatibility with All in One SEO Pack plugin
+* Fixed problem with form not working with the ajax option
+* Option to save the attachments files
+* Improved recaptcha button layout on mobile devices
+ 
  ### v2.4.3 - 2018-06-25 
  **Changes:** 
  * New Gutenberg block for the default Pirate Forms form
