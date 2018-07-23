@@ -1380,7 +1380,8 @@ class PirateForms_Public {
 					$classes    = 'form-control input';
 					break;
 				case 'button':
-					$classes    = 'btn btn-primary custom-button red-btn pirate-forms-submit-button';
+					// careful with this, as we don't want to overwrite existing classes that make ajax work.
+					$classes    .= ' custom-button red-btn';
 					break;
 			}
 		}
